@@ -1,0 +1,148 @@
+/* font */
+@font-face {
+	font-family: 'entezar';
+	src: url('../fonts/entezar-webfont.eot'); 
+	src: url('../fonts/entezar-webfont.eot?#iefix') format('embedded-opentype'), 
+	     url('../fonts/entezar-webfont.woff') format('woff'), 
+	     url('../fonts/entezar-webfont.ttf')  format('truetype'), 
+	     url('../fonts/entezar-webfont.svg#svgFontName') format('svg'); 
+	}
+
+body
+{
+	direction: rtl;
+	background-color: #EFEFEF;
+	margin: 0;
+	padding: 0;
+	font-family: Tahoma;
+	font-size: 14px;
+	position: relative;
+}
+
+#page
+{
+	position: relative;
+	width: 1024px;
+	min-height: 200px;
+	margin: 0 auto;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+#header
+{
+	height: 200px;
+	background-color: #005580;
+	position: relative;
+	
+	-webkit-border-radius: 15px 15px 0 0;
+       -moz-border-radius: 15px 15px 0 0;
+            border-radius: 15px 15px 0 0;
+}
+
+#menu
+{
+	width: 224px;
+	min-height: 400px;
+	float: right;
+}
+
+#content
+{
+	width: 780px;
+	min-height: 400px;
+	background-color: #FFFFFF;
+	padding: 0 10px;
+	float: left;
+	
+	-webkit-border-radius: 0 0 15px 15px;
+       -moz-border-radius: 0 0 15px 15px;
+            border-radius: 0 0 15px 15px;
+}
+
+.panel
+{
+	margin: 20px 10px;
+	border: solid 3px #EFEFEF;
+	padding: 10px;
+}
+
+.panel > .panel-header
+{
+	margin: 0 0 10px 0;
+	font-family: "entezar";
+}
+
+/* ------- navigation bar ------- */
+.navbar-search > select,
+.navbar-search > .btn
+{
+	margin: 0;	
+}
+.navbar-search > .btn > i
+{
+	opacity: 0.5;
+}
+.navbar-search > i
+{
+	position: absolute;
+	right: 7px;
+	top: 7px;
+	opacity: 0.5;
+}
+.navbar-search > .search-query
+{
+	padding-right: 22px;
+}
+/* ------- menus ---------- */
+.nav-menu {
+  width: 224px;
+  padding: 0;
+  background-color: #F8F8F8;
+  -webkit-border-radius: 0 0 15px 0;
+     -moz-border-radius: 0 0 15px 0;
+          border-radius: 0 0 15px 0;
+}
+.nav-menu > li > a {
+  display: block;
+  width: 190px \9;
+  margin: 0 0 -1px;
+  padding: 8px 14px;
+  border: 1px solid #e5e5e5;
+}
+.nav-menu > .header > a,
+.nav-menu > .header > a:hover{
+	text-align: center;
+	background-color: #BBBBBB;
+  	color: #FFFFFF;
+}
+
+.nav-menu > li:last-child > a {
+  -webkit-border-radius: 0 0 15px 0;
+     -moz-border-radius: 0 0 15px 0;
+          border-radius: 0 0 15px 0;
+}
+.nav-menu > .active > a {
+  position: relative;
+  z-index: 2;
+  padding: 9px 15px;
+  border-color: #E5E5E5 #E5E5E5 #E5E5E5 transparent;
+}
+.nav-menu > .active i
+{
+    display: none;
+}
+/* Chevrons */
+.nav-menu .icon-chevron-left {
+  float: left;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+.nav-menu > li > a:hover {
+  background-color: #e5e5e5;
+}
+.nav-menu a:hover .icon-chevron-left {
+  opacity: .5;
+}

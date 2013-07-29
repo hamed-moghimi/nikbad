@@ -12,7 +12,7 @@ class Wiki(models.Model):
         return self.companyName
 
 
-class Goods(models.Model):
+class Product(models.Model):
     goodsID = models.IntegerField("کد کالا", primary_key=True)
     wiki = models.ForeignKey(Wiki, verbose_name="کد ویکی")
     brand = models.CharField("برند", max_length=255)

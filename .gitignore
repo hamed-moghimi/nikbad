@@ -42,6 +42,10 @@ files
 
 # database file
 *.db
+*.db-journal
+
+# media files
+media/*
 
 # Folder config file
 Desktop.ini
@@ -66,8 +70,8 @@ sdist
 develop-eggs
 .installed.cfg
 
-manage.py
-media/*
+# helping files
+init.py
 
 # Installer logs
 pip-log.txt

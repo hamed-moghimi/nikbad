@@ -1,0 +1,22 @@
+﻿{% extends "sales/base.html" %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header"> تازه ترین محصولات </h2>
+
+        <div class="row-fluid">
+            <div class="span2 vitrin-item">
+                <a class="btn btn-success option opt-shop"
+                   data-loading-text='<i class="icon-white icon-spin icon-refresh"></i>'
+                   data-don-text='<i class="icon-white icon-ok"></i>' title="اضافه به سبد خرید"><i
+                        class="icon-white icon-plus"></i></a>
+                <a class="btn btn-info option opt-info"><i class="icon-white icon-info"></i></a>
+                <a href="#" class="thumbnail">
+                    <img src="should be replaced by default images">
+                </a>
+
+                <p class="text-center muted">جارو برقی LG</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

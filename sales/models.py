@@ -15,7 +15,7 @@ class SaleBill(models.Model):
     # general fields
     saleDate = models.DateField(auto_now_add = True, verbose_name = u'تاریخ فروش')
     totalPrice = models.IntegerField(default = 0, verbose_name = u'مبلغ کل')
-    costumer = models.ForeignKey(Customer, related_name = 'saleBills', verbose_name = u'خریدار')
+    customer = models.ForeignKey(Customer, related_name = 'saleBills', verbose_name = u'خریدار')
 
     # transportation fields
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
@@ -26,7 +26,7 @@ class SaleBill(models.Model):
     class Meta:
         verbose_name = u'فاکتور فروش'
         verbose_name_plural = u'فاکتورهای فروش'
-        ordering = ['-saleDate', 'deliveryStatus', 'costumer']
+        ordering = ['-saleDate', 'deliveryStatus', 'customer']
 
 
 class SaleBill_Product(models.Model):
@@ -42,7 +42,7 @@ class MarketBasket(models.Model):
     # general fields
     lastModified = models.DateTimeField(auto_now = True, verbose_name = u'آخرین تغییر')
     totalPrice = models.IntegerField(default = 0, verbose_name = u'مبلغ کل')
-    costumer = models.OneToOneField(Customer, related_name = 'marketBasket', verbose_name = u'خریدار')
+    customer = models.OneToOneField(Customer, related_name = 'marketBasket', verbose_name = u'خریدار')
 
     # relation with products
     productList = models.ManyToManyField(Product, through = 'MarketBasket_Product')
