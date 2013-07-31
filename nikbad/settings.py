@@ -133,7 +133,7 @@ INSTALLED_APPS = (
     'wiki',
     'warehouse',
     'crm',
-    #'FNS',
+    'fnc',
 )
 
 # A sample logging configuration. The only tangible logging
