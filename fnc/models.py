@@ -23,7 +23,8 @@ class RollCall(models.Model):
 class CostBenefit(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	description= models.TextField(verbose_name=u"جزئیات")
-	amount= models.PositiveIntegerField(verbose_name=u"مقدار")
+	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
+	bestan= models.PositiveIntegerField(verbose_name=u"بستانکاری")
 
 
 class Employee(models.Model):
