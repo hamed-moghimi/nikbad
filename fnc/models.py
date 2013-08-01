@@ -8,7 +8,6 @@ relation_choices= (('s',"????"),('m',"?"))
 
 
 class RollCall(models.Model):
-	employee_id = models.CharField(max_length=200,verbose_name=u"شناسه کارمند")
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	entrance_time = models.DateField(auto_now_add=True, verbose_name=u"زمان ورود")
 	exit_time = models.DateField(auto_now_add=True, verbose_name=u"زمان خروج")

@@ -22,8 +22,8 @@ class Product(models.Model):
     off = models.PositiveSmallIntegerField("تخفیف", blank=True, null=True)
 
 
-def __unicode__(self):
-    return self.name
+    def __unicode__(self):
+        return self.name
 
 
 class Contract(models.Model):
@@ -31,5 +31,4 @@ class Contract(models.Model):
     startDate = models.DateField("تاریخ شروع")
     expDate = models.DateField("تاریخ پایان")
     max_goods = models.IntegerField("حداکثر تعداد کالاهای ویترین")
-    fee = models.IntegerField("مبلغ عضویت")
         
