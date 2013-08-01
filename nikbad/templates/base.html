@@ -1,0 +1,73 @@
+{% comment %}
+    root html template file for all other templates.
+    extends base template of your subsystem from this and then extend rest of your template files from that.
+{% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>
+        {% block title %}
+            {# if you want to change title in your subsystem, override this block #}
+            بازار اینترنتی نیک باد
+        {% endblock %}
+    </title>
+
+    <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ STATIC_URL }}css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ STATIC_URL }}css/base.css" rel="stylesheet" type="text/css"/>
+    {% block css %}
+        {# link your own css files same as the upper links. don't forget {{ STATIC_URL }} for link to static files #}
+    {% endblock %}
+
+    <script src="{{ STATIC_URL }}js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/base.js" type="text/javascript"></script>
+    {% block js %}
+        {# link your own js files same as the upper links. don't forget {{ STATIC_URL }} for link to static files #}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="page">
+        <div id="header">
+            {% block header %}
+                {# header section. don't change this section until graphics for headers become ready! :D #}
+            {% endblock %}
+                <div class="navbar navbar-fixed-bottom pull-right">
+                    <div class="navbar-inner">
+                        {% block user_panel %}
+                           {# write your codes to show user status and options #}
+                            <form class="navbar-form pull-right" action="">
+                                <input type="text" name="username" class="span2" placeholder="نام کاربری">
+                                <input type="password" name="password" class="span2" placeholder="رمز عبور">
+                                <button class="btn btn-success" id="enter">ورود</button>
+                            </form>
+                        {% endblock %}
+                        {% block navbar %}
+                            {# write some codes here if you want to use navigation bar #}
+                        {% endblock %}
+                    </div>
+                </div>
+        </div>
+
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div id="menu">
+            <ul class="nav nav-list nav-menu">
+                {% block menus %}
+                    {% comment %}
+                        use this code to load your menus
+                        {% include "subsystem/_menus.html" with active_menu=??? %}
+                        write a file like _menus.html and set ??? to the number of the active menu item
+                        or omit "with ..." if no item should be active
+                    {% endcomment %}
+                {% endblock %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

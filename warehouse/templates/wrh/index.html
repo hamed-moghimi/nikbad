@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+		<title>
+			{% block title %}
+			بازار اینترنتی نیک باد
+			{% endblock %}
+		</title>
+		
+		<link href="{{STATIC_URL}}css/main.css" rel="stylesheet" type="text/css" />
+		{% block css %}
+		{% endblock %}
+		
+		<script src="{{STATIC_URL}}js/jquery-1.7.2.min.js" type="text/javascript"></script>
+		<script src="{{STATIC_URL}}js/main.js" type="text/javascript"></script>
+        {% block js %}
+		{% endblock %}
+	</head>
+	<body>
+		<div id="body">
+			<div id="header">
+			{% block header %}
+			{{ name }}
+			{% endblock %}
+			</div>
+			
+			<div id="content">
+			{% block content %}
+			content
+			{% endblock %}
+			</div>
+			
+			<div id="menu">
+			{% block menus %}
+				<div class="panel">
+					
+				</div>			
+			{% endblock %}
+			</div>
+		</div>
+	</body>	
+</html>
