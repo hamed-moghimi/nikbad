@@ -12,7 +12,7 @@ class RollCall(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	entrance_time = models.DateField(auto_now_add=True, verbose_name=u"زمان ورود")
 	exit_time = models.DateField(auto_now_add=True, verbose_name=u"زمان خروج")
-	employee = models.ForeignKey(Employee, related_name = 'rollCalls')
+	employee = models.ForeignKey('Employee', related_name = 'rollCalls')
 
 
 class CostBenefit(models.Model):
@@ -20,7 +20,7 @@ class CostBenefit(models.Model):
 	description= models.TextField(verbose_name=u"جزئیات")
 	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
 	bestan= models.PositiveIntegerField(verbose_name=u"بستانکاری")
-	generalAccount=models.ForeignKey(GeneralAccount, related_name='costBenefits')
+	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits')
 
 class GeneralAccount(models.Model):
 	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
