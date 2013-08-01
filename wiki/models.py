@@ -31,5 +31,4 @@ class Contract(models.Model):
     startDate = models.DateField("تاریخ شروع")
     expDate = models.DateField("تاریخ پایان")
     max_goods = models.IntegerField("حداکثر تعداد کالاهای ویترین")
-    fee = models.IntegerField("مبلغ عضویت")
         
