@@ -12,7 +12,7 @@ class Wiki(models.Model):
         return self.companyName
 
 
-class Goods(models.Model):
+class Product(models.Model):
     goodsID = models.IntegerField("کد کالا", primary_key=True)
     wiki = models.ForeignKey(Wiki, verbose_name="کد ویکی")
     brand = models.CharField("برند", max_length=255)
@@ -22,8 +22,8 @@ class Goods(models.Model):
     off = models.PositiveSmallIntegerField("تخفیف", blank=True, null=True)
 
 
-def __unicode__(self):
-    return self.name
+    def __unicode__(self):
+        return self.name
 
 
 class Contract(models.Model):
