@@ -4,20 +4,14 @@ from django.db import models
 
 relation_choices= (('s',"????"),('m',"?"))
 
-# Create your models here.
-class Message(models.Model):
-	message = models.CharField(max_length=200)
-	date = models.DateTimeField()
-	#user_from = models.ForeignKey(User, related_name="sent")
-	#user_to = models.ForeignKey(User, related_name="received")
 
 
 
 class RollCall(models.Model):
-	employee_id = models.CharField(max_length=200,verbose_name=u"شناسه کارمند")
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	entrance_time = models.DateField(auto_now_add=True, verbose_name=u"زمان ورود")
 	exit_time = models.DateField(auto_now_add=True, verbose_name=u"زمان خروج")
+	employee = models.ForeignKey('Employee', related_name = 'rollCalls')
 
 
 class CostBenefit(models.Model):
@@ -25,7 +19,12 @@ class CostBenefit(models.Model):
 	description= models.TextField(verbose_name=u"جزئیات")
 	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
 	bestan= models.PositiveIntegerField(verbose_name=u"بستانکاری")
+	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits')
 
+class GeneralAccount(models.Model):
+	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
+	bestan= models.PositiveIntegerField(verbose_name=u"بستانکاری")
+	description= models.TextField(verbose_name=u"اسم")
 
 class Employee(models.Model):
 	name = models.CharField(max_length=200,verbose_name=u"نام")
@@ -40,3 +39,4 @@ class Employee(models.Model):
 class SalaryFactor(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	amount= models.PositiveIntegerField(verbose_name=u"مقدار")
+	employee = models.ForeignKey(Employee, related_name = 'salaryFactors')
