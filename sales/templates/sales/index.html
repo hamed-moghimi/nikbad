@@ -1,5 +1,9 @@
 ﻿{% extends "sales/base.html" %}
 
+{% block title %}
+salam
+{% endblock %}
+
 {% block content %}
     <div class="panel">
         <h2 class="panel-header"> تازه ترین محصولات </h2>
@@ -18,5 +22,10 @@
                 <p class="text-center muted">جارو برقی LG</p>
             </div>
         </div>
+    </div>
+    <div class="panel">
+        <form class="form-horizontal" action="" method="post">
+            {% include "_hForm.py.html" with form=form %}
+        </form>
     </div>
 {% endblock %}
