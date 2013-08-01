@@ -1,5 +1,9 @@
 ﻿{% extends "base.html" %}
 
+{% block title %}
+زیرسامانه فروش
+{% endblock %}
+
 {% block css %}
     <link href="{{ STATIC_URL }}sales/css/sales.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
@@ -28,5 +32,13 @@
 {% endblock %}
 
 {% block menus %}
-    {% include "sales/_menus.html" %}
+    {% include "sales/_menus.html" with active_menu=4%}
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <p class="text-success text-center">
+            {{ message }}
+        </p>
+    </div>
 {% endblock %}
