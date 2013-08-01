@@ -2,7 +2,7 @@
 from django.db import models
 
 
-relation_choices= (('s',"????"),('m',"?"))
+relation_choices= (('s',"متاهل"),('m',"مجرد"))
 
 
 
@@ -17,9 +17,9 @@ class RollCall(models.Model):
 class CostBenefit(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	description= models.TextField(verbose_name=u"جزئیات")
-	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
-	bestan= models.PositiveIntegerField(verbose_name=u"بستانکاری")
-	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits')
+	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری",  null=True, blank=True)
+	bestan= models.PositiveIntegerField(verbose_name=u"بستانکاری", null=True, blank=True)
+	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits', null=True, blank=True)
 
 class GeneralAccount(models.Model):
 	bedeh= models.PositiveIntegerField(verbose_name=u"بدهکاری")
@@ -32,8 +32,8 @@ class Employee(models.Model):
 	national_id = models.CharField(max_length=200,verbose_name=u"شماره ملی")
 	mobile_num = models.CharField(max_length=200,verbose_name=u"شماره همراه")
 	tel_num = models.CharField(max_length=200,verbose_name=u"شماره تلفن")
-	address = models.CharField(max_length=200,verbose_name=u"آدرس")
-	marriage_status = models.CharField(max_length=200,verbose_name=u"وضعیت تاهل")
+	address = models.TextField(verbose_name=u"آدرس")
+	marriage_status = models.CharField(max_length=200,verbose_name=u"وضعیت تاهل",choices=relation_choices)
 	salary= models.PositiveIntegerField(verbose_name=u"حقوق")
 
 class SalaryFactor(models.Model):
