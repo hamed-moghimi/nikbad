@@ -11,13 +11,13 @@ def index(request):
     return render(request, 'sales/index.html', {})
 
 def newBuy(request):
-    c = Customer.objects.get(username = 'user1')
+    #c = Customer.objects.get(username = 'user1')
 
-    b = SaleBill(totalPrice = 1000, customer = c)
-    b.save()
-    st = u'قبض شماره {0} در تاریخ {1} برای {2} صادر شد'.format(b.id, b.saleDate, c.get_full_name())
+    #b = SaleBill(totalPrice = 1000, customer = c)
+    #b.save()
+    #st = u'قبض شماره {0} در تاریخ {1} برای {2} صادر شد'.format(b.id, b.saleDate, c.get_full_name())
     form = SaleBillForm(request.POST)
-    return render(request, 'sales/index.html', {'message': st, 'form': form})
+    return render(request, 'sales/index.html', {'form': form})
 
 def index2(request):
     #request.get['username']
