@@ -6,6 +6,13 @@
         {% endif %}
         <div class="controls">
             {{ field }}
+            <ul class="errorlist">
+                <li>{{ field.errors.0 }}</li>
+                <li>{{ field.errors.0 }}</li>
+                <li>{{ field.errors.0 }}</li>
+                <li>{{ field.errors.0 }}</li>
+
+            </ul>
         </div>
     </div>
 {% endfor %}
