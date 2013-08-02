@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link href="{{ STATIC_URL }}wrh/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block js %}
+	<script src="{{ STATIC_URL }}wrh/js/WRH-javascript.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block user_panel %}
+
+	<!-- <div style="margin-top: 3px;"> -->
+	<!-- 	سلام آقای مدیر انبار -->
+	<!-- </div> -->
+    <form class="navbar-form pull-right" action="">
+        <input type="text" name="username" class="span2" placeholder="نام کاربری">
+        <input type="password" name="password" class="span2" placeholder="رمز عبور">
+        <button class="btn btn-success" id="enter">ورود</button>
+    </form>
+{% endblock %}
+
+{% block navbar %}
+    <form class="navbar-search pull-left">
+        <i class="icon-search"></i>
+        <input type="text" class="search-query input-medium" placeholder="جستجو ...">
+        <select class="span2">
+            <option value="all">همه گروه ها</option>
+            <option value="mobile"> موبایل</option>
+            <option value="TV"> تلوزیون</option>
+            <option value="shoes"> کیف و کفش</option>
+            <option value="furniture"> مبلمان</option>
+        </select>
+        <button class="btn"><i class="icon-large icon-search"></i></button>
+    </form>
+{% endblock %}
+
+{% block menus %}
+    {% include "wrh/_menus.html" %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% block WRH-panel2 %}
+    <br/>
+
+    <p>
+        از بین ویکی های زیر، ویکی مروبط به کالای دریافتی را انتخاب کنید:
+    </p>
+    <br/>
+
+    <form>
+        <table class="WRH-table">
+            <tbody>
+            <tr>
+                {% for wiki in wikis %}
+                    {% with wiki.pk|stringformat:"s" as pk %}
+                        {% with "WRHDelivery-next/"|add:pk as tmp %}
+                            {% if forloop.counter|divisibleby:4 %}
+                                <tr>
+                            {% endif %}
+                        <td class="WRH-td">
+                            <div class="WRH-div2" onclick="load_select_page('{{ tmp }}')">
+                                <a class="thumbnail">
+                                    <img class="myimage" src="images/WRH-mashad-leather-logo.jpg"/>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            {{ wiki.companyName }}
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            {{ wiki.pk }}
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </a>
+                            </div>
+                        </td>
+                        {% if forloop.counter|divisibleby:3 %}
+                            </tr>
+                        {% endif %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <br/>
+    <br/>
+
+    <br/>
+{% endblock %}
