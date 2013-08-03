@@ -19,12 +19,23 @@
 
 .vitrin-item
 {
-	position: relative;	
+	position: relative;
+}
+
+.thumbnail
+{
+    width: 100px;
+    height: 100px;
+}
+
+.thumbnail > img
+{
+    max-height: 100%;
 }
 
 .vitrin-item > p
 {
-	font-size: 75%;
+	font-size: 80%;
 }
 
 .vitrin-item > .option
