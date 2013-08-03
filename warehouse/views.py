@@ -67,6 +67,11 @@ def confirm_wrh_delivery(request):
                     num = int(key[5:])
                     prd = Product.objects.get(pk=num)
                     stck = Stock.objects.filter(product=prd)
+                    wk = prd.wiki
+                    vl = int(value)
+                    if vl:
+                        receipt_del = Receipt_Delivery(wiki=wk, product=prd, quantity=vl)
+                        receipt_del.save()
                     print(stck)
                     if not stck:
                         st = Stock(product=prd , quantity= value, quantity_returned=0, rack_num_returned=0, rack_num=0 )
