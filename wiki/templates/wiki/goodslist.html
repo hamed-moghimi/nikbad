@@ -1,0 +1,53 @@
+{% extends "wiki/wiki.html" %}
+ {% block content %}
+
+
+<div class="panel">
+
+  <h2>فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
+
+  <table class="table-striped" style="width: 100%">
+    <thead>
+      <tr>
+        <th style="width: 10%">ردیف</th>
+
+        <th style="width: 20%">کد کالا</th>
+
+        <th style="width: 10%">برند</th>
+
+        <th style="width: 25%">نام</th>
+
+        <th style="width: 20%">قیمت</th>
+
+        <th style="width: 10%">تخفیف</th>
+      </tr>
+    </thead>
+
+    <tbody>
+  {% for product in product_list %}
+      {% with forloop.counter as num %}
+
+      <tr>
+        <td>{{ num }}</td>
+
+        <td>{{ product.goodsID }}</td>
+
+        <td>{{ product.brand }}</td>
+
+        <td>{{ product.name }}</td>
+
+        <td>{{ product.price }}</td>
+
+        <td>{{ product.off }}</td>
+      </tr>
+      {% endwith %}
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=3%}
+{% endblock %}
+
