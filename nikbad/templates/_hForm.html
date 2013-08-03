@@ -5,8 +5,12 @@
             <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
         {% endif %}
         <div class="controls">
-            {{ field }}
-            {{ field.errors }}
+            {% if read_only %}
+                <p class="text-right">{{ field.value }}</p>
+            {% else %}
+                {{ field }}
+                {{ field.errors }}
+            {% endif %}
         </div>
     </div>
 {% endfor %}
