@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-class Wiki(models.Model):
+class Wiki(User):
     companyName = models.CharField("نام شرکت", max_length=255)
     description = models.TextField("شرح کالا و خدمات", blank=True, null=True)
     phone = models.SlugField("شماره تلفن")
     address = models.CharField("نشانی", max_length=1000)
+    image = models.ImageField("تصویر لوگو", blank=True, upload_to='images/wikis')
 
     def __unicode__(self):
         return self.companyName
