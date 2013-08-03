@@ -32,7 +32,7 @@ def sabtenam_karmand(request):
 		form = EmployeeForm(request.POST)
 		if(form.is_valid()):
 			form.save()
-			form_test = ItemForm()
+			form_test = EmployeeForm(request.POST)
 			context_test={}
 			context_test.update({'emp_form':form_test})
 			return render(request,'fnc/sabtenam_karmand_review.html', context_test)
@@ -42,16 +42,3 @@ def sabtenam_karmand(request):
 	context.update({'emp_form':form})
 	return render(request, 'fnc/sabtenam_karmand.html', context)
 
-class ItemForm(EmployeeForm):
-    def __init__(self, *args, **kwargs):
-        super(ItemForm, self).__init__(*args, **kwargs)
-        instance = getattr(self, 'instance', None)
-        if instance and instance.pk:
-            self.fields['sku'].widget.attrs['readonly'] = True
-
-    def clean_sku(self):
-        instance = getattr(self, 'instance', None)
-        if instance and instance.pk:
-            return instance.sku
-        else:
-            return self.cleaned_data['sku']
