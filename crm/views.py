@@ -1,3 +1,4 @@
+#from Demos.win32ts_logoff_disconnected import *
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import context
@@ -7,7 +8,11 @@ from crm.models import *
 
 
 def index(request):
-    f = CustomerForm(request.POST)
+
+    c = Customer.objects.get(username=request.user.username)
+    print("here")
+  #  print (c.username)
+    f = CustomerForm(instance=c)
     return render(request, 'crm/base.html', {'CustomerForm' : f})
 
 def edit(request):

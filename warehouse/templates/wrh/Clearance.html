@@ -1,0 +1,44 @@
+{% extends "wrh/base.html" %}
+{#{% block js %}#}
+{#    <script type="text/javascript">#}
+{##}
+{#    </script>#}
+{#{% endblock %}#}
+
+{% block title %}
+ ثبت ترخیص کالا از انبار
+{% endblock %}
+{% block content %}
+    <div class="panel">
+        <h2 class="WRH-heading2"> ثبت ترخیص کالا از انبار </h2>
+        <br/>
+
+        <div class="WRH-panel2">
+            لطفا شماره ی فیش مربوط به سفارش مشتری را وارد نمایید :
+            <br/>
+            <br/>
+
+            <form name="input" action="html_form_action.asp" method="get">
+                <table class="WRH-table3 table-hover">
+                    <tbody>
+                    <tr>
+                        <td class="WRH-td-th3"> کد سفارش :</td>
+                        <td class="WRH-td3">
+                            <input id="bill" type="text" class="span2" style="margin-top:10px; margin-right: -10px; height:12px; text-align: center"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <center>
+                    <button class="btn btn-primary btn-small" type="button" style="margin-right: -10px;"
+                            onclick="confirm_clear()">
+                        تایید
+                    </button>
+                </center>
+            </form>
+            <br/>
+        </div>
+    </div>
+
+{% endblock %}

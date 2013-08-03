@@ -1,0 +1,85 @@
+{% block WRH-panel2 %}
+    {% if error %}
+        {{ error }}
+        <br/>
+        <br/>
+    {% else %}
+        {% if bill %}
+            <div style="margin: 0 30 auto">
+                <p>
+                    <b style="color: rgb(0,89,132)">مشخصات سفارش مشتری:</b>
+                </p>
+            </div>
+            <form>
+                {% if bill.products.all %}
+                    <table class="WRH-table2 table-hover table-striped">
+                        <thead>
+                        <td class="WRH-th-td"></td>
+                        <td class="WRH-th-td">کد کالا</td>
+                        <td class="WRH-th-td">نام کالا</td>
+                        <td class="WRH-th-td"> کد ویکی</td>
+                        <td class="WRH-th-td"> نام ویکی</td>
+                        </thead>
+                        <tbody>
+                        {% for pro in bill.products.all %}
+                            <tr>
+                                <td class="WRH-td2">
+                                    <img class="WRH-myimage2" src="images/WRH-5download.jpg"/>
+                                </td>
+                                <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
+                                <td class="WRH-td2"> {{ pro.product.name }}</td>
+                                <td class="WRH-td2"> {{ pro.product.wiki.pk }}</td>
+                                <td class="WRH-td2"> {{ pro.product.wiki.companyName }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    کالایی برای این سفارش یافت نشد.
+                {% endif %}
+                <br/>
+
+                <div style="margin: 0 30 auto">
+                    <p>
+                        <b style="color: rgb(0,89,132)">کد سفارش:</b>
+                        {{ bill.pk }}
+                    </p>
+
+                    <p>
+                        <b style="color: rgb(0,89,132)"> نام و نام خانوادگی مشتری: </b>
+                        {{ bill.customer.first_name }} {{ bill.customer.last_name }}
+                    </p>
+
+                    <p>
+                        <b style="color: rgb(0,89,132)">آدرس:</b>
+                        {{ bill.customer.address }}
+                    </p>
+
+                    <p>
+                        <b style="color: rgb(0,89,132)">شماره تلفن:</b>
+                        {{ bill.customer.phone }}
+                    </p>
+                </div>
+            </form>
+
+        {% else %}
+            سفارشی با شماره داده شده یافت نشد.
+            <br/>
+            <br/>
+            <br/>
+        {% endif %}
+    {% endif %}
+    <center>
+        {% if error %}
+        {% else %}
+            <button class="btn btn-primary btn-small" type="button" onclick="clear_end('{{ bill.pk }}')">
+                تایید
+            </button>
+        {% endif %}
+        <button class="btn btn-primary btn-small" type="button" onclick="clearance()">
+بازگشت
+        </button>
+    </center>
+
+
+{% endblock %}
