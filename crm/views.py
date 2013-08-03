@@ -34,8 +34,7 @@ def status(request):
     c = Customer.objects.all()[0]
     sb = c.saleBills.all()[0]
     p =  sb.products.all()
-    print ("bill ")
-    print sb
+
     context = { 'Product' : p , 'Bill' : sb }
     return render(request, 'crm/status.html', context)
 
