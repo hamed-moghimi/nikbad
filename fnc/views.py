@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from sales.models import SaleBill
 from fnc.models import *
-from fnc.forms import EmployeeForm
+# from fnc.forms import EmployeeForm
 
 
 def index(request):
@@ -24,6 +24,6 @@ def gozaresh_mali(request):
 	return render(request, 'fnc/gozaresh_mali.html', context)
 def sabtenam_karmand(request):
 	context={}
-	form = EmployeeForm()
-	context.update({'emp_form':form})
+	# form = EmployeeForm()
+	# context.update({'emp_form':form})
 	return render(request, 'fnc/sabtenam_karmand.html', context)
