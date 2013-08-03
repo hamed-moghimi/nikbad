@@ -1,0 +1,16 @@
+{% extends "sales/base.html" %}
+
+{% block content %}
+    <div class="panel">
+                    <h2 class="panel-header"> ثبت نام </h2>
+                    <div class="row-fluid">
+
+                        <form class="form-horizontal" method="post">
+                            {% include "_hForm.html" with form=CustomerForm  %}
+
+
+                        </form>
+                    </div>
+                </div>
+
+    {% endblock %}
