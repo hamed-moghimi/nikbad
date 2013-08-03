@@ -10,6 +10,7 @@ class RollCall(models.Model):
 	employee = models.ForeignKey('Employee', related_name = 'rollCalls')
 
 
+
 class CostBenefit(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	description= models.TextField(verbose_name=u"جزئیات")
@@ -31,6 +32,9 @@ class Employee(models.Model):
 	address = models.TextField(verbose_name=u"آدرس")
 	marriage_status = models.CharField(max_length=200,verbose_name=u"وضعیت تاهل",choices=relation_choices)
 	salary= models.IntegerField(verbose_name=u"حقوق")
+
+	def __unicode__(self):
+		return u'{0} - {1}'.format(self.name, self.family_name)
 
 class SalaryFactor(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
