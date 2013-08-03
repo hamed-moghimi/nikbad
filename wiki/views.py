@@ -26,6 +26,9 @@ def goodsList(request):
 def success(request):
     return render(request, 'wiki/success.html')
 
+def register_success(request):
+    return render(request, 'wiki/register_success.html')
+
 def product_failure(request):
     return render(request, 'wiki/productFailure.html')
 
@@ -46,7 +49,7 @@ def register(request):
                      companyName = cn, description = desc,
                      phone = ph, address = ad, email = em)
             w.save()
-            return success(request)
+            return register_success(request)
     else:
         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
