@@ -9,7 +9,7 @@ from wiki.models import Product
 
 def index(request):
     # get customer
-    customer = Customer.objects.get(username = 'user1')
+    customer = Customer.objects.get(username = 'user123')
     request.user = customer
 
     # get new products
@@ -18,7 +18,7 @@ def index(request):
 
 def marketBasket(request):
     # get customer
-    customer = Customer.objects.get(username = 'user1')
+    customer = Customer.objects.get(username = 'user123')
     request.user = customer
 
     #TODO: market basket form
