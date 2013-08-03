@@ -18,9 +18,15 @@
             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{% url sales-basket %}" class="text-success">
+                    <a href="{% url sales-basket %}">
                         <i class="icon-large icon-shopping-cart"></i>
                         <span id="basket-items">{{ user.marketBasket }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url crm-status %}">
+                        <i class="icon-large icon-check"></i>
+                        <span id="basket-items">وضعیت سفارشات</span>
                     </a>
                 </li>
                 <li class="divider"></li>
@@ -31,7 +37,7 @@
                     </a>
                 </li>
             </ul>
-            <a class="btn btn-primary"><i class="icon-large icon-white icon-user"></i>{{ user }}</a>
+            <a class="btn btn-primary" href="{% url crm-profile %}"><i class="icon-large icon-white icon-user"></i>{{ user }}</a>
         </div>
     {% else %}
         <form class="navbar-form pull-right" action="">

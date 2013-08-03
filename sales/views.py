@@ -23,7 +23,6 @@ def marketBasket(request):
 
     #TODO: market basket form
     # temporary codes
-    print(request.method)
     if request.method == 'POST':
         SaleBill.createFromMarketBasket(customer.marketBasket)
         customer.marketBasket.clear()
