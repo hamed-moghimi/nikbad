@@ -40,7 +40,7 @@
             <a class="btn btn-primary" href="{% url crm-profile %}"><i class="icon-large icon-white icon-user"></i>{{ user }}</a>
         </div>
     {% else %}
-        <form class="navbar-form pull-right" action="">
+        <form class="navbar-form pull-right" method="post" action="{% url login %}">
             <input type="text" name="username" class="span2" placeholder="نام کاربری">
             <input type="password" name="password" class="span2" placeholder="رمز عبور">
             <button class="btn btn-success" id="enter">ورود</button>

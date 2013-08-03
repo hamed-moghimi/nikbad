@@ -9,6 +9,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # index url
     url(r'^$', 'sales.views.index', name='index'),
+    url(r'^login$', 'contrib.views.login', name='login'),
 
     # subsystem urls
     url(r'^sales/', include('sales.urls')),
