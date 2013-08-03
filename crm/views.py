@@ -7,15 +7,11 @@ from crm.models import *
 
 
 def index(request):
-    #request.get['username']
-    #request.post
-    #l = SaleBill.objects.all()[0]
-    #return HttpResponse('{0} and {1} and {2}'.format(l.saleDate, l.totalPrice, l.costumer.balance))
-    return render(request, 'crm/base.html', {})
+    f = CustomerForm(request.POST)
+    return render(request, 'crm/base.html', {'CustomerForm' : f})
 
 def edit(request):
     f = CustomerForm(request.POST)
-    f.changed_data()
     return render(request, 'crm/edit.html', {'CustomerForm' : f})
 
 def signUp(request):
@@ -23,11 +19,11 @@ def signUp(request):
         f = CustomerForm(request.POST)
         if (f.is_valid()):
             f.save()
-
             return success(request)
     else:
         f = CustomerForm()
     return render(request, 'crm/signUp.html', {'CustomerForm' : f})
+
 
 def status(request):
     c = Customer.objects.all()[0]
@@ -39,7 +35,8 @@ def status(request):
     return render(request, 'crm/status.html', context)
 
 def success(request):
-    return render(request, 'crm/signUp-successful.html', {})
+    f = CustomerForm(request.POST)
+    return render(request, 'crm/signUp-successful.html', {'CustomerForm' : f})
 
 def index2(request):
     #request.get['username']
