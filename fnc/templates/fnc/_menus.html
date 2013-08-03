@@ -1,0 +1,12 @@
+<li class="header">
+	<a> فهرست محصولات </a>
+</li>
+<li {% if active_menu == 1 %}class="active"{% endif %}>
+	<a {% if active_menu != 1 %}href="{% url fnc-sabtenam-karmand %}"{% endif %}>ثبت نام کارمند جدید<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 2 %}class="active"{% endif %}>
+    <a {% if active_menu != 2 %}href="{% url fnc-gozaresh-mali %}"{% endif %}>گزارش مالی<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 3 %}class="active"{% endif %}>
+    <a {% if active_menu != 3 %}href="#"{% endif %}>اطلاعات کارمندان<i class="icon-chevron-left"></i></a>
+</li>
