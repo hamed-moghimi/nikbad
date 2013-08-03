@@ -9,22 +9,35 @@
         <h2 class="panel-header"> گزارش مالی </h2>
         <table class="FNC-table2 table-hover table-striped">
             <thead>
-			    <td class="FNC-th-td" >ویرایش</td>
+
 				<td class="FNC-th-td" >کد </td>
 				<td class="FNC-th-td"> بستانکاری</td>
 				<td class="FNC-th-td"> بدهکاری </td>
 				<td class="FNC-th-td"> شرح جزئیات </td>
+                <td class="FNC-th-td">  </td>
 			</thead>
             <tbody>
                 {% for cb in costBenefits %}
                     <tr>
-						<td class="FNC-td2 Edit"> <input type="image" class="FNC-myimage2 Edit" src="images/financial/edit_pic.jpg"/></td>
+
 						<td class="FNC-td2">
 						<label for="code" class="nohand col-lg-2 control-label">{{ cb.id }}</label>
 						</td>
 						<td class="FNC-td2"> {{ cb.bestan }} </td>
 						<td class="FNC-td2"> {{ cb.bedeh }} </td>
 						<td class="FNC-td2"> {{ cb.description }} </td>
+                        <td class="FNC-td2">ویرایش </td>
+					</tr>
+                {% endfor %}
+            {% for sb in saleBills %}
+                    <tr>
+						<td class="FNC-td2 Edit"> <input type="image" class="FNC-myimage2 Edit" src="images/financial/edit_pic.jpg"/></td>
+						<td class="FNC-td2">
+						<label for="code" class="nohand col-lg-2 control-label">{{ cb.id }}</label>
+						</td>
+						<td class="FNC-td2"> {{ sb.bestan }} </td>
+						<td class="FNC-td2"> {{ sb.bedeh }} </td>
+						<td class="FNC-td2"> {{ sb.description }} </td>
 					</tr>
                 {% endfor %}
 
