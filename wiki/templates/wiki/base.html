@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+        {% block title %}
+             خدمات ویترین الکترونیکی
+        {% endblock %}
+
+	<!-- import css files -->
+	{% block css %}
+    <link type="text/css" href="{{ STATIC_URL }}css/main_wiki.css" rel="stylesheet" media="all" />
+    {% endblock %}
+	<!-- import javascript files -->
+	{% block js %}
+        <script type="text/javascript" src="{{ STATIC_URL }}js/validation.js"></script>
+    {% endblock %}
+
+    {% block content %}
+        
+    {% endblock %}
+
+
+
+                {% block menus %}
+                    {% comment %}
+                        use this code to load your menus
+                        <!-- how do I include my menus? -->
+                        {% include "wiki/_menus.html" %}
+                    {% endcomment %}
+                {% endblock %}
+

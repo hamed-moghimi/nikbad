@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+        {% block title %}
+             خدمات ویترین الکترونیکی
+        {% endblock %}
+
+	<!-- import css files -->
+	{% block css %}
+    <link type="text/css" href="{{ STATIC_URL }}css/main_wiki.css" rel="stylesheet" media="all" />
+    {% endblock %}
+	<!-- import javascript files -->
+	{% block js %}
+        <script type="text/javascript" src="{{ STATIC_URL }}js/validation.js"></script>
+    {% endblock %}
+
+    {% block user_panel %}
+                           {# write your codes to show user status and options #}
+                            <form class="navbar-form pull-right" action="">
+                                ویکی گرامی خوش آمدید!
+                                <button class="btn btn-success" id="exit">خروج</button>
+                            </form>
+                        {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}
+
+
+
+                {% block menus %}
+
+                        {% include "wiki/_menus.html" %}
+                    
+                {% endblock %}
+
