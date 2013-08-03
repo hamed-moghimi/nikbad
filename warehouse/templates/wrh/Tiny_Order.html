@@ -13,7 +13,7 @@
             {% for pro in bill.products.all %}
                 <tr>
                     <td class="WRH-td2">
-                        <img class="WRH-myimage2" src="images/WRH-5download.jpg"/>
+                        <img class="WRH-myimage2" src="{{ pro.product.image.url }}"/>
                     </td>
                     <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
                     <td class="WRH-td2"> {{ pro.product.name }}</td>
