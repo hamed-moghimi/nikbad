@@ -2,26 +2,40 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from sales.forms import SaleBillForm
-from sales.models import SaleBill
+from sales.models import SaleBill, Ad
 from crm.models import Customer
+from wiki.models import Product
 
 
 def index(request):
+    # get customer
+    customer = Customer.objects.get(username = 'user1')
+    request.user = customer
 
-    return render(request, 'sales/index.html', {})
+    # get new products
+    new_products = Ad.objects.all()[:10]
+    return render(request, 'sales/index.html', {'new_products': new_products, 'customer': customer})
+
+def marketBasket(request):
+    # get customer
+    customer = Customer.objects.get(username = 'user1')
+    request.user = customer
+
+    #TODO: market basket form
+    # temporary codes
+    print(request.method)
+    if request.method == 'POST':
+        SaleBill.createFromMarketBasket(customer.marketBasket)
+        customer.marketBasket.clear()
+        return render(request, 'sales/success.html', {})
+
+    return render(request, 'sales/basket.html', {'basket': customer.marketBasket})
 
 def newBuy(request):
-    c = Customer.objects.get(username = 'user1')
+    #c = Customer.objects.get(username = 'user1')
 
-    b = SaleBill(totalPrice = 1000, customer = c)
-    b.save()
-    st = u'قبض شماره {0} در تاریخ {1} برای {2} صادر شد'.format(b.id, b.saleDate, c.get_full_name())
+    #b = SaleBill(totalPrice = 1000, customer = c)
+    #b.save()
+    #st = u'قبض شماره {0} در تاریخ {1} برای {2} صادر شد'.format(b.id, b.saleDate, c.get_full_name())
     form = SaleBillForm(request.POST)
-    return render(request, 'sales/index.html', {'message': st, 'form': form})
-
-def index2(request):
-    #request.get['username']
-    #request.post
-    #l = SaleBill.objects.all()[0]
-    #return HttpResponse('{0} and {1} and {2}'.format(l.saleDate, l.totalPrice, l.costumer.balance))
-    return render(request, 'base.html', {})
+    return render(request, 'sales/index.html', {'form': form})
