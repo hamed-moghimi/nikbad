@@ -1,11 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
 
-
 relation_choices= (('s',"متاهل"),('m',"مجرد"))
-
-
-
 
 class RollCall(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
