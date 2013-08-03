@@ -2,7 +2,7 @@
 from django.db import models
 from random import choice
 from django.contrib.auth.models import User
-
+from wiki.models import Product
 gender_choices = (
                       ( 'm' , "مرد"),
                       ('f' , "زن")
@@ -21,5 +21,5 @@ class Customer (User):
 class Feedback (models.Model):
     date = models.DateField( auto_now_add=True , verbose_name = u" تاریخ بازخورد")
     content = models.TextField( verbose_name = u"متن بازخورد")
-    
+    product = models.ForeignKey(Product, verbose_name= u" نام کالا")
     

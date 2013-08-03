@@ -21,8 +21,10 @@ def testback(request):
     return render(request, 'wrh/NewOrdersBack.html', context)
 
 def tiny_order(request, pid):
-    a = SaleBill.objects.get(pk=pid)
+    p2 = int(pid)
+    a = SaleBill.objects.get(pk=p2)
     context = {'bill': a}
+    print(a.products.all())
     return render(request, 'wrh/Tiny_Order.html', context)
 
 def delivery_wiki_select(request):
@@ -41,6 +43,19 @@ def delivery_product_select(request, pid):
     a = Product.objects.filter(wiki=wik)
     context = {'products': a}
     return render(request,'wrh/WRHDelivery-next.html', context)
+
+def confirm_clearance(request, pid):
+    p2 = int(pid)
+    try:
+        bill = SaleBill.objects.get(pk=p2)
+        if bill.deliveryStatus == 0:
+            context = {'bill': bill}
+        else:
+            context = {'error': "کالاهای مربوط به این سفارش قبلا از انبار خارج شده اند."}
+    except Exception as e:
+        context = {'error': "سفارشی با شماره داده شده یافت نشد"}
+    return render(request,'wrh/ConfirmClearance.html', context)
+
 
 def confirm_wrh_delivery(request):
     context = {}
@@ -63,3 +78,19 @@ def confirm_wrh_delivery(request):
         except Exception as e:
             print(str(e))
     return render(request,'wrh/ConfirmationWRHDelivery.html', context)
+
+def clearance(request):
+    context = { 'active_menu': 2}
+    return render(request,'wrh/Clearance.html', context)
+
+def clearance2(request):
+    context = { 'active_menu': 2}
+    return render(request,'wrh/Clearance2.html', context)
+
+def clear_end(request, pid):
+    context = {}
+    p2 = int(pid)
+    bill = SaleBill.objects.get(pk = p2)
+    bill.deliveryStatus = 1
+    bill.save()
+    return render(request,'wrh/ConfirmClearance-end.html', context)
