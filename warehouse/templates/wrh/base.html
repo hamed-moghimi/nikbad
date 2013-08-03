@@ -8,33 +8,37 @@
 	<script src="{{ STATIC_URL }}wrh/js/WRH-javascript.js" type="text/javascript"></script>
 {% endblock %}
 
-{% block user_panel %}
 
-	<!-- <div style="margin-top: 3px;"> -->
-	<!-- 	سلام آقای مدیر انبار -->
-	<!-- </div> -->
-    <form class="navbar-form pull-right" action="">
-        <input type="text" name="username" class="span2" placeholder="نام کاربری">
-        <input type="password" name="password" class="span2" placeholder="رمز عبور">
-        <button class="btn btn-success" id="enter">ورود</button>
-    </form>
+{% block user_panel %}
+{#   <p class= "WRH-heading2" style ="font-size: 20px; margin-top: 10px; font-family: ">#}
+{#       <p >#}
+    <p style="font-family: entezar; font-size: 20px; font-weight: 700; margin-top: 7px; margin-right: -10px; color: rgb(0,89,132);">
+ انباردار عزیز به زیر سامانه انبارداری خوش آمدید.
+{#  </div>#}
+
+{#    <form class="navbar-form pull-right" action="">#}
+{#        <input type="text" name="username" class="span2" placeholder="نام کاربری">#}
+{#        <input type="password" name="password" class="span2" placeholder="رمز عبور">#}
+{#        <button class="btn btn-success" id="enter">ورود</button>#}
+{#    </form>#}
 {% endblock %}
 
 {% block navbar %}
-    <form class="navbar-search pull-left">
-        <i class="icon-search"></i>
-        <input type="text" class="search-query input-medium" placeholder="جستجو ...">
-        <select class="span2">
-            <option value="all">همه گروه ها</option>
-            <option value="mobile"> موبایل</option>
-            <option value="TV"> تلوزیون</option>
-            <option value="shoes"> کیف و کفش</option>
-            <option value="furniture"> مبلمان</option>
-        </select>
-        <button class="btn"><i class="icon-large icon-search"></i></button>
-    </form>
+{#    <form class="navbar-search pull-left">#}
+{#        <i class="icon-search"></i>#}
+{#        <input type="text" class="search-query input-medium" placeholder="جستجو ...">#}
+{#        <select class="span2">#}
+{#            <option value="all">همه گروه ها</option>#}
+{#            <option value="mobile"> موبایل</option>#}
+{#            <option value="TV"> تلوزیون</option>#}
+{#            <option value="shoes"> کیف و کفش</option>#}
+{#            <option value="furniture"> مبلمان</option>#}
+{#        </select>#}
+    <button class="btn btn-success pull-left" style="margin-top: -2px;"> خروج</button>
+{#        <button class="btn"><i class="icon-large icon-search"></i></button>#}
+{#    </form>#}
+    </p>
 {% endblock %}
-
 {% block menus %}
     {% include "wrh/_menus.html" %}
 {% endblock %}

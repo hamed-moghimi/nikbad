@@ -12,7 +12,7 @@ def index(request):
 
 def test(request):
     a = SaleBill.objects.filter(deliveryStatus = 0)
-    context = {'bills': a}
+    context = {'bills': a, 'active_menu': 3}
     return render(request, 'wrh/NewOrders.html', context)
 
 def testback(request):
@@ -27,7 +27,7 @@ def tiny_order(request, pid):
 
 def delivery_wiki_select(request):
     a = Wiki.objects.all()
-    context = {'wikis': a}
+    context = {'wikis': a, 'active_menu': 1}
     return render(request,'wrh/WRHDelivery.html', context)
 
 def delivery_wiki_select2(request):
@@ -48,17 +48,18 @@ def confirm_wrh_delivery(request):
         try:
             post = request.POST
             for key, value in post.iteritems():
-                num = int(key)
-                prd = Product.objects.get(pk=num)
-                stck = Stock.objects.filter(product=prd)
-                if stck:
-                    stck[0].quantity += value
-                    context = {'st': stck[0], 'value': value+2}
-                    stck[0].save()
-                else:
-                    Stock.objects.create(product=prd, quantity=value)
-                    st = Stock.objects.get(product=prd)
-                    context = {'st': st ,'value': value}
-        except:
-            context.update({'error': u'اطلاعات وارد شده نشان دهنده یک فرم کامل نیست.'})
+                if key[:5]=="name_":
+                    num = int(key[5:])
+                    prd = Product.objects.get(pk=num)
+                    stck = Stock.objects.filter(product=prd)
+                    print(stck)
+                    if not stck:
+                        st = Stock(product=prd , quantity= value, quantity_returned=0, rack_num_returned=0, rack_num=0 )
+                        st.save()
+                        print(st.quantity)
+                    else:
+                        stck[0].quantity += int(value)
+                        stck[0].save()
+        except Exception as e:
+            print(str(e))
     return render(request,'wrh/ConfirmationWRHDelivery.html', context)
