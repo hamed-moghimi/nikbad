@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 زیرسامانه فروش
@@ -31,7 +31,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="index.html">
+                    <a href="{% url logout %}">
                         <i class="icon-off"></i>
                         خروج
                     </a>
@@ -40,10 +40,11 @@
             <a class="btn btn-primary" href="{% url crm-profile %}"><i class="icon-large icon-white icon-user"></i>{{ user }}</a>
         </div>
     {% else %}
-        <form class="navbar-form pull-right" action="">
+        <form class="navbar-form pull-right" method="post" action="{% url login %}" id="loginID">
+            {% csrf_token %}
             <input type="text" name="username" class="span2" placeholder="نام کاربری">
             <input type="password" name="password" class="span2" placeholder="رمز عبور">
-            <button class="btn btn-success" id="enter">ورود</button>
+            <input type="submit" class="btn btn-success" id="enter" value="ورود">
         </form>
     {% endif %}
 {% endblock %}
