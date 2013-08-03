@@ -5,10 +5,20 @@
             <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
         {% endif %}
         <div class="controls">
-            {{ field }}
+            {% if read_only %}
+                <p class="text-right">{{ field.value }}</p>
+            {% else %}
+                {{ field }}
+                {{ field.errors }}
+            {% endif %}
         </div>
     </div>
 {% endfor %}
 {% for field in form.hidden_fields %}
     {{ field }}
 {% endfor %}
+<div class="control-group">
+    <div class="controls">
+        <button class="btn btn-primary">{{ submit_text|default:"ثبت" }}</button>
+    </div>
+</div>

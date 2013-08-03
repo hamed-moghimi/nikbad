@@ -1,0 +1,40 @@
+﻿{% extends "sales/base.html" %}
+
+{% block title %}
+    بازار اینترنی نیک باد
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header">سبد خرید</h2>
+        <table class="table table-striped">
+            <thead>
+                <th></th>
+                <th>نام کالا</th>
+                <th>قیمت واحد</th>
+                <th>تعداد</th>
+            </thead>
+            <tbody>
+                {% for item in basket.items.all %}
+                    {% with forloop.counter as cnt %}
+                    <tr>
+                        <td>{{ cnt }}</td>
+                        <td>{{ item.product }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.number }}</td>
+                    </tr>
+                    {% endwith %}
+                {% endfor %}
+            </tbody>
+       </table>
+    <p class="text-right">
+        جمع کل :
+        {{ basket.totalPrice }}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary">تایید</button>
+        </form>
+    </p>
+    </div>
+{% endblock %}
