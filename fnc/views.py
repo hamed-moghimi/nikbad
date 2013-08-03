@@ -21,9 +21,24 @@ def gozaresh_mali(request):
 	cb_objects= CostBenefit.objects.all()
 	context={}
 	context.update({'costBenefits':cb_objects})
+
+	sb_objects=SaleBill.objects.all()
+
+	context.update({'saleBills':sb_objects})
+
 	return render(request, 'fnc/gozaresh_mali.html', context)
 def sabtenam_karmand(request):
+	if(request.POST):
+		form = EmployeeForm(request.POST)
+		if(form.is_valid()):
+			form.save()
+			form_test = EmployeeForm(request.POST)
+			context_test={}
+			context_test.update({'emp_form':form_test})
+			return render(request,'fnc/sabtenam_karmand_review.html', context_test)
+	else:
+		form = EmployeeForm()
 	context={}
-	form = EmployeeForm()
 	context.update({'emp_form':form})
 	return render(request, 'fnc/sabtenam_karmand.html', context)
+
