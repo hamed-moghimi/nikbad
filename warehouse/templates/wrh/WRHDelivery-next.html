@@ -37,7 +37,7 @@
             <tbody>
             {% for product in products %}
                 <tr>
-                    <td class="WRH-td5"><img class="WRH-myimage2" src="images/WRH-5download.jpg"/></td>
+                    <td class="WRH-td5"><img class="WRH-myimage2" src="{{ product.ad.icon.image.url }}"/></td>
                     <td class="WRH-td5"> {{ product.name }}</td>
                     <td class="WRH-td5"> {{ product.goodsID }}</td>
                     <td class="WRH-td5"><input name="name_{{ product.pk }}" type="number" min="0" value="0"

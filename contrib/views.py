@@ -13,6 +13,7 @@ def login(request):
             auth.login(request, user)
             #TODO: appropriate url
             return HttpResponseRedirect(reverse('sales-index'))
+    return HttpResponseRedirect(reverse('sales-index'))
 
 def logout(request):
     auth.logout(request)
