@@ -30,10 +30,4 @@ $(document).ready(function(){
 		basketItems.text(basketItems.text() * 1 + 1);
 		}, 3000);
 	});
-	
-	// test
-	$('#enter').click(function(){
-		$('.alert').alert('close');
-		return false;
-	});
 });

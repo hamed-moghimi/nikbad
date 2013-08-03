@@ -1,9 +1,9 @@
+<!doctype html>
+<html lang="en">
 {% comment %}
     root html template file for all other templates.
     extends base template of your subsystem from this and then extend rest of your template files from that.
 {% endcomment %}
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>
@@ -39,11 +39,6 @@
                     <div class="navbar-inner">
                         {% block user_panel %}
                            {# write your codes to show user status and options #}
-                            <form class="navbar-form pull-right" action="">
-                                <input type="text" name="username" class="span2" placeholder="نام کاربری">
-                                <input type="password" name="password" class="span2" placeholder="رمز عبور">
-                                <button class="btn btn-success" id="enter">ورود</button>
-                            </form>
                         {% endblock %}
                         {% block navbar %}
                             {# write some codes here if you want to use navigation bar #}

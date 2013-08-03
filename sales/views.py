@@ -9,8 +9,12 @@ from wiki.models import Product
 
 def index(request):
     # get customer
-    customer = Customer.objects.get(username = 'user1')
-    request.user = customer
+    customer = request.user
+    try:
+        customer = Customer.objects.get(username = request.user.username)
+        request.user = customer
+    except:
+        pass
 
     # get new products
     new_products = Ad.objects.all()[:10]
