@@ -17,8 +17,11 @@
 {% for field in form.hidden_fields %}
     {{ field }}
 {% endfor %}
+
+{% if not read_only %}
 <div class="control-group">
     <div class="controls">
         <button class="btn btn-primary">{{ submit_text|default:"ثبت" }}</button>
     </div>
 </div>
+{% endif %}
