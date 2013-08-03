@@ -1,0 +1,58 @@
+{% block WRH-panel2 %}
+    {% if bill.products.all %}
+        <table class="WRH-table2 table-hover table-striped">
+            <thead>
+            <td class="WRH-th-td"></td>
+            <td class="WRH-th-td">کد کالا</td>
+            <td class="WRH-th-td">نام کالا</td>
+            <td class="WRH-th-td"> کد ویکی</td>
+            <td class="WRH-th-td"> نام ویکی</td>
+            <td class="WRH-th-td"> تعداد</td>
+            </thead>
+            <tbody>
+            {% for pro in bill.products.all %}
+                <tr>
+                    <td class="WRH-td2">
+                        <img class="WRH-myimage2" src="images/WRH-5download.jpg"/>
+                    </td>
+                    <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
+                    <td class="WRH-td2"> {{ pro.product.name }}</td>
+                    <td class="WRH-td2"> {{ pro.product.wiki.pk }}</td>
+                    <td class="WRH-td2"> {{ pro.product.wiki.companyName }}</td>
+                    <td class="WRH-td2"> {{ pro.number }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p> هیچ کالایی یافت نشد</p>
+    {% endif %}
+    <br/>
+
+    <div style="margin-right: 30px">
+        {#                <h2 class="panel-header WRH-heading2" style="font-size: 17; font-weight: 700">#}
+        {#                    <!-- style="font-size: 18; font-family: "entezar"> --> آدرس مشتری: </h2>#}
+        <h2 class="WRH-heading2" style="font-size: 17; font-weight: 700">
+            آدرس مشتری
+        </h2>
+        {{ bill.customer.address }}
+        <p>
+
+        </p>
+
+        <p>
+            <b style="color: rgb(0,89,132)">شماره تلفن:</b>
+            {{ bill.customer.phone }}
+        </p>
+        <br/>
+    </div>
+
+    <center>
+        <button class="btn btn-primary btn-small" type="button">
+            چاپ
+        </button>
+        <button class="btn btn-primary btn-small" type="button" onclick="orders()">
+            بازگشت
+        </button>
+    </center>
+{% endblock %}

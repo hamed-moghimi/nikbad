@@ -8,7 +8,7 @@ deliveryChoices = (
     (1, u'در راه'),
     (2, u'دریافت شده')
 )
-
+from django.db.models.fields import *
 
 # Create your models here.
 class SaleBill(models.Model):
@@ -27,6 +27,16 @@ class SaleBill(models.Model):
         verbose_name = u'فاکتور فروش'
         verbose_name_plural = u'فاکتورهای فروش'
         ordering = ['-saleDate', 'deliveryStatus', 'customer']
+
+    @staticmethod
+    def createFromMarketBasket(basket):
+        sb = SaleBill()
+        sb.customer = basket.customer
+        sb.totalPrice = basket.totalPrice
+        sb.save()
+
+        products = [SaleBill_Product(bill = sb, product = i.product, number = i.number) for i in basket.items.all()]
+        sb.products.bulk_create(products)
 
 
 class SaleBill_Product(models.Model):
@@ -47,12 +57,17 @@ class MarketBasket(models.Model):
     # relation with products
     productList = models.ManyToManyField(Product, through = 'MarketBasket_Product')
 
-    # variables
-    itemsNum = 0  # should update every time an item removed or added
-
     class Meta:
         verbose_name = u'سبد خرید'
         verbose_name_plural = u'سبدهای خرید'
+
+    # variables
+    itemsNum = 0  # should update every time an item removed or added or object created
+
+    def __init__(self, *args, **kwargs):
+        super(MarketBasket, self).__init__(*args, **kwargs)
+        self.itemsNum = self.items.count()
+        print(self.itemsNum)
 
     def __unicode__(self):
         return u'سبد خرید ({0} مورد)'.format(self.itemsNum)
@@ -77,6 +92,11 @@ class MarketBasket(models.Model):
             return True
         return False
 
+    def clear(self):
+        self.totalPrice = 0
+        self.items.all().delete()
+        self.save()
+        self.itemsNum = 0
 
 class MarketBasket_Product(models.Model):
     # foreign keys
@@ -90,10 +110,17 @@ class MarketBasket_Product(models.Model):
 class Ad(models.Model):
     product = models.OneToOneField(Product)
     description = models.TextField(verbose_name = u'توضیحات')
+    registerDate = models.DateField(auto_now_add = True, verbose_name = u'تاریخ ثبت')
+
+    def _get_self_id(self):
+        return self.id
+
+    icon = models.ForeignKey('AdImage', related_name = 'belongs', null = True, blank = True)
 
     class Meta:
         verbose_name = u'ویترین'
         verbose_name_plural = u'ویترین ها'
+        ordering = ['-registerDate']
 
     def __unicode__(self):
         return self.product.__unicode__()
@@ -106,7 +133,7 @@ class Specification(models.Model):
 
     class Meta:
         verbose_name = u'ویژگی'
-        verbose_name = u'ویژگی ها'
+        verbose_name_plural = u'ویژگی ها'
         ordering = ['ad', 'title']
 
     def __unicode__(self):
@@ -115,7 +142,7 @@ class Specification(models.Model):
 
 # function for generating image path
 def image_path(instance, filename):
-    return 'ad_images/{0}'.format(instance.ad.id)
+    return 'ad_images/{0}/{1}'.format(instance.ad.id, filename)
 
 
 class AdImage(models.Model):
@@ -125,8 +152,8 @@ class AdImage(models.Model):
 
     class Meta:
         verbose_name = u'تصویر'
-        verbose_name = u'تصاویر'
+        verbose_name_plural = u'تصاویر'
         ordering = ['ad', 'title']
 
     def __unicode__(self):
-        return self.ad.id
+        return u'{0} - {1}'.format(self.ad.__unicode__(), self.title)

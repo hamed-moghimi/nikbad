@@ -43,7 +43,7 @@ files
 # database file
 *.db
 *.db-journal
-
+sqlite3.exe
 # media files
 media/*
 

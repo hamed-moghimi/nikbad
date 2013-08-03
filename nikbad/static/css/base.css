@@ -146,3 +146,17 @@ body
 .nav-menu a:hover .icon-chevron-left {
   opacity: .5;
 }
+
+/* ---------- horizontal forms ---------- */
+.form-horizontal .errorlist
+{
+    color: #b94a48;
+    display: inline-block;
+    list-style: none;
+    margin-right: 10px;
+}
+
+.form-horizontal .controls *
+{
+    vertical-align: top;
+}

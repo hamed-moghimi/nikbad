@@ -6,9 +6,15 @@
         {% endif %}
         <div class="controls">
             {{ field }}
+            {{ field.errors }}
         </div>
     </div>
 {% endfor %}
 {% for field in form.hidden_fields %}
     {{ field }}
 {% endfor %}
+<div class="control-group">
+    <div class="controls">
+        <button class="btn btn-primary">{{ submit_text|default:"ثبت" }}</button>
+    </div>
+</div>
