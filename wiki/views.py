@@ -18,8 +18,8 @@ def goodsList(request):
         user = request.user
         myName = user.username
         #print user
-        # p = Product.objects.all().filter(wiki__username__iexact=myName)
-        p = Product.objects.filter(wiki__companyName = u'سیب')
+        p = Product.objects.all().filter(wiki__username__iexact=myName)
+        # p = Product.objects.filter(wiki__companyName = u'سیب')
         context = {'product_list': p}
         return render(request, 'wiki/goodslist.html', context)
 

@@ -1,0 +1,28 @@
+<li class="header">
+	<a>مدیریت کالاها </a>
+</li>
+<li {% if active_menu == 1 %}class="active"{% endif %}>
+	<a {% if active_menu != 1 %}href="addProduct"{% endif %} href="addProduct">درج کالا<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 2 %}class="active"{% endif %}>
+    <a {% if active_menu != 2 %}href="deleteProduct"{% endif %}>حذف کالا<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 3 %}class="active"{% endif %}>
+    <a {% if active_menu != 3 %}href="goodslist"{% endif %}>مشاهده فهرست کالاها<i class="icon-chevron-left"></i></a>
+</li>
+
+<li class="header">
+    <a> انبار </a>
+</li>
+<li {% if active_menu == 4 %}class="active"{% endif %}>
+    <a {% if active_menu != 4 %}href="#"{% endif %}>فهرست کالاهای موجود در انبار<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 5 %}class="active"{% endif %}>
+    <a {% if active_menu != 5 %}href="#"{% endif %}>مشاهده سفارش انبار<i class="icon-chevron-left"></i></a>
+</li>
+<li class="header">
+    <a>فروش</a>
+</li>
+<li {% if active_menu == 6 %}class="active"{% endif %}>
+    <a {% if active_menu != 6 %}href="#"{% endif %}>مشاهده گزارش فروش<i class="icon-chevron-left"></i></a>
+</li>

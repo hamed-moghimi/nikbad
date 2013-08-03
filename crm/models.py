@@ -16,8 +16,8 @@ class Customer (User):
     postal_code = models.CharField (max_length = 10 , verbose_name = u"کدپستی" , blank = True )
     address = models.TextField( verbose_name = u" آدرس")
     city = models.CharField(max_length = 20 , verbose_name = u" شهر")
-    
-    
+
+
 class Feedback (models.Model):
     date = models.DateField( auto_now_add=True , verbose_name = u" تاریخ بازخورد")
     content = models.TextField( verbose_name = u"متن بازخورد")
