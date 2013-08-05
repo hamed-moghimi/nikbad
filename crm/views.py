@@ -11,9 +11,14 @@ def index(request):
 
     c = Customer.objects.get(username=request.user.username)
     print("here")
-  #  print (c.username)
+    print (request)
     f = CustomerForm(instance=c)
     return render(request, 'crm/base.html', {'CustomerForm' : f})
+
+def get_form_kwargs(self ):
+    kwargs = super(index(), self).get_form_kwargs()
+    kwargs[ Customer.objects.get(username=self.user.username)] = self.request.user
+    return kwargs
 
 def edit(request):
     f = CustomerForm(request.POST)
