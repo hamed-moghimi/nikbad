@@ -20,9 +20,23 @@ class CostBenefit(models.Model):
 	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits', null=True, blank=True)
 
 class GeneralAccount(models.Model):
-	bedeh= models.IntegerField(verbose_name=u"بدهکاری")
-	bestan= models.IntegerField(verbose_name=u"بستانکاری")
-	description= models.TextField(verbose_name=u"اسم")
+	budget= models.IntegerField(verbose_name=u"بودجه")
+	last_modefied= models.DateTimeField(verbose_name=u"به روز رسانی", auto_now=True)
+
+	def deposit (self, balance):
+		self.budget+=balance
+		self.save()
+
+
+	def withdraw (self, balance):
+		self.budget-=balance
+		self.save()
+
+
+	@staticmethod
+	def getBudget():
+		return GeneralAccount.objects.all()[0]
+
 
 class Employee(models.Model):
 	name = models.CharField(max_length=30,verbose_name=u"نام")
