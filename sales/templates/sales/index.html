@@ -6,24 +6,21 @@
 
 {% block content %}
     <div class="panel">
+        <h2 class="panel-header">محصولات پرفروش</h2>
+
+        <div class="row-fluid">
+            {% for item in populars %}
+                {% include "sales/_vitrin_item.html" with item=item %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel">
         <h2 class="panel-header"> تازه ترین محصولات </h2>
 
         <div class="row-fluid">
             {% for item in new_products %}
-                <div class="span2 vitrin-item">
-                    <a class="btn btn-success option opt-shop"
-                       data-loading-text='<i class="icon-white icon-spin icon-refresh"></i>'
-                    data-done-text='<i class="icon-white icon-ok"></i>' title="اضافه به سبد خرید"><i
-                            class="icon-white icon-plus"></i></a>
-
-                    <a class="btn btn-info option opt-info" title="اطلاعات بیشتر"><i class="icon-white icon-info"></i></a>
-
-                    <a href="#" class="thumbnail" title="{{ item.product }}">
-                        <img src="{{ item.icon.image.url }}">
-                    </a>
-
-                    <p class="text-center muted">{{ item.product }}</p>
-                </div>
+                {% include "sales/_vitrin_item.html" with item=item %}
             {% endfor %}
         </div>
     </div>

@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block css %}
-    <link href="{{ STATIC_URL }}sales/css/sales.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ STATIC_URL }}sales/css/sales.css" rel="stylesheet" type="text/css"
+          xmlns="http://www.w3.org/1999/html"/>
 {% endblock %}
 
 {% block js %}
@@ -37,33 +38,60 @@
                     </a>
                 </li>
             </ul>
-            <a class="btn btn-primary" href="{% url crm-profile %}"><i class="icon-large icon-white icon-user"></i>{{ user }}</a>
+            <a class="btn btn-primary" href="{% url crm-profile %}">
+                <i class="icon-large icon-white icon-user"></i>
+                <span>{{ user }}</span>
+            </a>
         </div>
-    {% else %}
-        <form class="navbar-form pull-right" method="post" action="{% url login %}" id="loginID">
-            {% csrf_token %}
-            <input type="text" name="username" class="span2" placeholder="نام کاربری">
-            <input type="password" name="password" class="span2" placeholder="رمز عبور">
-            <input type="submit" class="btn btn-success" id="enter" value="ورود">
-        </form>
     {% endif %}
 {% endblock %}
 
 {% block navbar %}
-    <form class="navbar-search pull-left">
-        <i class="icon-search"></i>
-        <input type="text" class="search-query input-medium" placeholder="جستجو ...">
+    <form class="form-search navbar-search pull-left">
+        <div class="input-append">
+            <button class="btn"><i class="icon-large icon-search"></i></button>
+            <input type="text" class="search-query input-medium" placeholder="جستجو ...">
+        </div>
         <select class="span2">
-            <option value="all">همه گروه ها</option>
-            <option value="mobile"> موبایل</option>
-            <option value="TV"> تلوزیون</option>
-            <option value="shoes"> کیف و کفش</option>
-            <option value="furniture"> مبلمان</option>
+            <option value="all">همه موارد</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}"{% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
         </select>
-        <button class="btn"><i class="icon-large icon-search"></i></button>
     </form>
 {% endblock %}
 
 {% block menus %}
-    {% include "sales/_menus.html" with active_menu=4%}
+    {% if not user.is_authenticated %}
+        <li class="header hover" id="login-menu-button">
+            <a>
+                <i class="icon-user"></i>
+                ورود اعضا
+            </a>
+        </li>
+        <li class="muted" id="login-menu">
+            <form class="navbar-form" method="post" action="{% url login %}" id="loginID">
+                {% csrf_token %}
+                <input type="text" name="username" class="span2" placeholder="نام کاربری">
+                <input type="password" name="password" class="span2" placeholder="رمز عبور">
+                <input type="submit" class="btn btn-success" id="enter" value="ورود">
+                <p class="text-right">
+                    <a href="#">
+                        <i class="icon-question"></i>
+                        فراموشی رمز عبور
+                    </a>
+                </p>
+            </form>
+            <a href="#">
+                <i class="icon-plus"></i>
+                ثبت نام مشتریان
+            </a>
+            <a href="#">
+                <i class="icon-plus"></i>
+                ثبت نام فروشندگان
+            </a>
+        </li>
+    {% endif %}
+
+    {% include "sales/_menus.html" with active_menu=category%}
 {% endblock %}

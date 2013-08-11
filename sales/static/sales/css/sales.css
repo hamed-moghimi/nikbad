@@ -1,87 +1,117 @@
 /* ------ navigation panels ------- */
-.nav-tabs
-{
-	margin-bottom: 0;
-}
-.tab-content
-{
-	padding-top: 20px;
-	border: solid;
-	border-width: 0 1px 1px 1px;
-	border-color: #E5E5E5;
+.nav-tabs {
+    margin-bottom: 0;
 }
 
-/* ------ vitrin -------- */
-.vitrin
-{
-	
+.tab-content {
+    padding-top: 20px;
+    border: solid;
+    border-width: 0 1px 1px 1px;
+    border-color: #E5E5E5;
 }
 
-.vitrin-item
-{
-	position: relative;
+/* ------ vitrin list -------- */
+.vitrin {
+
 }
 
-.thumbnail
-{
+.vitrin-item {
+    position: relative;
+}
+
+.vitrin-item > .thumbnail {
     width: 100px;
     height: 100px;
 }
 
-.thumbnail > img
-{
+.thumbnail > img {
     max-height: 100%;
 }
 
-.vitrin-item > p
-{
-	font-size: 80%;
+.vitrin-item > p {
+    font-size: 80%;
 }
 
-.vitrin-item > .option
-{
-	position: absolute;
-	padding: 1px;
-	top: 3px;
-	width: 15px;
-	height: 15px;
-	line-height: 15px;
-	text-align: center;
-	opacity: 0.5;
+.vitrin-item > .option {
+    position: absolute;
+    padding: 1px;
+    top: 3px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
 }
 
-.vitrin-item > .option:hover
-{
-	opacity: 1;
+.vitrin-item > .option,
+.vitrin-item > .option.disabled:hover {
+    opacity: 0.5;
 }
 
-.opt-shop
-{
-	right: 3px;
+.vitrin-item > .option:hover {
+    opacity: 1;
 }
 
-.opt-info
-{
-	left: 3px;
+.vitrin-item > .option.option-large {
+    width: 40px;
+    height: 40px;
+    padding: 3px;
+}
+
+.option.pull-right {
+    right: 3px;
+}
+
+.option.pull-left {
+    left: 3px;
 }
 
 /* ----- popups ----- */
-.info-box
-{
-	position: absolute;
-	left: 100px;
-	top: 100px;
-	display: none;
-	z-index: 100;
+.info-box {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    display: none;
+    z-index: 100;
 }
+
 /* ----- alerts ----- */
-.alert
-{
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	margin: -40px 0 0 -150px;
-	width: 300px;
-	height: 95px;
-	z-index: 1000;
+.alert {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -40px 0 0 -150px;
+    width: 300px;
+    height: 95px;
+    z-index: 1000;
+}
+
+/* ----- vitrin page ----- */
+.vitrin-thumb {
+    width: 45px;
+    height: 45px;
+}
+
+.vitrin-icon {
+    width: 200px;
+    height: 200px;
+}
+
+.tab-pane {
+    padding: 10px;
+    min-height: 100px;
+}
+
+#iconModalLabel {
+    margin: 5px 0;
+}
+
+#iconModal .modal-body {
+    max-height: none;
+}
+
+.vitrin-icon-large {
+    display: block;
+    margin: 5px auto;
+    max-height: 300px;
+    max-width: 300px;
 }

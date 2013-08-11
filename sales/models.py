@@ -142,7 +142,7 @@ class Specification(models.Model):
 
 # function for generating image path
 def image_path(instance, filename):
-    return 'ad_images/{0}/{1}'.format(instance.ad.id, filename)
+    return 'images/vitrin/{0}/{1}'.format(instance.ad.id, filename)
 
 
 class AdImage(models.Model):
@@ -157,3 +157,26 @@ class AdImage(models.Model):
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.ad.__unicode__(), self.title)
+
+
+class Category(models.Model):
+    name = models.CharField(max_length = 50, verbose_name = u'عنوان')
+
+    class Meta:
+        verbose_name = u'دسته بندی کالا'
+        verbose_name_plural = u'دسته بندی های کالا'
+
+    def __unicode__(self):
+        return self.name
+
+class SubCat(models.Model):
+    name = models.CharField(max_length = 50, verbose_name = u'عنوان')
+    # Some other properties here, hazineye anbardari and ... :D
+    category = models.ForeignKey('Category', verbose_name = u'دسته', related_name = 'subCats')
+
+    class Meta:
+        verbose_name = u'نوع کالا'
+        verbose_name_plural = u'انواع کالا'
+
+    def __unicode__(self):
+        return u'{0} ({1})'.format(self.name, self.category.name)

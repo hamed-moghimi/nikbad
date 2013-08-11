@@ -4,6 +4,7 @@
     root html template file for all other templates.
     extends base template of your subsystem from this and then extend rest of your template files from that.
 {% endcomment %}
+{% load nikbad_tags %}
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>
@@ -53,7 +54,7 @@
         </div>
 
         <div id="menu">
-            <ul class="nav nav-list nav-menu">
+            <ul id="menu-navbar" class="nav nav-list nav-menu affix" data-spy="affix">
                 {% block menus %}
                     {% comment %}
                         use this code to load your menus
@@ -64,12 +65,11 @@
                 {% endblock %}
             </ul>
         </div>
-		
-		<div id="footer">
-			<p class="text-muted text-center">
-			Designed by Negah-e-No co. &copy; 2013.
-			</p>
-		</div>
+    </div>
+    <div id="footer">
+        <p class="text-muted text-center">
+            Designed by Negah-e-No co. &copy; 2013.
+        </p>
     </div>
 </body>
 </html>

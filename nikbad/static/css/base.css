@@ -21,13 +21,10 @@ body
 
 #page
 {
-	position: relative;
-	width: 1024px;
-	min-height: 200px;
-	margin: 0 auto;
-	top: 0;
-	bottom: 0;
-	overflow: auto;
+    overflow: hidden;
+    width: 1024px;
+    min-height: 200px;
+    margin: 0 auto;
 }
 
 #header
@@ -41,11 +38,15 @@ body
             border-radius: 15px 15px 0 0;
 }
 
+#page-body td {
+    padding: 0;
+}
+
 #menu
 {
-	width: 224px;
+    width: 224px;
 	min-height: 400px;
-	float: right;
+    float: right;
 }
 
 #content
@@ -54,16 +55,21 @@ body
 	min-height: 400px;
 	background-color: #FFFFFF;
 	padding: 0 10px;
-	float: left;
-	
+    float: left;
+
 	-webkit-border-radius: 0 0 15px 15px;
        -moz-border-radius: 0 0 15px 15px;
             border-radius: 0 0 15px 15px;
 }
 
+#footer
+{
+    clear: both;
+}
+
 .panel
 {
-	margin: 20px 10px;
+	margin: 10px 10px;
 	border: solid 3px #EFEFEF;
 	padding: 10px;
 }
@@ -75,12 +81,19 @@ body
 }
 
 /* ------- navigation bar ------- */
+.navbar-fixed-bottom .navbar-inner
+{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
 .navbar-search > select,
 .navbar-search > .btn
 {
 	margin: 0;	
 }
-.navbar-search > .btn > i
+.navbar-search i
 {
 	opacity: 0.5;
 }
@@ -89,7 +102,6 @@ body
 	position: absolute;
 	right: 7px;
 	top: 7px;
-	opacity: 0.5;
 }
 .navbar-search > .search-query
 {
@@ -104,6 +116,12 @@ body
      -moz-border-radius: 0 0 15px 0;
           border-radius: 0 0 15px 0;
 }
+
+.nav-menu > li.muted {
+    margin: 0 0 -1px;
+    border: 1px solid #E5E5E5;
+}
+
 .nav-menu > li > a {
   display: block;
   width: 190px \9;
@@ -112,10 +130,18 @@ body
   border: 1px solid #e5e5e5;
 }
 .nav-menu > .header > a,
-.nav-menu > .header > a:hover{
+.nav-menu > .header > a:hover {
 	text-align: center;
 	background-color: #BBBBBB;
   	color: #FFFFFF;
+}
+
+.nav-menu > .header.hover {
+    cursor: pointer;
+}
+
+.nav-menu > .header.hover > a:hover {
+    background-color: #999999;
 }
 
 .nav-menu > li:last-child > a {
@@ -147,6 +173,26 @@ body
   opacity: .5;
 }
 
+/* ---- menus affix ---- */
+
+#menu-navbar.affix {
+    top: 0px;
+}
+
+#menu-navbar.affix-bottom {
+    position: absolute;
+    top: auto;
+    bottom: 100px;
+}
+
+/* ---- login menu ---- */
+#login-menu {
+    display: none;
+}
+.nav-menu > li > form {
+    margin: 8px 14px;
+}
+
 /* ---------- horizontal forms ---------- */
 .form-horizontal .errorlist
 {
@@ -159,4 +205,10 @@ body
 .form-horizontal .controls *
 {
     vertical-align: top;
+}
+
+/* --------- icons ----------- */
+i.icon-inline
+{
+    margin: 0 5px;
 }
