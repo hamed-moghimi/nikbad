@@ -1,0 +1,24 @@
+{% extends "wiki/wiki.html" %}
+{% block content %}
+
+
+    <div class="panel" xmlns="http://www.w3.org/1999/html">
+        <h2 class="page-header">سفارش انبار</h2>
+        <p>بازه زمانی مورد نظر را انتخاب کنید فرمت تاریخ بایستی به صورت زیر باشد:
+        <br> 2013-08-29
+        روز-ماه-سال</br>
+        </p>
+
+        <form action="" class="form-horizontal" method="post">
+
+
+            {% include '_hform.html' %}
+
+        </form>
+    </div>
+{% endblock %}
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=0%}
+{% endblock %}
+
+

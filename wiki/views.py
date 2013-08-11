@@ -1,25 +1,24 @@
 # -*- encoding: utf-8 -*-
 
 from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.http import HttpResponse
 from wiki.models import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
 from wiki.forms import *
-
+from warehouse.models import Wiki_Order
 
 @login_required
 def goodsList(request):
-#request.get['username']
-#request.post
-
+# request.get['username']
+# request.post
     if request.user.is_authenticated():
         user = request.user
         myName = user.username
-        #print user
+        print isinstance(user, Wiki)
+        print user.__class__
+        print user.username
         p = Product.objects.all().filter(wiki__username__iexact=myName)
-        # p = Product.objects.filter(wiki__companyName = u'سیب')
+
         context = {'product_list': p}
         return render(request, 'wiki/goodslist.html', context)
 
@@ -55,15 +54,15 @@ def register(request):
         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
-
-def addProduct(request):
-
+@login_required
+def addproduct(request):
+    user = request.user
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             print 'hello'
             gid = form.cleaned_data['goodsID']
-            wiki = form.cleaned_data['wiki']
+            wiki = Wiki.objects.filter(username = user.username)[0]
             brand = form.cleaned_data['brand']
             name = form.cleaned_data['name']
             cat = form.cleaned_data['sub_category']
@@ -82,18 +81,56 @@ def addProduct(request):
 
 # if the requested product is in other wiki's showcase,
     # you should show a message.
-def deleteProduct(request):
+@login_required
+def deleteproduct(request):
     if request.method == 'POST':
         form = DeleteProductForm(request.POST)
+        name  = request.user.username
         if form.is_valid():
             print 'salam'
             pid = form.cleaned_data['id']
             name = form.cleaned_data['proname']
             p = Product.objects.filter(goodsID = pid)
-            if (p.__len__() == 0):
+            if p.__len__() == 0:
                 return product_failure(request)
-            p.delete()
-            return success(request)
+            if p.wiki.username == name:
+                p.delete()
+                return success(request)
     else:
         form = DeleteProductForm()
     return render(request, 'wiki/deleteProduct.html', {'form': form})
+
+def wrhorders(request):
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+        if form.is_valid():
+            startDate = form.cleaned_data['startDate']
+            endDate = form.cleaned_data['endDate']
+            ord = Wiki_Order.objects.filter(date__range=(startDate, endDate))
+            context = {'order_list': ord}
+            return render(request, 'wiki/wrhorder.html', context)
+    else:
+        form = DateForm()
+    return render(request, 'wiki/DateForm.html', {'form' : form})
+
+def returnrequest(request):
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            wiki = Wiki.objects.filter(username = user.username)[0]
+            date = datetime.datetime.now()
+            id = form.cleaned_data['proID']
+            prod = Product.objects.filter(pk=id)
+            if prod.__len__() == 0:
+                return product_failure(request)
+            p = prod[0]
+            if p.wiki.username == wiki.username :
+                req = ReturnRequest(wiki = wiki, pub_date = date, product = p)
+                req.save()
+                return success(request)
+            else:
+                return product_failure(request)
+    else:
+        form = RequestForm()
+    return render(request, 'wiki/returnrequest.html', {'form': form})
