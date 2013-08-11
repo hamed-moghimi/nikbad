@@ -1,12 +1,13 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
 
-relation_choices= (('s',"متاهل"),('m',"مجرد"))
+relation_choices= (('m',"متاهل"),('s',"مجرد"))
+gender_choices= (('m',"مرد"),('f',"زن"))
 
 class RollCall(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
-	entrance_time = models.DateField(auto_now_add=True, verbose_name=u"زمان ورود")
-	exit_time = models.DateField(auto_now_add=True, verbose_name=u"زمان خروج")
+	entrance_time = models.TimeField( verbose_name=u"زمان ورود")
+	exit_time = models.TimeField( verbose_name=u"زمان خروج")
 	employee = models.ForeignKey('Employee', related_name = 'rollCalls')
 
 
@@ -24,17 +25,19 @@ class GeneralAccount(models.Model):
 	description= models.TextField(verbose_name=u"اسم")
 
 class Employee(models.Model):
-	name = models.CharField(max_length=200,verbose_name=u"نام")
-	family_name = models.CharField(max_length=200,verbose_name=u"نام خانوادگی")
-	national_id = models.CharField(max_length=200,verbose_name=u"شماره ملی")
-	mobile_num = models.CharField(max_length=200,verbose_name=u"شماره همراه")
-	tel_num = models.CharField(max_length=200,verbose_name=u"شماره تلفن")
+	name = models.CharField(max_length=30,verbose_name=u"نام")
+	family_name = models.CharField(max_length=50,verbose_name=u"نام خانوادگی")
+	national_id = models.CharField(max_length=10,verbose_name=u"شماره ملی")
+	mobile_num = models.CharField(max_length=11,verbose_name=u"شماره همراه")
+	tel_num = models.CharField(max_length=11,verbose_name=u"شماره تلفن")
 	address = models.TextField(verbose_name=u"آدرس")
-	marriage_status = models.CharField(max_length=200,verbose_name=u"وضعیت تاهل",choices=relation_choices)
+	gender = models.CharField(max_length=1,verbose_name=u"جنسیت",choices=gender_choices)
+	marriage_status = models.CharField(max_length=1,verbose_name=u"وضعیت تاهل",choices=relation_choices)
 	salary= models.IntegerField(verbose_name=u"حقوق")
 
 	def __unicode__(self):
-		return u'{0} - {1}'.format(self.name, self.family_name)
+		prefix=u'آقای' if self.gender=='m' else u'خانم'
+		return u'{0} {1} {2}'.format(prefix ,self.name, self.family_name)
 
 class SalaryFactor(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")

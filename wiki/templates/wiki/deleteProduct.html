@@ -3,7 +3,7 @@
 
 
 <div class="panel">
-  <h2>حذف کالا</h2>
+  <h2 class="panel-header">حذف کالا</h2>
     <form action="" class="form-horizontal" method="post">
 
 
@@ -11,6 +11,9 @@
     
     </form>
 </div>
+{% endblock %}
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=2%}
 {% endblock %}
 
 

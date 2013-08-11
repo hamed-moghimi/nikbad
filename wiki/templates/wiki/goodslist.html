@@ -4,7 +4,7 @@
 
 <div class="panel">
 
-  <h2>فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
+  <h2 class="panel-header">فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
 
   <table class="table-striped" style="width: 100%">
     <thead>
@@ -28,17 +28,17 @@
       {% with forloop.counter as num %}
 
       <tr>
-        <td>{{ num }}</td>
+        <td style="text-align: center">{{ num }}</td>
 
-        <td>{{ product.goodsID }}</td>
+        <td style="text-align: center">{{ product.goodsID }}</td>
 
-        <td>{{ product.brand }}</td>
+        <td style="text-align: center">{{ product.brand }}</td>
 
-        <td>{{ product.name }}</td>
+        <td style="text-align: center">{{ product.name }}</td>
 
-        <td>{{ product.price }}</td>
+        <td style="text-align: center">{{ product.price }}  تومان </td>
 
-        <td>{{ product.off }}</td>
+        <td style="text-align: center">{{ product.off }}</td>
       </tr>
       {% endwith %}
     {% endfor %}

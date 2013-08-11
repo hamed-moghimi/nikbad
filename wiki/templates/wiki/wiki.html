@@ -15,9 +15,9 @@
 
     {% block user_panel %}
                            {# write your codes to show user status and options #}
-                            <form class="navbar-form pull-right" action="">
+                            <form class="navbar-form pull-right" action="{% url logout %}">
                                 ویکی گرامی خوش آمدید!
-                                <button class="btn btn-success" id="exit">خروج</button>
+                                <input type="submit" class="btn-primary" value="خروج">
                             </form>
                         {% endblock %}
 

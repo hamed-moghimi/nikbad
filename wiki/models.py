@@ -33,4 +33,9 @@ class Contract(models.Model):
     startDate = models.DateField("تاریخ شروع")
     expDate = models.DateField("تاریخ پایان")
     max_goods = models.IntegerField("حداکثر تعداد کالاهای ویترین")
-        
+
+class ReturnRequest(models.Model):
+    wiki = models.ForeignKey(Wiki, verbose_name=u'کد ویکی')
+    product = models.ForeignKey(Product, verbose_name=u'کد کالا')
+    pub_date = models.DateField("تاریخ درخواست")
+
