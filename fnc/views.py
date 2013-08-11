@@ -59,8 +59,9 @@ def karmandan(request):
 	context.update({'employees': employees})
 	return render(request, 'fnc/karmandan.html', context)
 def karmand_detail(request,epId):
+	employee=Employee.objects.get(id=epId)
 	rollcalls=RollCall.objects.filter(employee=epId)
 	context = {}
-	context.update({'rollcalls': rollcalls})
+	context.update({'rollcalls': rollcalls, 'employee': employee })
 	return render(request, 'fnc/karmand_detail.html', context)
 
