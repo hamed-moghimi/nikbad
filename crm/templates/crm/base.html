@@ -1,14 +1,72 @@
 ﻿{% extends "sales/base.html" %}
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}crm/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 {% block content %}
-<div class="panel">
-    <h2 class="panel-header">  حساب کاربری</h2>
-    <div class="row-fluid">
+    <div class="panel">
+        <h2 class="panel-header"> حساب کاربری</h2>
 
-        <form class="form-horizontal" method="post">
-            {% include "_hForm.html" with form=EditForm  %}
-        </form>
+        <div class="row-fluid">
+
+            <form class="form-horizontal" method="post">
+                {% include "_hForm.html" with form=EditForm read_only=1%}
+            </form>
+
+
+    <h2  class="panel-header">
+        وضعیت کالای خریداری شده
+    </h2>
+
+    <div class="WRH-panel2">
+        {% block WRH-panel2 %}
+            <form>
+                <table class="WRH-table2 table-hover table-striped">
+                    <thead>
+                    <td class="WRH-th-td"></td>
+                    <td class="WRH-th-td">نام کالا</td>
+                    <td class="WRH-th-td"> کد کالا</td>
+                    <td class="WRH-th-td"> قیمت</td>
+                    <td class="WRH-th-td"> تعداد</td>
+                    <td class="WRH-th-td"> وضعیت</td>
+                    </thead>
+
+                    <tbody>
+                    {% for pro in  Product %}
+                        <tr>
+
+                            <td class="WRH-td2"><input type="image" class="WRH-myimage2"
+                                                       src="images/WRH-5download.jpg"/></td>
+                            <td class="WRH-td2">
+                                {{ pro.product.name }}
+                            </td>
+                            <td class="WRH-td2">
+                                {{ pro.product.goodsID }}
+                            </td>
+                            <td class="WRH-td2">
+                                {{ pro.product.price }}
+                            </td>
+                            <td class="WRH-td2"> {{ pro.number }}</td>
+                            <td class="WRH-td2">
+                                {% if Bill.deliveryStatus == 1 %}
+                                    در راه
+                                {% elif Bill.deliveryStatus == 0 %}
+                                    صادر شده
+                                {% else %}
+                                    تحویل شده
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </form>
+        {% endblock %}
     </div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}
