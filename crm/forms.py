@@ -10,6 +10,6 @@ class CustomerForm(ModelForm):
 class EditForm(ModelForm):
     class Meta:
         model = Customer
-        fields = [ 'first_name', 'last_name', 'gender' , 'phone'  , 'email'  , 'postal_code', 'city' , 'address' ]
+        fields = [ 'first_name', 'last_name' , 'phone'  , 'email'  , 'address' ]
 
 

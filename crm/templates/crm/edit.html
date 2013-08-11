@@ -1,16 +1,21 @@
 {% extends "sales/base.html" %}
-
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}crm/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
 {% block content %}
     <div class="panel">
         <h2 class="panel-header"> تغییر حساب کاربری</h2>
         <div class="row-fluid">
 
             <form class="form-horizontal" method="post">
-                {% include "_hForm.html" with form=EditForm  %}
+                {% include "_hForm.html" with form=EditForm read_only=0 %}
 
 
             </form>
-        </div>
+
+
+    </div>
     </div>
 
 {% endblock %}

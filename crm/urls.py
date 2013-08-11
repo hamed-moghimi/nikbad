@@ -6,4 +6,6 @@ urlpatterns = patterns('',
     url(r'^status$', 'crm.views.status', name='crm-status'),
     url(r'^signUp-successful$', 'crm.views.success', name='crm-signUpsuccessful'),
     url(r'^signUp$', 'crm.views.signUp', name='crm-signUp'),
+    url(r'^signUp$', 'crm.views.feedback', name='crm-feedback'),
+
 )
