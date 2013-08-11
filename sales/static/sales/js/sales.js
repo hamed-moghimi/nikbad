@@ -16,18 +16,37 @@ $(document).ready(function(){
 	})
 	
 	// add to market basket
-	basketItems = $("#basket-items");
+	basketItems = $('#basket-items');
 	$('.opt-shop').click(function(e){
-		// i = $(this).children('i');
-		// i.removeClass('icon-plus').addClass('icon-spin icon-refresh');
-		var i = $(this);
-		i.button('loading');
-		setTimeout(function(){
-		i.button('don');
-		// p = i.parent();
-		// i.removeClass('icon-refresh').removeClass('icon-spin').addClass('icon-ok');		
-		// updating basket size
-		basketItems.text(basketItems.text() * 1 + 1);
-		}, 3000);
+        var i = $(this);
+
+        if(!i.hasClass('disabled'))
+        {
+            i.button('loading');
+            i.addClass('disabled');
+            setTimeout(function(){
+                i.button('done');
+                i.removeClass('disabled');
+                // updating basket size
+                basketItems.text(basketItems.text() * 1 + 1);
+            }, 6000);
+        }
+
+        return false;
 	});
+
+    // thumbnails change
+    vitrinIcon = $('.vitrin-icon')
+    $('.vitrin-thumbnail').click(function(){
+        var icon = $(this).children('img');
+        vitrinIcon.attr('src', icon.attr('src'));
+        vitrinIcon.attr('title', icon.attr('title'));
+        return false;
+    });
+
+    // large icons
+    $('#iconModal').on('show', function () {
+        $(this).find('#iconModalLabel').text(vitrinIcon.attr('title'));
+        $(this).find('.vitrin-icon-large').attr('src', vitrinIcon.attr('src'));
+    })
 });

@@ -1,13 +1,14 @@
 # -*- encoding: utf-8 -*-
+from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from sales.forms import SaleBillForm
 from sales.models import SaleBill, Ad, AdImage, MarketBasket
 from crm.models import Customer
 from wiki.models import Product
 
 def createNewAds():
-    print('salam')
     pl = Product.objects.all()
     for p in pl:
         a, ok = Ad.objects.get_or_create(product = p, description = u'اجناس خوب و مرغوب')
@@ -15,23 +16,71 @@ def createNewAds():
         a.icon = icon
         a.save()
 
+# @user_passes_test(customer bashad?! :D)
 def index(request):
+    customer = request.user
+    print(customer.user_permissions.all())
+    # get customer
+    try:
+        customer = Customer.objects.get(username = request.user.username)
+        if customer.is_active:
+            request.user = customer
+        else:
+            raise None
+    except:
+        request.user = customer = None
+
+    # get new products
+    new_products = Ad.objects.all()[:10]
+
+    # get popular products
+    populars = Ad.objects.all()[:10] #order_by('-popularity')[:10]
+    return render(request, 'sales/index.html', {'new_products': new_products, 'populars': populars, 'customer': customer})
+
+def category(request, catID):
+
+    catID = int(catID)
+
     # get customer
     customer = request.user
     try:
         customer = Customer.objects.get(username = request.user.username)
-        request.user = customer
-        mb, ok = MarketBasket.objects.get_or_create(customer = customer)
-        mb.items.get_or_create(product = Product.objects.all()[0], number = 3)
-        customer.marketBasket = mb
-        customer.save()
+        if customer.is_active:
+            request.user = customer
+        else:
+            raise None
     except:
-        pass
-    createNewAds()
-    # get new products
-    new_products = Ad.objects.all()[:10]
-    return render(request, 'sales/index.html', {'new_products': new_products, 'customer': customer})
+        request.user = customer = None
 
+    # get new products
+    new_products = Ad.objects.all() #filter(subCategory__category__id = catID)[:10]
+
+    # get popular products
+    populars = Ad.objects.all() #filter(subCategory__category__id = catID)[:10] #order_by('-popularity')[:10]
+    return render(request, 'sales/index.html', {'new_products': new_products, 'populars': populars, 'customer': customer, 'category': catID})
+
+
+def detailsPage(request, itemCode):
+    # get customer
+    customer = request.user
+    try:
+        customer = Customer.objects.get(username = request.user.username)
+        if customer.is_active:
+            request.user = customer
+        else:
+            raise None
+    except:
+        request.user = customer = None
+
+    try:
+        ad = Ad.objects.get(id = itemCode)
+    except:
+        return HttpResponseRedirect(reverse('sales-index'));
+
+    return render(request, 'sales/details.html', {'item': ad, 'customer': customer})
+
+
+@permission_required('crm.is_customer', login_url=reverse_lazy('sales-index'))
 def marketBasket(request):
     # get customer
     customer = Customer.objects.get(username = 'user1')
