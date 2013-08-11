@@ -2,6 +2,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+deliveryChoices = (
+    (0, u'صادر شده'),
+    (1, u'در راه'),
+    (2, u'دریافت شده')
+)
 # Create your models here.
 class Wiki(User):
     companyName = models.CharField("نام شرکت", max_length=255)
@@ -38,4 +44,6 @@ class ReturnRequest(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name=u'کد ویکی')
     product = models.ForeignKey(Product, verbose_name=u'کد کالا')
     pub_date = models.DateField("تاریخ درخواست")
+    deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
+    returned_only = models.BooleanField(verbose_name=u'فقط کالاهای مرجوعی را بازگردان.')
 
