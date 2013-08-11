@@ -5,8 +5,8 @@ relation_choices= (('s',"متاهل"),('m',"مجرد"))
 
 class RollCall(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
-	entrance_time = models.DateField(auto_now_add=True, verbose_name=u"زمان ورود")
-	exit_time = models.DateField(auto_now_add=True, verbose_name=u"زمان خروج")
+	entrance_time = models.TimeField( verbose_name=u"زمان ورود")
+	exit_time = models.TimeField( verbose_name=u"زمان خروج")
 	employee = models.ForeignKey('Employee', related_name = 'rollCalls')
 
 
