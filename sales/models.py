@@ -73,14 +73,15 @@ class MarketBasket(models.Model):
         return u'سبد خرید ({0} مورد)'.format(self.itemsNum)
 
     def add_item(self, product):
-        if self.set_item(product, 1):
+        if self.set_item(product, -1):
             self.itemsNum += 1
             return True
         return False
 
     def set_item(self, product, number):
         (item, created) = self.items.get_or_create(product = product)
-        item.number = number
+        if number != -1:
+            item.number = number
         item.save()
         return created
 
@@ -98,13 +99,14 @@ class MarketBasket(models.Model):
         self.save()
         self.itemsNum = 0
 
+
 class MarketBasket_Product(models.Model):
     # foreign keys
     basket = models.ForeignKey(MarketBasket, related_name = 'items')
     product = models.ForeignKey(Product, related_name = 'baskets')
 
     # fields
-    number = models.IntegerField(default = 0)
+    number = models.IntegerField(default = 1)
 
 
 class Ad(models.Model):
@@ -124,6 +126,13 @@ class Ad(models.Model):
 
     def __unicode__(self):
         return self.product.__unicode__()
+
+
+    def addMarketButton(self):
+        try:
+            return self.product.stock_set.all()[0].enough_stock()
+        except:
+            return False
 
 
 class Specification(models.Model):

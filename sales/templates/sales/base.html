@@ -1,7 +1,7 @@
 ﻿{% extends "base.html" %}
 
 {% block title %}
-زیرسامانه فروش
+    زیرسامانه فروش
 {% endblock %}
 
 {% block css %}
@@ -15,34 +15,42 @@
 
 {% block user_panel %}
     {% if user.is_authenticated %}
-        <div class="btn-group pull-right">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url sales-basket %}">
-                        <i class="icon-large icon-shopping-cart"></i>
-                        <span id="basket-items">{{ user.marketBasket }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url crm-status %}">
-                        <i class="icon-large icon-check"></i>
-                        <span id="basket-items">وضعیت سفارشات</span>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="{% url logout %}">
-                        <i class="icon-off"></i>
-                        خروج
-                    </a>
-                </li>
-            </ul>
-            <a class="btn btn-primary" href="{% url crm-profile %}">
-                <i class="icon-large icon-white icon-user"></i>
-                <span>{{ user }}</span>
+        {% if customer %}
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url sales-basket %}">
+                            <i class="icon-large icon-shopping-cart"></i>
+                            سبد خرید (
+                            <span id="basket-items">{{ customer.marketBasket.itemsNum }}</span>
+                            مورد)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url crm-status %}">
+                            <i class="icon-large icon-check"></i>
+                            <span id="basket-items">وضعیت سفارشات</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url logout %}">
+                            <i class="icon-off"></i>
+                            خروج
+                        </a>
+                    </li>
+                </ul>
+                <a class="btn btn-primary" href="{% url crm-profile %}">
+                    <i class="icon-large icon-white icon-user"></i>
+                    <span>{{ user }}</span>
+                </a>
+            </div>
+        {% else %}
+            <a class="btn btn-danger" href="{% url logout %}">
+                خروج
             </a>
-        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -55,7 +63,8 @@
         <select class="span2">
             <option value="all">همه موارد</option>
             {% for cat in categories %}
-                <option value="{{ cat.id }}"{% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
+                <option value="{{ cat.id }}"
+                        {% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
             {% endfor %}
         </select>
     </form>
@@ -75,6 +84,7 @@
                 <input type="text" name="username" class="span2" placeholder="نام کاربری">
                 <input type="password" name="password" class="span2" placeholder="رمز عبور">
                 <input type="submit" class="btn btn-success" id="enter" value="ورود">
+
                 <p class="text-right">
                     <a href="#">
                         <i class="icon-question"></i>

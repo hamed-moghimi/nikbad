@@ -9,11 +9,14 @@
             <div class="row-fluid">
                 <div class="span4">
                     <a class="thumbnail vitrin-item" data-toggle="modal" href="#iconModal">
-                        <button class="btn btn-success option option-large opt-shop pull-right"
-                           data-loading-text='<i class="icon-refresh icon-2x"></i>'
-                           data-done-text='<i class="icon-ok icon-2x"></i>' title="اضافه به سبد خرید">
-                            <i class="icon-plus icon-2x"></i>
-                        </button>
+                        {% if perms.crm.is_customer and item.addMarketButton %}
+                            <button class="btn btn-success option option-large opt-shop pull-right"
+                                    href="{% url sales-addBasket pId=item.product.pk %}"
+                                    data-loading-text='<i class="icon-refresh icon-2x"></i>'
+                                    data-done-text='<i class="icon-ok icon-2x"></i>' title="اضافه به سبد خرید">
+                                <i class="icon-plus icon-2x"></i>
+                            </button>
+                        {% endif %}
 
                         <button class="btn btn-info option option-large pull-left" title="اضافه کردن به لیست مقایسه">
                             <i class="icon-bar-chart icon-2x"></i>
@@ -21,9 +24,12 @@
 
                         <img class="vitrin-icon" src="{{ item.icon.image.url }}" title="{{ item.icon.title }}"/>
                     </a>
-                    <div id="iconModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="iconModalLable" aria-hidden="true" style="display: none;">
+
+                    <div id="iconModal" class="modal hide fade" tabindex="-1" role="dialog"
+                         aria-labelledby="iconModalLable" aria-hidden="true" style="display: none;">
                         <div class="modal-header">
-                            <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">×</button>
+                            <button type="button" class="close pull-left" data-dismiss="modal" aria-hidden="true">×
+                            </button>
                             <p id="iconModalLabel">{{ item }}</p>
                         </div>
                         <div class="modal-body">
@@ -52,7 +58,11 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span12">
-                            <p class="text-right">قیمت : {{ item.product.price|toman }}</p>
+                            {% if item.addMarketButton %}
+                                <p class="text-right">قیمت : {{ item.product.price|toman }}</p>
+                            {% else %}
+                                <p class="text-right text-error"> ناموجود</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -107,13 +117,13 @@
                         </h3>
                         <table id="feedback-table" class="table table-striped">
                             <tbody>
-                                {% for poll in polls %}
-                                    <tr>
-                                        <td>
-                                            {{ poll.content }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                            {% for poll in polls %}
+                                <tr>
+                                    <td>
+                                        {{ poll.content }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -125,10 +135,11 @@
                                         <label for="comment">
                                             متن نظر
                                         </label>
-                                        <input type="hidden" id="productID" value="{{ item.product.goodsID }}" />
-                                        <textarea id="feedback-content" class="input-block-level" name="comment"></textarea>
+                                        <input type="hidden" id="productID" value="{{ item.product.pk }}"/>
+                                        <textarea id="feedback-content" class="input-block-level"
+                                                  name="comment"></textarea>
                                         {% csrf_token %}
-                                        <button id="feedback-submit-button" class="btn btn-primary"> ثبت نظر </button>
+                                        <button id="feedback-submit-button" class="btn btn-primary"> ثبت نظر</button>
                                     </fieldset>
                                 </form>
                             </div>
