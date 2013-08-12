@@ -22,15 +22,6 @@ class Wiki(User):
         return self.companyName
 
 
-class Category(models.Model):
-    name = models.CharField(max_length = 50, verbose_name = u'عنوان')
-
-    class Meta:
-        verbose_name = u'دسته بندی کالا'
-        verbose_name_plural = u'دسته بندی های کالا'
-
-    def __unicode__(self):
-        return self.name
 
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
