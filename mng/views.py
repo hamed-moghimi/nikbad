@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from crm.forms import CustomerForm,EditForm
+from mng.forms import ContractForm
 
 from crm.models import *
 
@@ -71,4 +72,18 @@ def feedback(request) :
     f.save()
     return HttpResponse("ok")
 
+
+def contract_success(request):
+    render(request, 'mng/contract_success.html')
+
+
+def newContract(request):
+    if request.method == 'POST':
+        form = ContractForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return contract_success(request)
+    else:
+        form = ContractForm()
+    return render(request, 'wiki/register.html', {'form': form})
 
