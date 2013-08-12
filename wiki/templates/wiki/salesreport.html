@@ -22,24 +22,31 @@
             </thead>
 
             <tbody>
-            {% for tuple in list3 %}
+            {% for product, sum in pro_list %}
                 {% with forloop.counter as num %}
 
                     <tr>
-
                         <td style="text-align: center">{{ num }}</td>
 
-                        <td style="text-align: center">{{ tuple.product.goodsID }}</td>
 
-                        <td style="text-align: center">{{ tuple.product.brand }}</td>
 
-                        <td style="text-align: center">{{ tuple.product }}</td>
+                            <td style="text-align: center">{{ product.goodsID }}</td>
 
-                        <!--<td style="text-align: center">{{ tuple.sum }}</td>-->
+                            <td style="text-align: center">{{ product.brand }}</td>
 
-                    </tr>
+                            <td style="text-align: center">{{ product }}</td>
+
+                            <td style="text-align: center">{{ sum }}</td>
+
+
+
+
                 {% endwith %}
             {% endfor %}
+
+
+
+            </tr>
             </tbody>
         </table>
     </div>

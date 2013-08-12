@@ -8,7 +8,7 @@ from django.http import *
 from django.contrib.auth.decorators import login_required
 from wiki.forms import *
 from warehouse.models import Wiki_Order, Stock
-from sales.models import SaleBill, SaleBill_Product
+from sales.models import SaleBill_Product
 
 @login_required
 def goodsList(request):
@@ -31,6 +31,8 @@ def register_success(request):
 def product_failure(request):
     return render(request, 'wiki/productFailure.html')
 
+def product_success(request):
+    return render(request, 'wiki/product_success.html')
 
 def register(request):
     if request.method == 'POST':
@@ -147,10 +149,14 @@ def salesreport(request):
             user = request.user
 
             list2 = pro_list.values('product').annotate(sum=Sum('number'))
-            # print list2#
-            list3 = [(dict['product'], dict['sum']) for dict in list2]
-            print list3
-            context = {'pro_list': list3}
+            products = []
+            sums = []
+            for sb in list2:
+                products.append(Product.objects.get(goodsID = sb['product']))
+                # print sb['sum']
+                sums.append(sb['sum'])
+            zipped_datea = zip(products,sums)
+            context = {'pro_list': zipped_datea}
             return render(request, 'wiki/salesreport.html', context)
     else:
         form = DateForm()

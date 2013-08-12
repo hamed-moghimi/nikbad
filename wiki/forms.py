@@ -15,7 +15,7 @@ class WikiForm(ModelForm):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['goodsID','brand','name','sub_category','price','off']
+        fields = ['goodsID','brand','name','unit','volume','sub_category','price','off']
 
 
 class DeleteProductForm(forms.Form):
