@@ -15,7 +15,7 @@ def sales(request):
     return render(request, 'mng/mng-sales.html', {})
 
 def contract_success(request):
-    render(request, 'mng/contract_success.html')
+    return render(request, 'mng/contract_success.html',{})
 
 
 def newContract(request):
@@ -24,9 +24,10 @@ def newContract(request):
         if form.is_valid():
             form.save()
             return contract_success(request)
-    else:
-        form = ContractForm()
-    return render(request, 'wiki/register.html', {'form': form})
+
+    # else:
+    form = ContractForm()
+    return render(request, 'mng/contract.html', {'form': form})
 
 
 def wiki_select(request):

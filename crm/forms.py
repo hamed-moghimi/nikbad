@@ -23,7 +23,7 @@ class CustomerForm(ModelForm):
         # password and password2 must be the same
         print( password , password2)
         if password != password2:
-            raise forms.ValidationError(u"گذر واژه و تکرار ان را یکسان نیست")
+            raise forms.ValidationError(u"گذرواژه و تکرار ان یکسان نیست")
 
         return self.cleaned_data.get('password')
 
