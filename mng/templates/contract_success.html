@@ -1,14 +1,16 @@
-{% extends "wiki/base.html" %}
+{% extends "mng/base.html" %}
 {% block content %}
 
 
     <div class="panel">
         <h4>
-ثبت نام با موفقیت انجام شد.
+            عملیات شما با موفقیت انجام شد!
         </h4>
         <center><img src="../../static/images/good_or_tick.png" width="128" height="128" alt=""></center>
     </div>
 {% endblock %}
 
-
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=0%}
+{% endblock %}
 

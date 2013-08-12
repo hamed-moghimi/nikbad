@@ -1,21 +1,32 @@
 # -*- encoding: utf-8 -*-
 
 # from build.lib.django.forms.forms import Form
+from django.db.models.fields import CharField
 from django.forms.models import ModelForm
 from models import Wiki
 from models import *
-from django import forms
+from django.forms import *
 from django.forms.extras.widgets import SelectDateWidget
 
 class WikiForm(ModelForm):
+    password = CharField(label= u"گذر واژه" ,widget=PasswordInput)
+    repassword = CharField(label= u"تکرار گذرواژه" ,widget=PasswordInput)
     class Meta:
         model = Wiki
-        fields = ['companyName','description','image','phone','address','username','password','email']
+        fields = ['companyName','description','image','phone','address','username','password','repassword','email']
+
+    def clean_repassword(self):
+        password = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('repassword')
+        print( password , password2)
+        if password != password2:
+            raise forms.ValidationError(u"گذر واژه و تکرار ان را یکسان نیست")
+
 
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['goodsID','brand','name','sub_category','price','off']
+        fields = ['goodsID','brand','name','unit','volume','sub_category','price','off']
 
 
 class DeleteProductForm(forms.Form):
