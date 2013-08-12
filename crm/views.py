@@ -23,15 +23,13 @@ def index(request):
 
 def edit(request):
     c = Customer.objects.get(username=request.user.username)
-    f = EditForm( instance=c )
     if(request.POST):
-        print "POST"
-        
+        f = EditForm(  request.POST  , instance=c)
         if (f.is_valid()):
-             f.save()
-             print " khhhhhhhhhhhhhhhhhhhhhhhhh"
-             return edit_success(request)
-    print f._errors
+            f.save()
+            print " khhhhhhhhhhhhhhhhhhhhhhhhh"
+            return edit_success(request)
+    f = EditForm( instance=c )
     # else :
     #     print "intoooooooooooooooo"
     return render(request, 'crm/edit.html', {'EditForm' : f})
