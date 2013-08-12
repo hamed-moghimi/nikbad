@@ -1,0 +1,55 @@
+{% extends "wrh/base.html" %}
+{% block title %}
+    کالاهای معیوب
+{% endblock %}
+{% block content %}
+    <div class="panel">
+        <h2 class="WRH-heading2"> ثبت کالا به عنوان کالای معیوب </h2>
+        <br/>
+
+        <div class="WRH-panel2">
+            {% block WRH-panel2 %}
+                لطفا مشخصات کالای معیوب را در فرم زیر وارد کنید:
+                <br/>
+                <br/>
+
+                <form name="input" action="html_form_action.asp" method="get">
+                    <table class="WRH-table3 table-hover">
+                        <tbody>
+                        <tr>
+                            <td class="WRH-td-th3"> کد حواله :</td>
+                            <td class="WRH-td3">
+                                <input id="code" type="text" class="span2"
+                                       style="margin-top:10px; height:15px; text-align: center"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="WRH-td-th3"> کد کالا :</td>
+                            <td class="WRH-td3">
+                                <input id="pcode" type="text" class="span2"
+                                       style=" margin-top:10px; height:15px; text-align: center "/>
+                            </td>
+                        </tr>
+                        <tr>
+                            {#                        <td class="WRH-td-th3">تعداد :</td>#}
+                            {#                        <td class="WRH-td3">#}
+                            {#                            <input type="qnt" class="span2" style="margin-top:10; height:23px; text-align: center"/>#}
+                            {#                        </td>#}
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <center>
+                        <button class="btn btn-primary btn-small" type="button" style="margin-right: 20px;"
+                                onclick="confirm_product_return()">
+                            تایید
+                        </button>
+                    </center>
+                </form>
+                <br/>
+                </div>
+            {% endblock %}
+        <br/>
+    </div>
+
+{% endblock %}
