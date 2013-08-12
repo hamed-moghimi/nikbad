@@ -22,6 +22,16 @@ class Wiki(User):
         return self.companyName
 
 
+class Category(models.Model):
+    name = models.CharField(max_length = 50, verbose_name = u'عنوان')
+
+    class Meta:
+        verbose_name = u'دسته بندی کالا'
+        verbose_name_plural = u'دسته بندی های کالا'
+
+    def __unicode__(self):
+        return self.name
+
 
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
@@ -41,7 +51,6 @@ class Product(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name="کد ویکی")
     brand = models.CharField("برند", max_length=255)
     name = models.CharField("نام کالا", max_length=255)
-    cat = models.ForeignKey(Category, verbose_name="دسته بندی")
     sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته")
     price = models.IntegerField("قیمت")
     off = models.PositiveSmallIntegerField("تخفیف", blank=True, null=True)
