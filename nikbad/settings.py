@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'crm',
     'fnc',
     'contrib',
+    'mng',
 )
 
 # A sample logging configuration. The only tangible logging

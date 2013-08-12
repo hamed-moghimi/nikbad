@@ -18,7 +18,8 @@ urlpatterns = patterns('',
     url(r'^crm/', include('crm.urls')),
     url(r'^warehouse/', include('warehouse.urls')),
     url(r'^fnc/', include('fnc.urls')),
-	
+    url(r'^mng/', include('mng.urls')),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

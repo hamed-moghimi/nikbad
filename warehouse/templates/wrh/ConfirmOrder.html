@@ -1,0 +1,40 @@
+{% block WRH-panel2 %}
+    {% if error %}
+        <center>
+            <p style="font-weight: 700; font-size: 14">
+                {{ error }}
+            </p>
+            <br/>
+            <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/sad.jpg"/>
+            <br/>
+            <br/>
+
+            <div>
+                <button class="btn btn-primary" type="button" onclick="orders()">
+                    بازگشت به لیست حواله ها
+                </button>
+            </div>
+            <br/>
+        </center>
+    {% else %}
+        <br/>
+        <br/>
+        <center>
+            <p style="font-weight: 700; font-size: 14">
+                {{ msg }}
+            </p>
+            <br/>
+            <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/WRH-4images.jpg"/>
+            <br/>
+            <br/>
+
+            <div>
+                <button class="btn btn-primary" type="button" onclick="orders()">
+                    بازگشت به لیست حواله ها
+                </button>
+            </div>
+            <br/>
+
+        </center>
+    {% endif %}
+{% endblock %}

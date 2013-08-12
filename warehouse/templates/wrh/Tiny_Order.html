@@ -1,55 +1,190 @@
 {% block WRH-panel2 %}
-    {% if bill.products.all %}
-        <table class="WRH-table2 table-hover table-striped">
-            <thead>
-            <td class="WRH-th-td"></td>
-            <td class="WRH-th-td">کد کالا</td>
-            <td class="WRH-th-td">نام کالا</td>
-            <td class="WRH-th-td"> کد ویکی</td>
-            <td class="WRH-th-td"> نام ویکی</td>
-            <td class="WRH-th-td"> تعداد</td>
-            </thead>
+    <div style="margin: 0 30px auto">
+        <p>
+            <b style="color: rgb(0,89,132)">
+                کد حواله:
+            </b>
+            {% if clrs.type == 'sale' %}
+                فروش_{{ clrs.pk }}
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    انبار_{{ clrs.pk }}
+                {% else %}
+                    ویکی_{{ clrs.pk }}
+                {% endif %}
+            {% endif %}
+        </p>
+    </div>
+    {% if clrs.type == 'warehouse' %}
+        <table class="WRH-table4">
             <tbody>
-            {% for pro in bill.products.all %}
-                <tr>
-                    <td class="WRH-td2">
-                        <img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/>
-                    </td>
-                    <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
-                    <td class="WRH-td2"> {{ pro.product.name }}</td>
-                    <td class="WRH-td2"> {{ pro.product.wiki.pk }}</td>
-                    <td class="WRH-td2"> {{ pro.product.wiki.companyName }}</td>
-                    <td class="WRH-td2"> {{ pro.number }}</td>
-                </tr>
-            {% endfor %}
+            <tr>
+                <td class="WRH-td4">
+                    <img class="WRH-myimage4" src="{{ clrs.transfer.product.ad.icon.image.url }}"/>
+                </td>
+                <td>
+                    <table class="WRH-table3 table-hover">
+                        <tbody>
+                        <tr>
+                            <td class="WRH-td-th3"> کد کالا :</td>
+                            <td class="WRH-td3"> {{ clrs.transfer.product.goodsID }}</td>
+                        </tr>
+                        <tr>
+                            <td class="WRH-td-th3"> نام کالا :</td>
+                            <td class="WRH-td3">{{ clrs.transfer.product.name }}</td>
+                        </tr>
+{#                        <tr>#}
+{#                            <td class="WRH-td-th3"> کد مشتری :</td>#}
+{#                            <td class="WRH-td3"> {{ bill.customer.pk }} </td>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                            <td class="WRH-td-th3"> نام :</td>#}
+{#                            <td class="WRH-td3"> {{ bill.customer.first_name }}</td>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                            <td class="WRH-td-th3"> نام خانوادگی :</td>#}
+{#                            <td class="WRH-td3"> {{ bill.customer.last_name }}</td>#}
+{#                        </tr>#}
+                        <tr>
+                            <td class="WRH-td-th3">تعداد :</td>
+                            <td class="WRH-td3">
+                                {{ clrs.transfer.quantity }}
+                            </td>
+                            <td class="WRH-td3">{{ clrs.transfer.product.unit }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
             </tbody>
         </table>
     {% else %}
-        <p> هیچ کالایی یافت نشد</p>
+        {% if clrs.type == 'sale' %}
+            {% if clrs.bill.products.all %}
+                <table class="WRH-table2 table-hover table-striped">
+                    <thead>
+                    <td class="WRH-th-td"></td>
+                    <td class="WRH-th-td">کد کالا</td>
+                    <td class="WRH-th-td">نام کالا</td>
+                    <td class="WRH-th-td"> کد ویکی</td>
+                    <td class="WRH-th-td"> نام ویکی</td>
+                    <td class="WRH-th-td"> تعداد</td>
+                    </thead>
+                    <tbody>
+                    {% for pro in clrs.bill.products.all %}
+                        <tr>
+                            <td class="WRH-td2">
+                                <img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/>
+                            </td>
+                            <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
+                            <td class="WRH-td2"> {{ pro.product.name }}</td>
+                            <td class="WRH-td2"> {{ pro.product.wiki.pk }}</td>
+                            <td class="WRH-td2"> {{ pro.product.wiki.companyName }}</td>
+                            <td class="WRH-td2"> {{ pro.number }} {{ pro.product.unit }}</td>
+{#                            <td class="WRH-td2"> {{ pro.product.unit }}</td>#}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p> هیچ کالایی یافت نشد</p>
+            {% endif %}
+            <br/>
+        {% else %}
+            <table class="WRH-table4">
+                <tbody>
+                <tr>
+                    <td class="WRH-td4">
+                        <img class="WRH-myimage4" src="{{ clrs.wiki.product.ad.icon.image.url }}"/>
+                    </td>
+                    <td>
+                        <table class="WRH-table3 table-hover">
+                            <tbody>
+                            <tr>
+                                <td class="WRH-td-th3"> کد کالا :</td>
+                                <td class="WRH-td3"> {{ clrs.wiki.product.goodsID }}</td>
+                            </tr>
+                            <tr>
+                                <td class="WRH-td-th3"> نام کالا :</td>
+                                <td class="WRH-td3">{{ clrs.wiki.product.name }}</td>
+                            </tr>
+                            {#                        <tr>#}
+                            {#                            <td class="WRH-td-th3"> کد مشتری :</td>#}
+                            {#                            <td class="WRH-td3"> {{ bill.customer.pk }} </td>#}
+                            {#                        </tr>#}
+                            {#                        <tr>#}
+                            {#                            <td class="WRH-td-th3"> نام :</td>#}
+                            {#                            <td class="WRH-td3"> {{ bill.customer.first_name }}</td>#}
+                            {#                        </tr>#}
+                            {#                        <tr>#}
+                            {#                            <td class="WRH-td-th3"> نام خانوادگی :</td>#}
+                            {#                            <td class="WRH-td3"> {{ bill.customer.last_name }}</td>#}
+                            {#                        </tr>#}
+                            <tr>
+                                <td class="WRH-td-th3"> نوع درخواست:</td>
+                                <td class="WRH-td3">
+                                    {% if clrs.wiki.returned_only %}
+                                        تمام معیوب ها
+                                    {% else %}
+                                        تمام این کالا
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        {% endif %}
     {% endif %}
-    <br/>
-
     <div style="margin-right: 30px">
         {#                <h2 class="panel-header WRH-heading2" style="font-size: 17; font-weight: 700">#}
         {#                    <!-- style="font-size: 18; font-family: "entezar"> --> آدرس مشتری: </h2>#}
         <h2 class="WRH-heading2" style="font-size: 17; font-weight: 700">
-            آدرس مشتری
+            {% if clrs.type == 'sale' %}
+                آدرس مشتری:
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    آدرس مشتری:
+                {% else %}
+                    آدرس ویکی:
+                {% endif %}
+            {% endif %}
         </h2>
-        {{ bill.customer.address }}
+        {% if clrs.type == 'sale' %}
+            {{ clrs.bill.customer.address }}
+        {% else %}
+            {% if clrs.type == 'warehouse' %}
+                {{ clrs.transfer.bill.customer.address }}
+            {% else %}
+                {{ clrs.wiki.wiki.address }}
+            {% endif %}
+        {% endif %}
+
         <p>
 
         </p>
 
         <p>
             <b style="color: rgb(0,89,132)">شماره تلفن:</b>
-            {{ bill.customer.phone }}
+            {% if clrs.type == 'sale' %}
+                {{ clrs.bill.customer.phone }}
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    {{ clrs.transfer.bill.customer.phone }}
+                {% else %}
+                    {{ clrs.wiki.wiki.phone}}
+                {% endif %}
+            {% endif %}
+
         </p>
         <br/>
     </div>
 
     <center>
-        <button class="btn btn-primary btn-small" type="button">
-            چاپ
+        <button class="btn btn-primary btn-small" type="button" onclick="confirm_order('{{ clrs.pk }}')">
+آماده تحویل
         </button>
         <button class="btn btn-primary btn-small" type="button" onclick="orders()">
             بازگشت

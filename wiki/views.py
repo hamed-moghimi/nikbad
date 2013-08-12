@@ -1,11 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+
+from django.db.models.aggregates import Sum
 from django.shortcuts import render
 from wiki.models import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
 from wiki.forms import *
-from warehouse.models import Wiki_Order
+from warehouse.models import Wiki_Order, Stock
+from sales.models import SaleBill_Product
 
 @login_required
 def goodsList(request):
@@ -14,9 +17,6 @@ def goodsList(request):
     if request.user.is_authenticated():
         user = request.user
         myName = user.username
-        print isinstance(user, Wiki)
-        print user.__class__
-        print user.username
         p = Product.objects.all().filter(wiki__username__iexact=myName)
 
         context = {'product_list': p}
@@ -31,27 +31,17 @@ def register_success(request):
 def product_failure(request):
     return render(request, 'wiki/productFailure.html')
 
+def product_success(request):
+    return render(request, 'wiki/product_success.html')
 
 def register(request):
     if request.method == 'POST':
-        form = WikiForm(request.POST)
-    # st = u'ثبت نام با موفقیت انجام شد.'
-        if form.is_valid():
-            form.save()
-            # un = form.cleaned_data['username']
-            # pw = form.cleaned_data['password']
-            # cn = form.cleaned_data['companyName']
-            # desc = form.cleaned_data['description']
-            # ph = form.cleaned_data['phone']
-            # ad = form.cleaned_data['address']
-            # em = form.cleaned_data['email']
-            # w = Wiki(username = un, companyName = cn, description = desc,
-            #          phone = ph, address = ad, email = em)
-            # w.set_password(pw)
-            # w.save()
-            return register_success(request)
+         form = WikiForm(request.POST)
+         if form.is_valid():
+             form.save()
+             return register_success(request)
     else:
-        form = WikiForm()
+         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
 @login_required
@@ -121,12 +111,13 @@ def returnrequest(request):
             wiki = Wiki.objects.filter(username = user.username)[0]
             date = datetime.datetime.now()
             id = form.cleaned_data['proID']
+            ret = form.cleaned_data['ret_only']
             prod = Product.objects.filter(pk=id)
             if prod.__len__() == 0:
                 return product_failure(request)
             p = prod[0]
             if p.wiki.username == wiki.username :
-                req = ReturnRequest(wiki = wiki, pub_date = date, product = p)
+                req = ReturnRequest(wiki = wiki, pub_date = date, product = p, returned_only = ret)
                 req.save()
                 return success(request)
             else:
@@ -134,3 +125,34 @@ def returnrequest(request):
     else:
         form = RequestForm()
     return render(request, 'wiki/returnrequest.html', {'form': form})
+
+def salesreport(request):
+
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+        if form.is_valid():
+            startDate = form.cleaned_data['startDate']
+            endDate = form.cleaned_data['endDate']
+            pro_list = SaleBill_Product.objects.filter(bill__saleDate__range = (startDate, endDate))
+            user = request.user
+
+            list2 = pro_list.values('product').annotate(sum=Sum('number'))
+            products = []
+            sums = []
+            for sb in list2:
+                products.append(Product.objects.get(goodsID = sb['product']))
+                # print sb['sum']
+                sums.append(sb['sum'])
+            zipped_datea = zip(products,sums)
+            context = {'pro_list': zipped_datea}
+            return render(request, 'wiki/salesreport.html', context)
+    else:
+        form = DateForm()
+    return render(request, 'wiki/DateForm.html', {'form' : form})
+
+
+def wrhproducts(request):
+    myName = request.user.username
+    stock = Stock.objects.filter(product__wiki__username__iexact=myName)
+    context = {'stock_list': stock}
+    return render(request, 'wiki/wrhproducts.html', context)

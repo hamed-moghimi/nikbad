@@ -1,4 +1,4 @@
-﻿{% extends "sales/base.html" %}
+{% extends "sales/base.html" %}
 {% block css %}
     {{ block.super }}
     <link href="{{ STATIC_URL }}crm/css/WRH-style.css" rel="stylesheet" type="text/css"/>
@@ -13,7 +13,11 @@
             <form class="form-horizontal" method="post">
                 {% include "_hForm.html" with form=EditForm read_only=1%}
             </form>
-
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-primary" ><a href="{% url crm-edit %}">{{ submit_text|default:"ویرایش" }}</a></button>
+                </div>
+            </div>
 
     <h2  class="panel-header">
         وضعیت کالای خریداری شده
