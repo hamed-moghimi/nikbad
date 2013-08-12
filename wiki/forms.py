@@ -24,7 +24,7 @@ def clean_repassword(self):
     password2 = self.cleaned_data.get('repassword')
     print( password, password2)
     if password != password2:
-        raise forms.ValidationError(u"گذر واژه و تکرار ان را یکسان نیست")
+        raise forms.ValidationError(u"گذر واژه و تکرار ان یکسان نیست")
 
 
 class ProductForm(ModelForm):
