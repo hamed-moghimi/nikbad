@@ -15,7 +15,7 @@
                 {% for clr in clrs %}
                     {% with forloop.counter as sec %}
                         {% with clr.pk|stringformat:"s" as pk %}
-                            {% with "Tiny_Order/"|add:pk as tmp %}
+                            {% with "ReadyTiny_Order/"|add:pk as tmp %}
                                 <tr>
                                     <td class="WRH-td5">
                                         {% if clr.type == 'sale' %}
@@ -34,7 +34,7 @@
                                     <td class="WRH-td5">{{ clr.date }}</td>
                                     <form method="get">
                                         <td class="WRH-td5" style="width: 30px">
-                                            <a class="btn btn-primary btn-mini" onclick="tiny_orders('{{ tmp }}')">
+                                            <a class="btn btn-primary btn-mini" onclick="ready_tiny_orders('{{ tmp }}')">
                                                 ریز حواله
                                             </a>
                                         </td>

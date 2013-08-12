@@ -1,0 +1,121 @@
+{% block WRH-panel2 %}
+    {% if error %}
+        <center>
+            <b>
+                {{ error }}
+            </b>
+            <br/>
+            <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/sad.jpg"/>
+            <br/>
+            <br/>
+            <button class="btn btn-primary btn-small" type="button" onclick="customer_return()">
+                بازگشت
+            </button>
+        </center>
+    {% else %}
+        کالای زیر به عنوان کالای معیوب انتخاب گردیده، لطفا تعداد مرجوعی را وارد کنید:
+        <br/>
+        <br/>
+        <table class="WRH-table4">
+            <tbody>
+            <tr>
+                <td class="WRH-td4">
+                    <img class="WRH-myimage4" src="{{ product.ad.icon.image.url }}"/>
+                </td>
+                <td>
+                    <table class="WRH-table3 table-hover">
+                        <tbody>
+                        <tr>
+                            <td class="WRH-td-th3">
+                                کد حواله:
+                            </td>
+                            <td class="WRH-td3">
+                                {% if clr.type == 'sale' %}
+                                    فروش_{{ clr.pk }}
+                                {% else %}
+                                    {% if clr.type == 'warehouse' %}
+                                        انبار_{{ clr.pk }}
+                                    {% else %}
+                                        ویکی_{{ clr.pk }}
+                                    {% endif %}
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="WRH-td-th3"> کد کالا :</td>
+                            <td class="WRH-td3"> {{ product.goodsID }}</td>
+                        </tr>
+                        <tr>
+                            <td class="WRH-td-th3"> نام کالا :</td>
+                            <td class="WRH-td3">{{ product.name }}</td>
+                        </tr>
+                        <tr>
+                            {% if clr.type == 'wiki' %}
+                                <td class="WRH-td-th3">
+                                        کد ویکی:
+                                </td>
+                                <td class="WRH-td3"> {{ clr.wiki.wiki.pk }} </td>
+                            {% else %}
+                                <td class="WRH-td-th3">
+                                    کد مشتری:
+                                </td>
+                                {% if clr.type == 'warehouse' %}
+                                    <td class="WRH-td3"> {{ clr.transfer.bill.customer.pk }} </td>
+                                {% else %}
+                                    <td class="WRH-td3"> {{ clr.bill.customer.pk }} </td>
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            {% if clr.type == 'wiki' %}
+                                <td class="WRH-td-th3">
+                              نام ویکی:
+                                </td>
+                                <td class="WRH-td3"> {{ clr.wiki.wiki.pk }} </td>
+                            {% else %}
+                                <td class="WRH-td-th3">
+                                    نام مشتری:
+                                </td>
+                                {% if clr.type == 'warehouse' %}
+                                    <td class="WRH-td3"> {{ clr.transfer.bill.customer.first_name }} </td>
+                                {% else %}
+                                    <td class="WRH-td3"> {{ clr.bill.customer.first_name }} </td>
+                                {% endif %}
+                                </tr>
+                                <tr>
+                                <td class="WRH-td-th3">
+                                    نام خانوادگی:
+                                </td>
+                                {% if clr.type == 'warehouse' %}
+                                    <td class="WRH-td3"> {{ clr.transfer.bill.customer.last_name }} </td>
+                                {% else %}
+                                    <td class="WRH-td3"> {{ clr.bill.customer.last_name }} </td>
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="WRH-td-th3">تعداد :</td>
+                            <td class="WRH-td3"><input id="qnt" type="number" class="span2"
+                                                       style="margin-top:10px; height:23px; text-align: center; width: 70px;"/>
+                            </td>
+                            <td class="WRH-td3">{{ product.unit }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br/>
+        <center>
+            <button class="btn btn-primary btn-small" type="button"
+                    onclick="confirm_return({{ clr.pk }}, {{ product.goodsID }})">
+                ثبت
+            </button>
+            <button class="btn btn-primary btn-small" type="button" onclick="customer_return()">
+                بازگشت
+            </button>
+        </center>
+    {% endif %}
+{% endblock %}

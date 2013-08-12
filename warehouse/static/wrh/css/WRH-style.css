@@ -38,19 +38,26 @@
 }
 
 .WRH-table5 {
-    width: 400px !important;
+    width: 300px !important;
     alignment-baseline: central !important;
     margin: auto !important;
 }
 
 .WRH-table3 {
-	width: 250px !important;
+	width: 300px !important;
 	alignment-baseline: central !important;
 	margin: auto !important;
 }
 
+.WRH-table7 {
+    width: 250px !important;
+    alignment-baseline: central !important;
+    margin: auto !important;
+}
+
+
 .WRH-table4 {
-	width: 450px !important;
+	width: 550px !important;
 	alignment-baseline: central !important;
 	margin: auto !important;
 }
@@ -79,7 +86,7 @@
 }
 
 .WRH-th-td2 {
-	width: 50px !important;
+	width: 70px !important;
 	height: 70px !important;
 	font-size: 14 !important;
 	font-weight: 700 !important;
@@ -126,7 +133,7 @@
 }
 
 .WRH-td2 {
-	width: 50px !important;
+	width: 70px !important;
 	height: 40px !important;
 	text-align: center !important;
 	font-size: 14 !important;
