@@ -1,0 +1,8 @@
+<li class="header hover" section="cat">
+	<a> فهرست محصولات </a>
+</li>
+{% for cat in categories %}
+    <li {% if active_menu == cat.id|stringformat:"s"|add:"cat" %}class="active"{% endif %} parent="cat">
+        <a {% if active_menu != cat.id|stringformat:"s"|add:"cat" %}href="{% url sales-category catID=cat.id %}"{% endif %}>{{ cat.name }}<i class="icon-chevron-left"></i></a>
+    </li>
+{% endfor %}

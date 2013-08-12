@@ -5,10 +5,14 @@ $(document).ready(function()
         offset: { top: 200 }
     });
 
-    // login menu toggle
-    loginMenu = $('#login-menu');
-    $('#login-menu-button').click(function(){
-       loginMenu.slideToggle('fast');
+//    // login menu toggle
+//    loginMenu = $('#login-menu');
+//    $('#login-menu-button').click(function(){
+//       loginMenu.slideToggle('fast');
+//    });
+
+    $('li[section]').click(function(){
+       $('li[parent=' + $(this).attr('section') + ']').slideToggle();
     });
 });
 

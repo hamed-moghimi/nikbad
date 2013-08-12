@@ -101,34 +101,38 @@
                 </div>
 
                 <div class="tab-pane" id="polls">
-                {#  if user has permission to poll about products #}
                     <div class="panel">
                         <h3 class="panel-header">
                             نظرات مشتریان
                         </h3>
-                        <table class="table-striped">
-                            {% for poll in polls %}
-                                <tr>
-                                    <td>
-                                        {{ poll.text }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                        <table id="feedback-table" class="table table-striped">
+                            <tbody>
+                                {% for poll in polls %}
+                                    <tr>
+                                        <td>
+                                            {{ poll.content }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
                         </table>
 
-                        <div class="panel">
-                            <form action="" method="post">
-                                <fieldset>
-                                    <legend class="panel-header">نظر شما</legend>
-                                    <label for="comment">
-                                        متن نظر
-                                    </label>
-                                    <textarea class="input-block-level" name="comment"></textarea>
-                                    {% csrf_token %}
-                                    <input type="submit" class="btn btn-primary" value="ثبت نظر">
-                                </fieldset>
-                            </form>
-                        </div>
+                        {% if perms.crm.is_customer %}
+                            <div class="panel">
+                                <form id="feedback-submit" method="post" action="{% url crm-feedback %}">
+                                    <fieldset>
+                                        <legend class="panel-header">نظر شما</legend>
+                                        <label for="comment">
+                                            متن نظر
+                                        </label>
+                                        <input type="hidden" id="productID" value="{{ item.product.goodsID }}" />
+                                        <textarea id="feedback-content" class="input-block-level" name="comment"></textarea>
+                                        {% csrf_token %}
+                                        <button id="feedback-submit-button" class="btn btn-primary"> ثبت نظر </button>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
