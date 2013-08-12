@@ -1,11 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+
+from django.db.models.aggregates import Sum
 from django.shortcuts import render
 from wiki.models import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
 from wiki.forms import *
-from warehouse.models import Wiki_Order
+from warehouse.models import Wiki_Order, Stock
+from sales.models import SaleBill, SaleBill_Product
 
 @login_required
 def goodsList(request):
@@ -14,9 +17,6 @@ def goodsList(request):
     if request.user.is_authenticated():
         user = request.user
         myName = user.username
-        print isinstance(user, Wiki)
-        print user.__class__
-        print user.username
         p = Product.objects.all().filter(wiki__username__iexact=myName)
 
         context = {'product_list': p}
@@ -121,12 +121,13 @@ def returnrequest(request):
             wiki = Wiki.objects.filter(username = user.username)[0]
             date = datetime.datetime.now()
             id = form.cleaned_data['proID']
+            ret = form.cleaned_data['ret_only']
             prod = Product.objects.filter(pk=id)
             if prod.__len__() == 0:
                 return product_failure(request)
             p = prod[0]
             if p.wiki.username == wiki.username :
-                req = ReturnRequest(wiki = wiki, pub_date = date, product = p)
+                req = ReturnRequest(wiki = wiki, pub_date = date, product = p, returned_only = ret)
                 req.save()
                 return success(request)
             else:
@@ -134,3 +135,30 @@ def returnrequest(request):
     else:
         form = RequestForm()
     return render(request, 'wiki/returnrequest.html', {'form': form})
+
+def salesreport(request):
+
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+        if form.is_valid():
+            startDate = form.cleaned_data['startDate']
+            endDate = form.cleaned_data['endDate']
+            pro_list = SaleBill_Product.objects.filter(bill__saleDate__range = (startDate, endDate))
+            user = request.user
+
+            list2 = pro_list.values('product').annotate(sum=Sum('number'))
+            # print list2#
+            list3 = [(dict['product'], dict['sum']) for dict in list2]
+            print list3
+            context = {'pro_list': list3}
+            return render(request, 'wiki/salesreport.html', context)
+    else:
+        form = DateForm()
+    return render(request, 'wiki/DateForm.html', {'form' : form})
+
+
+def wrhproducts(request):
+    myName = request.user.username
+    stock = Stock.objects.filter(product__wiki__username__iexact=myName)
+    context = {'stock_list': stock}
+    return render(request, 'wiki/wrhproducts.html', context)
