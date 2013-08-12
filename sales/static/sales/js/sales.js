@@ -49,4 +49,38 @@ $(document).ready(function(){
         $(this).find('#iconModalLabel').text(vitrinIcon.attr('title'));
         $(this).find('.vitrin-icon-large').attr('src', vitrinIcon.attr('src'));
     })
+
+    // feedback submit
+    feedbackTable = $('#feedback-table > tbody');
+    feedbackContent = $('#feedback-content');
+    feedbackSubmitButton = $('#feedback-submit-button');
+    $('#feedback-submit').submit(function(){
+        form = $(this);
+        url = form.attr('action');
+
+        content = $('#feedback-content').val();
+        if(content == '')
+            return false;
+
+        pID = $('#productID').val();
+        csrf = $('[name=csrfmiddlewaretoken]').val();
+        dataString = 'productID=' + pID + '&content=' + content + '&csrfmiddlewaretoken=' + csrf;
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: dataString,
+
+            success: function() {
+                feedbackTable.append($('<tr><td>' + content + '</td></tr>'));
+                feedbackContent.val('');
+                feedbackSubmitButton.button('reset');
+            },
+
+            error: function() {
+            }
+        });
+
+        feedbackSubmitButton.attr('disabled', 'disabled');
+        return false;
+    });
 });
