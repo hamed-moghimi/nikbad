@@ -63,13 +63,13 @@
 
 {% block menus %}
     {% if not user.is_authenticated %}
-        <li class="header hover" id="login-menu-button">
+        <li class="header hover" id="login-menu-button" section="login">
             <a>
                 <i class="icon-user"></i>
                 ورود اعضا
             </a>
         </li>
-        <li class="muted" id="login-menu">
+        <li class="muted" id="login-menu" parent="login">
             <form class="navbar-form" method="post" action="{% url login %}" id="loginID">
                 {% csrf_token %}
                 <input type="text" name="username" class="span2" placeholder="نام کاربری">
@@ -82,16 +82,16 @@
                     </a>
                 </p>
             </form>
-            <a href="#">
+            <a href="{% url crm-signUp %}">
                 <i class="icon-plus"></i>
                 ثبت نام مشتریان
             </a>
-            <a href="#">
+            <a href="{% url wiki-register %}">
                 <i class="icon-plus"></i>
                 ثبت نام فروشندگان
             </a>
         </li>
     {% endif %}
-
-    {% include "sales/_menus.html" with active_menu=category%}
+    {% include "sales/_catMenus.html" with active_menu=category|stringformat:"s"|add:"cat" %}
+    {% include "sales/_wikiMenus.html" with active_menu=wiki|stringformat:"s"|add:"wiki" hidden=1 %}
 {% endblock %}
