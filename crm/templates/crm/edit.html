@@ -7,8 +7,8 @@
     <div class="panel">
         <h2 class="panel-header"> تغییر حساب کاربری</h2>
         <div class="row-fluid">
-
-            <form class="form-horizontal" method="post" action= "{% url crm-editsuccessful %}">
+ {{ Editform.non_field_errors }}
+            <form class="form-horizontal" method="post" action= "{% url crm-edit %}">
                 {% include "_hForm.html" with form=EditForm read_only=0 %}
 
 

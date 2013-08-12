@@ -25,13 +25,16 @@ def edit(request):
     c = Customer.objects.get(username=request.user.username)
     f = EditForm( instance=c )
     if(request.POST):
+        print "POST"
+        
         if (f.is_valid()):
              f.save()
              print " khhhhhhhhhhhhhhhhhhhhhhhhh"
              return edit_success(request)
-    else :
-        print "intoooooooooooooooo"
-        return render(request, 'crm/edit.html', {'EditForm' : f})
+    print f._errors
+    # else :
+    #     print "intoooooooooooooooo"
+    return render(request, 'crm/edit.html', {'EditForm' : f})
 
 def signUp(request):
     if(request.POST):

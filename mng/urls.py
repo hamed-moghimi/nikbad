@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^manager-wrh$', 'mng.views.wrh', name='mng-wrh'),
     url(r'^manager-newemp$', 'fnc.views.sabtenam_karmand', name='mng-newemp'),
     url(r'^manager-emp$', 'fnc.views.karmandan', name='mng-emp'),
+    url(r'^manager-cont$', 'mng.views.newContract', name='mng-cont'),
     url(r'^manager-emp/(?P<epId>\d+)$', 'fnc.views.karmand_detail', name='mng-emp-detail'),
 
     )
