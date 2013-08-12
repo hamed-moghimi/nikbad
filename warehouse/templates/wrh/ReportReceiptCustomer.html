@@ -1,0 +1,82 @@
+{% extends "wrh/base.html" %}
+{% block title %}
+    گزارش  رسیدهای کالا به مشتریان
+{% endblock %}
+{% block content %}
+    <div class="panel" xmlns="http://www.w3.org/1999/html">
+        <h2 class="WRH-heading2">
+            گزارش  رسیدهای کالا به مشتریان
+        </h2>
+
+        <div class="WRH-panel2">
+            <br />
+            {% if dls %}
+                <p>
+                    رسیدهای کالا به مشتریان به شرح زیر می باشند:
+                </p>
+                <br />
+                <table class="WRH-table2 table-hover table-striped">
+                    <thead>
+                    <td class="WRH-th-td2">کد فاکتور سفارش</td>
+                    <td class="WRH-th-td2">کد مشتری</td>
+                    <td class="WRH-th-td2">نام و نام خانوادگی مشتری</td>
+                    <td class="WRH-th-td2"> تاریخ</td>
+                    <td class="WRH-th-td2"> </td>
+                    </thead>
+                    <tbody>
+                    {% for dl in dls %}
+                        {% with dl.clearance.pk|stringformat:"s" as pk %}
+                            {% with "ReportDetail/"|add:pk|add:"/2" as tmp %}
+                                <tr>
+                                    <td class="WRH-td2">
+                                        {% if dl.clearance.type == 'sale' %}
+                                            {{  dl.clearance.bill.pk}}
+                                        {% else %}
+                                            {{  dl.clearance.pk}}
+                                        {% endif %}
+                                    </td>
+                                    <td class="WRH-td2">
+                                        {% if dl.clearance.type == 'sale' %}
+                                            {{  dl.clearance.bill.customer.pk}}
+                                        {% else %}
+                                            {% if dl.clearance.type == 'warehouse' %}
+                                                {{  dl.clearance.transfer.bill.customer.pk}}
+                                            {% else %}
+                                                {{  dl.clearance.wiki.wiki.pk}}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="WRH-td2">
+                                        {% if dl.clearance.type == 'sale' %}
+                                            {{  dl.clearance.bill.customer.first_name}} {{  dl.clearance.bill.customer.last_name}}
+                                        {% else %}
+                                            {% if dl.clearance.type == 'warehouse' %}
+                                                {{  dl.clearance.transfer.bill.customer.first_name}} {{  dl.clearance.transfer.bill.customer.last_name}}
+                                            {% else %}
+                                                {{  dl.clearance.wiki.wiki.companyName}}
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="WRH-td2"> {{ dl.date }}</td>
+                                    <td class="WRH-td2" style="width: 30px">
+                                        <a class="btn btn-primary btn-mini" onclick="report_order_detail('{{ tmp }}')">
+                                            ریز حواله
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endwith %}
+                        {% endwith %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <br />
+
+            {% else %}
+                هنوز هیچ رسیدی برای تحویل کالا به مشتریان به ثبت نرسیده است.
+                </br>
+                </br>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

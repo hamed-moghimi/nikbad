@@ -1,18 +1,10 @@
 {% block WRH-panel2 %}
+    </br>
     <div style="margin: 0 30px auto">
         <p>
             <b style="color: rgb(0,89,132)">
-                کد حواله:
+                مشخصات حواله:
             </b>
-            {% if clrs.type == 'sale' %}
-                فروش_{{ clrs.pk }}
-            {% else %}
-                {% if clrs.type == 'warehouse' %}
-                    انبار_{{ clrs.pk }}
-                {% else %}
-                    ویکی_{{ clrs.pk }}
-                {% endif %}
-            {% endif %}
         </p>
     </div>
     {% if clrs.type == 'warehouse' %}
@@ -135,32 +127,56 @@
             </table>
         {% endif %}
     {% endif %}
-    <div style="margin-right: 30px">
-        {#                <h2 class="panel-header WRH-heading2" style="font-size: 17; font-weight: 700">#}
-        {#                    <!-- style="font-size: 18; font-family: "entezar"> --> آدرس مشتری: </h2>#}
-        <h2 class="WRH-heading2" style="font-size: 17; font-weight: 700">
+    <div style="margin: 0 30px auto">
+        <p>
+            <b style="color: rgb(0,89,132)">
+               کد سفارش:
+            </b>
             {% if clrs.type == 'sale' %}
-                آدرس مشتری:
+                فروش_{{ clrs.bill.pk }}
             {% else %}
                 {% if clrs.type == 'warehouse' %}
-                    آدرس مشتری:
+                    انبار_{{ clrs.transfer.bill.pk }}
                 {% else %}
-                    آدرس ویکی:
+                    ویکی_{{ clrs.wiki.pk }}
                 {% endif %}
             {% endif %}
-        </h2>
-        {% if clrs.type == 'sale' %}
-            {{ clrs.bill.customer.address }}
-        {% else %}
-            {% if clrs.type == 'warehouse' %}
-                {{ clrs.transfer.bill.customer.address }}
-            {% else %}
-                {{ clrs.wiki.wiki.address }}
-            {% endif %}
-        {% endif %}
+        </p>
 
         <p>
+            <b style="color: rgb(0,89,132)">
+                {% if clrs.type == 'sale' %}
+                    نام و نام خانوادگی مشتری:
+                {% else %}
+                    {% if clrs.type == 'warehouse' %}
+                        نام و نام خانوادگی مشتری:
+                    {% else %}
+                        نام ویکی:
+                    {% endif %}
+                {% endif %}
+            </b>
+            {% if clrs.type == 'sale' %}
+                {{ clrs.bill.customer.first_name }} {{ clrs.bill.customer.last_name }}
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    {{ clrs.transfer.bill.customer.first_name }} {{ clrs.transfer.bill.customer.last_name }}
+                {% else %}
+                    {{ clrs.wiki.wiki.companyName }}
+                {% endif %}
+            {% endif %}
+        </p>
 
+        <p>
+            <b style="color: rgb(0,89,132)">آدرس:</b>
+            {% if clrs.type == 'sale' %}
+                {{ clrs.bill.customer.address }}
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    {{ clrs.transfer.bill.customer.address }}
+                {% else %}
+                    {{ clrs.wiki.wiki.address }}
+                {% endif %}
+            {% endif %}
         </p>
 
         <p>
@@ -171,20 +187,32 @@
                 {% if clrs.type == 'warehouse' %}
                     {{ clrs.transfer.bill.customer.phone }}
                 {% else %}
-                    {{ clrs.wiki.wiki.phone}}
+                    {{ clrs.wiki.wiki.phone }}
                 {% endif %}
             {% endif %}
-
         </p>
-        <br/>
     </div>
-
     <center>
-        <button class="btn btn-primary btn-small" type="button" onclick="confirm_ready_order('{{ clrs.pk }}')">
-            تایید خروج از انبار
-        </button>
-        <button class="btn btn-primary btn-small" type="button" onclick="ready_orders()">
+    {% if src == 1 %}
+        <button class="btn btn-primary btn-small" type="button" onclick="report_clear2()">
             بازگشت
         </button>
+    {% else %}
+        {% if src == 2 %}
+            <button class="btn btn-primary btn-small" type="button" onclick="report_receipt_customer2()">
+                بازگشت
+            </button>
+        {% else %}
+            {% if src == 3 %}
+                <button class="btn btn-primary btn-small" type="button" onclick="report_receipt_wiki2()">
+                    بازگشت
+                </button>
+            {% else %}
+                <button class="btn btn-primary btn-small" type="button" onclick="report_trc2()">
+                    بازگشت
+                </button>
+            {% endif %}
+        {% endif %}
+    {% endif %}
     </center>
 {% endblock %}

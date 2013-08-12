@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
-
+from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse_lazy
 
 from django.db.models.aggregates import Sum
 from django.shortcuts import render
+from mng.views import wiki
 from wiki.models import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
@@ -10,7 +12,17 @@ from wiki.forms import *
 from warehouse.models import Wiki_Order, Stock
 from sales.models import SaleBill_Product
 
-@login_required
+
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
+def index(request):
+    user = request.user.username
+    wiki = Wiki.objects.filter(username = user)
+    print wiki
+    con = Contract.objects.filter(wiki = wiki)
+    context = {'contract' : con}
+    return render(request, 'wiki/index.html', context)
+
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def goodsList(request):
 # request.get['username']
 # request.post
@@ -44,7 +56,7 @@ def register(request):
          form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
-@login_required
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def addproduct(request):
     user = request.user
     if request.method == 'POST':
@@ -71,7 +83,8 @@ def addproduct(request):
 
 # if the requested product is in other wiki's showcase,
     # you should show a message.
-@login_required
+
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def deleteproduct(request):
     if request.method == 'POST':
         form = DeleteProductForm(request.POST)
@@ -90,6 +103,7 @@ def deleteproduct(request):
         form = DeleteProductForm()
     return render(request, 'wiki/deleteProduct.html', {'form': form})
 
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def wrhorders(request):
     if request.method == 'POST':
         form = DateForm(request.POST)
@@ -103,6 +117,7 @@ def wrhorders(request):
         form = DateForm()
     return render(request, 'wiki/DateForm.html', {'form' : form})
 
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def returnrequest(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
@@ -126,6 +141,7 @@ def returnrequest(request):
         form = RequestForm()
     return render(request, 'wiki/returnrequest.html', {'form': form})
 
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def salesreport(request):
 
     if request.method == 'POST':
@@ -151,6 +167,7 @@ def salesreport(request):
     return render(request, 'wiki/DateForm.html', {'form' : form})
 
 
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def wrhproducts(request):
     myName = request.user.username
     stock = Stock.objects.filter(product__wiki__username__iexact=myName)

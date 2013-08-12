@@ -1,0 +1,30 @@
+{% extends "sales/base.html" %}
+
+{% block title %}
+    بازار اینترنی نیک باد-ویترین الکترونیکی
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header">وضعیت قرارداد</h2>
+        {% for con in contract %}
+        تاریخ شروع:
+    {{ con.startDate }}
+        <br>
+    تاریخ پایان:
+    {{ con.expDate }}
+        <br>
+    درصد تسهیم سود:
+    {{ con.percent }}
+    {% endfor %}
+
+    </div>
+
+
+{% endblock %}
+
+{% block menus %}
+
+    {% include "wiki/_menus.html" %}
+
+{% endblock %}

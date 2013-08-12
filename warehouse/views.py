@@ -405,11 +405,61 @@ def report_return(request):
     return render(request, 'wrh/ReportReturned.html', context)
 
 def report_order(request):
-    print("report order")
     st = Wiki_Order.objects.all().order_by('date')
-    print (st)
     context = {'wikis': st, 'active_menu' : 6}
     return render(request, 'wrh/ReportWikiOrder.html', context)
+
+def report_delivery(request):
+    st = Receipt_Delivery.objects.all().order_by('date')
+    context = {'dls': st, 'active_menu' : 7}
+    return render(request, 'wrh/ReportDelivery.html', context)
+
+def report_clear(request):
+    st = Receipt_Clearance.objects.all().order_by('date')
+    context = {'dls': st, 'active_menu' : 8}
+    return render(request, 'wrh/ReportClear.html', context)
+
+def report_clear2(request):
+    st = Receipt_Clearance.objects.all().order_by('date')
+    context = {'dls': st, 'active_menu' : 8}
+    return render(request, 'wrh/ReportClear2.html', context)
+
+def report_receipt_customer(request):
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('date')
+    context = {'dls': st, 'active_menu' : 9}
+    return render(request, 'wrh/ReportReceiptCustomer.html', context)
+
+def report_receipt_customer2(request):
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('date')
+    context = {'dls': st, 'active_menu' : 9}
+    return render(request, 'wrh/ReportReceiptCustomer2.html', context)
+
+def report_receipt_wiki(request):
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('date')
+    context = {'dls': st, 'active_menu' : 10}
+    return render(request, 'wrh/ReportReceiptWiki.html', context)
+
+def report_receipt_wiki2(request):
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('date')
+    context = {'dls': st, 'active_menu' : 10}
+    return render(request, 'wrh/ReportReceiptWiki2.html', context)
+
+def report_trc(request):
+    st = Clearance.objects.all().order_by('date')
+    context = {'dls': st, 'active_menu' : 11}
+    return render(request, 'wrh/ReportTrc.html', context)
+
+def report_trc2(request):
+    st = Clearance.objects.all().order_by('date')
+    context = {'dls': st, 'active_menu' : 11}
+    return render(request, 'wrh/ReportTrc2.html', context)
+
+def report_detail(request, pid, kid):
+    p2 = int(pid)
+    k2 = int(kid)
+    a = Clearance.objects.get(pk=p2)
+    context = {'clrs': a, 'src':k2}
+    return render(request, 'wrh/ReportDetail.html', context)
 #****************************************END REPORTS*********************************************
 #**********************************************************************************************
 

@@ -15,7 +15,7 @@ def sales(request):
     return render(request, 'mng/mng-sales.html', {})
 
 def contract_success(request):
-    render(request, 'mng/contract_success.html')
+    return render(request, 'mng/contract_success.html')
 
 
 def newContract(request):
