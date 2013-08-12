@@ -35,7 +35,6 @@ def product_success(request):
     return render(request, 'wiki/product_success.html')
 
 def register(request):
-    pass
     if request.method == 'POST':
          form = WikiForm(request.POST)
          if form.is_valid():
