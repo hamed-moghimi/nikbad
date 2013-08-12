@@ -9,12 +9,7 @@ deliveryChoices = (
     (2, u'دریافت شده')
 )
 
-unitChoices = (
-    (0, u'عدد') ,
-    (1, u'تخته') ,
-    (2, u'دستگاه') ,
-    (3, u'جفت'),
-)
+
 # Create your models here.
 class Wiki(User):
     companyName = models.CharField("نام شرکت", max_length=255)
@@ -60,7 +55,7 @@ class Product(models.Model):
     price = models.IntegerField("قیمت")
     off = models.PositiveSmallIntegerField("تخفیف", blank=True, null=True)
     volume = models.PositiveIntegerField("حجم", default=0)
-    unit = models.IntegerField(default=0, choices = unitChoices, verbose_name=u'واحد شمارش')
+    unit = models.CharField(default=u'عدد', verbose_name=u'واحد شمارش', max_length=100)
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
 
 

@@ -35,25 +35,14 @@ def product_success(request):
     return render(request, 'wiki/product_success.html')
 
 def register(request):
+    pass
     if request.method == 'POST':
-        form = WikiForm(request.POST)
-    # st = u'ثبت نام با موفقیت انجام شد.'
-        if form.is_valid():
-            form.save()
-            # un = form.cleaned_data['username']
-            # pw = form.cleaned_data['password']
-            # cn = form.cleaned_data['companyName']
-            # desc = form.cleaned_data['description']
-            # ph = form.cleaned_data['phone']
-            # ad = form.cleaned_data['address']
-            # em = form.cleaned_data['email']
-            # w = Wiki(username = un, companyName = cn, description = desc,
-            #          phone = ph, address = ad, email = em)
-            # w.set_password(pw)
-            # w.save()
-            return register_success(request)
+         form = WikiForm(request.POST)
+         if form.is_valid():
+             form.save()
+             return register_success(request)
     else:
-        form = WikiForm()
+         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
 @login_required
