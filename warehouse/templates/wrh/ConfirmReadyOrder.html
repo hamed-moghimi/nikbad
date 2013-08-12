@@ -3,8 +3,7 @@
     <br/>
     <center>
         <p style="font-weight: 700; font-size: 14">
-            ترخیص مربوط به سفارش انتخاب شده با موفقیت درسیستم ثبت شد. :)
-            {#            {{ error }}#}
+            {{ msg }}
         </p>
         <br/>
         <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/WRH-4images.jpg"/>
@@ -12,12 +11,11 @@
         <br/>
 
         <div>
-            <button class="btn btn-primary" type="button" onclick="clearance()">
-                ثبت ترخیص جدید
+            <button class="btn btn-primary" type="button" onclick="ready_orders()">
+                بازگشت به لیست حواله ها
             </button>
         </div>
         <br/>
 
     </center>
-
 {% endblock %}

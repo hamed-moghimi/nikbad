@@ -1,0 +1,27 @@
+{% block WRH-panel2 %}
+    لطفا شماره حواله تحویل داده شده را وارد کنید:
+    <br/>
+    <br/>
+
+    <form name="input" action="html_form_action.asp" method="get">
+        <table class="WRH-table7 table-hover">
+            <tbody>
+            <tr>
+                <td class="WRH-td-th3"> کد حواله:</td>
+                <td class="WRH-td3">
+                    <input id="code"  type="text" class="span2" style="margin-top:10px; height:15px; text-align: center"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br/>
+        <center>
+            <button class="btn btn-primary btn-small" type="button" style="margin-right: 10px;"
+                    onclick="confirm_delivery()">
+                تایید
+            </button>
+        </center>
+    </form>
+    <br/>
+
+{% endblock %}

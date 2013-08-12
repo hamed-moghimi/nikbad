@@ -1,18 +1,23 @@
 {% block WRH-panel2 %}
+    {% if error %}
+    <center xmlns="http://www.w3.org/1999/html">
+        <b>
+            {{ error }}
+        </b>
+        </br>
+        <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/sad.jpg"/>
+        <br/>
+        <br/>
+        <button class="btn btn-primary btn-small" type="button" onclick="receipt_return()">
+            بازگشت
+        </button>
+    </center>
+    {% else %}
     <div style="margin: 0 30px auto">
-        <p>
+        <p >
             <b style="color: rgb(0,89,132)">
-                کد حواله:
+                مشخصات حواله تحویل داده شده:
             </b>
-            {% if clrs.type == 'sale' %}
-                فروش_{{ clrs.pk }}
-            {% else %}
-                {% if clrs.type == 'warehouse' %}
-                    انبار_{{ clrs.pk }}
-                {% else %}
-                    ویکی_{{ clrs.pk }}
-                {% endif %}
-            {% endif %}
         </p>
     </div>
     {% if clrs.type == 'warehouse' %}
@@ -33,18 +38,18 @@
                             <td class="WRH-td-th3"> نام کالا :</td>
                             <td class="WRH-td3">{{ clrs.transfer.product.name }}</td>
                         </tr>
-{#                        <tr>#}
-{#                            <td class="WRH-td-th3"> کد مشتری :</td>#}
-{#                            <td class="WRH-td3"> {{ bill.customer.pk }} </td>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <td class="WRH-td-th3"> نام :</td>#}
-{#                            <td class="WRH-td3"> {{ bill.customer.first_name }}</td>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <td class="WRH-td-th3"> نام خانوادگی :</td>#}
-{#                            <td class="WRH-td3"> {{ bill.customer.last_name }}</td>#}
-{#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class="WRH-td-th3"> کد مشتری :</td>#}
+                        {#                            <td class="WRH-td3"> {{ bill.customer.pk }} </td>#}
+                        {#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class="WRH-td-th3"> نام :</td>#}
+                        {#                            <td class="WRH-td3"> {{ bill.customer.first_name }}</td>#}
+                        {#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class="WRH-td-th3"> نام خانوادگی :</td>#}
+                        {#                            <td class="WRH-td3"> {{ bill.customer.last_name }}</td>#}
+                        {#                        </tr>#}
                         <tr>
                             <td class="WRH-td-th3">تعداد :</td>
                             <td class="WRH-td3">
@@ -81,7 +86,6 @@
                             <td class="WRH-td2"> {{ pro.product.wiki.pk }}</td>
                             <td class="WRH-td2"> {{ pro.product.wiki.companyName }}</td>
                             <td class="WRH-td2"> {{ pro.number }} {{ pro.product.unit }}</td>
-{#                            <td class="WRH-td2"> {{ pro.product.unit }}</td>#}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -138,35 +142,56 @@
             </table>
         {% endif %}
     {% endif %}
-    <div style="margin-right: 30px">
-        {#                <h2 class="panel-header WRH-heading2" style="font-size: 17; font-weight: 700">#}
-        {#                    <!-- style="font-size: 18; font-family: "entezar"> --> آدرس مشتری: </h2>#}
-        <h2 class="WRH-heading2" style="font-size: 17; font-weight: 700">
+    <div style="margin: 0 30px auto">
+        <p>
+            <b style="color: rgb(0,89,132)">
+                کد حواله:
+            </b>
             {% if clrs.type == 'sale' %}
-                آدرس مشتری:
+                فروش_{{ clrs.pk }}
             {% else %}
                 {% if clrs.type == 'warehouse' %}
-                    آدرس مشتری:
+                    انبار_{{ clrs.pk }}
                 {% else %}
-                    آدرس ویکی:
+                    ویکی_{{ clrs.pk }}
                 {% endif %}
             {% endif %}
-        </h2>
-        {% if clrs.type == 'sale' %}
-            {{ clrs.bill.customer.address }}
-        {% else %}
-            {% if clrs.type == 'warehouse' %}
-                {{ clrs.transfer.bill.customer.address }}
-            {% else %}
-                {{ clrs.wiki.wiki.address }}
-            {% endif %}
-        {% endif %}
-
-        <p>
-
         </p>
-
         <p>
+            <b style="color: rgb(0,89,132)">
+                {% if clrs.type == 'sale' %}
+                    نام و نام خانوادگی مشتری:
+                {% else %}
+                    {% if clrs.type == 'warehouse' %}
+                        نام و نام خانوادگی مشتری:
+                    {% else %}
+                        نام ویکی:
+                    {% endif %}
+                {% endif %}
+            </b>
+            {% if clrs.type == 'sale' %}
+                {{ clrs.bill.customer.first_name }} {{ clrs.bill.customer.last_name }}
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    {{ clrs.transfer.bill.customer.first_name }} {{ clrs.transfer.bill.customer.last_name }}
+                {% else %}
+                    {{ clrs.wiki.wiki.companyName }}
+                {% endif %}
+            {% endif %}
+        </p>
+        <p>
+            <b style="color: rgb(0,89,132)">آدرس:</b>
+            {% if clrs.type == 'sale' %}
+                {{ clrs.bill.customer.address }}
+            {% else %}
+                {% if clrs.type == 'warehouse' %}
+                    {{ clrs.transfer.bill.customer.address }}
+                {% else %}
+                    {{ clrs.wiki.wiki.address }}
+                {% endif %}
+            {% endif %}
+        </p>
+        <p >
             <b style="color: rgb(0,89,132)">شماره تلفن:</b>
             {% if clrs.type == 'sale' %}
                 {{ clrs.bill.customer.phone }}
@@ -177,17 +202,16 @@
                     {{ clrs.wiki.wiki.phone}}
                 {% endif %}
             {% endif %}
-
         </p>
-        <br/>
     </div>
 
     <center>
-        <button class="btn btn-primary btn-small" type="button" onclick="confirm_order('{{ clrs.pk }}')">
-آماده تحویل
+        <button class="btn btn-primary btn-small" type="button" onclick="confirm_receipt('{{ clrs.pk }}')">
+            تایید
         </button>
-        <button class="btn btn-primary btn-small" type="button" onclick="orders()">
+        <button class="btn btn-primary btn-small" type="button" onclick="receipt_return()">
             بازگشت
         </button>
     </center>
+    {% endif %}
 {% endblock %}

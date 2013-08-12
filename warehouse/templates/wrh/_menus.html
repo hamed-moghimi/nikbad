@@ -3,48 +3,58 @@
 </li>
 <li {% if active_menu == 1 %}class="active"{% endif %}>
 	<a {% if active_menu != 1 %}href="WRHDelivery"{% endif %}>
-        ثبت ورود کالا به انبار
+ورود کالا به انبار
         <i class="icon-chevron-left">
 
         </i>
     </a>
 </li>
 <li {% if active_menu == 2 %}class="active"{% endif %}>
-    <a {% if active_menu != 2 %}href="Clearance"{% endif %}>
-        ثبت ترخیص کالا از انبار
+    <a {% if active_menu != 2 %}href="NewOrder"{% endif %}>
+حواله های انبار
+        <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 3 %}class="active"{% endif %}>
+    <a {% if active_menu != 3 %}href="CustomerReturn"{% endif %}>
+کالاهای معیوب
         <i class="icon-chevron-left"></i></a>
 </li>
 <li class="header">
     <a>
-سفارشات جدید
+گزارشات انبارگردانی
     </a>
 </li>
 
-<li {% if active_menu == 3 %}class="active"{% endif %}>
-    <a {% if active_menu != 3 %}href="NewOrder"{% endif %}>
-سفارشات جدید
-        <i class="icon-chevron-left"></i></a>
-</li>
 <li {% if active_menu == 4 %}class="active"{% endif %}>
-    <a {% if active_menu != 4 %}href="#"{% endif %}>
-ارجاع کالا به ویکی
+    <a {% if active_menu != 4 %}href="NewOrder"{% endif %}>
+موجودی انبار
         <i class="icon-chevron-left"></i></a>
-</li>
-<li class="header">
-    <a>
-        تحویل کالا به مشتری
-    </a>
 </li>
 <li {% if active_menu == 5 %}class="active"{% endif %}>
     <a {% if active_menu != 5 %}href="#"{% endif %}>
-        ثبت ارجاع کالا از مشتری
+کالاهای معیوب
         <i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 6 %}class="active"{% endif %}>
     <a {% if active_menu != 6 %}href="#"{% endif %}>
-ثبت تحویل کالا به مشتری
+        سفارشات انبار
         <i class="icon-chevron-left"></i></a>
 </li>
+{#<li class="header">#}
+{#    <a>#}
+{#        تحویل کالا به مشتری#}
+{#    </a>#}
+{#</li>#}
+{#<li {% if active_menu == 5 %}class="active"{% endif %}>#}
+{#    <a {% if active_menu != 5 %}href="#"{% endif %}>#}
+{#        ثبت ارجاع کالا از مشتری#}
+{#        <i class="icon-chevron-left"></i></a>#}
+{#</li>#}
+{#<li {% if active_menu == 6 %}class="active"{% endif %}>#}
+{#    <a {% if active_menu != 6 %}href="#"{% endif %}>#}
+{#ثبت تحویل کالا به مشتری#}
+{#        <i class="icon-chevron-left"></i></a>#}
+{#</li>#}
 {#<li class="header">#}
 {#    <a>#}
 {#گزارشات انبارگردانی#}
@@ -75,13 +85,14 @@
 {#سفارشات انبار#}
 {#        <i class="icon-chevron-left"></i></a>#}
 {#</li>#}
-<li class="header">
-    <a>
-هزینه انبارداری
-    </a>
-</li>
-<li {% if active_menu == 11 %}class="active"{% endif %}>
-    <a {% if active_menu != 11 %}href="#"{% endif %}>
-        ثبت هزینه انبارداری کالاها
-        <i class="icon-chevron-left"></i></a>
-</li>
+{#<li class="header">#}
+{#    <a>#}
+{#هزینه انبارداری#}
+{#    </a>#}
+{#</li>#}
+{#<li {% if active_menu == 11 %}class="active"{% endif %}>#}
+{#    <a {% if active_menu != 11 %}href="#"{% endif %}>#}
+{#        ثبت هزینه انبارداری کالاها#}
+{#        <i class="icon-chevron-left"></i></a>#}
+{#</li>#}
+
