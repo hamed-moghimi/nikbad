@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link href="{{ STATIC_URL }}mng/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+
+{% block navbar %}
+    <form class="navbar-search pull-left">
+        <i class="icon-search"></i>
+        <input type="text" class="search-query input-medium" placeholder="جستجو ...">
+        <select class="span2">
+            <option value="all">همه گروه ها</option>
+            <option value="mobile"> موبایل</option>
+            <option value="TV"> تلوزیون</option>
+            <option value="shoes"> کیف و کفش</option>
+            <option value="furniture"> مبلمان</option>
+        </select>
+        <button class="btn"><i class="icon-large icon-search"></i></button>
+    </form>
+{% endblock %}
+
+{% block menus %}
+    {% include "mng/_menus.html" %}
+{% endblock %}

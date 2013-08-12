@@ -1,0 +1,18 @@
+<li class="header">
+    <a> فهرست محصولات </a>
+</li>
+<li {% if active_menu == 1 %}class="active"{% endif %}>
+    <a {% if active_menu != 1 %}href="{% url mng-fnc %}"{% endif %}>گزارش مالي<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 2 %}class="active"{% endif %}>
+    <a {% if active_menu != 2 %}href="{% url mng-wrh %}"{% endif %}>گزارش انبارداري<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 3 %}class="active"{% endif %}>
+    <a {% if active_menu != 3 %}href="{% url mng-wiki %}"{% endif %}>گزارش ويکي<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 4 %}class="active"{% endif %}>
+    <a {% if active_menu != 4 %}href="{% url mng-sales %}"{% endif %}>گزارش خريد<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 5 %}class="active"{% endif %}>
+    <a {% if active_menu != 5 %}href="{% url mng-emp %}"{% endif %}> گزارش کارمندان <i class="icon-chevron-left"></i></a>
+</li>
