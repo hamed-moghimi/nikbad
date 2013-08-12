@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
+from wiki.models import Wiki
 
 relation_choices= (('m',"متاهل"),('s',"مجرد"))
 gender_choices= (('m',"مرد"),('f',"زن"))
@@ -20,9 +21,25 @@ class CostBenefit(models.Model):
 	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits', null=True, blank=True)
 
 class GeneralAccount(models.Model):
-	bedeh= models.IntegerField(verbose_name=u"بدهکاری")
-	bestan= models.IntegerField(verbose_name=u"بستانکاری")
-	description= models.TextField(verbose_name=u"اسم")
+	budget= models.IntegerField(verbose_name=u"بودجه")
+	last_modefied= models.DateTimeField(verbose_name=u"به روز رسانی", auto_now=True)
+	last_pay_wiki= models.DateTimeField("آخرین پرداخت کارمند")
+	last_pay_emp=models.DateTimeField("آخرین پرداخت ویکی")
+
+	def deposit (self, balance):
+		self.budget+=balance
+		self.save()
+
+
+	def withdraw (self, balance):
+		self.budget-=balance
+		self.save()
+
+
+	@staticmethod
+	def getBudget():
+		return GeneralAccount.objects.all()[0]
+
 
 class Employee(models.Model):
 	name = models.CharField(max_length=30,verbose_name=u"نام")
@@ -34,6 +51,7 @@ class Employee(models.Model):
 	gender = models.CharField(max_length=1,verbose_name=u"جنسیت",choices=gender_choices)
 	marriage_status = models.CharField(max_length=1,verbose_name=u"وضعیت تاهل",choices=relation_choices)
 	salary= models.IntegerField(verbose_name=u"حقوق")
+	reminderSalary=models.IntegerField(verbose_name="باقی مانده حقوق")
 
 	def __unicode__(self):
 		prefix=u'آقای' if self.gender=='m' else u'خانم'
@@ -43,3 +61,8 @@ class SalaryFactor(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	amount= models.IntegerField(verbose_name=u"مقدار")
 	employee = models.ForeignKey(Employee, related_name = 'salaryFactors')
+
+class WikiFactor(models.Model):
+	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
+	amount= models.IntegerField(verbose_name=u"مقدار")
+	wiki = models.ForeignKey(Wiki, related_name = 'wikiFactors')
