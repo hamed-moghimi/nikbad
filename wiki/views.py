@@ -8,7 +8,7 @@ from mng.views import wiki
 from wiki.models import *
 from django.http import *
 from django.contrib.auth.decorators import login_required
-from wiki.forms import *
+# from wiki.forms import *
 from warehouse.models import Wiki_Order, Stock
 from sales.models import SaleBill_Product
 
@@ -47,6 +47,7 @@ def product_success(request):
     return render(request, 'wiki/product_success.html')
 
 def register(request):
+    pass
     if request.method == 'POST':
          form = WikiForm(request.POST)
          if form.is_valid():
