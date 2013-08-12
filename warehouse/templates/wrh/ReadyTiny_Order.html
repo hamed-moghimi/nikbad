@@ -33,18 +33,18 @@
                             <td class="WRH-td-th3"> نام کالا :</td>
                             <td class="WRH-td3">{{ clrs.transfer.product.name }}</td>
                         </tr>
-{#                        <tr>#}
-{#                            <td class="WRH-td-th3"> کد مشتری :</td>#}
-{#                            <td class="WRH-td3"> {{ bill.customer.pk }} </td>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <td class="WRH-td-th3"> نام :</td>#}
-{#                            <td class="WRH-td3"> {{ bill.customer.first_name }}</td>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <td class="WRH-td-th3"> نام خانوادگی :</td>#}
-{#                            <td class="WRH-td3"> {{ bill.customer.last_name }}</td>#}
-{#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class="WRH-td-th3"> کد مشتری :</td>#}
+                        {#                            <td class="WRH-td3"> {{ bill.customer.pk }} </td>#}
+                        {#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class="WRH-td-th3"> نام :</td>#}
+                        {#                            <td class="WRH-td3"> {{ bill.customer.first_name }}</td>#}
+                        {#                        </tr>#}
+                        {#                        <tr>#}
+                        {#                            <td class="WRH-td-th3"> نام خانوادگی :</td>#}
+                        {#                            <td class="WRH-td3"> {{ bill.customer.last_name }}</td>#}
+                        {#                        </tr>#}
                         <tr>
                             <td class="WRH-td-th3">تعداد :</td>
                             <td class="WRH-td3">
@@ -81,7 +81,6 @@
                             <td class="WRH-td2"> {{ pro.product.wiki.pk }}</td>
                             <td class="WRH-td2"> {{ pro.product.wiki.companyName }}</td>
                             <td class="WRH-td2"> {{ pro.number }} {{ pro.product.unit }}</td>
-{#                            <td class="WRH-td2"> {{ pro.product.unit }}</td>#}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -183,10 +182,10 @@
     </div>
 
     <center>
-        <button class="btn btn-primary btn-small" type="button" onclick="confirm_order('{{ clrs.pk }}')">
-آماده تحویل
+        <button class="btn btn-primary btn-small" type="button" onclick="confirm_ready_order('{{ clrs.pk }}')">
+            تایید خروج از انبار
         </button>
-        <button class="btn btn-primary btn-small" type="button" onclick="orders()">
+        <button class="btn btn-primary btn-small" type="button" onclick="ready_orders()">
             بازگشت
         </button>
     </center>

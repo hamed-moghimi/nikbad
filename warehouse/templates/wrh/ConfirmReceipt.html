@@ -1,4 +1,6 @@
 {% block WRH-panel2 %}
+    {#    <br xmlns="http://www.w3.org/1999/html"/>#}
+    {#    <br/>#}
     {% if error %}
         <center>
             <p style="font-weight: 700; font-size: 14">
@@ -10,32 +12,30 @@
             <br/>
 
             <div>
-                <button class="btn btn-primary" type="button" onclick="load_first_page()">
-                    ثبت کالاهای جدید
+                <button class="btn btn-primary" type="button" onclick="receipt_return()">
+                    بازگشت
                 </button>
             </div>
             <br/>
         </center>
     {% else %}
-        <br/>
-        <br/>
         <center>
-            <p style="font-weight: 700; font-size: 14">
-                کالاهای تحویلی مربوط به ویکی انتخاب شده با موفقیت در سیستم ثبت شدند. :)
-                {#            {{ error }}#}
+            {#        <div style="max-width: 300px; font-weight: 700; font-size: 14"></div>#}
+            <p style="font-weight: 700; font-size: 14; max-width: 500px;">
+                {{ msg }}
             </p>
+            {#        </div>#}
             <br/>
             <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/WRH-4images.jpg"/>
             <br/>
             <br/>
 
             <div>
-                <button class="btn btn-primary" type="button" onclick="load_first_page()">
-                    ثبت کالاهای جدید
+                <button class="btn btn-primary" type="button" onclick="receipt_return()">
+                    ثبت رسید جدید
                 </button>
             </div>
             <br/>
-
         </center>
     {% endif %}
 {% endblock %}

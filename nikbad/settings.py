@@ -113,7 +113,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #  'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 )
 
 ROOT_URLCONF = 'nikbad.urls'
@@ -147,6 +148,7 @@ INSTALLED_APPS = (
     'crm',
     'fnc',
     'contrib',
+    'mng',
 )
 
 # A sample logging configuration. The only tangible logging

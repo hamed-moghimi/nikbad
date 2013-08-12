@@ -1,7 +1,5 @@
-.WRH-heading2 {
-    margin: 0 0 10px 0;
-    font-family: "entezar";
-	color: rgb(0,89,132);
+.heading2 {
+	color: rgb(0,89,132) !important;
 	/*	text-align: center !important; */
 }
 
@@ -15,49 +13,14 @@
 	width: 60px !important;
 }
 
-.WRH-myimage3 {
-	height: 20px !important;
-	width: 20px !important;
-}
-
-.WRH-myimage4 {
-	height: 120px !important;
-	width: 120px !important;
-}
-
 .WRH-table {
-	width: 400px !important;
+	width: 300px !important;
 	alignment-baseline: central !important;
 	margin: auto !important;
 }
 
 .WRH-table2 {
 	width: 600px !important;
-	alignment-baseline: central !important;
-	margin: auto !important;
-}
-
-.WRH-table5 {
-    width: 300px !important;
-    alignment-baseline: central !important;
-    margin: auto !important;
-}
-
-.WRH-table3 {
-	width: 300px !important;
-	alignment-baseline: central !important;
-	margin: auto !important;
-}
-
-.WRH-table7 {
-    width: 250px !important;
-    alignment-baseline: central !important;
-    margin: auto !important;
-}
-
-
-.WRH-table4 {
-	width: 550px !important;
 	alignment-baseline: central !important;
 	margin: auto !important;
 }
@@ -86,44 +49,11 @@
 }
 
 .WRH-th-td2 {
-	width: 70px !important;
+	width: 50px !important;
 	height: 70px !important;
 	font-size: 14 !important;
 	font-weight: 700 !important;
 	text-align: center !important;
-}
-
-.WRH-th-td5 {
-    width: 70px !important;
-    height: 70px !important;
-    font-size: 14 !important;
-    font-weight: 700 !important;
-    text-align: center !important;
-}
-
-
-.WRH-td-th3 {
-	width: 100px !important;
-	height: 40px !important;
-	font-size: 14 !important;
-	font-weight: 700 !important;
-	text-align: right !important;
-	color: rgb(0,89,132) !important;
-	margin-bottom: 10 !important;
-}
-
-.WRH-td3 {
-	width: 50px !important;
-	height: 40px !important;
-	margin-top: 10;
-	text-align:right;
-}
-
-.WRH-td4 {
-	width: 100px !important;
-	height: 200px !important;
-	margin: auto;
-	text-align:right;
 }
 
 .number {
@@ -133,22 +63,14 @@
 }
 
 .WRH-td2 {
-	width: 70px !important;
+	width: 80px !important;
 	height: 40px !important;
 	text-align: center !important;
 	font-size: 14 !important;
 }
 
-.WRH-td5 {
-    width: 70px !important;
-    height: 40px !important;
-    text-align: center !important;
-    font-size: 14 !important;
-}
-
-
 .WRH-div2 {
-	height: 150px;
+	height: 120px;
 	width: 120px;
 	background-color: #FFFFFF;
 	margin: 10 10 10 10;
@@ -262,11 +184,11 @@
 	-moz-transform: rotate(360deg);
 	-webkit-transform: rotate(360deg);
 	-o-transform: rotate(360deg);
-	/** Firefox *
-	 /*	transform: translate(0,125px);*/
-	/*	-webkit-transform: translate(0,125px); /** Chrome & Safari **/
-	/*	-o-transform: translate(0,125px); /** Opera **/
-	/*	-moz-transform: translate(0,125px); /** Firefox **/
+	 /** Firefox *
+/*	transform: translate(0,125px);*/
+/*	-webkit-transform: translate(0,125px); /** Chrome & Safari **/
+/*	-o-transform: translate(0,125px); /** Opera **/
+/*	-moz-transform: translate(0,125px); /** Firefox **/
 }
 .WRH-panel3 {
 	margin: 20px 10px;
@@ -304,12 +226,12 @@
 	transform: rotate(360deg);
 	-moz-transform: rotate(360deg);
 	-webkit-transform: rotate(360deg);
-	-o-transform: rotate(360deg);
+	-o-transform: rotate(360deg); 
 	/** Firefox *
-	 transform: translate(-127px,27px);
-	 -webkit-transform: translate(-127px,27px); /** Chrome & Safari **/
-	/*	-o-transform: translate(-127px,27px); /** Opera **/
-	/*	-moz-transform: translate(-127px,27px); /** Firefox **/
+	transform: translate(-127px,27px);
+	-webkit-transform: translate(-127px,27px); /** Chrome & Safari **/
+/*	-o-transform: translate(-127px,27px); /** Opera **/
+/*	-moz-transform: translate(-127px,27px); /** Firefox **/
 }
 .WRH-reportDelivery {
 	height: 120px;
@@ -326,12 +248,12 @@
 	transform: rotate(360deg);
 	-moz-transform: rotate(360deg);
 	-webkit-transform: rotate(360deg);
-	-o-transform: rotate(360deg);
+	-o-transform: rotate(360deg); 
 	/** Firefox *
-	 transform: translate(130px,30px);
-	 -webkit-transform: translate(130px,30px); /** Chrome & Safari **/
-	/*	-o-transform: translate(130px,30px); /** Opera **/
-	/*	-moz-transform: translate(130px,30px); /** Firefox **/
+	transform: translate(130px,30px);
+	-webkit-transform: translate(130px,30px); /** Chrome & Safari **/
+/*	-o-transform: translate(130px,30px); /** Opera **/
+/*	-moz-transform: translate(130px,30px); /** Firefox **/
 }
 .WRH-reportOrder {
 	height: 120px;
@@ -350,9 +272,9 @@
 	-webkit-transform: rotate(360deg);
 	-o-transform: rotate(360deg);
 	/*transform: translate(-90px,-120px);
-	 -webkit-transform: translate(-90px,-120px);*/ /** Chrome & Safari **/
-	/*	-o-transform: translate(-90px,-120px); /** Opera **/
-	/*	-moz-transform: translate(-90px,-120px); /** Firefox **/
+	-webkit-transform: translate(-90px,-120px);*/ /** Chrome & Safari **/
+/*	-o-transform: translate(-90px,-120px); /** Opera **/
+/*	-moz-transform: translate(-90px,-120px); /** Firefox **/
 }
 .WRH-reportClearance {
 	height: 120px;
@@ -369,11 +291,11 @@
 	transform: rotate(360deg);
 	-moz-transform: rotate(360deg); /** Firefox */
 	-webkit-transform: rotate(360deg);
-	-o-transform: rotate(360deg);
+	-o-transform: rotate(360deg);	
 	/*transform: translate(65px,-120px);
-	 -webkit-transform: translate(65px,-120px); /** Chrome & Safari **/
-	/*	-o-transform: translate(65px,-120px); /** Opera **/
-	/*	-moz-transform: translate(65px,-120px); /** Firefox **/
+	-webkit-transform: translate(65px,-120px); /** Chrome & Safari **/
+/*	-o-transform: translate(65px,-120px); /** Opera **/
+/*	-moz-transform: translate(65px,-120px); /** Firefox **/
 }
 .circle-border {
 	width: 120px;
@@ -386,7 +308,7 @@
 	color: #fff;
 	line-height: 200px;
 	text-align: center;
-	/*	background: #CCCCCC;*/
+/*	background: #CCCCCC;*/
 	background: rgb(222,238,243);
 }
 .circle {
@@ -396,31 +318,11 @@
 	-moz-border-radius: 100px;
 	-webkit-border-radius: 100px;
 	-khtml-border-radius: 100px;
-	/*	margin: -3 -3;*/
+/*	margin: -3 -3;*/
 	font-size: 20px;
 	color: #fff;
 	line-height: 200px;
 	text-align: center;
-	/*	background: #CCCCCC;*/
-	background: rgb(222,238,243);
-}
-
-.WRH-panelOrder {
-	margin: 20px 10px;
-	border: solid 3px #EFEFEF;
-	padding: 10px;
-	margin: auto;
-	width: 600;
-}
-#WRH-button {
-
-}
-.WRH-content {
-	display: none;
-	background: rgb(0,255,0);
-	-webkit-transition: all 2s ease-in-out;
-	-moz-transtion: all 2s ease-in-out;
-}
-#new-insert-location {
-
+/*	background: #CCCCCC;*/
+background: rgb(222,238,243);
 }
