@@ -1,4 +1,5 @@
 {% extends "wiki/wiki.html" %}
+{% load nikbad_tags %}
  {% block content %}
 
 
@@ -36,7 +37,7 @@
 
         <td style="text-align: center">{{ product.name }}</td>
 
-        <td style="text-align: center">{{ product.price }}  تومان </td>
+        <td style="text-align: center">{{ product.price|toman }} </td>
 
         <td style="text-align: center">{{ product.off }}</td>
       </tr>

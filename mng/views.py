@@ -70,3 +70,5 @@ def feedback(request) :
     f.product = request.POST.productID
     f.save()
     return HttpResponse("ok")
+
+
