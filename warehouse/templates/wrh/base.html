@@ -34,8 +34,12 @@
     {#            <option value="shoes"> کیف و کفش</option>#}
     {#            <option value="furniture"> مبلمان</option>#}
     {#        </select>#}
-    <button class="btn btn-primary pull-left" style="margin-top: -2px;"> خروج</button>
+    <a class="btn btn-primary pull-left" style="margin-top: -2px; font-family: tahoma;" href="{% url logout %}">
+{#    <button class="btn btn-primary pull-left" style="margin-top: -2px;">#}
+        خروج
+{#    </button>#}
     {#        <button class="btn"><i class="icon-large icon-search"></i></button>#}
+        </a>
     {#    </form>#}
     </p>
 {% endblock %}
