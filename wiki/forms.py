@@ -30,7 +30,7 @@ def clean_repassword(self):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['goodsID','brand','name','unit','volume', 'sub_category','price','off']
+        fields = ['goodsID','brand','name','unit','volume','cat','sub_category','price','off']
 
 
 class DeleteProductForm(Form):
