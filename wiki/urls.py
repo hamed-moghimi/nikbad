@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
      url(r'^goodslist$', 'wiki.views.goodsList', name='wiki-index'),
-     url(r'^register$', 'wiki.views.register', name='wiki-index'),
+     url(r'^register$', 'wiki.views.register', name='wiki-register'),
      url(r'^success$', 'wiki.views.success', name='wiki-index'),
      url(r'^addProduct$', 'wiki.views.addproduct', name='wiki-index'),
      url(r'^deleteProduct$', 'wiki.views.deleteproduct', name='deleteproduct'),

@@ -7,7 +7,7 @@ from django.utils import timezone
 from sales.forms import SaleBillForm
 from sales.models import SaleBill, Ad, AdImage, MarketBasket
 from crm.models import Customer, Feedback
-from wiki.models import Product, Wiki
+from wiki.models import Product, Wiki, Category, SubCat
 
 
 # gets all wikis to display in menu bar
@@ -34,10 +34,10 @@ def category(request, catID):
 
     catID = int(catID)
     # get new products
-    new_products = Ad.objects.all().filter(product__subCategory__category__id = catID)[:10]
+    new_products = Ad.objects.all().filter(product__sub_category__category__id = catID)[:10]
 
     # get popular products
-    populars = Ad.objects.filter(product__subCategory__category__id = catID)[:10] #order_by('-popularity')[:10]
+    populars = Ad.objects.filter(product__sub_category__category__id = catID)[:10] #order_by('-popularity')[:10]
     context = baseContext(request)
     context.update({'new_products': new_products, 'populars': populars, 'category': catID})
     return render(request, 'sales/index.html', context)
