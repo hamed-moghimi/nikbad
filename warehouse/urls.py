@@ -32,4 +32,9 @@ urlpatterns = patterns('',
     url(r'^ReceiptDelivery2$', 'warehouse.views.ReceiptDelivery2', name='warehouse-index-test'),
     url(r'^ReceiptDetail/(?P<pid>\d+)$', 'warehouse.views.receipt_detail', name='warehouse-index-tiny_order'),
     url(r'^ConfirmReceipt/(?P<pid>\d+)$', 'warehouse.views.confirm_receipt', name='warehouse-index-tiny_order'),
+
+    #url marbut be report haa
+    url(r'^ReportStock$', 'warehouse.views.report_stock', name='warehouse-index-test'),
+    url(r'^ReportReturned$', 'warehouse.views.report_return', name='warehouse-index-test'),
+    url(r'^ReportWikiOrder$', 'warehouse.views.report_order', name='warehouse-index-test'),
 )

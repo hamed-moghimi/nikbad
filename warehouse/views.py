@@ -392,6 +392,26 @@ def confirm_receipt(request, pid):
 #****************************************END CUSTOMER WIKI RECEIPT***********************************
 #**********************************************************************************************
 
+#***********************************************************************************************************
+#***********************************BEGIN REPORTS***********************************************************
+def report_stock(request):
+    st = Stock.objects.all()
+    context = {'stocks': st, 'active_menu' : 4}
+    return render(request, 'wrh/ReportStock.html', context)
+
+def report_return(request):
+    st = Stock.objects.filter(quantity_returned__gt=0)
+    context = {'stocks': st, 'active_menu' : 5}
+    return render(request, 'wrh/ReportReturned.html', context)
+
+def report_order(request):
+    print("report order")
+    st = Wiki_Order.objects.all().order_by('date')
+    print (st)
+    context = {'wikis': st, 'active_menu' : 6}
+    return render(request, 'wrh/ReportWikiOrder.html', context)
+#****************************************END REPORTS*********************************************
+#**********************************************************************************************
 
 #***********************************************************************************************************
 #***********************************BEGIN MY FUNCS*******************************************************
