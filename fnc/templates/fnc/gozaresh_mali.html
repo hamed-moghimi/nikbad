@@ -13,6 +13,7 @@
 				<td class="FNC-th-td" >کد </td>
 				<td class="FNC-th-td"> بستانکاری</td>
 				<td class="FNC-th-td"> بدهکاری </td>
+                <td class="FNC-th-td"> تاریخ</td>
 				<td class="FNC-th-td"> شرح جزئیات </td>
                 <td class="FNC-th-td">  </td>
 			</thead>
@@ -25,19 +26,9 @@
 						</td>
 						<td class="FNC-td2"> {{ cb.bestan }} </td>
 						<td class="FNC-td2"> {{ cb.bedeh }} </td>
+                        <td class="FNC-td2"> {{ cb.date }} </td>
 						<td class="FNC-td2"> {{ cb.description }} </td>
                         <td class="FNC-td2">ویرایش </td>
-					</tr>
-                {% endfor %}
-            {% for sb in saleBills %}
-                    <tr>
-						<td class="FNC-td2 Edit"> <input type="image" class="FNC-myimage2 Edit" src="images/financial/edit_pic.jpg"/></td>
-						<td class="FNC-td2">
-						<label for="code" class="nohand col-lg-2 control-label">{{ sb.id }}</label>
-						</td>
-						<td class="FNC-td2"> {{ sb.totalPrice }} </td>
-						<td class="FNC-td2">  </td>
-						<td class="FNC-td2"> {{ sb.customer.get_full_name}} خرید توسط</td>
 					</tr>
                 {% endfor %}
 
