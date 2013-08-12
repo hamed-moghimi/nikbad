@@ -1,9 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "wiki/wiki.html" %}
+{% block content %}
 
-</body>
-</html>
+
+    <div class="panel">
+
+        <h2 class="panel-header">فهرست کالاهای موجود در انبار</h2>
+
+        <table class="table-striped" style="width: 100%">
+            <thead>
+            <tr>
+                <th style="width: 10%">ردیف</th>
+
+                <th style="width: 25%">نام</th>
+
+                <th style="width: 20%">تعداد مرجوعی</th>
+
+                <th style="width: 10%">تعداد موجود</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for stock in stock_list %}
+                {% with forloop.counter as num %}
+
+                    <tr>
+                        <td style="text-align: center">{{ num }}</td>
+
+                        <td style="text-align: center">{{ stock.product}}</td>
+
+                        <td style="text-align: center">{{ stock.quantity_returned }}</td>
+
+                        <td style="text-align: center">{{ stock.quantity }}</td>
+
+
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=3%}
+{% endblock %}
+

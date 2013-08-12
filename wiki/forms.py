@@ -42,6 +42,7 @@ class DateForm(forms.Form):
 
 class RequestForm(forms.Form):
     proID = forms.IntegerField(label=u'کد کالا')
+    ret_only = forms.BooleanField(label=u'فقط کالاهای بازگشتی را بازگردان')
 
 
 

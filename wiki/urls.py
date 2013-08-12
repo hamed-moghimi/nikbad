@@ -8,5 +8,6 @@ urlpatterns = patterns('',
      url(r'^deleteProduct$', 'wiki.views.deleteproduct', name='deleteproduct'),
      url(r'^DateForm$', 'wiki.views.wrhorders', name='wrh-order'),
      url(r'^returnrequest$', 'wiki.views.returnrequest', name='return-req'),
-     # url(r'^wrhproducts$', 'wiki.views.wrhproducts', name='wrh-products'),
+     url(r'^salesreport$', 'wiki.views.salesreport', name='sales-report'),
+     url(r'^wrhproducts$', 'wiki.views.wrhproducts', name='sales-report'),
 )
