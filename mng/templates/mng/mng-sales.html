@@ -1,9 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "mng/base.html" %}
+{% block title %}
+گزارش فروش
+{% endblock %}
+{% block content %}
+    <div class="panel" xmlns="http://www.w3.org/1999/html">
+        <h2 class="WRH-heading2"> گزارش فروش</h2>
 
-</body>
-</html>
+        <div class="WRH-panel2">
+            <br />
+            {% if salebill %}
+                <p>
+ کالاهای فروخته شده
+                </p>
+                <br />
+                <table class="WRH-table2 table-hover table-striped">
+                    <thead>
+{#                    <td class="WRH-th-td2"></td>#}
+                    <td class="WRH-th-td2"> شماره فاکتور</td>
+                    <td class="WRH-th-td2"> نام مشتری</td>
+{#                    <td class="WRH-th-td2">نام ویکی </td>#}
+{#                    <td class="WRH-th-td2" >کد کالا  </td>#}
+{#                    <td class="WRH-th-td2"> نام کالا </td>#}
+{#                    <td class="WRH-th-td2"> تعداد </td>#}
+
+                    <td class="WRH-th-td2"> قیمت</td>
+                    <td class="WRH-th-td2"> تاریخ فروش</td>
+                    </thead>
+                    <tbody>
+                    {% for stock in salebill %}
+                        <tr>
+{#                            <td class="WRH-td2"> <img class="WRH-myimage2" src="{{ stock.product.wiki.image.url }}"/></td>#}
+                            <td class="WRH-td2"> {{ stock.pk }} </td>
+                            <td class="WRH-td2"> {{ stock.customer.get_full_name }}</td>
+                            <td class="WRH-td2"> {{ stock.totalPrice }}</td>
+                            <td class="WRH-td2"> {{ stock.saleDate }}</td>
+                            <td class="WRH-th-td2"><a href="{% url mng-sale-detail wId=stock.id %}"> لیست خرید </a></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <br />
+
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=4%}
+{% endblock %}
+

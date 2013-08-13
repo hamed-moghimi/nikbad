@@ -41,7 +41,7 @@
                     {% for pro in  Product %}
                         <tr>
 
-                            <td class="WRH-td2">{%  pro.product.add.icon.image.url %}</td>
+                            <td class="WRH-td2"><img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/></td>
                             <td class="WRH-td2">
                                 {{ pro.product.name }}
                             </td>
@@ -70,7 +70,7 @@
             </form>
         {% endblock %}
         </div>
-        {% else %}
+{#        {% else %}#}
 {#        کالا خریداری نشده#}
 
         </div>
