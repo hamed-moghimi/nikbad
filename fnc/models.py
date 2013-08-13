@@ -19,7 +19,7 @@ class CostBenefit(models.Model):
 	description= models.TextField(verbose_name=u"جزئیات")
 	bedeh= models.IntegerField(verbose_name=u"بدهکاری",  null=True, blank=True)
 	bestan= models.IntegerField(verbose_name=u"بستانکاری", null=True, blank=True)
-	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits', null=True, blank=True)
+
 
 class GeneralAccount(models.Model):
 	budget= models.IntegerField(verbose_name=u"بودجه")

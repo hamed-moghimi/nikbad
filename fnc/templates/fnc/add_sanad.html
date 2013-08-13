@@ -9,7 +9,7 @@
         <h2 class="panel-header"> ثبت سند اصلاحی جدید </h2>
 
         <form class="form-horizontal" action="" method="post">
-            {% include "_hForm.html" with form=emp_form %}
+            {% include "_hForm.html" with form=add_form %}
         </form>
 
     </div>
@@ -18,6 +18,6 @@
     {% if perms.fnc.is_manager %}
         {% include "mng/_menus.html" with active_menu=6 %}
     {% else %}
-        {% include "fnc/_menus.html" with active_menu=2 %}
+        {% include "fnc/_menus.html" with active_menu=3 %}
     {% endif %}
 {% endblock %}
