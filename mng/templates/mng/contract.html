@@ -1,4 +1,5 @@
 {% extends "mng/base.html" %}
+
 {% block content %}
 
 
@@ -10,5 +11,9 @@
             {% include '_hForm.html' %}
         </form>
     </div>
+{% endblock %}
+
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=3%}
 {% endblock %}
 
