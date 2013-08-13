@@ -32,6 +32,7 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
     # Some other properties here, hazineye anbardari and ... :D
@@ -50,7 +51,6 @@ class Product(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name="کد ویکی")
     brand = models.CharField("برند", max_length=255)
     name = models.CharField("نام کالا", max_length=255)
-    cat = models.ForeignKey(Category, verbose_name="دسته بندی")
     sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته")
     price = models.IntegerField("قیمت")
     off = models.PositiveSmallIntegerField("تخفیف", blank=True, null=True)

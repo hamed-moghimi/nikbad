@@ -1,9 +1,10 @@
-<li class="header">
+{% if perms.warehouse.is_warehouseman %}
+<li class="header hover">
 	<a> ورود وخروج کالا از انبار</a>
 </li>
 <li {% if active_menu == 1 %}class="active"{% endif %}>
 	<a {% if active_menu != 1 %}href="WRHDelivery"{% endif %}>
-ورود کالا به انبار
+ثبت ورود کالا به انبار
         <i class="icon-chevron-left">
 
         </i>
@@ -11,15 +12,17 @@
 </li>
 <li {% if active_menu == 2 %}class="active"{% endif %}>
     <a {% if active_menu != 2 %}href="NewOrder"{% endif %}>
-حواله های انبار
+ حواله های انبار
         <i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 3 %}class="active"{% endif %}>
     <a {% if active_menu != 3 %}href="CustomerReturn"{% endif %}>
-کالاهای معیوب
+ثبت کالاهای معیوب
         <i class="icon-chevron-left"></i></a>
 </li>
-<li class="header">
+{% endif %}
+{% if perms.warehouse.is_mng_warehouse %}
+<li class="header hover">
     <a>
 گزارشات انبارگردانی
     </a>
@@ -40,59 +43,48 @@
         سفارشات انبار
         <i class="icon-chevron-left"></i></a>
 </li>
-{#<li class="header">#}
-{#    <a>#}
-{#        تحویل کالا به مشتری#}
-{#    </a>#}
-{#</li>#}
-{#<li {% if active_menu == 5 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 5 %}href="#"{% endif %}>#}
-{#        ثبت ارجاع کالا از مشتری#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li {% if active_menu == 6 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 6 %}href="#"{% endif %}>#}
-{#ثبت تحویل کالا به مشتری#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li class="header">#}
-{#    <a>#}
-{#گزارشات انبارگردانی#}
-{#    </a>#}
-{#</li>#}
-{#<li {% if active_menu == 7 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 7 %}href="#"{% endif %}>#}
-{#موجودی انبار#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li {% if active_menu == 8 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 8 %}href="#"{% endif %}>#}
-{#        کالاهای مرجوعی#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li {% if active_menu == 9 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 9 %}href="#"{% endif %}>#}
-{#        تحویل های انبار#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li {% if active_menu == 10 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 10 %}href="#"{% endif %}>#}
-{#ارجاعات انبار#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li {% if active_menu == 11 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 11 %}href="#"{% endif %}>#}
-{#سفارشات انبار#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
-{#<li class="header">#}
-{#    <a>#}
-{#هزینه انبارداری#}
-{#    </a>#}
-{#</li>#}
-{#<li {% if active_menu == 11 %}class="active"{% endif %}>#}
-{#    <a {% if active_menu != 11 %}href="#"{% endif %}>#}
-{#        ثبت هزینه انبارداری کالاها#}
-{#        <i class="icon-chevron-left"></i></a>#}
-{#</li>#}
+<li {% if active_menu == 7 %}class="active"{% endif %}>
+    <a {% if active_menu != 7 %}href="ReportDelivery"{% endif %}>
+   تحویل های انبار
+        <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 8 %}class="active"{% endif %}>
+    <a {% if active_menu != 8 %}href="ReportClear"{% endif %}>
+        ترخیص های انبار
+        <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 9 %}class="active"{% endif %}>
+    <a {% if active_menu != 9 %}href="ReportReceiptCustomer"{% endif %}>
+        رسیدهای کالا به مشتریان
+        <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 10 %}class="active"{% endif %}>
+    <a {% if active_menu != 10 %}href="ReportReceiptWiki"{% endif %}>
+        رسیدهای کالا به ویکی ها
+        <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 11 %}class="active"{% endif %}>
+    <a {% if active_menu != 11 %}href="ReportTrc"{% endif %}>
+        حواله های انبار
+        <i class="icon-chevron-left"></i></a>
+</li>
+{% endif %}
+{% if perms.warehouse.is_deliveryman %}
+    <li class="header hover">
+        <a>
+حواله ها و رسیدها
+        </a>
+    </li>
+
+    <li {% if active_menu == 12 %}class="active"{% endif %}>
+        <a {% if active_menu != 12 %}href="ReadyOrder"{% endif %}>
+حواله های آماده ترخیص
+            <i class="icon-chevron-left"></i></a>
+    </li>
+    <li {% if active_menu == 13 %}class="active"{% endif %}>
+        <a {% if active_menu != 13 %}href="ReceiptDelivery"{% endif %}>
+            ثبت رسید تحویل کالا
+            <i class="icon-chevron-left"></i></a>
+    </li>
+{% endif %}
 

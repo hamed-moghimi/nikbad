@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseForbidden
+from django.utils import encoding
 from crm.forms import CustomerForm,EditForm, checkCustomerForm
 
 from crm.models import *
@@ -69,13 +70,13 @@ def feedback(request) :
     try:
         if(request.POST and request.is_ajax()):
             f = Feedback()
-            f.content = request.POST['content']
+            f.content = request.POST['content'].encode('utf-8')
             c = Customer.objects.get(username=request.user.username)
             f.Customer = c
-            f.product = request.POST['productID']
+            f.product_id = int(request.POST['productID'])
             f.save()
             return HttpResponse("ok")
         else:
             return HttpResponseForbidden()
     except:
-        return HttpResponseForbidden()
+       return HttpResponseForbidden()

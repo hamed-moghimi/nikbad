@@ -15,6 +15,38 @@ function ready_orders() {
     $(".WRH-panel2").fadeIn("slow");
 }
 
+function report_clear2() {
+    $(".WRH-panel2").fadeOut("slow");
+    setTimeout(function() {
+        $(".WRH-panel2").load('ReportClear2');
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
+}
+
+function report_receipt_customer2() {
+    $(".WRH-panel2").fadeOut("slow");
+    setTimeout(function() {
+        $(".WRH-panel2").load('ReportReceiptCustomer2');
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
+}
+
+function report_receipt_wiki2() {
+    $(".WRH-panel2").fadeOut("slow");
+    setTimeout(function() {
+        $(".WRH-panel2").load('ReportReceiptWiki2');
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
+}
+
+function report_trc2() {
+    $(".WRH-panel2").fadeOut("slow");
+    setTimeout(function() {
+        $(".WRH-panel2").load('ReportTrc2');
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
+}
+
 function ready_tiny_orders(tmp) {
     $(".WRH-panel2").fadeOut("slow");
     setTimeout(function() {
@@ -29,6 +61,14 @@ function tiny_orders(tmp) {
 		$(".WRH-panel2").load(tmp);
 	}, 500);
 	$(".WRH-panel2").fadeIn("slow");
+}
+
+function report_order_detail(tmp) {
+    $(".WRH-panel2").fadeOut("slow");
+    setTimeout(function() {
+        $(".WRH-panel2").load(tmp);
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
 }
 
 function confirm_order(tmp) {

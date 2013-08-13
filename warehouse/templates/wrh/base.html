@@ -8,12 +8,23 @@
     <script src="{{ STATIC_URL }}wrh/js/WRH-javascript.js" type="text/javascript"></script>
 {% endblock %}
 
-
+{% block header %}
+    {% if perms.warehouse.is_deliveryman %}
+        <img style="max-width: 100%; max-height: 100%" src="{{ STATIC_URL }}wrh/images/delivery_header.jpg"/>
+    {% else %}
+        <img style="width: 100%; " src="{{ STATIC_URL }}wrh/images/warehouse_header.jpg"/>
+    {% endif %}
+{% endblock %}
 {% block user_panel %}
     {#   <p class= "WRH-heading2" style ="font-size: 20px; margin-top: 10px; font-family: ">#}
     {#       <p >#}
     <p style="font-family: entezar; font-size: 20px; font-weight: 700; margin-top: 7px; margin-right: -10px; color: rgb(0,89,132);">
-
+        {% if perms.warehouse.is_deliveryman %}
+            {{ user }} به بخش تحویل داری خوش آمدید :)
+        {% else %}
+            {{ user }} به بخش انبارداری خوش آمدید :)
+        {% endif %}
+    </p>
     {#  </div>#}
 
     {#    <form class="navbar-form pull-right" action="">#}
@@ -34,8 +45,12 @@
     {#            <option value="shoes"> کیف و کفش</option>#}
     {#            <option value="furniture"> مبلمان</option>#}
     {#        </select>#}
-    <button class="btn btn-primary pull-left" style="margin-top: -2px;"> خروج</button>
+    <a class="btn btn-primary pull-left" style="margin-top: -32px; font-family: tahoma;" href="{% url logout %}">
+{#    <button class="btn btn-primary pull-left" style="margin-top: -2px;">#}
+        خروج
+{#    </button>#}
     {#        <button class="btn"><i class="icon-large icon-search"></i></button>#}
+        </a>
     {#    </form>#}
     </p>
 {% endblock %}

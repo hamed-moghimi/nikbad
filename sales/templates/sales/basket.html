@@ -1,4 +1,5 @@
 {% extends "sales/base.html" %}
+{% load nikbad_tags %}
 
 {% block title %}
     بازار اینترنی نیک باد
@@ -7,34 +8,51 @@
 {% block content %}
     <div class="panel">
         <h2 class="panel-header">سبد خرید</h2>
-        <table class="table table-striped">
-            <thead>
+        {% if items %}
+            <table class="table table-striped">
+                <thead>
                 <th></th>
                 <th>نام کالا</th>
                 <th>قیمت واحد</th>
                 <th>تعداد</th>
-            </thead>
-            <tbody>
-                {% for item in basket.items.all %}
+                <th>قیمت کل</th>
+                </thead>
+                <tbody>
+                {% for item in items %}
                     {% with forloop.counter as cnt %}
-                    <tr>
-                        <td>{{ cnt }}</td>
-                        <td>{{ item.product }}</td>
-                        <td>{{ item.product.price }}</td>
-                        <td>{{ item.number }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ cnt }}</td>
+                            <td>{{ item.product }}</td>
+                            <td>{{ item.product.price|toman }}</td>
+                            <td>{{ item.number }}</td>
+                            <td><b>{{ item.totalPrice|toman }}</b></td>
+                        </tr>
                     {% endwith %}
                 {% endfor %}
-            </tbody>
-       </table>
-    <p class="text-right">
-        جمع کل :
-        {{ basket.totalPrice }}
-
-        <form action="" method="post">
-            {% csrf_token %}
-            <button class="btn btn-primary">تایید</button>
-        </form>
-    </p>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        مجموع :
+                    </td>
+                    <td>
+                        <b>
+                            {{ basket.totalPrice|toman }}
+                        </b>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <form action="" method="post" class="input-block-level">
+                {% csrf_token %}
+                <button class="btn btn-primary pull-left">تایید</button>
+            </form>
+            </p>
+        {% else %}
+            <p class="text-right">
+                سبد خرید شما فعلا خالی است.
+            </p>
+        {% endif %}
     </div>
 {% endblock %}

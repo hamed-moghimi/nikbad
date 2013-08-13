@@ -52,7 +52,7 @@ body
 #content
 {
 	width: 780px;
-	min-height: 400px;
+	min-height: 1500px;
 	background-color: #FFFFFF;
 	padding: 0 10px;
     float: left;
@@ -74,7 +74,7 @@ body
 	padding: 10px;
 }
 
-.panel > .panel-header
+.panel .panel-header
 {
 	margin: 0 0 10px 0;
 	font-family: "entezar";
@@ -194,21 +194,22 @@ body
 }
 
 /* ---------- horizontal forms ---------- */
-.form-horizontal .errorlist
-{
+.form-horizontal .errorlist {
     color: #b94a48;
     display: inline-block;
     list-style: none;
     margin-right: 10px;
 }
 
-.form-horizontal .controls *
-{
+.form-horizontal .controls * {
     vertical-align: top;
 }
 
+.form-horizontal .control-value {
+    margin-top: 3px;
+}
+
 /* --------- icons ----------- */
-i.icon-inline
-{
+i.icon-inline {
     margin: 0 5px;
 }

@@ -2,109 +2,84 @@
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.utils import timezone
 from sales.forms import SaleBillForm
-from sales.models import SaleBill, Ad, AdImage, MarketBasket
-from crm.models import Customer
-from wiki.models import Product
+from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product
+from crm.models import Customer, Feedback
+from wiki.models import Product, Wiki, Category, SubCat
 
-def createNewAds():
-    pl = Product.objects.all()
-    for p in pl:
-        a, ok = Ad.objects.get_or_create(product = p, description = u'اجناس خوب و مرغوب')
-        icon = AdImage.objects.create(ad = a, title = u'تصویر', image = '/media/ad_images/{0}.jpg'.format(a.id))
-        a.icon = icon
-        a.save()
 
-# @user_passes_test(customer bashad?! :D)
+# gets all wikis to display in menu bar
+from wiki.views import goodsList
+
+
+def baseContext(request):
+    if request.customer:
+        request.user = request.customer
+    return {'wikis': Wiki.objects.all()[:20], 'customer': request.customer}
+
+
 def index(request):
-    customer = request.user
-    print(customer.user_permissions.all())
-    # get customer
-    try:
-        customer = Customer.objects.get(username = request.user.username)
-        if customer.is_active:
-            request.user = customer
-        else:
-            raise None
-    except:
-        request.user = customer = None
-
     # get new products
     new_products = Ad.objects.all()[:10]
 
     # get popular products
     populars = Ad.objects.all()[:10] #order_by('-popularity')[:10]
-    return render(request, 'sales/index.html', {'new_products': new_products, 'populars': populars, 'customer': customer})
+    context = baseContext(request)
+    context.update({'new_products': new_products, 'populars': populars})
+    print context
+    return render(request, 'sales/index.html', context)
+
 
 def category(request, catID):
-
     catID = int(catID)
-
-    # get customer
-    customer = request.user
-    try:
-        customer = Customer.objects.get(username = request.user.username)
-        if customer.is_active:
-            request.user = customer
-        else:
-            raise None
-    except:
-        request.user = customer = None
-
     # get new products
-    new_products = Ad.objects.all() #filter(subCategory__category__id = catID)[:10]
+    new_products = Ad.objects.all().filter(product__sub_category__category__id = catID)[:10]
 
     # get popular products
-    populars = Ad.objects.all() #filter(subCategory__category__id = catID)[:10] #order_by('-popularity')[:10]
-    return render(request, 'sales/index.html', {'new_products': new_products, 'populars': populars, 'customer': customer, 'category': catID})
+    populars = Ad.objects.filter(product__sub_category__category__id = catID)[:10] #order_by('-popularity')[:10]
+    context = baseContext(request)
+    context.update({'new_products': new_products, 'populars': populars, 'category': catID})
+    return render(request, 'sales/index.html', context)
 
 
 def detailsPage(request, itemCode):
-    # get customer
-    customer = request.user
-    try:
-        customer = Customer.objects.get(username = request.user.username)
-        if customer.is_active:
-            request.user = customer
-        else:
-            raise None
-    except:
-        request.user = customer = None
-
     try:
         ad = Ad.objects.get(id = itemCode)
+        polls = ad.product.feedback_set.all()
     except:
         return HttpResponseRedirect(reverse('sales-index'));
 
-    return render(request, 'sales/details.html', {'item': ad, 'customer': customer})
+    context = baseContext(request)
+    context.update({'item': ad, 'polls': polls})
+    return render(request, 'sales/details.html', context)
 
 
-@permission_required('crm.is_customer', login_url=reverse_lazy('sales-index'))
+@permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
 def marketBasket(request):
-    # get customer
-    customer = Customer.objects.get(username = 'user1')
-    request.user = customer
-
     #TODO: market basket form
+    customer = request.customer
     # temporary codes
     if request.method == 'POST':
         SaleBill.createFromMarketBasket(customer.marketBasket)
         customer.marketBasket.clear()
         return render(request, 'sales/success.html', {})
 
-    return render(request, 'sales/basket.html', {'basket': customer.marketBasket})
+    items = customer.marketBasket.items.all()
+    for item in items:
+        item.totalPrice = item.product.price * item.number
+
+    context = baseContext(request)
+    context.update({'basket': customer.marketBasket, 'items': items})
+    return render(request, 'sales/basket.html', context)
 
 
-def newBuy(request):
-    #c = Customer.objects.get(username = 'user1')
-
-    #b = SaleBill(totalPrice = 1000, customer = c)
-    #b.save()
-    #st = u'قبض شماره {0} در تاریخ {1} برای {2} صادر شد'.format(b.id, b.saleDate, c.get_full_name())
-    form = SaleBillForm(request.POST)
-    return render(request, 'sales/index.html', {'form': form})
-
-
-def index2(request):
-    return render(request, 'sales/index.html', {})
+@permission_required('crm.is_customer', raise_exception = True)
+def addToMarketBasket(request, pId):
+    if request.is_ajax():
+        mb = request.customer.marketBasket
+        p = Product.objects.get(pk = pId)
+        mb.add_item(p)
+        return HttpResponse(mb.itemsNum)
+        # return HttpResponseForbidden()

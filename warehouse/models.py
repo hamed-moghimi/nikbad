@@ -36,7 +36,6 @@ class Stock(models.Model):
     rack_num_returned = models.IntegerField(verbose_name=u"شماره قفسه مرجوعی")
     rack_num = models.IntegerField(verbose_name=u"شماره قفسه")
 
-    @classmethod
     def enough_stock(self):
         if (self.quantity - self.reserved_quantity)>0:
             return True
