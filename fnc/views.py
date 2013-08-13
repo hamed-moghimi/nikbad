@@ -8,7 +8,7 @@ from fnc.forms import EmployeeForm
 from datetime import timedelta, datetime
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_common')
 def index(request):
 	#request.get['username']
 	#request.post
@@ -46,7 +46,7 @@ def sabtenam_karmand(request):
 	return render(request, 'fnc/sabtenam_karmand.html', context)
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_manager', login_url=reverse_lazy('fnc-index'))
 def karmandan(request):
 	employees = Employee.objects.all()
 	for ep in employees:
@@ -61,7 +61,7 @@ def karmandan(request):
 	return render(request, 'fnc/karmandan.html', context)
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_manager', login_url=reverse_lazy('fnc-index'))
 def karmand_detail(request,epId):
 	employee=Employee.objects.get(id=epId)
 	rollcalls=RollCall.objects.filter(employee=epId)

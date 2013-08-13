@@ -4,8 +4,8 @@ from django.db import models
 from wiki.models import Wiki
 from django.utils import timezone
 
-relation_choices= (('m',"متاهل"),('s',"مجرد"))
-gender_choices= (('m',"مرد"),('f',"زن"))
+relation_choices= (('متاهل',"متاهل"),('مجرد',"مجرد"))
+gender_choices= (('مرد',"مرد"),('زن',"زن"))
 
 class RollCall(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
@@ -55,7 +55,7 @@ class Employee(models.Model):
 	reminderSalary=models.IntegerField(verbose_name="باقی مانده حقوق", default=0)
 
 	def __unicode__(self):
-		prefix=u'آقای' if self.gender=='m' else u'خانم'
+		prefix=u'آقای' if self.gender=='مرد' else u'خانم'
 		return u'{0} {1} {2}'.format(prefix ,self.name, self.family_name)
 
 class SalaryFactor(models.Model):
