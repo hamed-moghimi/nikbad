@@ -1,7 +1,7 @@
-{% extends "sales/base.html" %}
+﻿{% extends "sales/base.html" %}
 
 {% block title %}
-بازار اینترنی نیک باد
+    بازار اینترنی نیک باد
 {% endblock %}
 
 {% block content %}
@@ -24,4 +24,19 @@
             {% endfor %}
         </div>
     </div>
+
+    {% if message %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>تبریک!</strong>
+            {{ message }}
+        </div>
+    {% endif %}
+    {% if error %}
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>هشدار!</strong>
+            {{ error }}
+        </div>
+    {% endif %}
 {% endblock %}

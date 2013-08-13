@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
     /* -------- event handlers --------- */
+    // alerts
+    $('.alert').alert();
+
     // info-box
     infoBox = $('.info-box');
     $('.opt-info').click(function (e) {

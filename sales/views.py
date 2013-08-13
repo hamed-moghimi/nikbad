@@ -30,7 +30,12 @@ def index(request):
     populars = Ad.objects.all()[:10] #order_by('-popularity')[:10]
     context = baseContext(request)
     context.update({'new_products': new_products, 'populars': populars})
-    print context
+
+    if 'message' in request.GET:
+        context.update({'message': request.GET['message']})
+    elif 'error' in request.GET:
+        context.update({'error': request.GET['error']})
+
     return render(request, 'sales/index.html', context)
 
 
@@ -71,6 +76,7 @@ def marketBasket(request):
         mbForm = MBPFormSet(request.POST, instance = mb)
         if mbForm.is_valid():
             mbForm.save()
+            mb.updateItems()
             context.update({'message': u'با موفقیت انجام شد'})
     else:
         mbForm = MBPFormSet(instance = mb)
@@ -121,5 +127,14 @@ def adEdit(request, itemCode):
     return render(request, 'sales/adEdit.html', context)
 
 
+@permission_required('crm.is_customer', raise_exception = True)
 def newBuy(request):
-    pass
+    get = ''
+    if request.GET['status'] == 'OK':
+        mb = request.customer.marketBasket
+        SaleBill.createFromMarketBasket(mb)
+        mb.clear()
+        get = u'?message=خرید شما با موفقیت انجام شد'
+    else:
+        get = u'?error=خرید انجام نشد'
+    return HttpResponseRedirect(reverse('sales-index') + get)

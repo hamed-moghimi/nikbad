@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from sales.models import MarketBasket
+
 
 def login(request):
     print('login')
@@ -42,6 +44,9 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
 
+
 def bank(request):
-    context = {}
+    session = request.GET['session']
+    basket = MarketBasket.objects.get(pk = session)
+    context = {'amount': basket.totalPrice}
     return render(request, 'contrib/bank.htm', context)

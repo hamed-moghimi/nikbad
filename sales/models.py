@@ -87,6 +87,7 @@ class MarketBasket(models.Model):
         if number != -1:
             item.number = number
         item.save()
+        self.calculateTotalPrice()
         return created
 
     def remove_item(self, product):
@@ -94,8 +95,20 @@ class MarketBasket(models.Model):
         if item.exists():
             self.itemsNum -= 1
             item.delete()
+            self.calculateTotalPrice()
             return True
         return False
+
+    def updateItems(self):
+        self.itemsNum = self.items.count()
+        self.calculateTotalPrice()
+
+    def calculateTotalPrice(self):
+        p = 0
+        for item in self.items.all():
+            p += item.product.price * item.number
+        self.totalPrice = p
+        self.save()
 
     def clear(self):
         self.totalPrice = 0

@@ -14,6 +14,7 @@
                 <table class="table table-striped">
                     <thead>
                     <th></th>
+                    <th>حذف</th>
                     <th>نام کالا</th>
                     <th>قیمت واحد</th>
                     <th>تعداد</th>
@@ -24,6 +25,7 @@
                         {% with forloop.counter as cnt %}
                             <tr>
                                 <td>{{ cnt }}</td>
+                                <td>{{ form.DELETE }}</td>
                                 <td>{{ item.product }}</td>
                                 <td>{{ item.product.price|toman }}</td>
                                 <td>
@@ -40,12 +42,7 @@
                         {% endwith %}
                     {% endfor %}
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            مجموع :
-                        </td>
+                        <td colspan="5"></td>
                         <td>
                             <b>
                                 {{ basket.totalPrice|toman }}
@@ -59,7 +56,7 @@
                     <p class="text-left text-success">{{ message }}</p>
                     <br/>
                     <button class="btn btn-primary">تایید</button>
-                    <a href="{% url sales-finishBuy %}" class="btn btn-success"> تکمیل خرید </a>
+                    <a href="{% url contrib-bank %}?session={{ basket.pk }}" class="btn btn-success"> تکمیل خرید </a>
                 </div>
             </form>
         {% else %}
