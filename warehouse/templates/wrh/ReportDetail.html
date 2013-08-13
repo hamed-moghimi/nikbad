@@ -208,9 +208,15 @@
                     بازگشت
                 </button>
             {% else %}
-                <button class="btn btn-primary btn-small" type="button" onclick="report_trc2()">
-                    بازگشت
-                </button>
+                {% if src == 4 %}
+                    <button class="btn btn-primary btn-small" type="button" onclick="report_trc2()">
+                        بازگشت
+                    </button>
+                {% else %}
+                    <button class="btn btn-primary btn-small" type="button" onclick="report_receipt_delivery2()">
+                        بازگشت
+                    </button>
+                {% endif %}
             {% endif %}
         {% endif %}
     {% endif %}

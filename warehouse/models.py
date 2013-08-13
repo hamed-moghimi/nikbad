@@ -26,6 +26,14 @@ defect = {
     ('n', 'not_defective')
 }
 
+#delivery status
+deliveryChoices = (
+    (0, u'صادر شده'),
+    (1, u'در راه'),
+    (2, u'دریافت شده')
+)
+
+
 # mowjudie anbar
 class Stock(models.Model):
     product = models.ForeignKey(Product, verbose_name=u"کالا")
@@ -87,6 +95,7 @@ class Wiki_Order(models.Model):
     product = models.ForeignKey(Product, verbose_name=u"کالا")
     wiki = models.ForeignKey(Wiki, verbose_name=u"ویکی")
     quantity = models.PositiveIntegerField(verbose_name=u"مقدار")
+    deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
 
 # reside moshtari ya wiki
 class Receipt_Customer_Wiki(models.Model):

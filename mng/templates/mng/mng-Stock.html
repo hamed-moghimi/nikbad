@@ -1,0 +1,52 @@
+{% extends "mng/base.html" %}
+{% block title %}
+    گزارش موجودی انبار
+{% endblock %}
+{% block content %}
+<div class="panel" xmlns="http://www.w3.org/1999/html">
+    <h2 class="WRH-heading2"> گزارش موجودی انبار</h2>
+
+    <div class="WRH-panel2">
+        <br />
+        {% if stocks %}
+        <p>
+            کالاهای موجود در انبار به شرح زیر می باشند:
+        </p>
+        <br />
+        <table class="WRH-table2 table-hover table-striped">
+            <thead>
+            <td class="WRH-th-td2"></td>
+            <td class="WRH-th-td2">کد ویکی </td>
+            <td class="WRH-th-td2">نام ویکی </td>
+            <td class="WRH-th-td2" >کد کالا  </td>
+            <td class="WRH-th-td2"> نام کالا </td>
+            <td class="WRH-th-td2"> تعداد </td>
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <td class="WRH-td2"> <img class="WRH-myimage2" src="{{ stock.product.wiki.image.url }}"/></td>
+                <td class="WRH-td2"> {{ stock.product.wiki.pk }} </td>
+                <td class="WRH-td2"> {{ stock.product.wiki.companyName }}</td>
+                <td class="WRH-td2"> {{ stock.product.goodsID }}</td>
+                <td class="WRH-td2"> {{ stock.product.name }}</td>
+                <td class="WRH-td2"> {{ stock.quantity }}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <br />
+
+    {% else %}
+        انبار خالی است.
+        </br>
+        </br>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=2%}
+{% endblock %}
+

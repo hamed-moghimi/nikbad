@@ -245,6 +245,12 @@ def confirm_wrh_delivery(request):
                             else:
                                 stck[0].quantity += int(value)
                                 stck[0].save()
+                            # age sefareshi va3 in kalaa dade budam be wiki hamaye in sefaresharo migam reside
+                            wk_order = Wiki_Order.objects.filter(product=prd, deliveryStatus=0)
+                            for w in wk_order:
+                                w.deliveryStatus = 2
+                                w.save()
+
                             receipt_del = Receipt_Delivery(wiki=wk, product=prd, quantity=vl)
                             receipt_del.save()
                     else:
@@ -384,7 +390,17 @@ def receipt_detail(request, pid):
         else:
             if clr.type=='warehouse':
                 context = {'error':"لطفا شماره حواله مربوط به سامانه فروش یا امور ویکی ها را وارد کنید."}
-            context = {'clrs': clr}
+            else:
+                if clr.type == 'sale':
+                    if clr.bill.deliveryStatus == 2:
+                        context = {'error': "رسید این حواله قبلا در سیستم به ثبت رسیده است."}
+                    else:
+                        context = {'clrs': clr}
+                else:
+                    if clr.wiki.deliveryStatus == 2:
+                        context = {'error': "رسید این حواله قبلا در سیستم به ثبت رسیده است."}
+                    else:
+                        context = {'clrs': clr}
     except Exception as e:
         context = {'error': "حواله ای با شماره داده شده یافت نشد."}
     return render(request, 'wrh/ReceiptDetail.html', context)
@@ -417,7 +433,7 @@ def confirm_receipt(request, pid):
 #***********************************BEGIN REPORTS***********************************************************
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_stock(request):
-    st = Stock.objects.all()
+    st = Stock.objects.filter(quantity__gt=0)
     context = {'stocks': st, 'active_menu' : 4}
     return render(request, 'wrh/ReportStock.html', context)
 
@@ -429,62 +445,124 @@ def report_return(request):
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_order(request):
-    st = Wiki_Order.objects.all().order_by('date')
+    st = Wiki_Order.objects.all().order_by('-date')
     context = {'wikis': st, 'active_menu' : 6}
     return render(request, 'wrh/ReportWikiOrder.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_delivery(request):
-    st = Receipt_Delivery.objects.all().order_by('date')
+    st = Receipt_Delivery.objects.all().order_by('-date')
     context = {'dls': st, 'active_menu' : 7}
     return render(request, 'wrh/ReportDelivery.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_clear(request):
-    st = Receipt_Clearance.objects.all().order_by('date')
+    st = Receipt_Clearance.objects.all().order_by('-date')
     context = {'dls': st, 'active_menu' : 8}
     return render(request, 'wrh/ReportClear.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_clear2(request):
-    st = Receipt_Clearance.objects.all().order_by('date')
+    st = Receipt_Clearance.objects.all().order_by('-date')
     context = {'dls': st, 'active_menu' : 8}
     return render(request, 'wrh/ReportClear2.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_customer(request):
-    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('date')
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('-date')
     context = {'dls': st, 'active_menu' : 9}
     return render(request, 'wrh/ReportReceiptCustomer.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_customer2(request):
-    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('date')
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('-date')
     context = {'dls': st, 'active_menu' : 9}
     return render(request, 'wrh/ReportReceiptCustomer2.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_wiki(request):
-    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('date')
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('-date')
     context = {'dls': st, 'active_menu' : 10}
     return render(request, 'wrh/ReportReceiptWiki.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_wiki2(request):
-    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('date')
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('-date')
     context = {'dls': st, 'active_menu' : 10}
     return render(request, 'wrh/ReportReceiptWiki2.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
+def report_receipt_delivery(request):
+    st = Receipt_Customer_Wiki.objects.all().order_by('-date')
+    context = {'dls': st, 'active_menu' : 14}
+    return render(request, 'wrh/ReportReceiptDelivery.html', context)
+
+@permission_required('warehouse.is_deliveryman', login_url='index')
+def report_receipt_delivery2(request):
+    st = Receipt_Customer_Wiki.objects.all().order_by('-date')
+    context = {'dls': st, 'active_menu' : 14}
+    return render(request, 'wrh/ReportReceiptDelivery2.html', context)
+
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_trc(request):
-    st = Clearance.objects.all().order_by('date')
-    context = {'dls': st, 'active_menu' : 11}
+    bill = SaleBill.objects.filter(deliveryStatus = 0)
+    transference = Transference.objects.all()
+    wiki_return = ReturnRequest.objects.filter(deliveryStatus = 0)
+    for b in bill:
+        clear = Clearance.objects.filter(bill=b)
+        if clear.all():
+            print("ghablan sabt shode")
+        else:
+            cl = Clearance(type='sale', date=b.saleDate, bill=b)
+            cl.save()
+    for tr in transference:
+        clear = Clearance.objects.filter(transfer=tr)
+        if clear.all():
+            print("ghablan sabt shode")
+        else:
+            cl = Clearance(type='warehouse', date=tr.date, transfer=tr)
+            cl.save()
+    for w in wiki_return:
+        clear = Clearance.objects.filter(wiki=w)
+        if clear.all():
+            print("ghablan sabt shode")
+        else:
+            cl = Clearance(type='wiki', date=w.pub_date, wiki=w)
+            cl.save()
+
+    clrs=Clearance.objects.all().order_by('-date')
+    context = {'dls': clrs, 'active_menu' : 11}
     return render(request, 'wrh/ReportTrc.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_trc2(request):
-    st = Clearance.objects.all().order_by('date')
-    context = {'dls': st, 'active_menu' : 11}
+    bill = SaleBill.objects.filter(deliveryStatus = 0)
+    transference = Transference.objects.all()
+    wiki_return = ReturnRequest.objects.filter(deliveryStatus = 0)
+    for b in bill:
+        clear = Clearance.objects.filter(bill=b)
+        if clear.all():
+            print("ghablan sabt shode")
+        else:
+            cl = Clearance(type='sale', date=b.saleDate, bill=b)
+            cl.save()
+    for tr in transference:
+        clear = Clearance.objects.filter(transfer=tr)
+        if clear.all():
+            print("ghablan sabt shode")
+        else:
+            cl = Clearance(type='warehouse', date=tr.date, transfer=tr)
+            cl.save()
+    for w in wiki_return:
+        clear = Clearance.objects.filter(wiki=w)
+        if clear.all():
+            print("ghablan sabt shode")
+        else:
+            cl = Clearance(type='wiki', date=w.pub_date, wiki=w)
+            cl.save()
+
+    clrs=Clearance.objects.all().order_by('-date')
+    context = {'dls': clrs, 'active_menu' : 11}
     return render(request, 'wrh/ReportTrc2.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
@@ -517,10 +595,18 @@ def check_order_point(pid):
         if (stc.quantity-stc.reserved_quantity)<order_point:
             if check_capacity():
                 tmp = order_point-(stc.quantity-stc.reserved_quantity)
-                wo = Wiki_Order(product=pr , wiki=wi, quantity=tmp)
-                wo.save()
+                wk_tmp = Wiki_Order.objects.filter(product=pr , deliveryStatus=0)
+                if wk_tmp.all():
+                    print("ye chizi")
+                else:
+                    wo = Wiki_Order(product=pr , wiki=wi, quantity=tmp)
+                    wo.save()
     except Exception as e:
-        wo = Wiki_Order(product=pr , wiki=wi, quantity=order_point)
-        wo.save()
+        wk_tmp = Wiki_Order.objects.filter(product=pr , deliveryStatus=0)
+        if wk_tmp.all():
+            print("ye chizi")
+        else:
+            wo = Wiki_Order(product=pr , wiki=wi, quantity=order_point)
+            wo.save()
         print(str(e))
 

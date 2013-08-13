@@ -1,0 +1,18 @@
+{% extends "fnc/base.html" %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header"> ویرایش اطلاعات کارمند</h2>
+        <div class="row-fluid">
+ {{ Editform.non_field_errors }}
+            <form class="form-horizontal" method="post" action="">
+                {% include "_hForm.html" with form=EditForm read_only=0 %}
+
+
+            </form>
+
+
+    </div>
+    </div>
+
+{% endblock %}
