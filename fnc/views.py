@@ -8,7 +8,7 @@ from fnc.forms import EmployeeForm
 from datetime import timedelta, datetime
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_common')
 def index(request):
 	#request.get['username']
 	#request.post
