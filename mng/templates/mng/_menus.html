@@ -11,7 +11,7 @@
     <a {% if active_menu != 3 %}href="{% url mng-wiki-select %}"{% endif %}>گزارش ويکي<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 4 %}class="active"{% endif %}>
-    <a {% if active_menu != 4 %}href="{% url mng-sales %}"{% endif %}>گزارش خريد<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 4 %}href="{% url mng-sales %}"{% endif %}> گزارش فروش<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 5 %}class="active"{% endif %}>
     <a {% if active_menu != 5 %}href="{% url mng-emp %}"{% endif %}> گزارش کارمندان <i class="icon-chevron-left"></i></a>
@@ -21,4 +21,7 @@
 </li>
 <li {% if active_menu == 7 %}class="active"{% endif %}>
     <a {% if active_menu != 7 %}href="{% url mng-cont %}"{% endif %}> ثبت قرارداد <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 8 %}class="active"{% endif %}>
+    <a {% if active_menu != 8 %}href="{% url mng-cont %}"{% endif %}> گزارش مرجوعی به انبار <i class="icon-chevron-left"></i></a>
 </li>

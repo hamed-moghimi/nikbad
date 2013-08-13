@@ -15,10 +15,12 @@ def index(request):
     # if (f.is_valid()):
     # f.save()
     print "saveeeeeeeeeeeeeeeeed"
-    sb = c.saleBills.all()[0]
-    p =  sb.products.all()
-    context = { 'Product' : p , 'Bill' : sb , 'EditForm' : f}
-
+    try:
+        sb = c.saleBills.all()[0]
+        p =  sb.products.all()
+        context = { 'Product' : p , 'Bill' : sb , 'EditForm' : f}
+    except:
+        context={'EditForm' :f}
     return render(request, 'crm/base.html', context)
 
 def edit(request):

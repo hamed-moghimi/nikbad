@@ -15,14 +15,15 @@
             </form>
             <div class="control-group">
                 <div class="controls">
-                    <button class="btn btn-primary" ><a href="{% url crm-edit %}">{{ submit_text|default:"ویرایش" }}</a></button>
+                    <a class="btn btn-primary"  href="{% url crm-edit %}">{{ submit_text|default:"ویرایش" }}</a></button>
                 </div>
             </div>
 
-    <h2  class="panel-header">
-        وضعیت کالای خریداری شده
-    </h2>
-
+{#            {% if Product %}#}
+            {% if Product %}
+                <h2  class="panel-header">
+                        وضعیت کالای خریداری شده
+                        </h2>
     <div class="WRH-panel2">
         {% block WRH-panel2 %}
             <form>
@@ -69,8 +70,12 @@
                 </table>
             </form>
         {% endblock %}
-    </div>
         </div>
+        {% else %}
+{#        کالا خریداری نشده#}
+
+        </div>
+    {% endif %}
     </div>
 
 {% endblock %}
