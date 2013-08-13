@@ -10,7 +10,7 @@
     <a {% if active_menu != 2 %}href="{% url fnc-karmandan %}"{% endif %}>اطلاعات کارمندان<i
             class="icon-chevron-left"></i></a>
 </li>
- {% if perms.fnc.is_manager  %}
+ {% if perms.fnc.is_fnc  %}
 <li {% if active_menu == 3 %}class="active"{% endif %}>
     <a {% if active_menu != 3 %}href="{% url fnc-add-sanad %}"{% endif %}>افزودن سند مالی<i
             class="icon-chevron-left"></i></a>

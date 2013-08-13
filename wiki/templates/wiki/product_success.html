@@ -1,4 +1,4 @@
-{% extends "wiki/base.html" %}
+{% extends "wiki/wiki.html" %}
 {% block content %}
 
 
@@ -12,5 +12,9 @@
     </div>
 {% endblock %}
 
+{% block menus %}
 
+    {% include "wiki/_menus.html" %}
+
+{% endblock %}
 

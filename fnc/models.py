@@ -4,8 +4,8 @@ from django.db import models
 from wiki.models import Wiki
 from django.utils import timezone
 
-relation_choices= (('متاهل',"متاهل"),('مجرد',"مجرد"))
-gender_choices= (('مرد',"مرد"),('زن',"زن"))
+relation_choices = (("s", 'مجرد'),("m",'متاهل'))
+gender_choices= (("f",'زن'),("m",'مرد'))
 
 class RollCall(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
@@ -17,8 +17,8 @@ class RollCall(models.Model):
 class CostBenefit(models.Model):
 	date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
 	description= models.TextField(verbose_name=u"جزئیات")
-	bedeh= models.IntegerField(verbose_name=u"بدهکاری",  null=True, blank=True)
-	bestan= models.IntegerField(verbose_name=u"بستانکاری", null=True, blank=True)
+	bedeh= models.IntegerField(verbose_name=u"بدهکاری(ریال)",  null=True, blank=True)
+	bestan= models.IntegerField(verbose_name=u"بستانکاری(ریال)", null=True, blank=True)
 
 
 class GeneralAccount(models.Model):
@@ -55,7 +55,7 @@ class Employee(models.Model):
 	reminderSalary=models.IntegerField(verbose_name="باقی مانده حقوق", default=0)
 
 	def __unicode__(self):
-		prefix=u'آقای' if self.gender==u'مرد' else u'خانم'
+		prefix=u'آقای' if self.gender=='m' else u'خانم'
 		return u'{0} {1} {2}'.format(prefix ,self.name, self.family_name)
 
 class SalaryFactor(models.Model):
