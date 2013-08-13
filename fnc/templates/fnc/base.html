@@ -4,14 +4,6 @@
    <link href="{{ STATIC_URL }}fnc/css/fnc-style.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
-{% block user_panel %}
-    <form class="navbar-form pull-right" action="">
-        <input type="text" name="username" class="span2" placeholder="نام کاربری">
-        <input type="password" name="password" class="span2" placeholder="رمز عبور">
-        <button class="btn btn-success" id="enter">ورود</button>
-    </form>
-{% endblock %}
-
 {% block navbar %}
     <form class="navbar-search pull-left">
         <i class="icon-search"></i>
@@ -28,5 +20,9 @@
 {% endblock %}
 
 {% block menus %}
-    {% include "fnc/_menus.html" %}
+    {% if perms.fnc.is_manager  %}
+         {% include "mng/_menus.html" %}
+    {% else %}
+        {% include "fnc/_menus.html" %}
+    {% endif %}
 {% endblock %}

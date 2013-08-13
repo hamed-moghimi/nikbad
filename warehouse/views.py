@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 from operator import pos
+from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render
 from sales.models import *
 from wiki.models import *
@@ -12,6 +14,7 @@ def index(request):
 
 #***********************************************************************************************************
 #***********************************BEGIN NEW ORDERS*******************************************************
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def new_order(request):
     bill = SaleBill.objects.filter(deliveryStatus = 0)
     transference = Transference.objects.all()
@@ -42,6 +45,7 @@ def new_order(request):
     context = {'clrs': clrs, 'active_menu': 2}
     return render(request, 'wrh/NewOrders.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def new_order_back(request):
     bill = SaleBill.objects.filter(deliveryStatus = 0)
     transference = Transference.objects.all()
@@ -72,12 +76,14 @@ def new_order_back(request):
     context = {'clrs': clrs, 'active_menu': 2}
     return render(request, 'wrh/NewOrdersBack.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def tiny_order(request, pid):
     p2 = int(pid)
     a = Clearance.objects.get(pk=p2)
     context = {'clrs': a}
     return render(request, 'wrh/Tiny_Order.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def confirm_order(request, pid):
     context = {}
     p = int(pid)
@@ -116,17 +122,20 @@ def confirm_order(request, pid):
 
 #***********************************************************************************************************
 #***********************************BEGIN NEW READY ORDERS**************************************************
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def ready_order(request):
     clrs = Clearance.objects.filter(ready='r').order_by('date')
     context = {'clrs': clrs}
     return render(request, 'wrh/ReadyOrder.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def ready_order_back(request):
     print ("tu readye order back")
     clrs = Clearance.objects.filter(ready='r').order_by('date')
     context = {'clrs': clrs}
     return render(request, 'wrh/ReadyOrder2.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def ready_tiny_order (request, pid):
     print ("tu ready tiny order")
     print(pid)
@@ -135,6 +144,7 @@ def ready_tiny_order (request, pid):
     context = {'clrs': a}
     return render(request, 'wrh/ReadyTiny_Order.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def confirm_ready_order(request, pid):
     context = {}
     p = int(pid)
@@ -194,23 +204,26 @@ def confirm_ready_order(request, pid):
 
 #***********************************************************************************************************
 #***********************************BEGIN WAREHOUSE DELIVERY*******************************************************
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def delivery_wiki_select(request):
     a = Wiki.objects.all()
     context = {'wikis': a, 'active_menu': 1}
     return render(request,'wrh/WRHDelivery.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def delivery_wiki_select2(request):
     a = Wiki.objects.all()
     context = {'wikis': a}
     return render(request,'wrh/WRHDelivery2.html', context)
 
-
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def delivery_product_select(request, pid):
     wik = Wiki.objects.filter(pk=pid)
     a = Product.objects.filter(wiki=wik)
     context = {'products': a}
     return render(request,'wrh/WRHDelivery-next.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def confirm_wrh_delivery(request):
     context = {}
     if request.method == 'POST':
@@ -251,14 +264,17 @@ def confirm_wrh_delivery(request):
 
 #***********************************************************************************************************
 #***********************************BEGIN CUSTOMER RETURN*******************************************************
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def customer_return(request):
     context = { 'active_menu': 3}
     return render(request, 'wrh/CustomerReturn.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def customer_return2(request):
     context = { 'active_menu': 3}
     return render(request, 'wrh/CustomerReturn2.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def customer_return_next(request, pid , kid):
     context = {}
     p2 = int(pid)
@@ -305,6 +321,7 @@ def customer_return_next(request, pid , kid):
 
     return render(request, 'wrh/CustomerReturn-next.html', context)
 
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def confirm_return(request, pid, kid, cid):
     context = {}
     clr_id = int(pid)
@@ -347,14 +364,17 @@ def confirm_return(request, pid, kid, cid):
 
 #***********************************************************************************************************
 #***********************************BEGIN CUSTOMER WIKI RECEIPT*******************************************************
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def ReceiptDelivery(request):
     context = {}
     return render(request,'wrh/ReceiptDelivery.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def ReceiptDelivery2(request):
     context = {}
     return render(request,'wrh/ReceiptDelivery2.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def receipt_detail(request, pid):
     p2 = int(pid)
     try:
@@ -369,6 +389,7 @@ def receipt_detail(request, pid):
         context = {'error': "حواله ای با شماره داده شده یافت نشد."}
     return render(request, 'wrh/ReceiptDetail.html', context)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
 def confirm_receipt(request, pid):
     context = {}
     p2 = int(pid)
@@ -394,66 +415,79 @@ def confirm_receipt(request, pid):
 
 #***********************************************************************************************************
 #***********************************BEGIN REPORTS***********************************************************
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_stock(request):
     st = Stock.objects.all()
     context = {'stocks': st, 'active_menu' : 4}
     return render(request, 'wrh/ReportStock.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_return(request):
     st = Stock.objects.filter(quantity_returned__gt=0)
     context = {'stocks': st, 'active_menu' : 5}
     return render(request, 'wrh/ReportReturned.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_order(request):
     st = Wiki_Order.objects.all().order_by('date')
     context = {'wikis': st, 'active_menu' : 6}
     return render(request, 'wrh/ReportWikiOrder.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_delivery(request):
     st = Receipt_Delivery.objects.all().order_by('date')
     context = {'dls': st, 'active_menu' : 7}
     return render(request, 'wrh/ReportDelivery.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_clear(request):
     st = Receipt_Clearance.objects.all().order_by('date')
     context = {'dls': st, 'active_menu' : 8}
     return render(request, 'wrh/ReportClear.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_clear2(request):
     st = Receipt_Clearance.objects.all().order_by('date')
     context = {'dls': st, 'active_menu' : 8}
     return render(request, 'wrh/ReportClear2.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_customer(request):
     st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('date')
     context = {'dls': st, 'active_menu' : 9}
     return render(request, 'wrh/ReportReceiptCustomer.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_customer2(request):
     st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('date')
     context = {'dls': st, 'active_menu' : 9}
     return render(request, 'wrh/ReportReceiptCustomer2.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_wiki(request):
     st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('date')
     context = {'dls': st, 'active_menu' : 10}
     return render(request, 'wrh/ReportReceiptWiki.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_receipt_wiki2(request):
     st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('date')
     context = {'dls': st, 'active_menu' : 10}
     return render(request, 'wrh/ReportReceiptWiki2.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_trc(request):
     st = Clearance.objects.all().order_by('date')
     context = {'dls': st, 'active_menu' : 11}
     return render(request, 'wrh/ReportTrc.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_trc2(request):
     st = Clearance.objects.all().order_by('date')
     context = {'dls': st, 'active_menu' : 11}
     return render(request, 'wrh/ReportTrc2.html', context)
 
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
 def report_detail(request, pid, kid):
     p2 = int(pid)
     k2 = int(kid)
@@ -476,14 +510,13 @@ def check_capacity():
         return False
 
 def check_order_point(pid):
-    print("man to check order pointam")
     try:
         pr = Product.objects.get(pk = pid)
         wi = pr.wiki
         stc = Stock.objects.get(product = pr)
-        if stc.quantity<order_point:
+        if (stc.quantity-stc.reserved_quantity)<order_point:
             if check_capacity():
-                tmp = order_point-stc.quantity
+                tmp = order_point-(stc.quantity-stc.reserved_quantity)
                 wo = Wiki_Order(product=pr , wiki=wi, quantity=tmp)
                 wo.save()
     except Exception as e:
