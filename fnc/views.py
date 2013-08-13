@@ -23,10 +23,22 @@ def gozaresh_mali(request):
 #request.post
 #l = SaleBill.objects.all()[0]
 #return HttpResponse('{0} and {1} and {2}'.format(l.saleDate, l.totalPrice, l.costumer.balance))
-	cb_objects = CostBenefit.objects.all()
+	cb_objects=[]
+	if request.method == 'POST':
+		form = DateForm(request.POST)
+		if form.is_valid():
+			startDate = form.cleaned_data['startDate']
+			endDate = form.cleaned_data['endDate']
+			cb_objects = CostBenefit.objects.filter(date__range=(startDate, endDate))
+
+	else:
+		form = DateForm()
+		cb_objects = CostBenefit.objects.all()
+
 	context = {}
-	context.update({'costBenefits': cb_objects})
+	context.update({'costBenefits': cb_objects ,'form': form })
 	return render(request, 'fnc/gozaresh_mali.html', context)
+
 
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('fnc-index'))
@@ -84,7 +96,7 @@ def alaki(request):
 		form = DateForm()
 	return render(request, 'fnc/add_sanad.html', {'form': form})
 
-
+@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
 def add_sanad(request):
 	if (request.POST):
 		form = AddForm(request.POST)
