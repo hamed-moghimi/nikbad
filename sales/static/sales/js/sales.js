@@ -95,4 +95,18 @@ $(document).ready(function () {
         feedbackSubmitButton.attr('disabled', 'disabled');
         return false;
     });
+
+    // insert new row to inline tables
+    $('.newRowBtn').click(function () {
+        var thisTr = $(this).parent().parent();
+        table = thisTr.parent();
+        emptyTr = table.children('.inputRow.empty');
+        var newTr = emptyTr.clone().removeClass('empty');
+
+        newTr.children('.number').text(newTr.children('.number').text() * 1 + 1);
+        newTr.children('input').each(function () {
+        });
+
+        newTr.insertBefore(thisTr);
+    });
 });

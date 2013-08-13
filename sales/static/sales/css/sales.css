@@ -122,3 +122,7 @@
 .newRowBtn {
     cursor: pointer;
 }
+
+.inputRow.empty {
+    display: none;
+}

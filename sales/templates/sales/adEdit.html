@@ -23,7 +23,7 @@
             <label for="description"><b>
                 توضیحات کلی
             </b></label>
-            <textarea class="input-block-level" name="description"></textarea>
+            {{ adForm.description }}
 
             <br/>
 
@@ -32,6 +32,7 @@
             </b></label>
             {{ imageFormSet.management_form }}
             <table class="table table-bordered table-striped">
+                <thead>
                 <tr>
                     <th>
                         ردیف
@@ -46,23 +47,33 @@
                         حذف شود
                     </th>
                 </tr>
+                </thead>
+                <tbody>
                 {% for form in imageFormSet %}
-                    <tr class="inputRow">
-                        <td>{{ forloop.counter }}</td>
+                    <tr class="inputRow"> {# {% if forloop.last %} empty{% endif %}"> #}
+                        <td>
+                            {{ forloop.counter }}
+                            <div style="display: none">
+                                {{ form.id }}
+                            </div>
+                        </td>
                         <td>{{ form.title }}</td>
-                        <td>{{ form.image }}</td>
+                        <td>
+                            {{ form.image }}
+                            {{ form.image.errors }}
+                        </td>
                         <td>{{ form.DELETE }}</td>
                     </tr>
-
                 {% endfor %}
                 <tr class="addRow">
                     <td colspan="4">
-                        <span class="text-right text-success newRowBtn">
-                            <i class="icon-plus icon-large"></i>
-                            سطر جدید
-                        </span>
+                            <span class="text-right text-success newRowBtn">
+                                <i class="icon-plus icon-large"></i>
+                                سطر جدید
+                            </span>
                     </td>
                 </tr>
+                </tbody>
             </table>
 
             <br/>
@@ -82,15 +93,30 @@
                     <th>
                         متن
                     </th>
+                    <th>
+                        حذف شود
+                    </th>
                 </tr>
                 {% for form in specsFormSet %}
                     <tr>
-                        <td>{{ forloop.counter }}</td>
+                        <td class="number">
+                            {{ forloop.counter }}
+                            <div style="display: none">
+                                {{ form.id }}
+                            </div>
+                        </td>
                         <td>{{ form.title }}</td>
                         <td>{{ form.value }}</td>
+                        <td>{{ form.DELETE }}</td>
                     </tr>
                 {% endfor %}
             </table>
+            <button class="btn btn-primary">
+                ثبت
+            </button>
+            <a class="btn btn-info" href="{% url sales-vitrin itemCode=ad.product.pk %}">
+                مشاهده ویترین
+            </a>
         </form>
     </div>
 {% endblock %}

@@ -72,6 +72,10 @@ class MarketBasket(models.Model):
     def __unicode__(self):
         return u'سبد خرید ({0} مورد)'.format(self.itemsNum)
 
+    @staticmethod
+    def createForCustomer(customer):
+        MarketBasket.objects.get_or_create(customer = customer)
+
     def add_item(self, product):
         if self.set_item(product, -1):
             self.itemsNum += 1
@@ -127,6 +131,9 @@ class Ad(models.Model):
     def __unicode__(self):
         return self.product.__unicode__()
 
+    @staticmethod
+    def createForProduct(product):
+        Ad.objects.get_or_create(product = product)
 
     def addMarketButton(self):
         try:

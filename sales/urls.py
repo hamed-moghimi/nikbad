@@ -7,5 +7,5 @@ urlpatterns = patterns('',
                        url(r'^vitrin_edit/(?P<itemCode>\d+)$', 'sales.views.adEdit', name = 'sales-adEdit'),
                        url(r'basket$', 'sales.views.marketBasket', name = 'sales-basket'),
                        url(r'basket_ajax/(?P<pId>\d+)$', 'sales.views.addToMarketBasket', name = 'sales-addBasket'),
-                       #url(r'^newBuy$', 'sales.views.newBuy', name='sales-newBuy'),
+                       url(r'^newBuy$', 'sales.views.newBuy', name = 'sales-finishBuy'),
 )

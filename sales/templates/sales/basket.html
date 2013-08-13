@@ -9,46 +9,59 @@
     <div class="panel">
         <h2 class="panel-header">سبد خرید</h2>
         {% if items %}
-            <table class="table table-striped">
-                <thead>
-                <th></th>
-                <th>نام کالا</th>
-                <th>قیمت واحد</th>
-                <th>تعداد</th>
-                <th>قیمت کل</th>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                    {% with forloop.counter as cnt %}
-                        <tr>
-                            <td>{{ cnt }}</td>
-                            <td>{{ item.product }}</td>
-                            <td>{{ item.product.price|toman }}</td>
-                            <td>{{ item.number }}</td>
-                            <td><b>{{ item.totalPrice|toman }}</b></td>
-                        </tr>
-                    {% endwith %}
-                {% endfor %}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        مجموع :
-                    </td>
-                    <td>
-                        <b>
-                            {{ basket.totalPrice|toman }}
-                        </b>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <form action="" method="post" class="input-block-level">
+            <form method="post" action="">
+                {{ formset.management_form }}
+                <table class="table table-striped">
+                    <thead>
+                    <th></th>
+                    <th>نام کالا</th>
+                    <th>قیمت واحد</th>
+                    <th>تعداد</th>
+                    <th>قیمت کل</th>
+                    </thead>
+                    <tbody>
+                    {% for item, form in items %}
+                        {% with forloop.counter as cnt %}
+                            <tr>
+                                <td>{{ cnt }}</td>
+                                <td>{{ item.product }}</td>
+                                <td>{{ item.product.price|toman }}</td>
+                                <td>
+                                    <div style="display: none">
+                                        {{ form.id }}
+                                        {{ form.product }}
+                                        {{ form.basket }}
+                                    </div>
+                                    {{ form.number }}
+                                    {{ form.number.errors }}
+                                </td>
+                                <td><b>{{ item.totalPrice|toman }}</b></td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            مجموع :
+                        </td>
+                        <td>
+                            <b>
+                                {{ basket.totalPrice|toman }}
+                            </b>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 {% csrf_token %}
-                <button class="btn btn-primary pull-left">تایید</button>
+                <div class="btn-block">
+                    <p class="text-left text-success">{{ message }}</p>
+                    <br/>
+                    <button class="btn btn-primary">تایید</button>
+                    <a href="{% url sales-finishBuy %}" class="btn btn-success"> تکمیل خرید </a>
+                </div>
             </form>
-            </p>
         {% else %}
             <p class="text-right">
                 سبد خرید شما فعلا خالی است.

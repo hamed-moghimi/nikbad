@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.forms.models import inlineformset_factory
+from django.forms.formsets import formset_factory
+from django.forms.models import inlineformset_factory, modelformset_factory
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils import timezone
-from sales.forms import SaleBillForm, AdForm
+from sales.forms import SaleBillForm, AdForm, MBPForm
 from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product, Specification
 from crm.models import Customer, Feedback
 from wiki.models import Product, Wiki, Category, SubCat
@@ -57,22 +58,29 @@ def detailsPage(request, itemCode):
     return render(request, 'sales/details.html', context)
 
 
+MBPFormSet = inlineformset_factory(MarketBasket, MarketBasket_Product, extra = 0)
+
+
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
 def marketBasket(request):
-    #TODO: market basket form
     customer = request.customer
-    # temporary codes
-    if request.method == 'POST':
-        SaleBill.createFromMarketBasket(customer.marketBasket)
-        customer.marketBasket.clear()
-        return render(request, 'sales/success.html', {})
+    mb = customer.marketBasket
+    context = baseContext(request)
 
-    items = customer.marketBasket.items.all()
+    if request.method == 'POST':
+        mbForm = MBPFormSet(request.POST, instance = mb)
+        if mbForm.is_valid():
+            mbForm.save()
+            context.update({'message': u'با موفقیت انجام شد'})
+    else:
+        mbForm = MBPFormSet(instance = mb)
+
+    items = mb.items.all()
     for item in items:
         item.totalPrice = item.product.price * item.number
 
-    context = baseContext(request)
-    context.update({'basket': customer.marketBasket, 'items': items})
+    context.update({'basket': mb, 'items': zip(items, mbForm), 'formset': mbForm})
+
     return render(request, 'sales/basket.html', context)
 
 
@@ -86,16 +94,32 @@ def addToMarketBasket(request, pId):
         # return HttpResponseForbidden()
 
 
-SpecInlineFormSet = inlineformset_factory(Ad, Specification, extra = 1)
-ImageInlineFormSet = inlineformset_factory(Ad, AdImage, extra = 1)
+SpecInlineFormSet = inlineformset_factory(Ad, Specification, extra = 3)
+ImageInlineFormSet = inlineformset_factory(Ad, AdImage, extra = 3)
 
 #@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def adEdit(request, itemCode):
     ad = Ad.objects.get(product__pk = itemCode)
 
-    adForm = AdForm(instance = ad)
-    specFormSet = SpecInlineFormSet(instance = ad)
-    imageFormSet = ImageInlineFormSet(instance = ad)
-
+    if request.POST:
+        adForm = AdForm(request.POST, instance = ad)
+        specFormSet = SpecInlineFormSet(request.POST, instance = ad)
+        imageFormSet = ImageInlineFormSet(request.POST, request.FILES, instance = ad)
+        if adForm.is_valid() and specFormSet.is_valid() and imageFormSet.is_valid():
+            specFormSet.save()
+            adForm.instance.icon = None
+            adForm.instance.save()
+            imageFormSet.save()
+            adForm.instance.icon = adForm.instance.images.latest() if adForm.instance.images.exists() else None
+            adForm.instance.save()
+            return HttpResponseRedirect('')
+    else:
+        adForm = AdForm(instance = ad)
+        specFormSet = SpecInlineFormSet(instance = ad)
+        imageFormSet = ImageInlineFormSet(instance = ad)
     context = {'specsFormSet': specFormSet, 'imageFormSet': imageFormSet, 'ad': ad, 'adForm': adForm}
     return render(request, 'sales/adEdit.html', context)
+
+
+def newBuy(request):
+    pass

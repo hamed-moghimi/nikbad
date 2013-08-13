@@ -23,7 +23,7 @@
                         <a href="{% url sales-basket %}">
                             <i class="icon-large icon-shopping-cart"></i>
                             سبد خرید (
-                            <span id="basket-items">{{ customer.marketBasket.itemsNum }}</span>
+                            <span id="basket-items">{{ customer.marketBasket.itemsNum|default:"0" }}</span>
                             مورد)
                         </a>
                     </li>

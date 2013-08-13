@@ -19,8 +19,9 @@ def index(request):
     wiki = Wiki.objects.filter(username = user)
     print wiki
     con = Contract.objects.filter(wiki = wiki)
-    context = {'contract' : con}
+    context = {'contract': con}
     return render(request, 'wiki/index.html', context)
+
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def goodsList(request):
@@ -29,34 +30,39 @@ def goodsList(request):
     if request.user.is_authenticated():
         user = request.user
         myName = user.username
-        p = Product.objects.all().filter(wiki__username__iexact=myName)
+        p = Product.objects.all().filter(wiki__username__iexact = myName)
 
         context = {'product_list': p}
         return render(request, 'wiki/goodslist.html', context)
 
+
 def success(request):
     return render(request, 'wiki/success.html')
+
 
 def register_success(request):
     return render(request, 'wiki/register_success.html')
 
+
 def product_failure(request):
     return render(request, 'wiki/productFailure.html')
 
+
 def product_success(request, prod):
-    context = {'product' : prod}
+    context = {'product': prod}
     return render(request, 'wiki/product_success.html', context)
 
+
 def register(request):
-    pass
     if request.method == 'POST':
-         form = WikiForm(request.POST)
-         if form.is_valid():
-             form.save()
-             return register_success(request)
+        form = WikiForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return register_success(request)
     else:
-         form = WikiForm()
+        form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
+
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def addproduct(request):
@@ -72,9 +78,9 @@ def addproduct(request):
             cat = form.cleaned_data['sub_category']
             pr = form.cleaned_data['price']
             off = form.cleaned_data['off']
-            p = Product(goodsID=gid, wiki=wiki, brand=brand,
-                        name=name, sub_category=cat,
-                        price=pr, off=off)
+            p = Product(goodsID = gid, wiki = wiki, brand = brand,
+                        name = name, sub_category = cat,
+                        price = pr, off = off)
             p.save()
             return product_success(request, p)
     else:
@@ -82,15 +88,14 @@ def addproduct(request):
     return render(request, 'wiki/addProduct.html', {'form': form})
 
 
-
 # if the requested product is in other wiki's showcase,
-    # you should show a message.
+# you should show a message.
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def deleteproduct(request):
     if request.method == 'POST':
         form = DeleteProductForm(request.POST)
-        name  = request.user.username
+        name = request.user.username
         if form.is_valid():
 
             pid = form.cleaned_data['id']
@@ -110,6 +115,7 @@ def deleteproduct(request):
         form = DeleteProductForm()
     return render(request, 'wiki/deleteProduct.html', {'form': form})
 
+
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhorders(request):
     if request.method == 'POST':
@@ -117,12 +123,13 @@ def wrhorders(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            ord = Wiki_Order.objects.filter(date__range=(startDate, endDate))
+            ord = Wiki_Order.objects.filter(date__range = (startDate, endDate))
             context = {'order_list': ord}
             return render(request, 'wiki/wrhorder.html', context)
     else:
         form = DateForm()
-    return render(request, 'wiki/DateForm.html', {'form' : form})
+    return render(request, 'wiki/DateForm.html', {'form': form})
+
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def returnrequest(request):
@@ -134,11 +141,11 @@ def returnrequest(request):
             date = datetime.datetime.now()
             id = form.cleaned_data['proID']
             ret = form.cleaned_data['ret_only']
-            prod = Product.objects.filter(pk=id)
+            prod = Product.objects.filter(pk = id)
             if prod.__len__() == 0:
                 return product_failure(request)
             p = prod[0]
-            if p.wiki.username == wiki.username :
+            if p.wiki.username == wiki.username:
                 req = ReturnRequest(wiki = wiki, pub_date = date, product = p, returned_only = ret)
                 req.save()
                 return success(request)
@@ -148,9 +155,9 @@ def returnrequest(request):
         form = RequestForm()
     return render(request, 'wiki/returnrequest.html', {'form': form})
 
+
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def salesreport(request):
-
     if request.method == 'POST':
         form = DateForm(request.POST)
         if form.is_valid():
@@ -159,24 +166,24 @@ def salesreport(request):
             pro_list = SaleBill_Product.objects.filter(bill__saleDate__range = (startDate, endDate))
             user = request.user
 
-            list2 = pro_list.values('product').annotate(sum=Sum('number'))
+            list2 = pro_list.values('product').annotate(sum = Sum('number'))
             products = []
             sums = []
             for sb in list2:
                 products.append(Product.objects.get(goodsID = sb['product']))
                 # print sb['sum']
                 sums.append(sb['sum'])
-            zipped_datea = zip(products,sums)
+            zipped_datea = zip(products, sums)
             context = {'pro_list': zipped_datea}
             return render(request, 'wiki/salesreport.html', context)
     else:
         form = DateForm()
-    return render(request, 'wiki/DateForm.html', {'form' : form})
+    return render(request, 'wiki/DateForm.html', {'form': form})
 
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhproducts(request):
     myName = request.user.username
-    stock = Stock.objects.filter(product__wiki__username__iexact=myName)
+    stock = Stock.objects.filter(product__wiki__username__iexact = myName)
     context = {'stock_list': stock}
     return render(request, 'wiki/wrhproducts.html', context)
