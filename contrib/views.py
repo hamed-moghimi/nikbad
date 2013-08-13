@@ -2,12 +2,12 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-
+from django.shortcuts import render
 
 def login(request):
     print('login')
     if request.method == 'POST':
-        username    = request.POST['username']
+        username = request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(username = username, password = password)
         if user is not None and user.is_active:
@@ -41,3 +41,7 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+def bank(request):
+    context = {}
+    return render(request, 'contrib/bank.htm', context)
