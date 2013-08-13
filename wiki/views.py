@@ -43,8 +43,9 @@ def register_success(request):
 def product_failure(request):
     return render(request, 'wiki/productFailure.html')
 
-def product_success(request):
-    return render(request, 'wiki/product_success.html')
+def product_success(request, prod):
+    context = {'product' : prod}
+    return render(request, 'wiki/product_success.html', context)
 
 def register(request):
     pass
@@ -75,7 +76,7 @@ def addproduct(request):
                         name=name, sub_category=cat,
                         price=pr, off=off)
             p.save()
-            return success(request)
+            return product_success(request, p)
     else:
         form = ProductForm()
     return render(request, 'wiki/addProduct.html', {'form': form})
@@ -91,14 +92,19 @@ def deleteproduct(request):
         form = DeleteProductForm(request.POST)
         name  = request.user.username
         if form.is_valid():
-            print 'salam'
+
             pid = form.cleaned_data['id']
-            name = form.cleaned_data['proname']
+            proname = form.cleaned_data['proname']
             p = Product.objects.filter(goodsID = pid)
             if p.__len__() == 0:
                 return product_failure(request)
+            else:
+                p = Product.objects.filter(goodsID = pid)[0]
+                print p.wiki.username
+                print name
             if p.wiki.username == name:
                 p.delete()
+                print 'salam olaghe aziz'
                 return success(request)
     else:
         form = DeleteProductForm()
