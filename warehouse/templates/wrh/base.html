@@ -10,9 +10,9 @@
 
 {% block header %}
     {% if perms.warehouse.is_deliveryman %}
-        <img style="max-width: 100%; max-height: 100%" src="{{ STATIC_URL }}wrh/images/delivery_header.jpg"/>
+        <img style="max-width: 100%; max-height: 100%;border-top-right-radius: 10px;" src="{{ STATIC_URL }}wrh/images/delivery_header.jpg"/>
     {% else %}
-        <img style="width: 100%; " src="{{ STATIC_URL }}wrh/images/warehouse_header.jpg"/>
+        <img style="width: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;" src="{{ STATIC_URL }}wrh/images/warehouse_header.jpg"/>
     {% endif %}
 {% endblock %}
 {% block user_panel %}
