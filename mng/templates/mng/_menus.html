@@ -23,5 +23,8 @@
     <a {% if active_menu != 7 %}href="{% url mng-cont %}"{% endif %}> ثبت قرارداد <i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 8 %}class="active"{% endif %}>
-    <a {% if active_menu != 8 %}href="{% url mng-cont %}"{% endif %}> گزارش مرجوعی به انبار <i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 8 %}href="{% url mng-return %}"{% endif %}> گزارش مرجوعی به انبار <i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 9 %}class="active"{% endif %}>
+    <a {% if active_menu != 9 %}href="{% url mng-newuser %}"{% endif %}> ایجاد کاربر جدید<i class="icon-chevron-left"></i></a>
 </li>

@@ -41,8 +41,7 @@
                     {% for pro in  Product %}
                         <tr>
 
-                            <td class="WRH-td2"><input type="image" class="WRH-myimage2"
-                                                       src="images/WRH-5download.jpg"/></td>
+                            <td class="WRH-td2">{%  pro.product.add.icon.image.url %}</td>
                             <td class="WRH-td2">
                                 {{ pro.product.name }}
                             </td>

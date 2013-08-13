@@ -5,9 +5,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseForbidden
 from django.utils import encoding
 from crm.forms import CustomerForm,EditForm, checkCustomerForm
-
 from crm.models import *
 
+@permission_required('crm.is_customer', login_url=reverse_lazy('sales-index'))
 def index(request):
     print request.user.username
     c = Customer.objects.get(username=request.user.username)
@@ -24,6 +24,7 @@ def index(request):
         context={'EditForm' :f}
     return render(request, 'crm/base.html', context)
 
+@permission_required('crm.is_customer', login_url=reverse_lazy('sales-index'))
 def edit(request):
     c = Customer.objects.get(username=request.user.username)
     if(request.POST):
@@ -57,10 +58,12 @@ def status(request):
     context = { 'Product' : p , 'Bill' : sb }
     return render(request, 'crm/status.html', context)
 
+@permission_required('crm.is_customer', login_url=reverse_lazy('sales-index'))
 def success(request):
     f = checkCustomerForm(request.POST)
     return render(request, 'crm/signUp-successful.html', {'checkCustomerForm' : f})
 
+@permission_required('crm.is_customer', login_url=reverse_lazy('sales-index'))
 def edit_success(request):
     f = EditForm(request.POST)
     return render(request, 'crm/edit-successful.html', {'EditForm' : f})

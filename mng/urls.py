@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^manager-sales$', 'mng.views.sales', name='mng-sales'),
     url(r'^manager-returned$', 'mng.views.returned', name='mng-return'),
     url(r'^manager-cont$', 'mng.views.newContract', name='mng-cont'),
+    url(r'^manager-user$', 'mng.views.newUser', name='mng-newuser'),
 
 
 )
