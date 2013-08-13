@@ -26,10 +26,13 @@
                 <tr>
                     <td class="FNC-td2"> <a href="{% url mng-wiki wId=w.id %}"> {{ w.companyName }}</a> </td>
                     <td class="FNC-td2">  {{ w.id }}</td>
-                    {% with w.Contract_set.latest  as cont %}
-                    <td class="FNC-td2">  {{cont.startDate }}</td>
-                    <td class="FNC-td2">  {{cont.exptDate }}</td>
-                {% endwith %}
+                    {% for c in conts %}
+{#                    {% with w.Contract_set.latest  as cont %}#}
+                    <td class="FNC-td2"> {% if c.wiki.id == w.id  %}{{c.startDate }}{% endif %}</td>
+                    <td class="FNC-td2"> {% if c.wiki.id == w.id  %}{{c.expDate }}{% endif %}</td>
+                        {% endfor %}
+                    <td class="FNC-td2"><a href="{% url contract-detail wId=w.id %}"> اطلاعات </a></td>
+{#                {% endwith %}#}
                 </tr>
             {% endfor %}
 

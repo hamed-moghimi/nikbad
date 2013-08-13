@@ -41,7 +41,8 @@ def newContract(request):
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def wiki_select(request):
     wikies = Wiki.objects.all()
-    context = {'wikies' : wikies}
+    cont = Contract.objects.all()
+    context = {'wikies' : wikies , 'conts':cont}
     return render(request, 'mng/select-wiki.html', context)
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
@@ -86,8 +87,33 @@ def newUser(request) :
 
     return render(request , 'mng/mng-newUser.html' , {'userForm' : f})
 
+
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def returned (request) :
     st = Stock.objects.filter(quantity_returned__gt=0)
     context = {'stocks': st}
     return render(request, 'mng/mng-Returned.html', context)
+
+
+@permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
+def contractDetail(request ,wId):
+    c = Contract.objects.get(wiki__id=wId)
+    print c.id
+    print wId
+    f = ContractForm( instance=c )
+
+    context = {'ContractForm' :f ,'c':c , 'wiki' : wId}
+    return render(request, 'mng/contract-detail.html', context)
+
+@permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
+def contractEdit(request ,wId):
+    c = Contract.objects.get(wiki__id=wId)
+    if(request.POST):
+        f = ContractForm(  request.POST  , instance=c)
+        if (f.is_valid()):
+            f.save()
+            return contract_success(request)
+    f = ContractForm( instance=c )
+    context = {'ContractForm' :f ,'c':c , 'wiki' : wId}
+    return render(request, 'mng/contract-edit.html', context)
+
