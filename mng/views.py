@@ -18,8 +18,13 @@ def index(request):
 def sales(request):
     sb = SaleBill.objects.all()
     context = {'salebill': sb}
-    return render(request, 'mng/mng-WikiOrder.html', context)
+    return render(request, 'mng/mng-sales.html', context)
 
+def saleDetail(request ,wId):
+    sb = SaleBill.objects.get(id=wId)
+    p = sb.products.all()
+    context = {'product' : p , 'saleBill' : sb}
+    return render(request,'mng/sale-detail.html' , context)
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def contract_success(request):
@@ -48,7 +53,8 @@ def wiki_select(request):
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def wiki(request , wId):
     p = Product.objects.all().filter(wiki__id = wId)
-    context = {'product_list': p}
+    w = Wiki.objects.get(id=wId)
+    context = {'product_list': p , 'wiki' : w}
     return render(request, 'mng/mng-wiki.html', context)
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
@@ -74,12 +80,12 @@ def newUser(request) :
             print("tu iffff")
             f.instance.set_password(f.cleaned_data['password'])
             f.save()
-            if (f.is_delivery) :
+            if (f.cleaned_data['is_delivery']) :
                 f.instance.user_permissions.add(is_delivery)
-            if (f.is_wrh) :
-                f.instance.user_permissions.add(is_warehouseman)
-            if (f.is_fnc) :
-                f.instance.user_permissions.add(is_fnc)
+            if (f.cleaned_data['is_wrh']) :
+                f.instance.user_permissions.add(is_warehouseman , is_mng_warehouse)
+            if (f.cleaned_data['is_fnc']) :
+                f.instance.user_permissions.add(is_fnc , is_common)
             return contract_success(request)
     else:
         print"maaaaaaaaaan"

@@ -12,11 +12,11 @@ class userForm(ModelForm):
     password = CharField(label= u"گذر واژه" ,widget=PasswordInput)
     repassword = CharField(label= u"تکرار گذرواژه" ,widget=PasswordInput)
     is_delivery = BooleanField(label= u"حمل و نقل" , required=False )
-    is_fnc = BooleanField(label= u"انباردار"  , required=False)
-    is_wrh = BooleanField(label= u"امور مالی"  , required=False)
+    is_wrh = BooleanField(label= u"انباردار"  , required=False)
+    is_fnc = BooleanField(label= u"امور مالی"  , required=False)
     class Meta:
         model = User
-        fields = ['username','password','repassword' , 'first_name', 'last_name'  , 'email', 'is_delivery' ,'is_fnc' ,'is_wrh' ]
+        fields = ['username','password','repassword' , 'first_name', 'last_name'  , 'email','is_delivery' ,'is_fnc' ,'is_wrh' ]
 
     def clean_repassword(self):
         password = self.cleaned_data.get('password')

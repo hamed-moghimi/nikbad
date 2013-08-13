@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from fnc.models import Employee, RollCall, SalaryFactor, GeneralAccount, CostBenefit, WikiFactor
 from datetime import timedelta, datetime
 from sales.models import SaleBill_Product
