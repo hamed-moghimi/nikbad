@@ -31,45 +31,50 @@
 </head>
 
 <body>
-    <div id="page">
-        <div id="header">
-            {% block header %}
-                {# header section. don't change this section until graphics for headers become ready! :D #}
-            {% endblock %}
-                <div class="navbar navbar-fixed-bottom pull-right">
-                    <div class="navbar-inner">
-                        {% block user_panel %}
-                           {# write your codes to show user status and options #}
-                        {% endblock %}
-                        {% block navbar %}
-                            {# write some codes here if you want to use navigation bar #}
-                        {% endblock %}
-                    </div>
-                </div>
+<div id="page">
+    <div id="header">
+        {% block header %}
+            {# header section. don't change this section until graphics for headers become ready! :D #}
+        {% endblock %}
+        <div class="navbar navbar-fixed-bottom pull-right">
+            <div class="navbar-inner">
+                {% block user_panel %}
+                    {# write your codes to show user status and options #}
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-danger" href="{% url logout %}">
+                            خروج
+                        </a>
+                    {% endif %}
+                {% endblock %}
+                {% block navbar %}
+                    {# write some codes here if you want to use navigation bar #}
+                {% endblock %}
+            </div>
         </div>
+    </div>
 
-        <div id="content">
-            {% block content %}
-            {% endblock %}
-        </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-        <div id="menu">
-            <ul id="menu-navbar" class="nav nav-list nav-menu affix" data-spy="affix">
-                {% block menus %}
-                    {% comment %}
+    <div id="menu">
+        <ul id="menu-navbar" class="nav nav-list nav-menu affix" data-spy="affix">
+            {% block menus %}
+                {% comment %}
                         use this code to load your menus
                         {% include "subsystem/_catMenus.html" with active_menu=??? %}
                         write a file like _catMenus.html and set ??? to the number of the active menu item
                         or omit "with ..." if no item should be active
                     {% endcomment %}
-                {% endblock %}
-            </ul>
-        </div>
+            {% endblock %}
+        </ul>
     </div>
-    <div id="footer">
-        <p class="text-muted text-center">
-            Designed by Negah-e-No co. &copy; 2013.
-        </p>
-    </div>
+</div>
+<div id="footer">
+    <p class="text-muted text-center">
+        Designed by Negah-e-No co. &copy; 2013.
+    </p>
+</div>
 </body>
 </html>

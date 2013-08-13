@@ -47,9 +47,7 @@
                 </a>
             </div>
         {% else %}
-            <a class="btn btn-danger" href="{% url logout %}">
-                خروج
-            </a>
+            {{ block.super }}
         {% endif %}
     {% endif %}
 {% endblock %}

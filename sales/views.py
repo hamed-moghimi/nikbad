@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.forms.models import inlineformset_factory
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils import timezone
-from sales.forms import SaleBillForm
-from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product
+from sales.forms import SaleBillForm, AdForm
+from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product, Specification
 from crm.models import Customer, Feedback
 from wiki.models import Product, Wiki, Category, SubCat
 
@@ -83,3 +84,18 @@ def addToMarketBasket(request, pId):
         mb.add_item(p)
         return HttpResponse(mb.itemsNum)
         # return HttpResponseForbidden()
+
+
+SpecInlineFormSet = inlineformset_factory(Ad, Specification, extra = 1)
+ImageInlineFormSet = inlineformset_factory(Ad, AdImage, extra = 1)
+
+#@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+def adEdit(request, itemCode):
+    ad = Ad.objects.get(product__pk = itemCode)
+
+    adForm = AdForm(instance = ad)
+    specFormSet = SpecInlineFormSet(instance = ad)
+    imageFormSet = ImageInlineFormSet(instance = ad)
+
+    context = {'specsFormSet': specFormSet, 'imageFormSet': imageFormSet, 'ad': ad, 'adForm': adForm}
+    return render(request, 'sales/adEdit.html', context)

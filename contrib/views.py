@@ -19,19 +19,19 @@ def login(request):
             elif user.has_perm('wiki.is_wiki'):
                 # Wikis
                 return HttpResponseRedirect(reverse('wiki-index'))
-            elif user.has_perm('wiki.is_wiki'):
+            elif user.has_perm('warehouse.????') or user.has_perm('warehouse.????'):
                 # Warehouse admins
-                return HttpResponseRedirect(reverse('wiki-index'))
-            elif user.has_perm('wiki.is_wiki'):
+                return HttpResponseRedirect(reverse('warehouse-index'))
+            elif user.has_perm('fnc.is_fnc'):
                 # Financial admin
-                return HttpResponseRedirect(reverse('wiki-index'))
-            elif user.has_perm('wiki.is_wiki'):
+                return HttpResponseRedirect(reverse('fnc-index'))
+            elif user.has_perm('fnc.is_manager'):
                 # Manager
-                return HttpResponseRedirect(reverse('wiki-index'))
+                return HttpResponseRedirect(reverse('mng-index'))
 
     return HttpResponseRedirect(reverse('index'))
 
 
 def logout(request):
     auth.logout(request)
-    return HttpResponseRedirect(reverse('sales-index'))
+    return HttpResponseRedirect(reverse('index'))
