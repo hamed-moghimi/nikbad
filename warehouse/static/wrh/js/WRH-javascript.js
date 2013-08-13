@@ -31,6 +31,15 @@ function report_receipt_customer2() {
     $(".WRH-panel2").fadeIn("slow");
 }
 
+function report_receipt_delivery2() {
+    $(".WRH-panel2").fadeOut("slow");
+    setTimeout(function() {
+        $(".WRH-panel2").load('ReportReceiptDelivery2');
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
+}
+
+
 function report_receipt_wiki2() {
     $(".WRH-panel2").fadeOut("slow");
     setTimeout(function() {
