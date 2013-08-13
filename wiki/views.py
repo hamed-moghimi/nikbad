@@ -52,6 +52,7 @@ def register(request):
     if request.method == 'POST':
          form = WikiForm(request.POST)
          if form.is_valid():
+             form.instance.set_password(form.cleaned_data['password'])
              form.save()
              return register_success(request)
     else:

@@ -1,0 +1,20 @@
+{% extends "mng/base.html" %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header">  ایجاد کاربر جدید</h2>
+        <div class="row-fluid">
+
+            <form  class="form-horizontal" method="post" action="{% url mng-newuser %}">
+
+
+                {% include '_hForm.html' with form=userForm %}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=9%}
+{% endblock %}
+
