@@ -1,10 +1,10 @@
-{% extends "wrh/base.html" %}
+{% extends "mng/base.html" %}
 {% block title %}
-    گزارش  سفارشات انبار
+    گزارش فروش
 {% endblock %}
 {% block content %}
     <div class="panel" xmlns="http://www.w3.org/1999/html">
-        <h2 class="WRH-heading2"> گزارش سفارشات انبار</h2>
+        <h2 class="WRH-heading2"> گزارش فروش</h2>
 
         <div class="WRH-panel2">
             <br />
@@ -21,8 +21,6 @@
                     <td class="WRH-th-td2" >کد کالا  </td>
                     <td class="WRH-th-td2"> نام کالا </td>
                     <td class="WRH-th-td2"> تعداد </td>
-                    <td class="WRH-th-td2"> وضعیت</td>
-                    <td class="WRH-th-td2"> تاریخ</td>
                     </thead>
                     <tbody>
                     {% for wk in wikis %}
@@ -32,15 +30,7 @@
                             <td class="WRH-td2"> {{ wk.wiki.companyName }}</td>
                             <td class="WRH-td2"> {{ wk.product.goodsID }}</td>
                             <td class="WRH-td2"> {{ wk.product.name }}</td>
-                            <td class="WRH-td2"> {{ wk.quantity }} {{ wk.product.unit }}</td>
-                            <td class="WRH-td2">
-                                {% if wk.deliveryStatus == 0 %}
-                                    صادر شده
-                                {% else %}
-دریافت شده
-                                {% endif %}
-                            </td>
-                            <td class="WRH-td2"> {{ wk.date }}</td>
+                            <td class="WRH-td2"> {{ wk.quantity }}</td>
                         </tr>
                     {% endfor %}
 
@@ -56,3 +46,7 @@
         </div>
     </div>
 {% endblock %}
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=4%}
+{% endblock %}
+

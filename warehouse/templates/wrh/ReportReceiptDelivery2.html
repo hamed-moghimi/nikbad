@@ -2,7 +2,7 @@
     <br />
     {% if dls %}
         <p>
-            حواله های انبار به شرح زیر می باشند:
+            رسیدهای ثبت شده به شرح زیر می باشند:
         </p>
         <br />
         <table class="WRH-table2 table-hover table-striped">
@@ -10,56 +10,44 @@
             <td class="WRH-th-td2">کد حواله</td>
             <td class="WRH-th-td2">کد تحویل گیرنده</td>
             <td class="WRH-th-td2">نام تحویل گیرنده</td>
-            <td class="WRH-th-td2">وضعیت</td>
             <td class="WRH-th-td2"> تاریخ</td>
             <td class="WRH-th-td2"> </td>
             </thead>
             <tbody>
             {% for dl in dls %}
-                {% with dl.pk|stringformat:"s" as pk %}
-                    {% with "ReportDetail/"|add:pk|add:"/4" as tmp %}
+                {% with dl.clearance.pk|stringformat:"s" as pk %}
+                    {% with "ReportDetail/"|add:pk|add:"/5" as tmp %}
                         <tr>
                             <td class="WRH-td2">
-                                {% if dl.type == 'sale' %}
-                                    فروش_{{  dl.pk}}
+                                {% if dl.clearance.type == 'sale' %}
+                                    فروش_{{  dl.clearance.pk}}
                                 {% else %}
-                                    {% if dl.type == 'warehouse' %}
-                                        انبار_{{  dl.pk}}
+                                    {% if dl.clearance.type == 'warehouse' %}
+                                        انبار_{{  dl.clearance.pk}}
                                     {% else %}
-                                        ویکی_{{  dl.pk}}
+                                        ویکی_{{  dl.clearance.pk}}
                                     {% endif %}
                                 {% endif %}
                             </td>
                             <td class="WRH-td2">
-                                {% if dl.type == 'sale' %}
-                                    {{  dl.bill.customer.pk}}
+                                {% if dl.clearance.type == 'sale' %}
+                                    {{  dl.clearance.bill.customer.pk}}
                                 {% else %}
-                                    {% if dl.type == 'warehouse' %}
-                                        {{  dl.transfer.bill.customer.pk}}
+                                    {% if dl.clearance.type == 'warehouse' %}
+                                        {{  dl.clearance.transfer.bill.customer.pk}}
                                     {% else %}
-                                        {{  dl.wiki.wiki.pk}}
+                                        {{  dl.clearance.wiki.wiki.pk}}
                                     {% endif %}
                                 {% endif %}
                             </td>
                             <td class="WRH-td2">
-                                {% if dl.type == 'sale' %}
-                                    {{  dl.bill.customer.first_name}} {{  dl.bill.customer.last_name}}
+                                {% if dl.clearance.type == 'sale' %}
+                                    {{  dl.clearance.bill.customer.first_name}} {{  dl.clearance.bill.customer.last_name}}
                                 {% else %}
-                                    {% if dl.type == 'warehouse' %}
-                                        {{  dl.transfer.bill.customer.first_name}} {{  dl.transfer.bill.customer.last_name}}
+                                    {% if dl.clearance.type == 'warehouse' %}
+                                        {{  dl.clearance.transfer.bill.customer.first_name}} {{  dl.clearance.transfer.bill.customer.last_name}}
                                     {% else %}
-                                        {{  dl.wiki.wiki.companyName}}
-                                    {% endif %}
-                                {% endif %}
-                            </td>
-                            <td class="WRH-td2">
-                                {% if dl.ready == 'n' %}
-                                    صادر شده
-                                {% else %}
-                                    {% if dl.ready == 'r' %}
-                                        آماده ترخیص
-                                    {% else %}
-                                        ترخیص شده
+                                        {{  dl.clearance.wiki.wiki.companyName}}
                                     {% endif %}
                                 {% endif %}
                             </td>
@@ -79,7 +67,7 @@
         <br />
 
     {% else %}
-        هنوز هیچ حواله ای برای انبار به ثبت نرسیده است.
+        هنوز هیچ رسیدی به ثبت نرسیده است.
         </br>
         </br>
     {% endif %}

@@ -8,7 +8,7 @@ from django.forms import *
 class EmployeeForm(ModelForm):
 	class Meta:
 		model = Employee
-		fields = ['name', 'family_name', 'national_id', 'mobile_num', 'tel_num', 'address', 'gender', 'marriage_status',
+		fields = ['name', 'family_name', 'national_id', 'mobile_num', 'tel_num', 'address',
 				  'salary']
 
 
@@ -27,7 +27,8 @@ class DateForm(Form):
 			# Always return the full collection of cleaned data.
 		return cleaned_data
 
+
 class AddForm(ModelForm):
 	class Meta:
-		model=CostBenefit
-		fields=['bedeh', 'bestan', 'description']
+		model = CostBenefit
+		fields = ['bedeh', 'bestan', 'description']
