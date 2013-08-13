@@ -110,7 +110,6 @@ def karmand_detail_2(request, epId):
 			pass
 		if (f.is_valid()):
 			f.save()
-			print " khhhhhhhhhhhhhhhhhhhhhhhhh"
 			return HttpResponseRedirect(reverse('fnc-karmandan'))
 	# else :
 	return render(request, 'fnc/karmand_edit.html', {'EditForm': f})
