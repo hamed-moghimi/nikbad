@@ -7,6 +7,7 @@
 {% block content %}
     <div class="panel">
         <h2 class="panel-header"> کارمند با مشخصات زیر اضافه شد</h2>
+
         <form class="form-horizontal" action="" method="post">
             {% include "_hForm.html" with form=emp_form  read_only=1 %}
         </form>
@@ -14,5 +15,9 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "fnc/_menus.html" with active_menu=1 %}
+    {% if perms.fnc.is_manager %}
+        {% include "mng/_menus.html" with active_menu=6 %}
+    {% else %}
+        {% include "fnc/_menus.html" with active_menu=2 %}
+    {% endif %}
 {% endblock %}
