@@ -19,7 +19,7 @@ class CostBenefit(models.Model):
 	description= models.TextField(verbose_name=u"جزئیات")
 	bedeh= models.IntegerField(verbose_name=u"بدهکاری",  null=True, blank=True)
 	bestan= models.IntegerField(verbose_name=u"بستانکاری", null=True, blank=True)
-	generalAccount=models.ForeignKey('GeneralAccount', related_name='costBenefits', null=True, blank=True)
+
 
 class GeneralAccount(models.Model):
 	budget= models.IntegerField(verbose_name=u"بودجه")
@@ -55,7 +55,7 @@ class Employee(models.Model):
 	reminderSalary=models.IntegerField(verbose_name="باقی مانده حقوق", default=0)
 
 	def __unicode__(self):
-		prefix=u'آقای' if self.gender=='مرد' else u'خانم'
+		prefix=u'آقای' if self.gender==u'مرد' else u'خانم'
 		return u'{0} {1} {2}'.format(prefix ,self.name, self.family_name)
 
 class SalaryFactor(models.Model):
