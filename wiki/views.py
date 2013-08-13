@@ -22,7 +22,7 @@ def index(request):
     context = {'contract' : con}
     return render(request, 'wiki/index.html', context)
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def goodsList(request):
 # request.get['username']
 # request.post
@@ -43,8 +43,9 @@ def register_success(request):
 def product_failure(request):
     return render(request, 'wiki/productFailure.html')
 
-def product_success(request):
-    return render(request, 'wiki/product_success.html')
+def product_success(request, prod):
+    context = {'product' : prod}
+    return render(request, 'wiki/product_success.html', context)
 
 def register(request):
     pass
@@ -57,7 +58,7 @@ def register(request):
          form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def addproduct(request):
     user = request.user
     if request.method == 'POST':
@@ -75,7 +76,7 @@ def addproduct(request):
                         name=name, sub_category=cat,
                         price=pr, off=off)
             p.save()
-            return success(request)
+            return product_success(request, p)
     else:
         form = ProductForm()
     return render(request, 'wiki/addProduct.html', {'form': form})
@@ -85,26 +86,31 @@ def addproduct(request):
 # if the requested product is in other wiki's showcase,
     # you should show a message.
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def deleteproduct(request):
     if request.method == 'POST':
         form = DeleteProductForm(request.POST)
         name  = request.user.username
         if form.is_valid():
-            print 'salam'
+
             pid = form.cleaned_data['id']
-            name = form.cleaned_data['proname']
+            proname = form.cleaned_data['proname']
             p = Product.objects.filter(goodsID = pid)
             if p.__len__() == 0:
                 return product_failure(request)
+            else:
+                p = Product.objects.filter(goodsID = pid)[0]
+                print p.wiki.username
+                print name
             if p.wiki.username == name:
                 p.delete()
+                print 'salam olaghe aziz'
                 return success(request)
     else:
         form = DeleteProductForm()
     return render(request, 'wiki/deleteProduct.html', {'form': form})
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhorders(request):
     if request.method == 'POST':
         form = DateForm(request.POST)
@@ -118,7 +124,7 @@ def wrhorders(request):
         form = DateForm()
     return render(request, 'wiki/DateForm.html', {'form' : form})
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def returnrequest(request):
     if request.method == 'POST':
         form = RequestForm(request.POST)
@@ -142,7 +148,7 @@ def returnrequest(request):
         form = RequestForm()
     return render(request, 'wiki/returnrequest.html', {'form': form})
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def salesreport(request):
 
     if request.method == 'POST':
@@ -168,7 +174,7 @@ def salesreport(request):
     return render(request, 'wiki/DateForm.html', {'form' : form})
 
 
-@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhproducts(request):
     myName = request.user.username
     stock = Stock.objects.filter(product__wiki__username__iexact=myName)

@@ -1,0 +1,96 @@
+{% extends "sales/base.html" %}
+{% load nikbad_tags %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header">
+            ثبت مشخصات محصول
+        </h2>
+        <br/>
+
+        <form method="post" action="">
+            <p class="text-right">
+                <b>
+                    نام محصول :
+                </b>
+                {{ ad.product }}
+            </p>
+
+            <br/>
+
+            {% csrf_token %}
+            <input type="hidden" value="{{ ad.product.pk }}">
+            <label for="description"><b>
+                توضیحات کلی
+            </b></label>
+            <textarea class="input-block-level" name="description"></textarea>
+
+            <br/>
+
+            <label><b>
+                تصاویر
+            </b></label>
+            {{ imageFormSet.management_form }}
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>
+                        ردیف
+                    </th>
+                    <th>
+                        عنوان
+                    </th>
+                    <th>
+                        تصویر
+                    </th>
+                    <th>
+                        حذف شود
+                    </th>
+                </tr>
+                {% for form in imageFormSet %}
+                    <tr class="inputRow">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ form.title }}</td>
+                        <td>{{ form.image }}</td>
+                        <td>{{ form.DELETE }}</td>
+                    </tr>
+
+                {% endfor %}
+                <tr class="addRow">
+                    <td colspan="4">
+                        <span class="text-right text-success newRowBtn">
+                            <i class="icon-plus icon-large"></i>
+                            سطر جدید
+                        </span>
+                    </td>
+                </tr>
+            </table>
+
+            <br/>
+
+            <label><b>
+                ویژگی ها
+            </b></label>
+            {{ specsFormSet.management_form }}
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>
+                        ردیف
+                    </th>
+                    <th>
+                        عنوان
+                    </th>
+                    <th>
+                        متن
+                    </th>
+                </tr>
+                {% for form in specsFormSet %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ form.title }}</td>
+                        <td>{{ form.value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </form>
+    </div>
+{% endblock %}
