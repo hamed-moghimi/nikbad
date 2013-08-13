@@ -21,6 +21,7 @@
                     <td class="WRH-th-td2" >کد کالا  </td>
                     <td class="WRH-th-td2"> نام کالا </td>
                     <td class="WRH-th-td2"> تعداد </td>
+                    <td class="WRH-th-td2"> وضعیت</td>
                     <td class="WRH-th-td2"> تاریخ</td>
                     </thead>
                     <tbody>
@@ -32,6 +33,13 @@
                             <td class="WRH-td2"> {{ wk.product.goodsID }}</td>
                             <td class="WRH-td2"> {{ wk.product.name }}</td>
                             <td class="WRH-td2"> {{ wk.quantity }} {{ wk.product.unit }}</td>
+                            <td class="WRH-td2">
+                                {% if wk.deliveryStatus == 0 %}
+                                    صادر شده
+                                {% else %}
+دریافت شده
+                                {% endif %}
+                            </td>
                             <td class="WRH-td2"> {{ wk.date }}</td>
                         </tr>
                     {% endfor %}

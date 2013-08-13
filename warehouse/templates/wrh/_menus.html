@@ -12,7 +12,7 @@
 </li>
 <li {% if active_menu == 2 %}class="active"{% endif %}>
     <a {% if active_menu != 2 %}href="NewOrder"{% endif %}>
- حواله های انبار
+ حواله های جدید انبار
         <i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 3 %}class="active"{% endif %}>
@@ -65,7 +65,7 @@
 </li>
 <li {% if active_menu == 11 %}class="active"{% endif %}>
     <a {% if active_menu != 11 %}href="ReportTrc"{% endif %}>
-        حواله های انبار
+        کل حواله های انبار
         <i class="icon-chevron-left"></i></a>
 </li>
 {% endif %}
@@ -84,6 +84,11 @@
     <li {% if active_menu == 13 %}class="active"{% endif %}>
         <a {% if active_menu != 13 %}href="ReceiptDelivery"{% endif %}>
             ثبت رسید تحویل کالا
+            <i class="icon-chevron-left"></i></a>
+    </li>
+    <li {% if active_menu == 14 %}class="active"{% endif %}>
+        <a {% if active_menu != 14 %}href="ReportReceiptDelivery"{% endif %}>
+            رسیدهای به ثبت رسیده
             <i class="icon-chevron-left"></i></a>
     </li>
 {% endif %}
