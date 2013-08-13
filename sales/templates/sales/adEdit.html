@@ -8,7 +8,7 @@
         </h2>
         <br/>
 
-        <form method="post" action="">
+        <form method="post" action="" enctype="multipart/form-data">
             <p class="text-right">
                 <b>
                     نام محصول :
@@ -44,13 +44,13 @@
                         تصویر
                     </th>
                     <th>
-                        حذف شود
+                        حذف
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for form in imageFormSet %}
-                    <tr class="inputRow"> {# {% if forloop.last %} empty{% endif %}"> #}
+                    <tr class="inputRow">
                         <td>
                             {{ forloop.counter }}
                             <div style="display: none">
@@ -59,8 +59,11 @@
                         </td>
                         <td>{{ form.title }}</td>
                         <td>
-                            {{ form.image }}
-                            {{ form.image.errors }}
+                            {% if form.image.value %}
+                                <img class="vitrin-thumb" src="{{ form.image.value.url }}"
+                            {% else %}
+                                {{ form.image }}
+                            {% endif %}
                         </td>
                         <td>{{ form.DELETE }}</td>
                     </tr>
@@ -94,7 +97,7 @@
                         متن
                     </th>
                     <th>
-                        حذف شود
+                        حذف
                     </th>
                 </tr>
                 {% for form in specsFormSet %}

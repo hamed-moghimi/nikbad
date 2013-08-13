@@ -22,7 +22,8 @@
                             <i class="icon-bar-chart icon-2x"></i>
                         </button>
 
-                        <img class="vitrin-icon" src="{{ item.icon.image.url }}" title="{{ item.icon.title }}"/>
+                        <img class="vitrin-icon" src="{{ item.icon.image.url|default:item.defaultIcon }}"
+                             title="{{ item.icon.title }}"/>
                     </a>
 
                     <div id="iconModal" class="modal hide fade" tabindex="-1" role="dialog"

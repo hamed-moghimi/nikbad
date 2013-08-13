@@ -17,8 +17,10 @@
 
 .vitrin-item {
     position: relative;
-    margin: 0 18px 0 19px;
-!important
+}
+
+.vitrin-box {
+    margin: 0 18px 0 19px !important;
 }
 
 .vitrin-item > .thumbnail {
@@ -32,6 +34,8 @@
 
 .vitrin-item > p {
     font-size: 80%;
+    height: 20px;
+    text-overflow: ellipsis;
 }
 
 .vitrin-item > .option {

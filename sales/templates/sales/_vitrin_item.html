@@ -1,4 +1,4 @@
-<div class="span2 vitrin-item">
+<div class="span2 vitrin-item vitrin-box">
     {% if perms.crm.is_customer and item.addMarketButton %}
         <a class="btn btn-success option opt-shop pull-right" href="{% url sales-addBasket pId=item.product.pk %}"
            data-loading-text='<i class="icon-refresh"></i>'
@@ -8,7 +8,7 @@
     <!--<a class="btn btn-info option opt-info pull-left" title="اطلاعات بیشتر"><i class="icon-white icon-info"></i></a>-->
 
     <a href="{% url sales-vitrin itemCode=item.id %}" class="thumbnail" title="{{ item.product }}">
-        <img src="{{ item.icon.image.url }}">
+        <img src="{{ item.icon.image.url|default:item.defaultIcon }}">
     </a>
 
     <p class="text-center muted">{{ item.product }}</p>

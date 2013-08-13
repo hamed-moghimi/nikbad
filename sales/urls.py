@@ -8,4 +8,5 @@ urlpatterns = patterns('',
                        url(r'basket$', 'sales.views.marketBasket', name = 'sales-basket'),
                        url(r'basket_ajax/(?P<pId>\d+)$', 'sales.views.addToMarketBasket', name = 'sales-addBasket'),
                        url(r'^newBuy$', 'sales.views.newBuy', name = 'sales-finishBuy'),
+                       url(r'^search$', 'sales.views.search', name = 'sales-search'),
 )

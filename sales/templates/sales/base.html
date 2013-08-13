@@ -53,18 +53,19 @@
 {% endblock %}
 
 {% block navbar %}
-    <form class="form-search navbar-search pull-left">
+    <form class="form-search navbar-search pull-left" method="get" action="{% url sales-search %}">
         <div class="input-append">
             <button class="btn"><i class="icon-large icon-search"></i></button>
-            <input type="text" class="search-query input-medium" placeholder="جستجو ...">
+            {{ search_form.query }}
         </div>
-        <select class="span2">
-            <option value="all">همه موارد</option>
-            {% for cat in categories %}
-                <option value="{{ cat.id }}"
-                        {% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
-            {% endfor %}
-        </select>
+        {#        <select class="span2" name="category">#}
+        {#            <option value="all">همه موارد</option>#}
+        {#            {% for cat in categories %}#}
+        {#                <option value="{{ cat.id }}"#}
+        {#                        {% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>#}
+        {#            {% endfor %}#}
+        {#        </select>#}
+        {{ search_form.category }}
     </form>
 {% endblock %}
 

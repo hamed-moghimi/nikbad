@@ -145,6 +145,12 @@ class Ad(models.Model):
         return self.product.__unicode__()
 
     @staticmethod
+    def defaultIcon():
+        from nikbad import settings
+
+        return settings.MEDIA_URL + 'images/vitrin/default.png'
+
+    @staticmethod
     def createForProduct(product):
         Ad.objects.get_or_create(product = product)
 

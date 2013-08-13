@@ -41,9 +41,15 @@
                 {% block user_panel %}
                     {# write your codes to show user status and options #}
                     {% if user.is_authenticated %}
-                        <a class="btn btn-danger" href="{% url logout %}">
-                            خروج
-                        </a>
+                        {% if user.is_superuser %}
+                            <a class="btn btn-warning" href="{% url logout %}">
+                                خروج از حالت ابرکاربر
+                            </a>
+                        {% else %}
+                            <a class="btn btn-danger" href="{% url logout %}">
+                                خروج
+                            </a>
+                        {% endif %}
                     {% endif %}
                 {% endblock %}
                 {% block navbar %}

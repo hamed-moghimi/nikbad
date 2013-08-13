@@ -1,0 +1,18 @@
+{% extends "sales/base.html" %}
+{% load nikbad_tags %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header">نتیجه جستجو</h2>
+
+        <div class="row-fluid">
+            {% for item in items %}
+                {% include "sales/_vitrin_item.html" with item=item %}
+            {% empty %}
+                <p class="text-center text-error">
+                    جستجوی شما هیچ محصولی در بر نداشت
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

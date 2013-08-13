@@ -6,7 +6,7 @@ from django.forms.models import inlineformset_factory, modelformset_factory
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.utils import timezone
-from sales.forms import SaleBillForm, AdForm, MBPForm
+from sales.forms import SaleBillForm, AdForm, AdImageForm, SearchForm
 from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product, Specification
 from crm.models import Customer, Feedback
 from wiki.models import Product, Wiki, Category, SubCat
@@ -101,28 +101,41 @@ def addToMarketBasket(request, pId):
 
 
 SpecInlineFormSet = inlineformset_factory(Ad, Specification, extra = 3)
-ImageInlineFormSet = inlineformset_factory(Ad, AdImage, extra = 3)
+ImageInlineFormSet = inlineformset_factory(Ad, AdImage, AdImageForm, extra = 3)
 
 #@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def adEdit(request, itemCode):
     ad = Ad.objects.get(product__pk = itemCode)
 
+    # fixed item!
+    # imageFormSet = None
+
     if request.POST:
         adForm = AdForm(request.POST, instance = ad)
         specFormSet = SpecInlineFormSet(request.POST, instance = ad)
         imageFormSet = ImageInlineFormSet(request.POST, request.FILES, instance = ad)
-        if adForm.is_valid() and specFormSet.is_valid() and imageFormSet.is_valid():
-            specFormSet.save()
-            adForm.instance.icon = None
-            adForm.instance.save()
+        iconForm = AdImageForm(request.POST, request.FILES, instance = ad.icon)
+        if adForm.is_valid() and specFormSet.is_valid() and adForm.is_valid(): #and imageFormSet.is_valid():
+
             imageFormSet.save()
-            adForm.instance.icon = adForm.instance.images.latest() if adForm.instance.images.exists() else None
+            adForm.instance.icon = adForm.instance.images.latest('pk') if adForm.instance.images.exists() else None
             adForm.instance.save()
+            # icon = iconForm.save(commit = False)
+            # icon.ad = ad
+            # icon.save()
+
+            specFormSet.save()
+
+            # adForm.instance.icon = icon
+            # adForm.instance.save()
+
             return HttpResponseRedirect('')
     else:
         adForm = AdForm(instance = ad)
         specFormSet = SpecInlineFormSet(instance = ad)
         imageFormSet = ImageInlineFormSet(instance = ad)
+        iconForm = AdImageForm(instance = ad.icon)
+
     context = {'specsFormSet': specFormSet, 'imageFormSet': imageFormSet, 'ad': ad, 'adForm': adForm}
     return render(request, 'sales/adEdit.html', context)
 
@@ -138,3 +151,26 @@ def newBuy(request):
     else:
         get = u'?error=خرید انجام نشد'
     return HttpResponseRedirect(reverse('sales-index') + get)
+
+
+def search(request):
+    # if 'category' in request.GET and 'query' in request.GET:
+    #     cat = request.GET['category']
+    #     query = request.GET['query']
+    # else:
+    #     cat = 'all'
+    #     query = '*'
+
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        cat = form.cleaned_data['category']
+        query = form.cleaned_data['query']
+    else:
+        cat = None
+        query = '*'
+
+    itemList = Ad.objects.filter(product__name__icontains = query)
+    if cat is not None:
+        itemList = itemList.filter(product__sub_category__category__name = cat)
+
+    return render(request, 'sales/search.html', {'items': itemList, 'search_form': form})
