@@ -1,6 +1,6 @@
 {% block WRH-panel2 %}
     {% if error %}
-    <center xmlns="http://www.w3.org/1999/html">
+        <center xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
         <b>
             {{ error }}
         </b>
@@ -14,6 +14,7 @@
     </center>
     {% else %}
     <div style="margin: 0 30px auto">
+    </br>
         <p >
             <b style="color: rgb(0,89,132)">
                 مشخصات حواله تحویل داده شده:
@@ -53,9 +54,7 @@
                         <tr>
                             <td class="WRH-td-th3">تعداد :</td>
                             <td class="WRH-td3">
-                                {{ clrs.transfer.quantity }}
-                            </td>
-                            <td class="WRH-td3">{{ clrs.transfer.product.unit }}</td>
+                                {{ clrs.transfer.quantity }} {{ clrs.transfer.product.unit }}</td>
                         </tr>
                         </tbody>
                     </table>

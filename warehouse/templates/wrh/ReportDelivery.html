@@ -1,16 +1,16 @@
 {% extends "wrh/base.html" %}
 {% block title %}
-    گزارش مرجوعی های انبار
+    گزارش  تحویل های انبار
 {% endblock %}
 {% block content %}
     <div class="panel" xmlns="http://www.w3.org/1999/html">
-        <h2 class="WRH-heading2"> گزارش مرجوعی های انبار</h2>
+        <h2 class="WRH-heading2"> گزارش تحویل های انبار</h2>
 
         <div class="WRH-panel2">
             <br />
-            {% if stocks %}
+            {% if dls %}
                 <p>
-                    کالاهای معیوب موجود در انبار به شرح زیر می باشند:
+                    تحویل های انبار به شرح زیر می باشند:
                 </p>
                 <br />
                 <table class="WRH-table2 table-hover table-striped">
@@ -21,16 +21,18 @@
                     <td class="WRH-th-td2" >کد کالا  </td>
                     <td class="WRH-th-td2"> نام کالا </td>
                     <td class="WRH-th-td2"> تعداد </td>
+                    <td class="WRH-th-td2"> تاریخ</td>
                     </thead>
                     <tbody>
-                    {% for stock in stocks %}
+                    {% for dl in dls %}
                         <tr>
-                            <td class="WRH-td2"> <img class="WRH-myimage2" src="{{ stock.product.wiki.image.url }}"/></td>
-                            <td class="WRH-td2"> {{ stock.product.wiki.pk }} </td>
-                            <td class="WRH-td2"> {{ stock.product.wiki.companyName }}</td>
-                            <td class="WRH-td2"> {{ stock.product.goodsID }}</td>
-                            <td class="WRH-td2"> {{ stock.product.name }}</td>
-                            <td class="WRH-td2"> {{ stock.quantity_returned }} {{ stock.product.unit }}</td>
+                            <td class="WRH-td2"> <img class="WRH-myimage2" src="{{ dl.wiki.image.url }}"/></td>
+                            <td class="WRH-td2"> {{ dl.wiki.pk }} </td>
+                            <td class="WRH-td2"> {{ dl.wiki.companyName }}</td>
+                            <td class="WRH-td2"> {{ dl.product.goodsID }}</td>
+                            <td class="WRH-td2"> {{ dl.product.name }}</td>
+                            <td class="WRH-td2"> {{ dl.quantity }} {{ dl.product.unit }}</td>
+                            <td class="WRH-td2"> {{ dl.date }}</td>
                         </tr>
                     {% endfor %}
 
@@ -39,7 +41,7 @@
                 <br />
 
             {% else %}
-                انبار کالای معیوب ندارد.
+هیچ تحویل کالایی برای انبار به ثبت نرسیده است.
                 </br>
                 </br>
             {% endif %}

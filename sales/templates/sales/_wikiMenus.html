@@ -1,0 +1,10 @@
+{% if wikis %}
+    <li class="header hover" section="wiki">
+        <a> فهرست محصولات </a>
+    </li>
+    {% for wiki in wikis %}
+        <li {% if active_menu == wiki.id|stringformat:"s"|add:"wiki" %}class="active"{% endif %} parent="wiki" {% if hidden %}style="display: none"{% endif %}>
+            <a {% if active_menu != wiki.id|stringformat:"s"|add:"wiki" %}href="{% url sales-category catID=wiki.id %}"{% endif %}>{{ wiki.companyName }}<i class="icon-chevron-left"></i></a>
+        </li>
+    {% endfor %}
+{% endif %}

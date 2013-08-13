@@ -1,7 +1,7 @@
 ﻿{% extends "base.html" %}
 
 {% block title %}
-زیرسامانه فروش
+    زیرسامانه فروش
 {% endblock %}
 
 {% block css %}
@@ -15,34 +15,42 @@
 
 {% block user_panel %}
     {% if user.is_authenticated %}
-        <div class="btn-group pull-right">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url sales-basket %}">
-                        <i class="icon-large icon-shopping-cart"></i>
-                        <span id="basket-items">{{ user.marketBasket }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url crm-status %}">
-                        <i class="icon-large icon-check"></i>
-                        <span id="basket-items">وضعیت سفارشات</span>
-                    </a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a href="{% url logout %}">
-                        <i class="icon-off"></i>
-                        خروج
-                    </a>
-                </li>
-            </ul>
-            <a class="btn btn-primary" href="{% url crm-profile %}">
-                <i class="icon-large icon-white icon-user"></i>
-                <span>{{ user }}</span>
+        {% if customer %}
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{% url sales-basket %}">
+                            <i class="icon-large icon-shopping-cart"></i>
+                            سبد خرید (
+                            <span id="basket-items">{{ customer.marketBasket.itemsNum }}</span>
+                            مورد)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url crm-status %}">
+                            <i class="icon-large icon-check"></i>
+                            <span id="basket-items">وضعیت سفارشات</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{% url logout %}">
+                            <i class="icon-off"></i>
+                            خروج
+                        </a>
+                    </li>
+                </ul>
+                <a class="btn btn-primary" href="{% url crm-profile %}">
+                    <i class="icon-large icon-white icon-user"></i>
+                    <span>{{ user }}</span>
+                </a>
+            </div>
+        {% else %}
+            <a class="btn btn-danger" href="{% url logout %}">
+                خروج
             </a>
-        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -55,7 +63,8 @@
         <select class="span2">
             <option value="all">همه موارد</option>
             {% for cat in categories %}
-                <option value="{{ cat.id }}"{% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
+                <option value="{{ cat.id }}"
+                        {% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
             {% endfor %}
         </select>
     </form>
@@ -63,18 +72,19 @@
 
 {% block menus %}
     {% if not user.is_authenticated %}
-        <li class="header hover" id="login-menu-button">
+        <li class="header hover" id="login-menu-button" section="login">
             <a>
                 <i class="icon-user"></i>
                 ورود اعضا
             </a>
         </li>
-        <li class="muted" id="login-menu">
+        <li class="muted" id="login-menu" parent="login">
             <form class="navbar-form" method="post" action="{% url login %}" id="loginID">
                 {% csrf_token %}
                 <input type="text" name="username" class="span2" placeholder="نام کاربری">
                 <input type="password" name="password" class="span2" placeholder="رمز عبور">
                 <input type="submit" class="btn btn-success" id="enter" value="ورود">
+
                 <p class="text-right">
                     <a href="#">
                         <i class="icon-question"></i>
@@ -82,16 +92,16 @@
                     </a>
                 </p>
             </form>
-            <a href="#">
+            <a href="{% url crm-signUp %}">
                 <i class="icon-plus"></i>
                 ثبت نام مشتریان
             </a>
-            <a href="#">
+            <a href="{% url wiki-register %}">
                 <i class="icon-plus"></i>
                 ثبت نام فروشندگان
             </a>
         </li>
     {% endif %}
-
-    {% include "sales/_menus.html" with active_menu=category%}
+    {% include "sales/_catMenus.html" with active_menu=category|stringformat:"s"|add:"cat" %}
+    {% include "sales/_wikiMenus.html" with active_menu=wiki|stringformat:"s"|add:"wiki" hidden=1 %}
 {% endblock %}

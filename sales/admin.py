@@ -10,9 +10,6 @@ admin.site.register(SaleBill_Product)
 admin.site.register(MarketBasket)
 admin.site.register(MarketBasket_Product)
 
-admin.site.register(Category)
-admin.site.register(SubCat)
-
 class SpecInline(TabularInline):
     model = Specification
     extra = 5
