@@ -51,7 +51,7 @@ class Employee(models.Model):
 	address = models.TextField(verbose_name=u"آدرس", default="تهران")
 	gender = models.CharField(max_length=1,verbose_name=u"جنسیت",choices=gender_choices, default='f')
 	marriage_status = models.CharField(max_length=1,verbose_name=u"وضعیت تاهل",choices=relation_choices, default='s')
-	salary= models.IntegerField(verbose_name=u"حقوق",default=0)
+	salary= models.IntegerField(verbose_name=u"حقوق(ریال)",default=0)
 	reminderSalary=models.IntegerField(verbose_name="باقی مانده حقوق", default=0)
 
 	def __unicode__(self):

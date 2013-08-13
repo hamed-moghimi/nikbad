@@ -33,7 +33,7 @@ def login(request):
                 return HttpResponseRedirect(reverse('fnc-index'))
             elif user.has_perm('fnc.is_manager'):
                 # Manager
-                return HttpResponseRedirect(reverse('mng-index'))
+                return HttpResponseRedirect(reverse('manager'))
 
     return HttpResponseRedirect(reverse('index'))
 

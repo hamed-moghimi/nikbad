@@ -84,6 +84,7 @@ def alaki(request):
 		form = DateForm()
 	return render(request, 'fnc/add_sanad.html', {'form': form})
 
+
 def add_sanad(request):
 	if (request.POST):
 		form = AddForm(request.POST)
@@ -96,3 +97,20 @@ def add_sanad(request):
 	context = {}
 	context.update({'add_form': form})
 	return render(request, 'fnc/add_sanad.html', context)
+
+
+def karmand_detail_2(request, epId):
+	employee = Employee.objects.get(id=epId)
+	f = EmployeeForm(instance=employee)
+	if (request.POST):
+		f = EmployeeForm(request.POST, instance=employee)
+		try:
+			request.POST['gender'] = request.POST['gender'].encode('utf-8')
+		except:
+			pass
+		if (f.is_valid()):
+			f.save()
+			print " khhhhhhhhhhhhhhhhhhhhhhhhh"
+			return HttpResponseRedirect(reverse('fnc-karmandan'))
+	# else :
+	return render(request, 'fnc/karmand_edit.html', {'EditForm': f})
