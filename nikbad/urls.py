@@ -70,9 +70,10 @@ urlpatterns += patterns('django.contrib.auth.views',
                                         'header': u'تغییر رمز عبور',
                                         'prompt': u'رمز عبور خود را تغییر دهید.',
                                         'error_message': u'کد وارد شده نادرست است یا قبلا استفاده شده است.',
-                                        'submit_text': u'تغییر رمز عبور'
+                                        'form_submit_text': u'تغییر رمز عبور'
                                     }
-                            }),
+                            },
+                            name = 'reset_password'),
 
                         url(r'^reset/done/$', 'password_reset_complete',
                             {
