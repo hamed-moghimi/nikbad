@@ -63,6 +63,15 @@
     padding: 3px;
 }
 
+.offer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*width: 28px;*/
+    /*height: 43px;*/
+    /*background: url("../images/Offer.png") no-repeat;*/
+}
+
 .option.pull-right {
     right: 3px;
 }
@@ -121,6 +130,11 @@
     margin: 5px auto;
     max-height: 300px;
     max-width: 300px;
+}
+
+span.text-strike {
+    text-decoration: line-through;
+    margin-left: 10px;
 }
 
 /* ------- Ad Edit form -------- */

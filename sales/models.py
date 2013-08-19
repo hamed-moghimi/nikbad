@@ -150,7 +150,7 @@ class Ad(models.Model):
     def defaultIcon():
         from nikbad import settings
 
-        return settings.MEDIA_URL + 'images/vitrin/default.png'
+        return settings.STATIC_URL + 'sales/images/default.png'
 
     @staticmethod
     def createForProduct(product):

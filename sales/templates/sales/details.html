@@ -18,9 +18,13 @@
                             </button>
                         {% endif %}
 
-                        <button class="btn btn-info option option-large pull-left" title="اضافه کردن به لیست مقایسه">
-                            <i class="icon-bar-chart icon-2x"></i>
-                        </button>
+                        {#                        <button class="btn btn-info option option-large pull-left" title="اضافه کردن به لیست مقایسه">#}
+                        {#                            <i class="icon-bar-chart icon-2x"></i>#}
+                        {#                        </button>#}
+
+                        {% if item.product.isInSale %}
+                            <span class="offer"><img src="{{ STATIC_URL }}sales/images/offer.png"></span>
+                        {% endif %}
 
                         <img class="vitrin-icon" src="{{ item.icon.image.url|default:item.defaultIcon }}"
                              title="{{ item.icon.title }}"/>
@@ -64,7 +68,15 @@
                     <div class="row-fluid">
                         <div class="span12">
                             {% if item.addMarketButton %}
-                                <p class="text-right">قیمت : {{ item.product.price|toman }}</p>
+                                قیمت :
+                                {% if item.product.isInSale %}
+                                    <span class="text-strike">{{ item.product.price|toman }}</span>
+                                    <strong class="text-success">
+                                        {{ item.product.finalPrice|toman }}
+                                    </strong>
+                                {% else %}
+                                    {{ item.product.price|toman }}
+                                {% endif %}
                             {% else %}
                                 <p class="text-right text-error"> ناموجود</p>
                             {% endif %}

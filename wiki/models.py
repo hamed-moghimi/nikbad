@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 
 
 deliveryChoices = (
-(0, u'صادر شده'),
-(1, u'در راه'),
-(2, u'دریافت شده')
+    (0, u'صادر شده'),
+    (1, u'در راه'),
+    (2, u'دریافت شده')
 )
 
 
@@ -62,6 +62,12 @@ class Product(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def finalPrice(self):
+        return self.price * (100 - self.off) // 100
+
+    def isInSale(self):
+        return self.off != 0
 
 
 class Contract(models.Model):
