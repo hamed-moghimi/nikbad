@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import permission_required
+from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.forms.formsets import formset_factory
 from django.forms.models import inlineformset_factory, modelformset_factory
@@ -53,7 +54,7 @@ def category(request, catID):
 
 def detailsPage(request, itemCode):
     try:
-        ad = Ad.objects.get(id = itemCode)
+        ad = Ad.objects.get(product__pk = itemCode)
         polls = ad.product.feedback_set.all()
     except:
         return HttpResponseRedirect(reverse('sales-index'));
@@ -145,7 +146,10 @@ def newBuy(request):
     get = ''
     if request.GET['status'] == 'OK':
         mb = request.customer.marketBasket
-        SaleBill.createFromMarketBasket(mb)
+        sb = SaleBill.createFromMarketBasket(mb)
+        from fnc.functions import make_cb_sb
+
+        make_cb_sb(sb)
         mb.clear()
         get = u'?message=خرید شما با موفقیت انجام شد'
     else:
@@ -154,23 +158,29 @@ def newBuy(request):
 
 
 def search(request):
-    # if 'category' in request.GET and 'query' in request.GET:
-    #     cat = request.GET['category']
-    #     query = request.GET['query']
-    # else:
-    #     cat = 'all'
-    #     query = '*'
-
+    # getting search query
     form = SearchForm(request.GET)
     if form.is_valid():
         cat = form.cleaned_data['category']
         query = form.cleaned_data['query']
     else:
         cat = None
-        query = '*'
+        query = ''
 
+    # retrieving matched items
     itemList = Ad.objects.filter(product__name__icontains = query)
     if cat is not None:
         itemList = itemList.filter(product__sub_category__category__name = cat)
 
-    return render(request, 'sales/search.html', {'items': itemList, 'search_form': form})
+    # PAGINATION
+    paginatior = Paginator(itemList, 2)
+
+    try:
+        page = paginatior.page(request.GET['page'])
+    except:
+        page = paginatior.page(1)
+    e = page.number
+    # At last, add paginator and page to your context. See template to continue
+    link = '?category={0}&query={1}'.format(cat.pk if cat is not None else '', query)
+    return render(request, 'sales/search.html',
+                  {'paginator': paginatior, 'page': page, 'search_form': form, 'link': link})

@@ -6,7 +6,7 @@
         <h2 class="panel-header">نتیجه جستجو</h2>
 
         <div class="row-fluid">
-            {% for item in items %}
+            {% for item in page %}
                 {% include "sales/_vitrin_item.html" with item=item %}
             {% empty %}
                 <p class="text-center text-error">
@@ -14,5 +14,26 @@
                 </p>
             {% endfor %}
         </div>
+
+        {# Template tags for pagination section, bootstrap compatible #}
+        {% if paginator.num_pages > 1 %}
+            <div class="pagination pagination-centered">
+                <ul>
+                    {% if page.has_previous %}
+                        <li><a href="{{ link|add:"&page=" }}{{ page.previous_page_number }}">&raquo;</a></li>
+                    {% endif %}
+
+                    {% for index in paginator.page_range %}
+                        <li {% if index == page.number %}class="active"{% endif %}><a
+                                href="{{ link|add:"&page=" }}{{ index }}">{{ index }}</a></li>
+                    {% endfor %}
+
+                    {% if page.has_next %}
+                        <li><a href="{{ link|add:"&page=" }}{{ page.next_page_number }}">&laquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+
     </div>
 {% endblock %}

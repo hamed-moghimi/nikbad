@@ -22,6 +22,7 @@ class AdForm(ModelForm):
 
 
 class AdImageForm(ModelForm):
+    title = forms.CharField(required = False)
     image = forms.ImageField(required = False, widget = forms.FileInput)
 
     class Meta:
@@ -30,6 +31,6 @@ class AdImageForm(ModelForm):
 
 
 class SearchForm(Form):
-    query = forms.CharField(required = True, widget = TextInput(
+    query = forms.CharField(required = False, widget = TextInput(
         attrs = {'class': "search-query input-medium", 'placeholder': "جستجو ..."}))
-    category = forms.ModelChoiceField(Category.objects.all(), empty_label = u'همه موارد')
+    category = forms.ModelChoiceField(Category.objects.all(), empty_label = u'همه موارد', required = False)

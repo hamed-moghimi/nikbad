@@ -2,7 +2,7 @@
 
 {% block head %}
     <title>
-    گزارش ویکی ها
+        گزارش ویکی ها
     </title>
 {% endblock %}
 
@@ -15,9 +15,9 @@
         <table class="FNC-table2 table-hover table-striped">
             <thead>
 
-            <td class="FNC-th-td"> </td>
+            <td class="FNC-th-td"></td>
             <td class="FNC-th-td"> نام ویکی</td>
-            <td class="FNC-th-td"> شماره ویکی </td>
+            <td class="FNC-th-td"> شماره ویکی</td>
             <td class="FNC-th-td"> تاریخ شروع قرار داد</td>
             <td class="FNC-th-td"> تاریخ پایان قرار داد</td>
 
@@ -25,13 +25,11 @@
             <tbody>
             {% for w in wikies %}
                 <tr>
-                    <td class="WRH-td"><img class="myimage" src="{{ wiki.image.url }}"/></td>
-                    <td class="FNC-td2"> <a href="{% url mng-wiki wId=w.id %}"> {{ w.companyName }}</a> </td>
+                    <td class="WRH-td"><img class="myimage" src="{{ w.image.url }}"/></td>
+                    <td class="FNC-td2"><a href="{% url mng-wiki wId=w.id %}"> {{ w.companyName }}</a></td>
                     <td class="FNC-td2">  {{ w.id }}</td>
-                    {% for c in conts %}
-                    <td class="FNC-td2"> {{w.contract.startDate }}</td>
-                    <td class="FNC-td2"> {{w.contract.expDate }}</td>
-                        {% endfor %}
+                    <td class="FNC-td2"> {{ w.contract.startDate }}</td>
+                    <td class="FNC-td2"> {{ w.contract.expDate }}</td>
                     <td class="FNC-td2"><a href="{% url contract-detail wId=w.id %}"> اطلاعات </a></td>
                 </tr>
             {% endfor %}

@@ -7,7 +7,7 @@
     {% endif %}
     <!--<a class="btn btn-info option opt-info pull-left" title="اطلاعات بیشتر"><i class="icon-white icon-info"></i></a>-->
 
-    <a href="{% url sales-vitrin itemCode=item.id %}" class="thumbnail" title="{{ item.product }}">
+    <a href="{% url sales-vitrin itemCode=item.product.pk %}" class="thumbnail" title="{{ item.product }}">
         <img src="{{ item.icon.image.url|default:item.defaultIcon }}">
     </a>
 

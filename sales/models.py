@@ -38,6 +38,8 @@ class SaleBill(models.Model):
         products = [SaleBill_Product(bill = sb, product = i.product, number = i.number) for i in basket.items.all()]
         sb.products.bulk_create(products)
 
+        return sb
+
 
 class SaleBill_Product(models.Model):
     # foreign keys
@@ -128,7 +130,7 @@ class MarketBasket_Product(models.Model):
 
 class Ad(models.Model):
     product = models.OneToOneField(Product)
-    description = models.TextField(verbose_name = u'توضیحات')
+    description = models.TextField(verbose_name = u'توضیحات', blank = True)
     registerDate = models.DateField(auto_now_add = True, verbose_name = u'تاریخ ثبت')
 
     def _get_self_id(self):
@@ -169,7 +171,7 @@ class Specification(models.Model):
     class Meta:
         verbose_name = u'ویژگی'
         verbose_name_plural = u'ویژگی ها'
-        ordering = ['ad', 'title']
+        ordering = ['ad', '-title']
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.title, self.value)
@@ -181,7 +183,7 @@ def image_path(instance, filename):
 
 
 class AdImage(models.Model):
-    ad = models.ForeignKey(Ad, related_name = 'images')
+    ad = models.ForeignKey(Ad, related_name = 'images', blank = True)
     title = models.CharField(max_length = 30, verbose_name = u'عنوان')
     image = models.ImageField(upload_to = image_path, verbose_name = u'تصویر')
 

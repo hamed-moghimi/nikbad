@@ -113,6 +113,7 @@
 
 #iconModal .modal-body {
     max-height: none;
+    max-width: 600px;
 }
 
 .vitrin-icon-large {

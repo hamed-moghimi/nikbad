@@ -1,54 +1,58 @@
 {% extends "wiki/wiki.html" %}
 {% load nikbad_tags %}
- {% block content %}
+{% block content %}
 
 
-<div class="panel">
+    <div class="panel">
 
-  <h2 class="panel-header">فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
+        <h2 class="panel-header">فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
 
-  <table class="table-striped" style="width: 100%">
-    <thead>
-      <tr>
-        <th style="width: 10%">ردیف</th>
+        <table class="table-striped" style="width: 100%">
+            <thead>
+            <tr>
+                <th style="width: 10%">ردیف</th>
 
-        <th style="width: 20%">کد کالا</th>
+                <th style="width: 20%">کد کالا</th>
 
-        <th style="width: 10%">برند</th>
+                <th style="width: 10%">برند</th>
 
-        <th style="width: 25%">نام</th>
+                <th style="width: 25%">نام</th>
 
-        <th style="width: 20%">قیمت</th>
+                <th style="width: 20%">قیمت</th>
 
-        <th style="width: 10%">تخفیف</th>
-      </tr>
-    </thead>
+                <th style="width: 10%"></th>
+            </tr>
+            </thead>
 
-    <tbody>
-  {% for product in product_list %}
-      {% with forloop.counter as num %}
+            <tbody>
+            {% for product in product_list %}
+                {% with forloop.counter as num %}
 
-      <tr>
-        <td style="text-align: center">{{ num }}</td>
+                    <tr>
+                        <td style="text-align: center">{{ num }}</td>
 
-        <td style="text-align: center">{{ product.goodsID }}</td>
+                        <td style="text-align: center">{{ product.goodsID }}</td>
 
-        <td style="text-align: center">{{ product.brand }}</td>
+                        <td style="text-align: center">{{ product.brand }}</td>
 
-        <td style="text-align: center">{{ product.name }}</td>
+                        <td style="text-align: center">{{ product.name }}</td>
 
-        <td style="text-align: center">{{ product.price|toman }} </td>
+                        <td style="text-align: center">{{ product.price|toman }} </td>
 
-        <td style="text-align: center">{{ product.off }}</td>
-      </tr>
-      {% endwith %}
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
+                        <td style="text-align: center">
+                            <a class="btn btn-primary" href="{% url sales-adEdit itemCode=product.pk %}">
+                                <i class="icon-pencil icon-large"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
 {% block menus %}
-    {% include "wiki/_menus.html" with active_menu=3%}
+    {% include "wiki/_menus.html" with active_menu=3 %}
 {% endblock %}
 
