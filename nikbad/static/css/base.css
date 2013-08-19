@@ -1,120 +1,108 @@
 /* font */
 @font-face {
-	font-family: 'entezar';
-	src: url('../fonts/entezar-webfont.eot'); 
-	src: url('../fonts/entezar-webfont.eot?#iefix') format('embedded-opentype'), 
-	     url('../fonts/entezar-webfont.woff') format('woff'), 
-	     url('../fonts/entezar-webfont.ttf')  format('truetype'), 
-	     url('../fonts/entezar-webfont.svg#svgFontName') format('svg'); 
-	}
-
-body
-{
-	direction: rtl;
-	background-color: #EFEFEF;
-	margin: 0;
-	padding: 0;
-	font-family: Tahoma;
-	font-size: 14px;
-	position: relative;
+    font-family: 'entezar';
+    src: url('../fonts/entezar-webfont.eot');
+    src: url('../fonts/entezar-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/entezar-webfont.woff') format('woff'), url('../fonts/entezar-webfont.ttf') format('truetype'), url('../fonts/entezar-webfont.svg#svgFontName') format('svg');
 }
 
-#page
-{
+body {
+    direction: rtl;
+    background-color: #EFEFEF;
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma;
+    font-size: 14px;
+    position: relative;
+}
+
+#page {
     overflow: hidden;
     width: 1024px;
     min-height: 200px;
     margin: 0 auto;
 }
 
-#header
-{
-	height: 200px;
-	background-color: #005580;
-	position: relative;
-	
-	-webkit-border-radius: 15px 15px 0 0;
-       -moz-border-radius: 15px 15px 0 0;
-            border-radius: 15px 15px 0 0;
+#header {
+    height: 200px;
+    background-color: #005580;
+    position: relative;
+
+    -webkit-border-radius: 15px 15px 0 0;
+    -moz-border-radius: 15px 15px 0 0;
+    border-radius: 15px 15px 0 0;
 }
 
 #page-body td {
     padding: 0;
 }
 
-#menu
-{
+#menu {
     width: 224px;
-	min-height: 400px;
+    min-height: 400px;
     float: right;
 }
 
-#content
-{
-	width: 780px;
-	min-height: 1500px;
-	background-color: #FFFFFF;
-	padding: 0 10px;
+#content {
+    width: 780px;
+    min-height: 1500px;
+    background-color: #FFFFFF;
+    padding: 0 10px;
     float: left;
 
-	-webkit-border-radius: 0 0 15px 15px;
-       -moz-border-radius: 0 0 15px 15px;
-            border-radius: 0 0 15px 15px;
+    -webkit-border-radius: 0 0 15px 15px;
+    -moz-border-radius: 0 0 15px 15px;
+    border-radius: 0 0 15px 15px;
 }
 
-#footer
-{
+#footer {
     clear: both;
 }
 
-.panel
-{
-	margin: 10px 10px;
-	border: solid 3px #EFEFEF;
-	padding: 10px;
+.panel {
+    margin: 10px 10px;
+    border: solid 3px #EFEFEF;
+    padding: 10px;
 }
 
-.panel .panel-header
-{
-	margin: 0 0 10px 0;
-	font-family: "entezar";
+.panel .panel-header {
+    margin: 0 0 10px 0;
+    font-family: "entezar";
 }
 
 /* ------- navigation bar ------- */
-.navbar-fixed-bottom .navbar-inner
-{
+.navbar-fixed-bottom .navbar-inner {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
 .navbar-search > select,
-.navbar-search > .btn
-{
-	margin: 0;	
+.navbar-search > .btn {
+    margin: 0;
 }
-.navbar-search i
-{
-	opacity: 0.5;
+
+.navbar-search i {
+    opacity: 0.5;
 }
-.navbar-search > i
-{
-	position: absolute;
-	right: 7px;
-	top: 7px;
+
+.navbar-search > i {
+    position: absolute;
+    right: 7px;
+    top: 7px;
 }
-.navbar-search > .search-query
-{
-	padding-right: 22px;
+
+.navbar-search > .search-query {
+    padding-right: 22px;
 }
+
 /* ------- menus ---------- */
 .nav-menu {
-  width: 224px;
-  padding: 0;
-  background-color: #F8F8F8;
-  -webkit-border-radius: 0 0 15px 0;
-     -moz-border-radius: 0 0 15px 0;
-          border-radius: 0 0 15px 0;
+    width: 224px;
+    padding: 0;
+    background-color: #F8F8F8;
+    -webkit-border-radius: 0 0 15px 0;
+    -moz-border-radius: 0 0 15px 0;
+    border-radius: 0 0 15px 0;
 }
 
 .nav-menu > li.muted {
@@ -123,17 +111,18 @@ body
 }
 
 .nav-menu > li > a {
-  display: block;
-  width: 190px \9;
-  margin: 0 0 -1px;
-  padding: 8px 14px;
-  border: 1px solid #e5e5e5;
+    display: block;
+    width: 190px  \9;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+    border: 1px solid #e5e5e5;
 }
+
 .nav-menu > .header > a,
 .nav-menu > .header > a:hover {
-	text-align: center;
-	background-color: #BBBBBB;
-  	color: #FFFFFF;
+    text-align: center;
+    background-color: #BBBBBB;
+    color: #FFFFFF;
 }
 
 .nav-menu > .header.hover {
@@ -145,32 +134,36 @@ body
 }
 
 .nav-menu > li:last-child > a {
-  -webkit-border-radius: 0 0 15px 0;
-     -moz-border-radius: 0 0 15px 0;
-          border-radius: 0 0 15px 0;
+    -webkit-border-radius: 0 0 15px 0;
+    -moz-border-radius: 0 0 15px 0;
+    border-radius: 0 0 15px 0;
 }
+
 .nav-menu > .active > a {
-  position: relative;
-  z-index: 2;
-  padding: 9px 15px;
-  border-color: #E5E5E5 #E5E5E5 #E5E5E5 transparent;
+    position: relative;
+    z-index: 2;
+    padding: 9px 15px;
+    border-color: #E5E5E5 #E5E5E5 #E5E5E5 transparent;
 }
-.nav-menu > .active i
-{
+
+.nav-menu > .active i {
     display: none;
 }
+
 /* Chevrons */
 .nav-menu .icon-chevron-left {
-  float: left;
-  margin-top: 2px;
-  margin-right: -6px;
-  opacity: .25;
+    float: left;
+    margin-top: 2px;
+    margin-right: -6px;
+    opacity: .25;
 }
+
 .nav-menu > li > a:hover {
-  background-color: #e5e5e5;
+    background-color: #e5e5e5;
 }
+
 .nav-menu a:hover .icon-chevron-left {
-  opacity: .5;
+    opacity: .5;
 }
 
 /* ---- menus affix ---- */
@@ -189,6 +182,7 @@ body
 #login-menu {
     display: none;
 }
+
 .nav-menu > li > form {
     margin: 8px 14px;
 }
@@ -212,4 +206,9 @@ body
 /* --------- icons ----------- */
 i.icon-inline {
     margin: 0 5px;
+}
+
+/* --------- texts ----------- */
+.text-justify {
+    text-align: justify;
 }

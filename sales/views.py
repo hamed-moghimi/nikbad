@@ -101,10 +101,11 @@ def addToMarketBasket(request, pId):
         # return HttpResponseForbidden()
 
 
-SpecInlineFormSet = inlineformset_factory(Ad, Specification, extra = 3)
-ImageInlineFormSet = inlineformset_factory(Ad, AdImage, AdImageForm, extra = 3)
+SpecInlineFormSet = inlineformset_factory(Ad, Specification, extra = 1)
+ImageInlineFormSet = inlineformset_factory(Ad, AdImage, AdImageForm, extra = 1)
 
-#@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
+
+@permission_required('wiki.is_wiki', login_url = reverse_lazy('wiki-index'))
 def adEdit(request, itemCode):
     ad = Ad.objects.get(product__pk = itemCode)
 
@@ -173,7 +174,7 @@ def search(request):
         itemList = itemList.filter(product__sub_category__category__name = cat)
 
     # PAGINATION
-    paginatior = Paginator(itemList, 2)
+    paginatior = Paginator(itemList, 15)
 
     try:
         page = paginatior.page(request.GET['page'])

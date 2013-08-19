@@ -42,7 +42,7 @@
                             </p>
                         </div>
                         <div class="modal-body">
-                            <img class="vitrin-icon-large" src="SRC">
+                            <img class="vitrin-modal-icon" src="SRC">
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                         <div class="span12">
                             <p class="text-right">
                                 ویکی :
-                                <a href="#">{{ item.product.wiki }}</a>
+                                {{ item.product.wiki }}
                             </p>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                 {% if item.product.isInSale %}
                                     <span class="text-strike">{{ item.product.price|toman }}</span>
                                     <strong class="text-success">
-                                        {{ item.product.finalPrice|toman }}
+                                        {{ item.product.price|toman }}
                                     </strong>
                                 {% else %}
                                     {{ item.product.price|toman }}
@@ -107,7 +107,7 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="description">
-                    <p class="text-right">
+                    <p class="text-justify">
                         {{ item.description }}
                     </p>
                 </div>

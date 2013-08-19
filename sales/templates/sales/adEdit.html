@@ -50,9 +50,12 @@
                 </thead>
                 <tbody>
                 {% for form in imageFormSet %}
-                    <tr class="inputRow">
+                    <tr class="inputRow{% if forloop.last %} empty{% endif %}">
                         <td>
-                            {{ forloop.counter }}
+                            <span class="number">
+                                {{ forloop.counter }}
+                            </span>
+
                             <div style="display: none">
                                 {{ form.id }}
                             </div>
@@ -68,7 +71,7 @@
                         <td>{{ form.DELETE }}</td>
                     </tr>
                 {% endfor %}
-                <tr class="addRow">
+                <tr class="addRow" form-name="id_{{ imageFormSet.prefix }}">
                     <td colspan="4">
                             <span class="text-right text-success newRowBtn">
                                 <i class="icon-plus icon-large"></i>
@@ -101,7 +104,7 @@
                     </th>
                 </tr>
                 {% for form in specsFormSet %}
-                    <tr>
+                    <tr class="inputRow{% if forloop.last %} empty{% endif %}">
                         <td class="number">
                             {{ forloop.counter }}
                             <div style="display: none">
@@ -113,6 +116,14 @@
                         <td>{{ form.DELETE }}</td>
                     </tr>
                 {% endfor %}
+                <tr class="addRow" form-name="id_{{ imageFormSet.prefix }}">
+                    <td colspan="4">
+                            <span class="text-right text-success newRowBtn">
+                                <i class="icon-plus icon-large"></i>
+                                سطر جدید
+                            </span>
+                    </td>
+                </tr>
             </table>
             <button class="btn btn-primary">
                 ثبت
@@ -122,4 +133,8 @@
             </a>
         </form>
     </div>
+{% endblock %}
+
+{% block menus %}
+    {% include "wiki/_menus.html" %}
 {% endblock %}

@@ -62,7 +62,9 @@ $(document).ready(function () {
     // large icons
     $('#iconModal').on('show', function () {
         $(this).find('#iconModalLabel').text(vitrinIcon.attr('title'));
-        $(this).find('.vitrin-icon-large').attr('src', vitrinIcon.attr('src'));
+        $(this).find('.vitrin-modal-icon').attr('src', vitrinIcon.attr('src'));
+        $(this).css('margin-left', $(this).width() * -0.5);
+//        $(this).css('margin-top', $(this).height() * -0.5);
     })
 
     // feedback submit
@@ -102,14 +104,25 @@ $(document).ready(function () {
     // insert new row to inline tables
     $('.newRowBtn').click(function () {
         var thisTr = $(this).parent().parent();
-        table = thisTr.parent();
-        emptyTr = table.children('.inputRow.empty');
-        var newTr = emptyTr.clone().removeClass('empty');
+        var table = thisTr.parent();
+        var emptyTr = table.children('.inputRow.empty');
+        var count = table.children('.inputRow').size();
+        var newTr = emptyTr.clone();
 
-        newTr.children('.number').text(newTr.children('.number').text() * 1 + 1);
-        newTr.children('input').each(function () {
+        newTr.find('.number').text(count + 1);
+        newTr.find('input').each(function () {
+            $(this).attr('id', replaceNumber($(this).attr('id'), count));
+            $(this).attr('name', replaceNumber($(this).attr('name'), count));
         });
 
+        var totalRows = $('#' + thisTr.attr('form-name') + '-TOTAL_FORMS');
+        totalRows.val(count + 1);
+
+        emptyTr.removeClass('empty');
         newTr.insertBefore(thisTr);
     });
 });
+
+function replaceNumber(text, newVal) {
+    return text.replace(/\d+/g, newVal);
+}

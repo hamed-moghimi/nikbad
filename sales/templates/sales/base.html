@@ -1,9 +1,5 @@
 ﻿{% extends "base.html" %}
 
-{% block title %}
-    زیرسامانه فروش
-{% endblock %}
-
 {% block css %}
     <link href="{{ STATIC_URL }}sales/css/sales.css" rel="stylesheet" type="text/css"
           xmlns="http://www.w3.org/1999/html"/>
@@ -58,13 +54,6 @@
             <button class="btn"><i class="icon-large icon-search"></i></button>
             {{ search_form.query }}
         </div>
-        {#        <select class="span2" name="category">#}
-        {#            <option value="all">همه موارد</option>#}
-        {#            {% for cat in categories %}#}
-        {#                <option value="{{ cat.id }}"#}
-        {#                        {% if category == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>#}
-        {#            {% endfor %}#}
-        {#        </select>#}
         {{ search_form.category }}
     </form>
 {% endblock %}
@@ -85,7 +74,7 @@
                 <input type="submit" class="btn btn-success" id="enter" value="ورود">
 
                 <p class="text-right">
-                    <a href="#">
+                    <a href="{% url forget-password %}">
                         <i class="icon-question"></i>
                         فراموشی رمز عبور
                     </a>
@@ -102,5 +91,5 @@
         </li>
     {% endif %}
     {% include "sales/_catMenus.html" with active_menu=category|stringformat:"s"|add:"cat" %}
-    {% include "sales/_wikiMenus.html" with active_menu=wiki|stringformat:"s"|add:"wiki" hidden=1 %}
+    {#    {% include "sales/_wikiMenus.html" with active_menu=wiki|stringformat:"s"|add:"wiki" hidden=1 %}#}
 {% endblock %}

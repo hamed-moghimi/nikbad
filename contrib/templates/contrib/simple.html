@@ -1,0 +1,37 @@
+{% extends "sales/base.html" %}
+
+{% block content %}
+    <div class="panel">
+
+        {% if header %}
+            <h2 class="panel-header">
+                {{ header }}
+            </h2>
+        {% endif %}
+
+        {% if not validLink and error_message %}
+            <p class="text-error">
+                {{ error_message }}
+            </p>
+        {% else %}
+            {% if prompt %}
+                <p class="text-justify">
+                    {{ prompt }}
+                </p>
+            {% endif %}
+
+            {% if form %}
+                <form class="form-horizontal" method="post" action="{{ form.action }}">
+                    {% include "_hForm.html" with form=form submit_text=form_submit_text %}
+                </form>
+            {% endif %}
+
+            {% if message_success %}
+                <p class="text-success">
+                    {{ message_success }}
+                </p>
+            {% endif %}
+        {% endif %}
+
+    </div>
+{% endblock %}

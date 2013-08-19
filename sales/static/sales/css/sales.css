@@ -122,14 +122,21 @@
 
 #iconModal .modal-body {
     max-height: none;
-    max-width: 600px;
+    overflow: visible;
 }
 
-.vitrin-icon-large {
+#iconModal {
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+.vitrin-modal-icon {
     display: block;
     margin: 5px auto;
-    max-height: 300px;
-    max-width: 300px;
+    max-height: 500px;
+    max-width: 800px;
 }
 
 span.text-strike {
