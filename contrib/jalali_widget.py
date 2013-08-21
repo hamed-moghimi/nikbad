@@ -56,12 +56,13 @@ class DateTimeWidget(forms.widgets.TextInput):
         jsdformat = self.dformat #.replace('%', '%%')
         cal = calbtn % (id, id, id, id, jsdformat)
         parsed_atts = flatatt(final_attrs)
-        a = u'<span><input type="text" id="%s_display" /><input type="hidden" %s/> %s%s</span>' % (
+        a = u'<span><input type="text" id="%s_display" disabled = "disabled"/><input type="hidden" %s/> %s%s</span>' % (
             id, parsed_atts, self.media, cal)
         return mark_safe(a)
 
     def value_from_datadict(self, data, files, name):
-        dtf = get_format('DATETIME_FORMAT') #forms.fields.DEFAULT_DATETIME_INPUT_FORMATS
+        dtf = '%Y-%m-%d' #
+        t = get_format('DATETIME_FORMAT') #forms.fields.DEFAULT_DATETIME_INPUT_FORMATS
         empty_values = forms.fields.EMPTY_VALUES
 
         value = data.get(name, None)
@@ -71,12 +72,11 @@ class DateTimeWidget(forms.widgets.TextInput):
             return value
         if isinstance(value, datetime.date):
             return datetime.datetime(value.year, value.month, value.day)
-        for format in dtf:
-            try:
-                return datetime.datetime(*datetime.datetime.strptime(value, format)[:6])
-            except ValueError:
-                continue
-        return None
+
+        try:
+            return datetime.datetime.strptime(value, dtf)
+        except ValueError:
+            return None
 
     def _has_changed(self, initial, data):
         """

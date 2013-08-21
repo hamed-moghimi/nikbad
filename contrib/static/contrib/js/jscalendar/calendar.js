@@ -2213,3 +2213,13 @@ Date.prototype.getLocalDay = function (UTC, dateType) {
 
 // global object that remembers the calendar
 window._dynarch_popupCalendar = null;
+
+// Codes added by Hamed Moghimi
+$(document).ready(function () {
+    $('input[id$=_display]').each(function () {
+        id = $(this).attr('id').replace('_display', '');
+        value = $('#' + id).val().split('-');
+        if (value.length != 3)  return;
+        $(this).val(JalaliDate.gregorianToJalali(value[0], value[1], value[2]).join('-'));
+    });
+});
