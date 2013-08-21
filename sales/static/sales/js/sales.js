@@ -61,7 +61,7 @@ $(document).ready(function () {
 
     // large icons
     $('#iconModal').on('show', function () {
-        $(this).find('#iconModalLabel').text(vitrinIcon.attr('title'));
+//        $(this).find('#iconModalLabel').text(vitrinIcon.attr('title'));
         $(this).find('.vitrin-modal-icon').attr('src', vitrinIcon.attr('src'));
         $(this).css('margin-left', $(this).width() * -0.5);
 //        $(this).css('margin-top', $(this).height() * -0.5);

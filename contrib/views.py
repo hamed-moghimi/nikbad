@@ -7,7 +7,6 @@ from django.contrib.auth.views import password_reset
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from contrib.forms import ForgetPasswordForm
 from sales.models import MarketBasket
 
 

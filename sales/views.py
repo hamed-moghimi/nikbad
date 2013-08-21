@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from datetime import datetime
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -60,7 +61,7 @@ def detailsPage(request, itemCode):
         return HttpResponseRedirect(reverse('sales-index'));
 
     context = baseContext(request)
-    context.update({'item': ad, 'polls': polls})
+    context.update({'item': ad, 'polls': polls, 'now': datetime.now()})
     return render(request, 'sales/details.html', context)
 
 
