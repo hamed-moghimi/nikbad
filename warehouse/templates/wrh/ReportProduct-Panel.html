@@ -1,0 +1,75 @@
+<br/>
+<p>
+    {{ first_msg }}
+</p>
+{% if stocks %}
+    <table class="WRH-table2 table-hover table-striped">
+        <thead>
+        <td class="WRH-th-td2"></td>
+        <td class="WRH-th-td2">کد ویکی</td>
+        <td class="WRH-th-td2">نام ویکی</td>
+        <td class="WRH-th-td2">کد کالا</td>
+        <td class="WRH-th-td2"> نام کالا</td>
+        <td class="WRH-th-td2"> تعداد</td>
+        {% if active_menu == 6 %}
+            <td class="WRH-th-td2"> وضعیت</td>
+            <td class="WRH-th-td2"> تاریخ</td>
+        {% elif active_menu == 7 %}
+            <td class="WRH-th-td2"> تاریخ</td>
+        {% endif %}
+
+        </thead>
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td class="WRH-td2"><img class="WRH-myimage2" src="{{ stock.product.wiki.image.url }}"/>
+                </td>
+                <td class="WRH-td2"> {{ stock.product.wiki.pk }} </td>
+                <td class="WRH-td2"> {{ stock.product.wiki.companyName }}</td>
+                <td class="WRH-td2"> {{ stock.product.goodsID }}</td>
+                <td class="WRH-td2"> {{ stock.product.name }}</td>
+                <td class="WRH-td2"> {{ stock.quantity }} {{ stock.product.unit }}</td>
+                {% if active_menu == 6 %}
+                    <td class="WRH-td2">
+                        {% if stock.deliveryStatus == 0 %}
+                            صادر شده
+                        {% else %}
+                            دریافت شده
+                        {% endif %}
+                    </td>
+                    <td class="WRH-td2"> {{ stock.date }}</td>
+                {% elif active_menu == 7 %}
+                    <td class="WRH-td2"> {{ stock.date }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <br/>
+
+    {# Template tags for pagination section, bootstrap compatible #}
+    {% if paginator.num_pages > 1 %}
+        <div class="pagination pagination-centered">
+            <ul>
+                {% if contacts.has_previous %}
+                    <li><a onclick="load_page('{{ "ReportProduct_Panel/" }}{{ active_menu }}{{ "?page=" }}{{ contacts.previous_page_number }}')"
+                           href="#">&raquo;</a></li>
+                {% endif %}
+
+                {% for num in contacts.paginator.page_range %}
+                    <li {% if num == contacts.number %}class="active"{% endif %}><a
+                            onclick="load_page('{{ "ReportProduct_Panel/" }}{{ active_menu }}{{ "?page=" }}{{ num }}')"
+                            href="#"> {{ num }}</a>
+                    </li>
+                {% endfor %}
+
+
+                {% if contacts.has_next %}
+                    <li><a onclick="load_page('{{ "ReportProduct_Panel/" }}{{ active_menu }}{{ "?page=" }}{{ contacts.next_page_number }}')"
+                           href="#">&laquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+{% endif %}

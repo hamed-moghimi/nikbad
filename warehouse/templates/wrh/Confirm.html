@@ -1,0 +1,44 @@
+{% block WRH-panel2 %}
+    {% if error %}
+        <center>
+            <p style="font-weight: 700; font-size: 14">
+                {{ error }}
+            </p>
+            <br/>
+            <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/images (1).jpg"/>
+            <br/>
+            <br/>
+
+            <div>
+                {% if type == 2 %}
+                    <button class="btn btn-primary" type="button"
+                            onclick="confirm_product_return2({{ pid }}, {{ kid }})">
+                        بازگشت
+                    </button>
+                {% elif type == 0 %}
+                    <button class="btn btn-primary" type="button" onclick="rreturn()">
+                        {{ button }}
+                    </button>
+                {% endif %}
+            </div>
+            <br/>
+        </center>
+    {% else %}
+        <center>
+            <p style="font-weight: 700; font-size: 14; max-width: 500px;">
+                {{ msg }}
+            </p>
+            <br/>
+            <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/images (2).jpg"/>
+            <br/>
+            <br/>
+
+            <div>
+                <button class="btn btn-primary" type="button" onclick="rreturn()">
+                    {{ button }}
+                </button>
+            </div>
+            <br/>
+        </center>
+    {% endif %}
+{% endblock %}

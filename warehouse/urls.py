@@ -1,52 +1,65 @@
 from django.conf.urls import patterns, url
+from warehouse.views import reports
 
 urlpatterns = patterns('',
-    url(r'^$', 'warehouse.views.index', name='warehouse-index'),
+                       url(r'^$', 'warehouse.views.index', name='warehouse-index'),
 
-    # url haaye marbut be havaleehaye jadid e anbaardaar
-    url(r'^NewOrder$', 'warehouse.views.new_order', name='warehouse-index-test'),
-    url(r'^NewOrdersBack$', 'warehouse.views.new_order_back', name='warehouse-index-test'),
-    url(r'^ConfirmOrder/(?P<pid>\d+)$', 'warehouse.views.confirm_order', name='warehouse-index-test'),
-    url(r'^Tiny_Order/(?P<pid>\d+)$', 'warehouse.views.tiny_order', name='warehouse-index-tiny_order'),
+                       # url haaye marbut be havaleehaye jadid ham va3 anbaardar ham va3 deliveryman
+                       url(r'^(?P<org>\S+)NewOrder$', 'warehouse.views.new_order', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)OrdersPanel$', 'warehouse.views.order_panel', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ReadyOrder$', 'warehouse.views.ready_order', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)OrdersReadyPanel$', 'warehouse.views.ready_order_panel', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ConfirmOrder/(?P<pid>\d+)$', 'warehouse.views.confirm_order',
+                           name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ConfirmReadyOrder/(?P<pid>\d+)$', 'warehouse.views.confirm_ready_order',
+                           name='warehouse-index-test'),
 
-    #url haaye marbut be havaalehayae amaadeye xoruj va3 delivery man
-    url(r'^ReadyOrder$', 'warehouse.views.ready_order', name='warehouse-index-test'),
-    url(r'^ReadyTiny_Order/(?P<pid>\d+)$', 'warehouse.views.ready_tiny_order', name='warehouse-index-tiny_order'),
-    url(r'^ReadyOrder2$', 'warehouse.views.ready_order_back', name='warehouse-index-test'),
-    url(r'^ConfirmReadyOrder/(?P<pid>\d+)$', 'warehouse.views.confirm_ready_order', name='warehouse-index-test'),
+                       #url haaye marbut be sabte vorude kalaa be anbaar
+                       url(r'^WRHDelivery$', 'warehouse.views.delivery_wiki_select', name='warehouse-index-test'),
+                       url(r'^WRHDelivery2$', 'warehouse.views.delivery_wiki_select2', name='warehouse-index-test'),
+                       url(r'^ConfirmationWRHDelivery$', 'warehouse.views.confirm_wrh_delivery',
+                           name='warehouse-index-test'),
+                       url(r'^WRHDelivery-next/(?P<pid>\d+)$', 'warehouse.views.delivery_product_select',
+                           name='warehouse-index-tiny_order'),
 
-    #url haaye marbut be sabte vorude kalaa be anbaar
-    url(r'^WRHDelivery$', 'warehouse.views.delivery_wiki_select', name='warehouse-index-test'),
-    url(r'^WRHDelivery2$', 'warehouse.views.delivery_wiki_select2', name='warehouse-index-test'),
-    url(r'^ConfirmationWRHDelivery$', 'warehouse.views.confirm_wrh_delivery', name='warehouse-index-test'),
-    url(r'^WRHDelivery-next/(?P<pid>\d+)$', 'warehouse.views.delivery_product_select', name='warehouse-index-tiny_order'),
+                       #url haaye marbut be bargashte kaalaaye mayoub az moshtari
+                       url(r'^(?P<org>\S+)CustomerReturn$', 'warehouse.views.customer_return', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)CustomerReturn-Panel$', 'warehouse.views.customer_return_panel', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)CustomerReturn-next$', 'warehouse.views.customer_return_next',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)CustomerReturn-next/(?P<pid>\d+)/(?P<kid>\d+)$', 'warehouse.views.customer_return_next2',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^ConfirmReturn/(?P<pid>\d+)/(?P<kid>\d+)/(?P<cid>\d+)$', 'warehouse.views.confirm_return',
+                           name='warehouse-index-tiny_order'),
 
-    #url haaye marbut be bargashte kaalaaye mayoub az moshtari
-    url(r'^CustomerReturn$', 'warehouse.views.customer_return', name='warehouse-index-test'),
-    url(r'^CustomerReturn2$', 'warehouse.views.customer_return2', name='warehouse-index-test'),
-    url(r'^CustomerReturn-next/(?P<pid>\d+)/(?P<kid>\d+)$', 'warehouse.views.customer_return_next', name='warehouse-index-tiny_order'),
-    url(r'^ConfirmReturn/(?P<pid>\d+)/(?P<kid>\d+)/(?P<cid>\d+)$', 'warehouse.views.confirm_return', name='warehouse-index-tiny_order'),
+                       #url haaye marbut be reside kalaahaaye havale be moshtari ya wiki
+                       url(r'^(?P<org>\S+)ReceiptDelivery$', 'warehouse.views.ReceiptDelivery', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ReceiptDelivery-Panel$', 'warehouse.views.ReceiptDelivery_Panel', name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ReceiptDetail$', 'warehouse.views.receipt_detail',
+                           name='warehouse-index-tiny_order'),
+                       # url(r'^(?P<org>\S+)ReceiptDetail/(?P<pid>\d+)$', 'warehouse.views.receipt_detail',
+                       #     name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)ConfirmReceipt/(?P<pid>\d+)$', 'warehouse.views.confirm_receipt',
+                           name='warehouse-index-tiny_order'),
 
-    #url haaye marbut be reside kalaahaaye havale be moshtari ya wiki
-    url(r'^ReceiptDelivery$', 'warehouse.views.ReceiptDelivery', name='warehouse-index-test'),
-    url(r'^ReceiptDelivery2$', 'warehouse.views.ReceiptDelivery2', name='warehouse-index-test'),
-    url(r'^ReceiptDetail/(?P<pid>\d+)$', 'warehouse.views.receipt_detail', name='warehouse-index-tiny_order'),
-    url(r'^ConfirmReceipt/(?P<pid>\d+)$', 'warehouse.views.confirm_receipt', name='warehouse-index-tiny_order'),
+                       #url marbut be report haa
+                       url(r'^(?P<org>\S+)Report/(?P<menu_id>\d+)$', 'warehouse.views.reports',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)ReportReceipt_Panel/(?P<menu_id>\d+)$', 'warehouse.views.report_receipt_panel',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)ReportReceipt_Panel/(?P<menu_id>\d+)?page=(?P<num>\d+)$', 'warehouse.views.report_receipt_panel',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)ReportProduct_Panel/(?P<menu_id>\d+)$', 'warehouse.views.report_product_panel',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)ReportProduct_Panel/(?P<menu_id>\d+)?page=(?P<num>\d+)$', 'warehouse.views.report_product_panel',
+                           name='warehouse-index-tiny_order'),
+                       url(r'^(?P<org>\S+)ReportReceiptDelivery$', 'warehouse.views.report_receipt_delivery',
+                           name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ReportReceiptDelivery_Panel$', 'warehouse.views.report_receipt_delivery2',
+                           name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ReportReceiptDelivery_Panel?page=(?P<num>\d+)$$', 'warehouse.views.report_receipt_delivery2',
+                           name='warehouse-index-test'),
+                       url(r'^(?P<org>\S+)ReportDetail/(?P<pid>\d+)/(?P<kid>\d+)$', 'warehouse.views.report_detail',
+                           name='warehouse-index-tiny_order'),
 
-    #url marbut be report haa
-    url(r'^ReportStock$', 'warehouse.views.report_stock', name='warehouse-index-test'),
-    url(r'^ReportReturned$', 'warehouse.views.report_return', name='warehouse-index-test'),
-    url(r'^ReportWikiOrder$', 'warehouse.views.report_order', name='warehouse-index-test'),
-    url(r'^ReportDelivery$', 'warehouse.views.report_delivery', name='warehouse-index-test'),
-    url(r'^ReportClear$', 'warehouse.views.report_clear', name='warehouse-index-test'),
-    url(r'^ReportClear2$', 'warehouse.views.report_clear2', name='warehouse-index-test'),
-    url(r'^ReportReceiptCustomer$', 'warehouse.views.report_receipt_customer', name='warehouse-index-test'),
-    url(r'^ReportReceiptCustomer2$', 'warehouse.views.report_receipt_customer2', name='warehouse-index-test'),
-    url(r'^ReportReceiptWiki$', 'warehouse.views.report_receipt_wiki', name='warehouse-index-test'),
-    url(r'^ReportReceiptWiki2$', 'warehouse.views.report_receipt_wiki2', name='warehouse-index-test'),
-    url(r'^ReportReceiptDelivery$', 'warehouse.views.report_receipt_delivery', name='warehouse-index-test'),
-    url(r'^ReportReceiptDelivery2$', 'warehouse.views.report_receipt_delivery2', name='warehouse-index-test'),
-    url(r'^ReportTrc$', 'warehouse.views.report_trc', name='warehouse-index-test'),
-    url(r'^ReportTrc2$', 'warehouse.views.report_trc2', name='warehouse-index-test'),
-    url(r'^ReportDetail/(?P<pid>\d+)/(?P<kid>\d+)$', 'warehouse.views.report_detail', name='warehouse-index-tiny_order'),
 )

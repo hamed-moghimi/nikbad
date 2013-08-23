@@ -2,54 +2,60 @@
 {% block title %}
     کالاهای معیوب
 {% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(
+                function () {
+
+                    $(".WRH-panel2").load("*CustomerReturn-Panel");
+                    return false;
+                });
+        function rreturn() {
+            $(".WRH-panel2").fadeOut("slow");
+            setTimeout(function() {
+                $(".WRH-panel2").load('*CustomerReturn-Panel');
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+
+        function confirm_product_return2(pid, kid) {
+            $(".WRH-panel2").fadeOut("slow");
+            var str = "*CustomerReturn-next/";
+            var st2 = str.concat(pid);
+            var st3 = st2.concat("/")
+            var st4 = st3.concat(kid);
+            setTimeout(function() {
+                $(".WRH-panel2").load(st4.toString());
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+
+        function confirm_return(pid, kid) {
+            var qnt = document.getElementById('qnt');
+            var a = qnt.value;
+            $(".WRH-panel2").fadeOut("slow");
+            var str = "ConfirmReturn/";
+            var st2 = str.concat(pid);
+            var st3 = st2.concat("/")
+            var st4 = st3.concat(kid);
+            var st5 = st4.concat("/");
+            var st6 = st5.concat(a);
+            setTimeout(function() {
+                $(".WRH-panel2").load(st6);
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="panel">
         <h2 class="WRH-heading2"> ثبت کالا به عنوان کالای معیوب </h2>
         <br/>
 
         <div class="WRH-panel2">
-            {% block WRH-panel2 %}
-                لطفا مشخصات کالای معیوب را در فرم زیر وارد کنید:
-                <br/>
-                <br/>
-
-                <form name="input" action="html_form_action.asp" method="get">
-                    <table class="WRH-table3 table-hover">
-                        <tbody>
-                        <tr>
-                            <td class="WRH-td-th3"> کد حواله :</td>
-                            <td class="WRH-td3">
-                                <input id="code" type="text" class="span2"
-                                       style="margin-top:10px; height:15px; text-align: center"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="WRH-td-th3"> کد کالا :</td>
-                            <td class="WRH-td3">
-                                <input id="pcode" type="text" class="span2"
-                                       style=" margin-top:10px; height:15px; text-align: center "/>
-                            </td>
-                        </tr>
-                        <tr>
-                            {#                        <td class="WRH-td-th3">تعداد :</td>#}
-                            {#                        <td class="WRH-td3">#}
-                            {#                            <input type="qnt" class="span2" style="margin-top:10; height:23px; text-align: center"/>#}
-                            {#                        </td>#}
-                        </tr>
-                        </tbody>
-                    </table>
-                    <br/>
-                    <center>
-                        <button class="btn btn-primary btn-small" type="button" style=" margin-right: 0px;"
-                                onclick="confirm_product_return()">
-                            تایید
-                        </button>
-                    </center>
-                </form>
-                <br/>
-                </div>
-            {% endblock %}
-        <br/>
+        </div>
     </div>
 
 {% endblock %}

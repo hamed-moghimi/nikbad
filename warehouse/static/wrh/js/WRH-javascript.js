@@ -1,4 +1,11 @@
-
+function menu_call(tmp){
+    $(".WRH-panel2").fadeOut("slow");
+    alert("daram miam")
+    setTimeout(function() {
+        $(".WRH-panel2").load(tmp);
+    }, 500);
+    $(".WRH-panel2").fadeIn("slow");
+}
 function orders() {
 	$(".WRH-panel2").fadeOut("slow");
 	setTimeout(function() {
@@ -73,8 +80,10 @@ function tiny_orders(tmp) {
 }
 
 function report_order_detail(tmp) {
+    alert("umadam")
     $(".WRH-panel2").fadeOut("slow");
     setTimeout(function() {
+        alert(tmp)
         $(".WRH-panel2").load(tmp);
     }, 500);
     $(".WRH-panel2").fadeIn("slow");
@@ -189,6 +198,7 @@ function confirm_product_return2(pid, kid) {
     var st2 = str.concat(pid);
     var st3 = st2.concat("/")
     var st4 = st3.concat(kid);
+    alert(st4)
     setTimeout(function() {
         $(".WRH-panel2").load(st4.toString());
     }, 500);
@@ -207,23 +217,6 @@ function receipt_return() {
     $(".WRH-panel2").fadeOut("slow");
     setTimeout(function() {
         $(".WRH-panel2").load('ReceiptDelivery2');
-    }, 500);
-    $(".WRH-panel2").fadeIn("slow");
-}
-
-
-function confirm_return(pid, kid) {
-    var qnt = document.getElementById('qnt');
-    var a = qnt.value;
-    $(".WRH-panel2").fadeOut("slow");
-    var str = "ConfirmReturn/";
-    var st2 = str.concat(pid);
-    var st3 = st2.concat("/")
-    var st4 = st3.concat(kid);
-    var st5 = st4.concat("/");
-    var st6 = st5.concat(a);
-    setTimeout(function() {
-        $(".WRH-panel2").load(st6);
     }, 500);
     $(".WRH-panel2").fadeIn("slow");
 }
