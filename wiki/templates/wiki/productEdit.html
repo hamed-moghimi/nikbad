@@ -1,0 +1,23 @@
+{% extends "wiki/wiki.html" %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header"> ویرایش کالا </h2>
+        <div class="row-fluid">
+            {{ Editform.non_field_errors }}
+            <form class="form-horizontal" method="post" action= "{% url product-edit gId=product  %}">
+                {% include "_hForm.html" with form=ProductForm read_only=0 %}
+
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=0%}
+{% endblock %}
+

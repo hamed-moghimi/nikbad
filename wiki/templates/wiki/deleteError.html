@@ -1,0 +1,16 @@
+{% extends "wiki/wiki.html" %}
+{% block content %}
+
+
+    <div class="panel">
+        <h4>
+کالای موردنظر موجود نیست یا اجازه ی حذف آن را ندارید.
+        </h4>
+        <center><img src="../../static/images/error.png" width="128" height="128" alt=""></center>
+    </div>
+{% endblock %}
+
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=0%}
+{% endblock %}
+

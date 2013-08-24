@@ -10,5 +10,6 @@ urlpatterns = patterns('',
      url(r'^DateForm$', 'wiki.views.wrhorders', name='wrh-order'),
      url(r'^returnrequest$', 'wiki.views.returnrequest', name='return-req'),
      url(r'^salesreport$', 'wiki.views.salesreport', name='sales-report'),
-     url(r'^wrhproducts$', 'wiki.views.wrhproducts', name='sales-report'),
+     url(r'^wrhproducts$', 'wiki.views.wrhproducts', name='wrh-product'),
+     url(r'^productEdit/(?P<gId>\d+)$', 'wiki.views.editProduct', name='product-edit'),
 )

@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse_lazy
@@ -32,8 +33,15 @@ def goodsList(request):
         user = request.user
         myName = user.username
         p = Product.objects.all().filter(wiki__username__iexact = myName)
-
-        context = {'product_list': p}
+        paginator = Paginator(p, 10)
+        page = request.GET.get('page')
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+        context = {'product_list': p, 'products':products}
         return render(request, 'wiki/goodslist.html', context)
 
 
@@ -67,10 +75,25 @@ def register(request):
         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
+def no_contract(request):
+    return render(request, 'wiki/noContract.html')
+
+
+def maxExceeded(request):
+    return render(request, 'wiki/maxExceeded.html')
+
+def delete_error(request):
+    return render(request, 'wiki/deleteError.html')
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def addproduct(request):
     user = request.user
+    con = Contract.objects.filter(wiki__username = request.user.username)
+    if con.__len__() == 0:
+        return no_contract(request)
+    proList = Product.objects.filter(wiki__username = request.user.username)
+    if proList.__len__() == con[0].max_goods:
+        return maxExceeded(request)
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
@@ -78,13 +101,14 @@ def addproduct(request):
             gid = form.cleaned_data['goodsID']
             wiki = Wiki.objects.filter(username = user.username)[0]
             brand = form.cleaned_data['brand']
+            unit = form.cleaned_data['unit']
             name = form.cleaned_data['name']
             cat = form.cleaned_data['sub_category']
             pr = form.cleaned_data['price']
             off = form.cleaned_data['off']
             p = Product(goodsID = gid, wiki = wiki, brand = brand,
                         name = name, sub_category = cat,
-                        price = pr, off = off)
+                        price = pr, off = off, unit = unit)
             Ad.objects.get_or_create(product = p)
             p.save()
             return product_success(request, p)
@@ -98,24 +122,31 @@ def addproduct(request):
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def deleteproduct(request):
+    w = Wiki.objects.filter(username = request.user.username)
     if request.method == 'POST':
         form = DeleteProductForm(request.POST)
         name = request.user.username
         if form.is_valid():
 
-            pid = form.cleaned_data['id']
-            proname = form.cleaned_data['proname']
+            pid = form.cleaned_data['pro']
             p = Product.objects.filter(goodsID = pid)
             if p.__len__() == 0:
-                return product_failure(request)
+                return delete_error(request)
             else:
                 p = Product.objects.filter(goodsID = pid)[0]
-                print p.wiki.username
-                print name
+                stock = Stock.objects.filter(product = p)
+                if stock.__len__() > 0:
+                    if stock[0].quantity == 0 and stock[0].quantity_returned == 0:
+                        p.delete()
+                    else:
+                        return delete_error(request)
+                else:
+                    return delete_error(request)
             if p.wiki.username == name:
                 p.delete()
-                print 'salam olaghe aziz'
                 return success(request)
+            else:
+                return delete_error(request)
     else:
         form = DeleteProductForm()
     return render(request, 'wiki/deleteProduct.html', {'form': form})
@@ -190,5 +221,24 @@ def salesreport(request):
 def wrhproducts(request):
     myName = request.user.username
     stock = Stock.objects.filter(product__wiki__username__iexact = myName)
-    context = {'stock_list': stock}
+    paginator = Paginator(stock, 1)
+    page = request.GET.get('page')
+    try:
+        stocks = paginator.page(page)
+    except PageNotAnInteger:
+        stocks = paginator.page(1)
+    except EmptyPage:
+        stocks = paginator.page(paginator.num_pages)
+    context = {'stock_list': stock, 'stocks' : stocks}
     return render(request, 'wiki/wrhproducts.html', context)
+
+def editProduct(request, gId):
+    p = Product.objects.get(goodsID = gId)
+    if(request.POST):
+        f = ProductForm(request.POST, instance = p)
+        if (f.is_valid()):
+            f.save()
+            return product_success(request, p)
+    f = ProductForm(instance = p)
+    context = {'ProductForm' :f , 'p':p , 'product' : gId}
+    return render(request, 'wiki/productEdit.html', context)

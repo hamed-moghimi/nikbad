@@ -25,7 +25,7 @@
             </thead>
 
             <tbody>
-            {% for product in product_list %}
+            {% for product in products%}
                 {% with forloop.counter as num %}
 
                     <tr>
@@ -44,12 +44,30 @@
                                 <i class="icon-pencil icon-large"></i>
                             </a>
                         </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-primary"  href="{% url product-edit gId=product.goodsID %}"> {{ submit_text|default:"ویرایش " }} </a> </button>
+                        </td>
+
                     </tr>
                 {% endwith %}
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+
+<div class="pagination-centered">
+    {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}">قبل</a>
+    {% endif %}
+
+    صفحه{{ products.number }} از {{ products.paginator.num_pages }}.
+
+    {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}">بعد</a>
+    {% endif %}
+</div>
+
 {% endblock %}
 
 {% block menus %}
