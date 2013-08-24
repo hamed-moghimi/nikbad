@@ -3,19 +3,28 @@
 {% block title %}
     بازار اینترنی نیک باد-ویترین الکترونیکی
 {% endblock %}
+{% load nikbad_tags %}
 
 {% block content %}
     <div class="panel">
         <h2 class="panel-header">وضعیت قرارداد</h2>
         {% for con in contract %}
         تاریخ شروع:
-    {{ con.startDate }}
+    {{ con.startDate|jalali }}
         <br>
     تاریخ پایان:
-    {{ con.expDate }}
+    {{ con.expDate|jalali }}
         <br>
-    درصد تسهیم سود:
+                درصد تسهیم سود:
     {{ con.percent }}
+
+         <br>
+            حداکثر تعداد کالا:
+            {{ con.max_goods }}
+            <br>
+            آبونمان:
+            {{ con.fee }}
+
     {% endfor %}
 
     </div>
