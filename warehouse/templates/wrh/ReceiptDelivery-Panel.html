@@ -1,0 +1,44 @@
+{% block js %}
+    <script type="text/javascript">
+        $(document).each(
+                function () {
+
+                    $('#receipt_delivery').submit(function () {
+                        $(".WRH-panel2").fadeOut(10);
+                        // submit the form
+                        $(this).ajaxSubmit(function (result) {
+                            $(".WRH-panel2").html(result);
+                            $(".WRH-panel2").fadeIn("slow");
+                        });
+                        // return false to prevent normal browser submit and page navigation
+                        return false;
+                    });
+                });
+
+    </script>
+{% endblock %}
+<div class="WRH-panel2">
+    {{ first_msg }}
+    <br/>
+    <br/>
+
+    <form id="receipt_delivery" action="*ReceiptDetail" method="post">
+        {% csrf_token %}
+        <table class="WRH-table7 table-hover">
+            <tbody>
+            <tr>
+                <td class="WRH-td-th3"> کد حواله:</td>
+                <td class="WRH-td3">
+                    <input name="code"  type="text" class="span2" style="margin-top:10px; height:15px; text-align: center"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br/>
+        <center>
+            <input class="btn btn-primary btn-small" type="submit" value="تایید">
+        </center>
+    </form>
+    <br/>
+
+</div>

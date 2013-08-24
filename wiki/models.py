@@ -2,7 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 deliveryChoices = (
     (0, u'صادر شده'),
     (1, u'در راه'),

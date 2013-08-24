@@ -20,7 +20,7 @@
             </thead>
 
             <tbody>
-            {% for stock in stock_list %}
+            {% for stock in stocks %}
                 {% with forloop.counter as num %}
 
                     <tr>
@@ -39,6 +39,18 @@
             </tbody>
         </table>
     </div>
+    <div class="pagination-centered">
+        {% if stocks.has_previous %}
+            <a href="?page={{ stocks.previous_page_number }}">قبل</a>
+        {% endif %}
+
+        صفحه{{ stocks.number }} از {{ stocks.paginator.num_pages }}.
+
+        {% if stocks.has_next %}
+            <a href="?page={{ stocks.next_page_number }}">بعد</a>
+        {% endif %}
+    </div>
+
 {% endblock %}
 
 {% block menus %}

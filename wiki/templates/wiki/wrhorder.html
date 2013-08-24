@@ -1,4 +1,5 @@
 {% extends "wiki/wiki.html" %}
+{% load nikbad_tags %}
 {% block content %}
 
 
@@ -24,14 +25,14 @@
             </thead>
 
             <tbody>
-            {% for order in order_list %}
+            {% for order in order_list%}
                 {% with forloop.counter as num %}
 
                     <tr>
 
                         <td style="text-align: center">{{ num }}</td>
 
-                        <td style="text-align: center">{{ order.date }}</td>
+                        <td style="text-align: center">{{ order.date|jalali }}</td>
 
                         <td style="text-align: center">{{ order.product.goodsID }}</td>
 
@@ -47,8 +48,8 @@
             </tbody>
         </table>
     </div>
-{% endblock %}
 
+{% endblock %}
 {% block menus %}
     {% include "wiki/_menus.html" with active_menu=5%}
 {% endblock %}

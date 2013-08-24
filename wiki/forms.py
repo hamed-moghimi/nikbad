@@ -1,13 +1,12 @@
 # -*- encoding: utf-8 -*-
 
 # from build.lib.django.forms.forms import Form
-
 from django.db.models.fields import CharField
 from django.forms.models import ModelForm
+from contrib.forms import jDateField
 from models import Wiki
 from models import *
 from django.forms import *
-from django.forms.extras.widgets import SelectDateWidget
 
 class WikiForm(ModelForm):
 
@@ -34,12 +33,12 @@ class ProductForm(ModelForm):
 
 
 class DeleteProductForm(Form):
-    id = IntegerField(label=u'کد کالا', required=True)
-    proname = CharField(label=u'نام کالا',max_length=255, required=False)
+    pro = IntegerField(label=u'کدکالا')
+
 
 class DateForm(Form):
-    startDate = DateField(label=u'از تاریخ ')
-    endDate = DateField(label=u' تا تاریخ')
+    startDate = jDateField(label=u'از تاریخ ')
+    endDate = jDateField(label=u' تا تاریخ')
 
 
 
