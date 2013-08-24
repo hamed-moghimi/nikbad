@@ -1,5 +1,6 @@
 #from Demos.win32ts_logoff_disconnected import *
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseForbidden
@@ -43,11 +44,14 @@ def edit(request):
 
 
 def signUp(request):
+    is_customer = Permission.objects.get(codename = 'is_customer')
     if (request.POST):
         f = CustomerForm(request.POST)
         if (f.is_valid()):
             f.instance.set_password(f.cleaned_data['password'])
             f.save()
+            f.instance.user_permissions.add(is_customer)
+
             MarketBasket.createForCustomer(f.instance)
             return success(request)
     else:
