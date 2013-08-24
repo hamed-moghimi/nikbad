@@ -1,3 +1,4 @@
+{% load nikbad_tags %}
 <br/>
 <p>
     {{ first_msg }}
@@ -37,9 +38,9 @@
                             دریافت شده
                         {% endif %}
                     </td>
-                    <td class="WRH-td2"> {{ stock.date }}</td>
+                    <td class="WRH-td2"> {{ stock.date|jalali }}</td>
                 {% elif active_menu == 7 %}
-                    <td class="WRH-td2"> {{ stock.date }}</td>
+                    <td class="WRH-td2"> {{ stock.date|jalali }}</td>
                 {% endif %}
             </tr>
         {% endfor %}

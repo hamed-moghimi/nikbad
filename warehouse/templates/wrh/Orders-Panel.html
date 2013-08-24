@@ -1,3 +1,4 @@
+{% load nikbad_tags %}
 <br/>
 <p>
     {{ first_msg }}
@@ -23,7 +24,7 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                <td class="WRH-td5">{{ clr.date }}</td>
+                <td class="WRH-td5">{{ clr.date|jalali }}</td>
                 <td class="WRH-td5" style="width: 30px">
                     <a class="btn btn-primary btn-mini" onclick="load_page('{{ tmp }}')">
                         ریز حواله

@@ -11,6 +11,9 @@ def index(request):
     context = {'name': a, 'request':request.get_full_path()}
     return render(request, 'wrh/base.html', context)
 
+order_points_products = []
+order_points_value = []
+
 #***********************************************************************************************************
 #***********************************BEGIN NEW ORDERS*******************************************************
 @permission_required('warehouse.is_warehouseman', login_url='index')
@@ -223,65 +226,153 @@ def confirm_ready_order(request, pid, org = ""):
 #***********************************************************************************************************
 #***********************************BEGIN WAREHOUSE DELIVERY*******************************************************
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def delivery_wiki_select(request):
+def delivery_wiki_select(request, org =""):
     a = Wiki.objects.all()
     context = {'wikis': a, 'active_menu': 1}
     return render(request,'wrh/WRHDelivery.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def delivery_wiki_select2(request):
+def delivery_wiki_select2(request, org = ""):
     a = Wiki.objects.all()
     context = {'wikis': a}
-    return render(request,'wrh/WRHDelivery2.html', context)
+    return render(request, 'wrh/WRHDelivery-Panel.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def delivery_product_select(request, pid):
+def delivery_product_select(request, pid, org = ""):
     wik = Wiki.objects.filter(pk=pid)
     a = Product.objects.filter(wiki=wik)
-    context = {'products': a}
+    zipped = []
+    for pr in a:
+        index = -1
+        for ord in order_points_products:
+            if pr == ord:
+                index = order_points_products.index(ord)
+                break
+        if index == -1:
+            zipped.append((pr, -1))
+        else:
+            zipped.append((pr, order_points_value[index]))
+
+    context = {'products': zipped}
     return render(request,'wrh/WRHDelivery-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def confirm_wrh_delivery(request):
+def confirm_wrh_delivery(request, org = ""):
+
     context = {}
     if request.method == 'POST':
         try:
             post = request.POST
             if check_capacity():
+
+                qnts = {}
+                vlms = {}
+                ords = {}
+
                 for key, value in post.iteritems():
                     if key[:4]=="qnt_":
                         num = int(key[4:])
-                        prd = Product.objects.get(pk=num)
-                        stck = Stock.objects.filter(product=prd)
-                        wk = prd.wiki
-                        vl = int(value)
-                        if vl:
-                            if not stck:
-                                st = Stock(product=prd , quantity= value, quantity_returned=0, rack_num_returned=0, rack_num=0 )
-                                st.save()
-                                print(st.quantity)
-                            else:
-                                stck[0].quantity += int(value)
-                                stck[0].save()
-                            # age sefareshi va3 in kalaa dade budam be wiki hamaye in sefaresharo migam reside
-                            wk_order = Wiki_Order.objects.filter(product=prd, deliveryStatus=0)
-                            for w in wk_order:
-                                w.deliveryStatus = 2
-                                w.save()
-
-                            receipt_del = Receipt_Delivery(wiki=wk, product=prd, quantity=vl)
-                            receipt_del.save()
+                        qnts[str(num)] = int(value)
+                        print ("num")
+                        print (num)
+                        print ("value")
+                        print (value)
+                        # prd = Product.objects.get(pk=num)
+                        # stck = Stock.objects.filter(product=prd)
+                        # wk = prd.wiki
+                        # vl = int(value)
+                        # if vl:
+                        #     if not stck:
+                        #         st = Stock(product=prd , quantity= value, quantity_returned=0, rack_num_returned=0, rack_num=0 )
+                        #         st.save()
+                        #         print(st.quantity)
+                        #     else:
+                        #         stck[0].quantity += int(value)
+                        #         stck[0].save()
+                        #     # age sefareshi va3 in kalaa dade budam be wiki hamaye in sefaresharo migam reside
+                        #     wk_order = Wiki_Order.objects.filter(product=prd, deliveryStatus=0)
+                        #     for w in wk_order:
+                        #         w.deliveryStatus = 2
+                        #         w.save()
+                        #
+                        #     receipt_del = Receipt_Delivery(wiki=wk, product=prd, quantity=vl)
+                        #     receipt_del.save()
                     else:
                         if key[:7]=="volume_":
                             num = int(key[7:])
-                            prd = Product.objects.get(pk=num)
-                            prd.volume = int(value)
+                            vlms[str(num)] = int(value)
+                            # prd = Product.objects.get(pk=num)
+                            # prd.volume = int(value)
+                            # prd.save()
+                        else:
+                            if key[:6] == "order_":
+                                num = int(key[6:])
+                                ords[str(num)] = int(value)
+                error_num = 0
+                for dic_key in qnts.keys():
+                    if qnts[dic_key]>0:
+                        try:
+                            volume = vlms[dic_key]
+                            if volume == 0:
+                                error_num = 1
+                            else:
+                                try:
+                                    ord = ords[dic_key]
+                                    if ord == 0:
+                                        error_num = 2
+                                except:
+                                    error_num = 0
+                        except:
+                            error_num = 0
+                            try:
+                                ord = ords[dic_key]
+                                if ord == 0:
+                                    error_num = 2
+                            except:
+                                error_num = 0
+                if error_num == 2:
+                    context = {'error':"به علت وارد نشدن نقطه سفارش برای کالای تحویلی، این کالاها در سیستم ثبت نگردیدند.", 'button':"ثبت کالاهای تحویلی", 'type':0}
+                elif error_num == 1:
+                    context = {'error': "به علت وارد نشدن حجم تخمینی برای کالای تحویلی، این کالاها در سیستم ثبت نگردیدند.", 'button':"ثبت کالاهای تحویلی",'type':0}
+                else:
+                    for dic_key in qnts.keys():
+                        if qnts[dic_key]>0:
+                            prd = Product.objects.get(pk=int(dic_key))
+                            stck = Stock.objects.filter(product=prd)
+                            wk = prd.wiki
+                            vl = qnts[dic_key]
+                            if vl:
+                                if not stck:
+                                    st = Stock(product=prd , quantity= vl, quantity_returned=0, rack_num_returned=0, rack_num=0 )
+                                    st.save()
+                                    print(st.quantity)
+                                else:
+                                    stck[0].quantity += qnts[dic_key]
+                                    stck[0].save()
+                                # age sefareshi va3 in kalaa dade budam be wiki hamaye in sefaresharo migam reside
+                                wk_order = Wiki_Order.objects.filter(product=prd, deliveryStatus=0)
+                                for w in wk_order:
+                                    w.deliveryStatus = 2
+                                    w.save()
+
+                                receipt_del = Receipt_Delivery(wiki=wk, product=prd, quantity=vl)
+                                receipt_del.save()
+                    for dic_key in vlms.keys():
+                        if vlms[dic_key]>0:
+                            prd = Product.objects.get(pk=int(dic_key))
+                            prd.volume = vlms[dic_key]
                             prd.save()
+                    for dic_key in ords.keys():
+                        if ords[dic_key]>0:
+                            prd = Product.objects.get(pk=int(dic_key))
+                            order_points_products.append(prd)
+                            order_points_value.append(ords[dic_key])
+                    context = {'msg':"کالاهای تحویلی مربوط به ویکی انتخاب شده با موفقیت در سیستم ثبت شدند.", 'button':"ثبت کالاهای جدید"}
             else:
-                context = {'error': "ظرفیت انبار برای ورود کالاهای زیر کافی نیست."}
+                context = {'error': "ظرفیت انبار برای ورود کالاهای زیر کافی نیست.", 'button':"ثبت کالاهای جدید", 'type':0}
         except Exception as e:
             print(str(e))
-    return render(request,'wrh/ConfirmationWRHDelivery.html', context)
+    return render(request, 'wrh/Confirm.html', context)
 #****************************************END WAREHOUSE DELIVERY***********************************
 #**********************************************************************************************
 
@@ -294,9 +385,19 @@ def customer_return(request, org=""):
     return render(request, 'wrh/CustomerReturn.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
+def point_order(request, org=""):
+    context = {'active_menu': 15}
+    return render(request, 'wrh/ChangeOrderPoint.html', context)
+
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def customer_return_panel(request, org =""):
     context = { 'active_menu': 3}
     return render(request, 'wrh/CustomerReturn-Panel.html', context)
+
+@permission_required('warehouse.is_warehouseman', login_url='index')
+def point_orders_panel(request, org =""):
+    context = { 'active_menu': 15}
+    return render(request, 'wrh/ChangeOrderPoint-Panel.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
 def customer_return_next(request,org = ""):
@@ -361,6 +462,47 @@ def customer_return_next(request,org = ""):
     return render(request, 'wrh/CustomerReturn-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
+def point_order_next(request,org = ""):
+    context = {}
+    if request.method == 'POST':
+        try:
+            post = request.POST
+            error = ""
+            for key, value in post.iteritems():
+                if key == "pcode":
+                    try:
+                        k2 = int(value)
+                    except:
+                        error = "لطفا یک عدد برای کد کالا وارد کنید."
+            if error == "":
+                try:
+                    pr = Product.objects.get(goodsID=k2)
+                except Exception as e:
+                    print(str(e))
+                    context = {'error': "کالایی با شماره داده شده یافت نشد."}
+        except Exception as e:
+            print(str(e))
+    if error!="":
+        context = {'error':error}
+    else:
+        context = {'product':pr}
+    return render(request, 'wrh/ChangeOrderPoint-next.html', context)
+
+@permission_required('warehouse.is_warehouseman', login_url='index')
+def point_order_next2(request,kid, org = ""):
+    context = {}
+    k2 = int(kid)
+    try:
+        pr = Product.objects.get(goodsID=k2)
+    except Exception as e:
+        print(str(e))
+        context = {'error': "کالایی با شماره داده شده یافت نشد."}
+    else:
+        context = {'product':pr}
+    return render(request, 'wrh/ChangeOrderPoint-next.html', context)
+
+
+@permission_required('warehouse.is_warehouseman', login_url='index')
 def customer_return_next2(request,pid, kid, org = ""):
     context = {}
     error = ""
@@ -418,7 +560,7 @@ def customer_return_next2(request,pid, kid, org = ""):
     return render(request, 'wrh/CustomerReturn-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def confirm_return(request, pid, kid, cid):
+def confirm_return(request, pid, kid, cid,org = ""):
     context = {}
     clr_id = int(pid)
     pro_id = int(kid)
@@ -456,6 +598,29 @@ def confirm_return(request, pid, kid, cid):
             stck.save()
         except Exception as e:
             print(str(e))
+    return render(request, 'wrh/Confirm.html', context)
+
+@permission_required('warehouse.is_warehouseman', login_url='index')
+def confirm_order_point(request, kid, cid, org = ""):
+    context = {}
+    pro_id = int(kid)
+    qnt = int(cid)
+    pr = Product.objects.get(goodsID=pro_id)
+
+    if qnt==0:
+        context = {'error':"لطفا عددی بزرگتر از صفر برای مقدار نقطه سفارش وارد کنید.", 'kid':kid, 'type':1}
+    else:
+        found = True
+        for p, o in zip(order_points_products, order_points_value):
+            if p==pr:
+                found = False
+        if found:
+            order_points_value.append(qnt)
+            order_points_products.append(pr)
+        else:
+            index = order_points_products.index(pr)
+            order_points_value[index] = qnt
+        context = {'msg': "نقطه سفارش با موفقیت برای کالای انتخاب شده ثبت گردید.", 'button':"ثبت نقطه سفارش جدید"}
     return render(request, 'wrh/Confirm.html', context)
 #****************************************END CUSTOMER RETURN***********************************
 #**********************************************************************************************
@@ -780,3 +945,4 @@ titles = {
     10: "گزارش  رسیدهای کالا به ویکی ها",
     11:"گزارش  حواله های انبار",
 }
+

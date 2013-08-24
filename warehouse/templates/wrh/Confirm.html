@@ -19,6 +19,11 @@
                     <button class="btn btn-primary" type="button" onclick="rreturn()">
                         {{ button }}
                     </button>
+                {% elif type == 1 %}
+                    <button class="btn btn-primary" type="button"
+                            onclick="confirm_product_return2({{ kid }})">
+                        بازگشت
+                    </button>
                 {% endif %}
             </div>
             <br/>

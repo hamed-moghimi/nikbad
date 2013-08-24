@@ -1,3 +1,4 @@
+{% load nikbad_tags %}
 <br/>
 <p>
     {{ first_msg }}
@@ -137,7 +138,7 @@
                         {% endif %}
                     </td>
                 {% endif %}
-                <td class="WRH-td2"> {{ dl.date }}</td>
+                <td class="WRH-td2"> {{ dl.date|jalali }}</td>
                 <td class="WRH-td2" style="width: 30px">
                     <a class="btn btn-primary btn-mini"
                        onclick="load_page('{{ tmp }}')">

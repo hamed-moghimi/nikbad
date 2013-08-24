@@ -112,7 +112,6 @@ function confirm_ready_order(tmp) {
 
 function load_select_page(tmp) {
     $(".WRH-panel2").fadeOut("slow");
-//    $(".WRH-panel2").html("<div class='loading'><div class='load-float'></div> <img src='{{}}images/loading.gif' /></div>");
     setTimeout(function() {
         $(".WRH-panel2").load(tmp);
     }, 700);

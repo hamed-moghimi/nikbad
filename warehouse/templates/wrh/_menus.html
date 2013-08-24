@@ -3,7 +3,7 @@
         <a> ورود وخروج کالا از انبار</a>
     </li>
     <li {% if active_menu == 1 %}class="active"{% endif %} parent="wrh-in-out">
-        <a {% if active_menu != 1 %}href="WRHDelivery"{% endif %}>
+        <a {% if active_menu != 1 %}href="*WRHDelivery"{% endif %}>
             ثبت ورود کالا به انبار
             <i class="icon-chevron-left">
 
@@ -18,6 +18,11 @@
     <li {% if active_menu == 3 %}class="active"{% endif %}parent="wrh-in-out">
         <a {% if active_menu != 3 %}href="*CustomerReturn"{% endif %}>
             ثبت کالاهای معیوب
+            <i class="icon-chevron-left"></i></a>
+    </li>
+    <li {% if active_menu == 15 %}class="active"{% endif %}parent="wrh-in-out">
+        <a {% if active_menu != 15 %}href="*OrderPoint"{% endif %}>
+تغییر نقطه سفارش کالاها
             <i class="icon-chevron-left"></i></a>
     </li>
 {% endif %}
@@ -88,7 +93,7 @@
             <i class="icon-chevron-left"></i></a>
     </li>
     <li {% if active_menu == 13 %}class="active"{% endif %} parent="wrh-delivery">
-        <a {% if active_menu != 13 %}href="*ReceiptDelivery"{% endif %}>
+        <a {% if active_menu != 13 %}href="*Cust-wiki-ReceiptDelivery"{% endif %}>
             ثبت رسید تحویل کالا
             <i class="icon-chevron-left"></i></a>
     </li>
