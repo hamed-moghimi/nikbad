@@ -1,13 +1,12 @@
 {% extends "wrh/base.html" %}
 {% block title %}
-    ثبت رسید تحویل کالا
+    {{ title }}
 {% endblock %}
 {% block js %}
     <script type="text/javascript">
         $(document).ready(
                 function () {
-
-                    $(".WRH-panel2").load("*Cust-wiki-ReceiptDelivery-Panel");
+                    $(".WRH-panel2").load('{{ panel }}');
                     return false;
                 });
         function load_page(tmp) {
@@ -19,24 +18,28 @@
         }
         function rreturn() {
             $(".WRH-panel2").fadeOut("slow");
+            tmp = '{{ type }}';
             setTimeout(function() {
-                $(".WRH-panel2").load('*Cust-wiki-ReceiptDelivery-Panel');
+                if ( tmp == "0" )
+                {
+                    $(".WRH-panel2").load('*OrdersPanel');
+                }else{
+                    $(".WRH-panel2").load('*OrdersReadyPanel');
+                }
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
-
     </script>
 {% endblock %}
 
 {% block content %}
     <div class="panel">
-        <h2 class="WRH-heading2"> ثبت رسید تحویل کالا</h2>
-        <br/>
+        <h2 class="WRH-heading2">
+            {{ title }}
+        </h2>
 
         <div class="WRH-panel2">
 
         </div>
-        <br/>
     </div>
-
 {% endblock %}

@@ -19,12 +19,12 @@
 {% endblock %}
 {% block WRH-panel2 %}
     <br/>
-    {% if products.all %}
+    {% if products %}
         <p>
             لطفا مشخصات هر یک از کالاهای تحویلی را تعیین کنید:
         </p>
         <br/>
-        <form id="myFormId" action="ConfirmationWRHDelivery" method="post">
+        <form id="myFormId" action="*WRHDeliveryConfirmation" method="post">
         {% csrf_token %}
 
         <table class="WRH-table2 table-hover table-striped">
@@ -35,9 +35,10 @@
             <td class="WRH-th-td2"> تعداد</td>
             <td class="WRH-th-td2"> واحد</td>
             <td class="WRH-th-td2"> حجم تخمینی(cm^3) </td>
+            <td class="WRH-th-td2"> نقطه سفارش</td>
             </thead>
             <tbody>
-            {% for product in products %}
+            {% for product, order in products %}
                 <tr>
                     <td class="WRH-td2"><img class="WRH-myimage2" src="{{ product.ad.icon.image.url }}"/></td>
                     <td class="WRH-td2"> {{ product.name }}</td>
@@ -51,6 +52,12 @@
                         <td class="WRH-td5"><input name="volume_{{ product.pk }}" type="number" min="0" value="0"
                                                    class="span2 number" style="margin-top: 10px; width: 70px;"/></td>
                     {% endif %}
+                    {% if order == -1 %}
+                        <td class="WRH-td5"><input name="order_{{ product.pk }}" type="number" min="0" value="0"
+                                                   class="span2 number" style="margin-top: 10px; width: 70px;"/></td>
+                    {% else %}
+                        <td class="WRH-td2">{{ order }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
 
@@ -63,22 +70,21 @@
         <center>
         <div>
         <input class="btn btn-primary btn-small" type="submit" value="تایید">
-        {#                <button class="btn btn-primary btn-small" type="button" onclick="load_last_page()">#}
-        {#                    تایید#}
-        {#                </button>#}
     {% else %}
-        <p>
-            برای ویکی انتخاب شده، هیچ کالایی به ثبت نرسیده است.
-        </p>
-        <br>
         <center>
-        <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/sad.jpg"/>
+            <p>
+                <b>
+                برای ویکی انتخاب شده، هیچ کالایی به ثبت نرسیده است.
+                </b>
+            </p>
+            <br>
+        <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/images (1).jpg"/>
         </center>
         <br/>
         <center>
         <div>
     {% endif %}
-<button class="btn btn-primary btn-small" type="button" onclick="load_first_page()">
+<button class="btn btn-primary btn-small" type="button" onclick="rreturn()">
     بازگشت
 </button>
 </div>

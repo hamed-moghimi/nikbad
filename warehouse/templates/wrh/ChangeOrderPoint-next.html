@@ -1,0 +1,69 @@
+{% if error %}
+    <center>
+        <b>
+            {{ error }}
+        </b>
+        <br/>
+        <br/>
+        <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/images (1).jpg"/>
+        <br/>
+        <br/>
+        <button class="btn btn-primary btn-small" type="button" onclick="rreturn()">
+            بازگشت
+        </button>
+    </center>
+{% else %}
+    کالای زیر برای تعیین نقطه سفارش انتخاب گردید، لطفا مقدار نقطه سفارش را با توجه به واحد کالا مشخص کنید:
+    <br/>
+    <br/>
+    <br/>
+    <table class="WRH-table4">
+        <tbody>
+        <tr>
+            <td class="WRH-td4">
+                <img class="WRH-myimage4" src="{{ product.ad.icon.image.url }}"/>
+            </td>
+            <td>
+                <table class="WRH-table3 table-hover">
+                    <tbody>
+                    <tr>
+                        <td class="WRH-td-th3"> کد کالا :</td>
+                        <td class="WRH-td3"> {{ product.goodsID }}</td>
+                    </tr>
+                    <tr>
+                        <td class="WRH-td-th3"> نام کالا :</td>
+                        <td class="WRH-td3">{{ product.name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="WRH-td-th3"> کد ویکی:</td>
+                        <td class="WRH-td3">{{ product.wiki.pk }}</td>
+                    </tr>
+                    <tr>
+                        <td class="WRH-td-th3"> نام ویکی:</td>
+                        <td class="WRH-td3">{{ product.wiki.companyName }}</td>
+                    </tr>
+                    <tr>
+                        <td class="WRH-td-th3">نقطه سفارش:</td>
+                        <td class="WRH-td3"><input id="qnt" type="number" class="span2" min="0" value="0"
+                                                   style=" margin-top:10px; height:23px; text-align: center; width: 70px;"/>
+                        </td>
+                        <td class="WRH-td3">{{ product.unit }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <br/>
+    <center>
+        <button class="btn btn-primary btn-small" type="button"
+                onclick="confirm_return({{ product.pk }})">
+            ثبت
+        </button>
+        <button class="btn btn-primary btn-small" type="button" onclick="rreturn()">
+            بازگشت
+        </button>
+    </center>
+{% endif %}

@@ -1,13 +1,13 @@
 {% extends "wrh/base.html" %}
 {% block title %}
-    کالاهای معیوب
+    تغییر نقطه سفارش
 {% endblock %}
 {% block js %}
     <script type="text/javascript">
         $(document).ready(
                 function () {
 
-                    $(".WRH-panel2").load("*CustomerReturn-Panel");
+                    $(".WRH-panel2").load("*OrderPoint-Panel");
                     return false;
                 });
         function rreturn() {
@@ -18,26 +18,22 @@
             $(".WRH-panel2").fadeIn("slow");
         }
 
-        function confirm_product_return2(pid, kid) {
+        function confirm_product_return2( kid) {
             $(".WRH-panel2").fadeOut("slow");
-            var str = "*CustomerReturn-next/";
-            var st2 = str.concat(pid);
-            var st3 = st2.concat("/")
-            var st4 = st3.concat(kid);
+            var str = "*OrderPoint-next/";
+            var st4 = str.concat(kid);
             setTimeout(function() {
                 $(".WRH-panel2").load(st4.toString());
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
 
-        function confirm_return(pid, kid) {
+        function confirm_return( kid) {
             var qnt = document.getElementById('qnt');
             var a = qnt.value;
             $(".WRH-panel2").fadeOut("slow");
-            var str = "*ConfirmReturn/";
-            var st2 = str.concat(pid);
-            var st3 = st2.concat("/")
-            var st4 = st3.concat(kid);
+            var str = "*ConfirmOrderPoint/";
+            var st4 = str.concat(kid);
             var st5 = st4.concat("/");
             var st6 = st5.concat(a);
             setTimeout(function() {
@@ -51,7 +47,7 @@
 
 {% block content %}
     <div class="panel">
-        <h2 class="WRH-heading2"> ثبت کالا به عنوان کالای معیوب </h2>
+        <h2 class="WRH-heading2"> تغییر نقطه سفارش کالاها</h2>
         <br/>
 
         <div class="WRH-panel2">

@@ -1,0 +1,178 @@
+{% load nikbad_tags %}
+<br/>
+<p>
+    {{ first_msg }}
+</p>
+{% if dls %}
+    <table class="WRH-table2 table-hover table-striped">
+        <thead>
+        <td class="WRH-th-td2">
+            {% if active_menu == 9 %}
+                کد  فاکتور سفارش
+            {% elif active_menu == 10 %}
+                کد فاکتور درخواست
+            {% else %}
+                کد حواله
+            {% endif %}
+        </td>
+        <td class="WRH-th-td2">
+            {% if active_menu == 9 %}
+                کد مشتری
+            {% elif active_menu == 10 %}
+                کد ویکی
+            {% else %}
+                کد تحویل گیرنده
+            {% endif %}
+        </td>
+        <td class="WRH-th-td2">
+            {% if active_menu == 9 %}
+                نام و نام خانوادگی مشتری
+            {% elif active_menu == 10 %}
+                نام ویکی
+            {% else %}
+                نام تحویل گیرنده
+            {% endif %}
+        </td>
+        {% if active_menu == 11 %}
+            <td class="WRH-th-td2"> وضعیت</td>
+        {% endif %}
+        <td class="WRH-th-td2"> تاریخ</td>
+        <td class="WRH-th-td2"></td>
+        </thead>
+        <tbody>
+        {% for dl, tmp in dls %}
+            <tr>
+                <td class="WRH-td2">
+                    {% if active_menu == 11 %}
+                        {% if dl.type == 'sale' %}
+                            فروش_{{ dl.pk }}
+                        {% else %}
+                            {% if dl.type == 'warehouse' %}
+                                انبار_{{ dl.pk }}
+                            {% else %}
+                                ویکی_{{ dl.pk }}
+                            {% endif %}
+                        {% endif %}
+                    {% elif active_menu == 8 %}
+                        {% if dl.clearance.type == 'sale' %}
+                            فروش_{{ dl.clearance.pk }}
+                        {% else %}
+                            {% if dl.clearance.type == 'warehouse' %}
+                                انبار_{{ dl.clearance.pk }}
+                            {% else %}
+                                ویکی_{{ dl.clearance.pk }}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if dl.clearance.type == 'sale' %}
+                            {{ dl.clearance.bill.pk }}
+                        {% else %}
+                            {% if dl.clearance.type == 'warehouse' %}
+                                {{ dl.clearance.pk }}
+                            {% else %}
+                                {{ dl.clearance.wiki.pk }}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td class="WRH-td2">
+                    {% if active_menu == 11 %}
+                        {% if dl.type == 'sale' %}
+                            {{ dl.bill.customer.pk }}
+                        {% else %}
+                            {% if dl.type == 'warehouse' %}
+                                {{ dl.transfer.bill.customer.pk }}
+                            {% else %}
+                                {{ dl.wiki.wiki.pk }}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if dl.clearance.type == 'sale' %}
+                            {{ dl.clearance.bill.customer.pk }}
+                        {% else %}
+                            {% if dl.clearance.type == 'warehouse' %}
+                                {{ dl.clearance.transfer.bill.customer.pk }}
+                            {% else %}
+                                {{ dl.clearance.wiki.wiki.pk }}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td class="WRH-td2">
+                    {% if active_menu == 11 %}
+                        {% if dl.type == 'sale' %}
+                            {{ dl.bill.customer.first_name }}
+                            {{ dl.bill.customer.last_name }}
+                        {% else %}
+                            {% if dl.type == 'warehouse' %}
+                                {{ dl.transfer.bill.customer.first_name }}
+                                {{ dl.transfer.bill.customer.last_name }}
+                            {% else %}
+                                {{ dl.wiki.wiki.companyName }}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if dl.clearance.type == 'sale' %}
+                            {{ dl.clearance.bill.customer.first_name }}
+                            {{ dl.clearance.bill.customer.last_name }}
+                        {% else %}
+                            {% if dl.clearance.type == 'warehouse' %}
+                                {{ dl.clearance.transfer.bill.customer.first_name }}
+                                {{ dl.clearance.transfer.bill.customer.last_name }}
+                            {% else %}
+                                {{ dl.clearance.wiki.wiki.companyName }}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                {% if active_menu == 11 %}
+                    <td class="WRH-td2">
+                        {% if dl.ready == 'n' %}
+                            صادر شده
+                        {% else %}
+                            {% if dl.ready == 'r' %}
+                                آماده ترخیص
+                            {% else %}
+                                ترخیص شده
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                {% endif %}
+                <td class="WRH-td2"> {{ dl.date|jalali }}</td>
+                <td class="WRH-td2" style="width: 30px">
+                    <a class="btn btn-primary btn-mini"
+                       onclick="load_page('{{ tmp }}')">
+                        ریز حواله
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <br/>
+    {# Template tags for pagination section, bootstrap compatible #}
+    {% if paginator.num_pages > 1 %}
+        <div class="pagination pagination-centered">
+            <ul>
+                {% if contacts.has_previous %}
+                    <li><a onclick="load_page('{{ lnk|add:"?page=" }}{{ contacts.previous_page_number }}')"
+                           href="#">&raquo;</a></li>
+                {% endif %}
+
+                {% for num in contacts.paginator.page_range %}
+                    <li {% if num == contacts.number %}class="active"{% endif %}><a
+                            onclick="load_page('{{ lnk|add:"?page=" }}{{ num }}')"
+                            href="#"> {{ num }}</a></li>
+                {% endfor %}
+
+
+                {% if contacts.has_next %}
+                    <li><a onclick="load_page('{{ lnk|add:"?page=" }}{{ contacts.next_page_number }}')"
+                           href="#">&laquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+    </br>
+{% endif %}
