@@ -1,0 +1,57 @@
+{% extends "wrh/base.html" %}
+{% block title %}
+    تغییر نقطه سفارش
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(
+                function () {
+
+                    $(".WRH-panel2").load("*OrderPoint-Panel");
+                    return false;
+                });
+        function rreturn() {
+            $(".WRH-panel2").fadeOut("slow");
+            setTimeout(function() {
+                $(".WRH-panel2").load('*CustomerReturn-Panel');
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+
+        function confirm_product_return2( kid) {
+            $(".WRH-panel2").fadeOut("slow");
+            var str = "*OrderPoint-next/";
+            var st4 = str.concat(kid);
+            setTimeout(function() {
+                $(".WRH-panel2").load(st4.toString());
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+
+        function confirm_return( kid) {
+            var qnt = document.getElementById('qnt');
+            var a = qnt.value;
+            $(".WRH-panel2").fadeOut("slow");
+            var str = "*ConfirmOrderPoint/";
+            var st4 = str.concat(kid);
+            var st5 = st4.concat("/");
+            var st6 = st5.concat(a);
+            setTimeout(function() {
+                $(".WRH-panel2").load(st6);
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="WRH-heading2"> تغییر نقطه سفارش کالاها</h2>
+        <br/>
+
+        <div class="WRH-panel2">
+        </div>
+    </div>
+
+{% endblock %}
