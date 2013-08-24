@@ -1,5 +1,5 @@
 {% extends "mng/base.html" %}
-
+{% load nikbad_tags %}
 {% block head %}
     <title>
         گزارش ویکی ها
@@ -28,8 +28,8 @@
                     <td class="WRH-td"><img class="myimage" src="{{ w.image.url }}"/></td>
                     <td class="FNC-td2"><a href="{% url mng-wiki wId=w.id %}"> {{ w.companyName }}</a></td>
                     <td class="FNC-td2">  {{ w.id }}</td>
-                    <td class="FNC-td2"> {{ w.contract.startDate }}</td>
-                    <td class="FNC-td2"> {{ w.contract.expDate }}</td>
+                    <td class="FNC-td2"> {{ w.contract.startDate|jalali }}</td>
+                    <td class="FNC-td2"> {{ w.contract.expDate|jalali }}</td>
                     <td class="FNC-td2"><a href="{% url contract-detail wId=w.id %}"> اطلاعات </a></td>
                 </tr>
             {% endfor %}

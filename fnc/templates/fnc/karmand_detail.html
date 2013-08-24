@@ -1,5 +1,5 @@
 {% extends "fnc/base.html" %}
-
+{% load nikbad_tags %}
 {% block head %}
     <title>گزارش مالی</title>
 {% endblock %}
@@ -20,7 +20,7 @@
                 <tr>
                     <td class="FNC-td2"> {{ rc.entrance_time }} </td>
                     <td class="FNC-td2"> {{ rc.exit_time }} </td>
-                    <td class="FNC-td2"> {{ rc.date }} </td>
+                    <td class="FNC-td2"> {{ rc.date|jalali }} </td>
                     <td class="FNC-td2"><a href="#"> {{ ep.hours }}</a></td>
                 </tr>
             {% endfor %}

@@ -1,10 +1,13 @@
 #-*- coding:utf-8 -*-
 from django.contrib.auth.models import User
+from contrib.forms import jDateField
 from wiki.models import Contract
 from django.forms.models import ModelForm
 from django.forms import *
 
 class ContractForm(ModelForm):
+    startDate = jDateField(label=u"تاریخ شروع قرارداد")
+    expDate = jDateField(label=u"تاریخ پایان گزارش")
     class Meta:
         model = Contract
 

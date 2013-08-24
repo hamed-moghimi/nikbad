@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import permission_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -23,6 +24,8 @@ def gozaresh_mali(request):
 #request.post
 #l = SaleBill.objects.all()[0]
 #return HttpResponse('{0} and {1} and {2}'.format(l.saleDate, l.totalPrice, l.costumer.balance))
+
+
     cb_objects = []
     if request.method == 'POST':
         form = DateForm(request.POST)
@@ -34,9 +37,18 @@ def gozaresh_mali(request):
     else:
         form = DateForm()
         cb_objects = CostBenefit.objects.all()
+    paginator = Paginator(cb_objects,25)
+    page = request.GET.get('page')
+    try:
+        cb_ob= paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        cb_ob = paginator.page(1)
+    except EmptyPage:
+        cb_ob = paginator.page(paginator.num_pages)
 
     context = {}
-    context.update({'costBenefits': cb_objects, 'form': form})
+    context.update({'costBenefits': cb_ob, 'form': form})
     return render(request, 'fnc/gozaresh_mali.html', context)
 
 

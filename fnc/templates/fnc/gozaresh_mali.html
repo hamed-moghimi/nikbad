@@ -43,7 +43,7 @@
                     </td>
                     <td class="FNC-td2"> {{ cb.bestan|rial }} </td>
                     <td class="FNC-td2"> {{ cb.bedeh|rial }} </td>
-                    <td class="FNC-td2"> {{ cb.date }} </td>
+                    <td class="FNC-td2"> {{ cb.date|jalali }} </td>
                     <td class="FNC-td2"> {{ cb.description }} </td>
 
                 </tr>
@@ -51,6 +51,21 @@
 
             </tbody>
         </table>
+
+        <div class="pagination-centered">
+            <span class="step-links">
+            {% if contacts.has_previous %}
+                <a href="?page={{ costBenefits.previous_page_number }}">قبلي</a>
+            {% endif %}
+                <span class="current">
+                     صفحه{{ costBenefits.number }} از {{ costBenefits.paginator.num_pages }}.
+            </span>
+                {% if contacts.has_next %}
+                   <a href="?page={{ costBenefits.next_page_number }}">بعدي</a>
+                {% endif %}
+            </span>
+        </div>
+
     </div>
 {% endblock %}
 {% block menus %}
