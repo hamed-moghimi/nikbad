@@ -8,3 +8,10 @@ class jDateField(DateField):
 
 class jDateTimeField(DateTimeField):
     widget = DateTimeWidget()
+
+
+from django.forms.widgets import TextInput
+
+
+class NumberInput(TextInput):
+    input_type = 'number'

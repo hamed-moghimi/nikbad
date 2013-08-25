@@ -2,7 +2,8 @@
 {% for field in form.visible_fields %}
     <div class="control-group {% if field.errors %}error{% endif %}">
         {% if field.label %}
-            <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+            <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}{% if field.field.required %}
+                <span class="text-error">*</span>{% endif %}</label>
         {% endif %}
         <div class="controls">
             {% if read_only %}
@@ -11,6 +12,9 @@
                 {{ field }}
                 {{ field.errors }}
             {% endif %}
+            <p class="help-text muted">
+                {{ field.help_text }}
+            </p>
         </div>
     </div>
 {% endfor %}
@@ -19,9 +23,9 @@
 {% endfor %}
 
 {% if not read_only %}
-<div class="control-group">
-    <div class="controls">
-        <button class="btn btn-primary">{{ submit_text|default:"ثبت" }}</button>
+    <div class="control-group">
+        <div class="controls">
+            <button class="btn btn-primary">{{ submit_text|default:"ثبت" }}</button>
+        </div>
     </div>
-</div>
 {% endif %}

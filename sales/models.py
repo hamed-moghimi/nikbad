@@ -158,7 +158,7 @@ class Ad(models.Model):
 
     def addMarketButton(self):
         try:
-            return self.product.stock_set.all()[0].enough_stock()
+            return self.product.stock_set.all()[0].enough_stock(0)
         except:
             return False
 

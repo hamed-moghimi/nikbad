@@ -1,8 +1,7 @@
 ﻿{% extends "base.html" %}
 
 {% block css %}
-    <link href="{{ STATIC_URL }}sales/css/sales.css" rel="stylesheet" type="text/css"
-          xmlns="http://www.w3.org/1999/html"/>
+    <link href="{{ STATIC_URL }}sales/css/sales.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block js %}
@@ -67,11 +66,13 @@
             </a>
         </li>
         <li class="muted" id="login-menu" parent="login">
+            <p id="login-form-error" class="text-center text-error"></p>
+
             <form class="navbar-form" method="post" action="{% url login %}" id="loginID">
                 {% csrf_token %}
                 <input type="text" name="username" class="span2" placeholder="نام کاربری">
                 <input type="password" name="password" class="span2" placeholder="رمز عبور">
-                <input type="submit" class="btn btn-success" id="enter" value="ورود">
+                <input type="submit" class="btn btn-success" id="login-button" value="ورود">
 
                 <p class="text-right">
                     <a href="{% url forget-password %}">
@@ -80,16 +81,28 @@
                     </a>
                 </p>
             </form>
+        </li>
+        <li class="header"><a>
+            ثبت نام در نیک باد
+        </a></li>
+        <li>
             <a href="{% url crm-signUp %}">
                 <i class="icon-plus"></i>
                 ثبت نام مشتریان
             </a>
+        </li>
+        <li>
             <a href="{% url wiki-register %}">
                 <i class="icon-plus"></i>
-                ثبت نام فروشندگان
+                ثبت نام ویکی ها
             </a>
         </li>
     {% endif %}
     {% include "sales/_catMenus.html" with active_menu=category|stringformat:"s"|add:"cat" %}
     {#    {% include "sales/_wikiMenus.html" with active_menu=wiki|stringformat:"s"|add:"wiki" hidden=1 %}#}
 {% endblock %}
+
+{#{% block crumbs %}#}
+{#    {{ block.super }}#}
+{#    <li><a href="{% url sales-index %}">سامانه فروش</a> <span class="divider">/</span></li>#}
+{#{% endblock %}#}

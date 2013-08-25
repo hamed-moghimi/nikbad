@@ -3,25 +3,19 @@ from datetime import datetime
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.forms.formsets import formset_factory
-from django.forms.models import inlineformset_factory, modelformset_factory
+from django.db.models.query_utils import Q
+from django.forms.models import inlineformset_factory
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
-from django.utils import timezone
-from sales.forms import SaleBillForm, AdForm, AdImageForm, SearchForm
+from django.http import HttpResponse, HttpResponseRedirect
+from sales.forms import AdForm, AdImageForm, SearchForm, MBFrom
 from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product, Specification
-from crm.models import Customer, Feedback
-from wiki.models import Product, Wiki, Category, SubCat
-
-
-# gets all wikis to display in menu bar
-from wiki.views import goodsList
+from wiki.models import Product, Wiki, Category
 
 
 def baseContext(request):
     if request.customer:
         request.user = request.customer
-    return {'wikis': Wiki.objects.all()[:20], 'customer': request.customer}
+    return {'customer': request.customer} #'wikis': Wiki.objects.all()[:20]
 
 
 def index(request):
@@ -49,7 +43,8 @@ def category(request, catID):
     # get popular products
     populars = Ad.objects.filter(product__sub_category__category__id = catID)[:10] #order_by('-popularity')[:10]
     context = baseContext(request)
-    context.update({'new_products': new_products, 'populars': populars, 'category': catID})
+    context.update({'new_products': new_products, 'populars': populars, 'category': catID,
+                    'category_name': Category.objects.get(pk = catID)})
     return render(request, 'sales/index.html', context)
 
 
@@ -65,7 +60,7 @@ def detailsPage(request, itemCode):
     return render(request, 'sales/details.html', context)
 
 
-MBPFormSet = inlineformset_factory(MarketBasket, MarketBasket_Product, extra = 0)
+MBPFormSet = inlineformset_factory(MarketBasket, MarketBasket_Product, extra = 0, form = MBFrom)
 
 
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
@@ -118,8 +113,7 @@ def adEdit(request, itemCode):
         specFormSet = SpecInlineFormSet(request.POST, instance = ad)
         imageFormSet = ImageInlineFormSet(request.POST, request.FILES, instance = ad)
         iconForm = AdImageForm(request.POST, request.FILES, instance = ad.icon)
-        if adForm.is_valid() and specFormSet.is_valid() and adForm.is_valid(): #and imageFormSet.is_valid():
-
+        if adForm.is_valid() and specFormSet.is_valid() and imageFormSet.is_valid():
             imageFormSet.save()
             adForm.instance.icon = adForm.instance.images.latest('pk') if adForm.instance.images.exists() else None
             adForm.instance.save()
@@ -170,7 +164,10 @@ def search(request):
         query = ''
 
     # retrieving matched items
-    itemList = Ad.objects.filter(product__name__icontains = query)
+    Qpname = Q(product__name__icontains = query)
+    Qbname = Q(product__brand__icontains = query)
+    Qwname = Q(product__wiki__companyName__icontains = query)
+    itemList = Ad.objects.filter(Qbname | Qpname | Qwname)
     if cat is not None:
         itemList = itemList.filter(product__sub_category__category__name = cat)
 
@@ -183,6 +180,6 @@ def search(request):
         page = paginatior.page(1)
     e = page.number
     # At last, add paginator and page to your context. See template to continue
-    link = '?category={0}&query={1}'.format(cat.pk if cat is not None else '', query)
+    link = u'?category={0}&query={1}'.format(cat.pk if cat is not None else '', query)
     return render(request, 'sales/search.html',
                   {'paginator': paginatior, 'page': page, 'search_form': form, 'link': link})

@@ -40,3 +40,12 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{% block crumbs %}
+    {% if category %}
+        {{ block.super }}
+        <li class="active">
+            {{ category_name }}
+        </li>
+    {% endif %}
+{% endblock %}

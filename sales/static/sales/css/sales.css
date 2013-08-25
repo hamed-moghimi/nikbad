@@ -33,7 +33,7 @@
 }
 
 .vitrin-item > p {
-    font-size: 80%;
+    font-size: 0.9em;
     height: 20px;
     text-overflow: ellipsis;
 }

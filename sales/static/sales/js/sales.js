@@ -18,6 +18,36 @@ $(document).ready(function () {
         infoBox.hide();
     })
 
+    // login form ajax submit
+    $('#loginID').submit(function () {
+        var dataString = '';
+        $(this).find('input').each(function () {
+            dataString += $(this).attr('name') + '=' + $(this).attr('value') + '&';
+        });
+
+        $.ajax({
+            type: 'post',
+            url: $(this).attr('action'),
+            data: dataString,
+
+            success: function (message) {
+                // data.redirect contains the string URL to redirect to
+                window.location.href = message;
+            },
+
+            error: function (message) {
+                $('#login-form-error').text(message['responseText']);
+            },
+
+            complete: function () {
+                $('#login-button').attr('disabled', null);
+            }
+        });
+
+        $('#login-button').attr('disabled', 'disabled');
+        return false;
+    });
+
     // add to market basket
     basketItems = $('#basket-items');
     $('.opt-shop').click(function (e) {
@@ -28,7 +58,7 @@ $(document).ready(function () {
             i.addClass('disabled');
 
             $.ajax({
-                method: 'post',
+                method: 'POST',
                 url: i.attr('href'),
 
                 success: function (message) {

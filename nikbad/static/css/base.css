@@ -1,8 +1,8 @@
 /* font */
 @font-face {
-    font-family: 'entezar';
-    src: url('../fonts/entezar-webfont.eot');
-    src: url('../fonts/entezar-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/entezar-webfont.woff') format('woff'), url('../fonts/entezar-webfont.ttf') format('truetype'), url('../fonts/entezar-webfont.svg#svgFontName') format('svg');
+    font-family: "yekan";
+    src: url('../fonts/byekan.eot');
+    src: url('../fonts/byekan.eot') format('embedded-opentype'), url('../fonts/byekan.woff') format('woff'), url('../fonts/byekan.ttf') format('truetype'), url('../fonts/byekan.svg#BYekanRegular') format('svg');
 }
 
 body {
@@ -66,7 +66,7 @@ body {
 
 .panel .panel-header {
     margin: 0 0 10px 0;
-    font-family: "entezar";
+    font-family: "yekan";
 }
 
 /* ------- navigation bar ------- */
@@ -112,7 +112,7 @@ body {
 
 .nav-menu > li > a {
     display: block;
-    width: 190px  \9;
+    width: 190px   \9;
     margin: 0 0 -1px;
     padding: 8px 14px;
     border: 1px solid #e5e5e5;
@@ -121,7 +121,7 @@ body {
 .nav-menu > .header > a,
 .nav-menu > .header > a:hover {
     text-align: center;
-    background-color: #BBBBBB;
+    background-color: #999999;
     color: #FFFFFF;
 }
 
@@ -130,7 +130,7 @@ body {
 }
 
 .nav-menu > .header.hover > a:hover {
-    background-color: #999999;
+    background-color: #555555;
 }
 
 .nav-menu > li:last-child > a {
@@ -201,6 +201,11 @@ body {
 
 .form-horizontal .control-value {
     margin-top: 3px;
+}
+
+.form-horizontal .help-text {
+    font-size: 0.9em;
+    margin: 0;
 }
 
 /* --------- icons ----------- */

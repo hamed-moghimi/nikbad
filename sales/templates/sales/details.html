@@ -71,12 +71,12 @@
                             {% if item.addMarketButton %}
                                 قیمت :
                                 {% if item.product.isInSale %}
-                                    <span class="text-strike">{{ item.product.price|toman }}</span>
+                                    <span class="text-strike">{{ item.product.price|toman:1 }}</span>
                                     <strong class="text-success">
-                                        {{ item.product.price|toman }}
+                                        {{ item.product.price|toman:1 }}
                                     </strong>
                                 {% else %}
-                                    {{ item.product.price|toman }}
+                                    {{ item.product.price|toman:1 }}
                                 {% endif %}
                             {% else %}
                                 <p class="text-right text-error"> ناموجود</p>
@@ -114,7 +114,11 @@
                 </div>
 
                 <div class="tab-pane" id="technical">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered table-condensed">
+                        <colgroup>
+                            <col width="35%"/>
+                            <col width="65%"/>
+                        </colgroup>
                         {% for spec in item.specs.all %}
                             <tr>
                                 <td>
@@ -133,7 +137,7 @@
                         <h3 class="panel-header">
                             نظرات مشتریان
                         </h3>
-                        <table id="feedback-table" class="table table-striped">
+                        <table id="feedback-table" class="table table-striped table-condensed">
                             <tbody>
                             {% for poll in polls %}
                                 <tr>
@@ -167,4 +171,12 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    {% with item.product.sub_category.category as cat %}
+        <li><a href="{% url sales-category catID=cat.pk %}">{{ cat }}</a> <span class="divider">/</span></li>
+        <li class="active">{{ item }}</li>
+    {% endwith %}
 {% endblock %}

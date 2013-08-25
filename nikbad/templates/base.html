@@ -46,8 +46,9 @@
                                 خروج از حالت ابرکاربر
                             </a>
                         {% else %}
-                            <a class="btn btn-danger" href="{% url logout %}">
-                                خروج
+                            <a class="btn btn-info" href="{% url logout %}">
+                                <i class="icon-user"></i>
+                                {{ user.get_full_name }}
                             </a>
                         {% endif %}
                     {% endif %}
@@ -60,6 +61,12 @@
     </div>
 
     <div id="content">
+        <ul class="breadcrumb">
+            {% block crumbs %}
+                <li><a href="{% url index %}">بازار نیک باد</a> <span class="divider">/</span></li>
+            {% endblock %}
+        </ul>
+
         {% block content %}
         {% endblock %}
     </div>

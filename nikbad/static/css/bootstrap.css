@@ -1115,13 +1115,14 @@ input[type="color"],
 }
 
 input,
-textarea,
 .uneditable-input {
     width: 206px;
 }
 
 textarea {
-    height: auto;
+    display: block;
+    min-height: 50px;
+    width: 350px;
 }
 
 textarea,
@@ -1169,7 +1170,7 @@ input[type="color"]:focus,
 .uneditable-input:focus {
     border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
-    outline: thin dotted  \9;
+    outline: thin dotted   \9;
     /* IE6-9 */
 
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
@@ -1180,7 +1181,7 @@ input[type="color"]:focus,
 input[type="radio"],
 input[type="checkbox"] {
     margin: 4px 0 0;
-    margin-top: 1px  \9;
+    margin-top: 1px   \9;
     *margin-top: 0;
     line-height: normal;
 }
@@ -1835,9 +1836,9 @@ select:focus:invalid:focus {
 
 input.search-query {
     padding-right: 14px;
-    padding-right: 4px  \9;
+    padding-right: 4px   \9;
     padding-left: 14px;
-    padding-left: 4px  \9;
+    padding-left: 4px   \9;
     /* IE7-8 doesn't have border-radius, so don't indent the padding */
 
     margin-bottom: 0;
@@ -2086,17 +2087,17 @@ table {
 .table-bordered thead:first-child tr:first-child > th:first-child,
 .table-bordered tbody:first-child tr:first-child > td:first-child,
 .table-bordered tbody:first-child tr:first-child > th:first-child {
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
 }
 
 .table-bordered thead:first-child tr:first-child > th:last-child,
 .table-bordered tbody:first-child tr:first-child > td:last-child,
 .table-bordered tbody:first-child tr:first-child > th:last-child {
-    -webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
-    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
 }
 
 .table-bordered thead:last-child tr:last-child > th:first-child,
@@ -2104,9 +2105,9 @@ table {
 .table-bordered tbody:last-child tr:last-child > th:first-child,
 .table-bordered tfoot:last-child tr:last-child > td:first-child,
 .table-bordered tfoot:last-child tr:last-child > th:first-child {
-    -webkit-border-bottom-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomleft: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
 }
 
 .table-bordered thead:last-child tr:last-child > th:last-child,
@@ -2114,39 +2115,39 @@ table {
 .table-bordered tbody:last-child tr:last-child > th:last-child,
 .table-bordered tfoot:last-child tr:last-child > td:last-child,
 .table-bordered tfoot:last-child tr:last-child > th:last-child {
-    -webkit-border-bottom-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
 }
 
 .table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
-    -webkit-border-bottom-left-radius: 0;
-    border-bottom-left-radius: 0;
-    -moz-border-radius-bottomleft: 0;
-}
-
-.table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
     -webkit-border-bottom-right-radius: 0;
     border-bottom-right-radius: 0;
     -moz-border-radius-bottomright: 0;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
 }
 
 .table-bordered caption + thead tr:first-child th:first-child,
 .table-bordered caption + tbody tr:first-child td:first-child,
 .table-bordered colgroup + thead tr:first-child th:first-child,
 .table-bordered colgroup + tbody tr:first-child td:first-child {
-    -webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
 }
 
 .table-bordered caption + thead tr:first-child th:last-child,
 .table-bordered caption + tbody tr:first-child td:last-child,
 .table-bordered colgroup + thead tr:first-child th:last-child,
 .table-bordered colgroup + tbody tr:first-child td:last-child {
-    -webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
-    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
 }
 
 .table-striped tbody > tr:nth-child(odd) > td,
@@ -3256,7 +3257,7 @@ button.close {
 
 .btn:active,
 .btn.active {
-    background-color: #cccccc  \9;
+    background-color: #cccccc   \9;
 }
 
 .btn:first-child {
@@ -3398,7 +3399,7 @@ input[type="button"].btn-block {
 
 .btn-primary:active,
 .btn-primary.active {
-    background-color: #003399  \9;
+    background-color: #003399   \9;
 }
 
 .btn-warning {
@@ -3431,7 +3432,7 @@ input[type="button"].btn-block {
 
 .btn-warning:active,
 .btn-warning.active {
-    background-color: #c67605  \9;
+    background-color: #c67605   \9;
 }
 
 .btn-danger {
@@ -3464,7 +3465,7 @@ input[type="button"].btn-block {
 
 .btn-danger:active,
 .btn-danger.active {
-    background-color: #942a25  \9;
+    background-color: #942a25   \9;
 }
 
 .btn-success {
@@ -3497,7 +3498,7 @@ input[type="button"].btn-block {
 
 .btn-success:active,
 .btn-success.active {
-    background-color: #408140  \9;
+    background-color: #408140   \9;
 }
 
 .btn-info {
@@ -3530,7 +3531,7 @@ input[type="button"].btn-block {
 
 .btn-info:active,
 .btn-info.active {
-    background-color: #24748c  \9;
+    background-color: #24748c   \9;
 }
 
 .btn-inverse {
@@ -3563,7 +3564,7 @@ input[type="button"].btn-block {
 
 .btn-inverse:active,
 .btn-inverse.active {
-    background-color: #080808  \9;
+    background-color: #080808   \9;
 }
 
 button.btn,
@@ -4688,7 +4689,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .btn-navbar:active,
 .navbar .btn-navbar.active {
-    background-color: #cccccc  \9;
+    background-color: #cccccc   \9;
 }
 
 .navbar .btn-navbar .icon-bar {
@@ -4953,14 +4954,14 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-inverse .btn-navbar:active,
 .navbar-inverse .btn-navbar.active {
-    background-color: #000000  \9;
+    background-color: #000000   \9;
 }
 
 .breadcrumb {
     padding: 8px 15px;
-    margin: 0 0 20px;
+    margin: 0 0 10px;
     list-style: none;
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
