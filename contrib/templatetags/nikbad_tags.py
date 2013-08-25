@@ -19,11 +19,15 @@ def toman(currency):
 
 @register.filter
 def jalali(dateTime):
-    convert = jdatetime.GregorianToJalali(dateTime.year, dateTime.month, dateTime.day)
-    year, month, day = convert.getJalaliList()
-    if isinstance(dateTime, datetime):
-        result = datetime(year = year + 1000, month = month, day = day, hour = dateTime.hour, minute = dateTime.minute,
-                          second = dateTime.second)
-    else:
-        result = datetime(year = year + 1000, month = month, day = day)
-    return result.strftime('%y/%m/%d - %H:%M')
+    try:
+        convert = jdatetime.GregorianToJalali(dateTime.year, dateTime.month, dateTime.day)
+        year, month, day = convert.getJalaliList()
+        if isinstance(dateTime, datetime):
+            result = datetime(year = year + 1000, month = month, day = day, hour = dateTime.hour, minute = dateTime.minute,
+                              second = dateTime.second)
+            return result.strftime('%y/%m/%d - %H:%M')
+        else:
+            result = datetime(year = year + 1000, month = month, day = day)
+            return result.strftime('%y/%m/%d')
+    except:
+        return ''

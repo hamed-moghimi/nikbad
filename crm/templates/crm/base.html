@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="panel">
-        <h2 class="panel-header"> حساب کاربری</h2>
+        <h2 class="panel-header"> مشخصات کاربر</h2>
 
         <div class="row-fluid">
 
@@ -15,14 +15,14 @@
             </form>
             <div class="control-group">
                 <div class="controls">
-                    <a class="btn btn-primary"  href="{% url crm-edit %}">{{ submit_text|default:"ویرایش" }}</a></button>
+                    <a class="btn btn-primary"  href="{% url crm-edit %}">{{ submit_text|default:"و?را?ش" }}</a></button>
                 </div>
             </div>
 
 {#            {% if Product %}#}
             {% if Product %}
                 <h2  class="panel-header">
-                        وضعیت کالای خریداری شده
+                        وضع?ت کالا? خر?دار? شده
                         </h2>
     <div class="WRH-panel2">
         {% block WRH-panel2 %}
@@ -30,11 +30,11 @@
                 <table class="WRH-table2 table-hover table-striped">
                     <thead>
                     <td class="WRH-th-td"></td>
-                    <td class="WRH-th-td">نام کالا</td>
                     <td class="WRH-th-td"> کد کالا</td>
-                    <td class="WRH-th-td"> قیمت</td>
+                    <td class="WRH-th-td">نام کالا</td>
+                    <td class="WRH-th-td"> ق?مت</td>
                     <td class="WRH-th-td"> تعداد</td>
-                    <td class="WRH-th-td"> وضعیت</td>
+                    <td class="WRH-th-td"> وضع?ت</td>
                     </thead>
 
                     <tbody>
@@ -42,23 +42,24 @@
                         <tr>
 
                             <td class="WRH-td2"><img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/></td>
-                            <td class="WRH-td2">
-                                {{ pro.product.name }}
-                            </td>
+
                             <td class="WRH-td2">
                                 {{ pro.product.goodsID }}
+                            </td>
+                        <td class="WRH-td2">
+                                {{ pro.product.name }}
                             </td>
                             <td class="WRH-td2">
                                 {{ pro.product.price }}
                             </td>
-                            <td class="WRH-td2"> {{ pro.number }}</td>
+                            <td class="WRH-td2"> {{ pro.number }}{{ pro.product.unit }}</td>
                             <td class="WRH-td2">
                                 {% if Bill.deliveryStatus == 1 %}
                                     در راه
                                 {% elif Bill.deliveryStatus == 0 %}
                                     صادر شده
                                 {% else %}
-                                    تحویل شده
+                                    تحو?ل شده
                                 {% endif %}
                             </td>
                         </tr>
@@ -68,13 +69,14 @@
                     </tbody>
                 </table>
             </form>
+
         {% endblock %}
-        </div>
+{#        </div>#}
 {#        {% else %}#}
-{#        کالا خریداری نشده#}
+{#        کالا خر?دار? نشده#}
 
         </div>
     {% endif %}
     </div>
-
+    </div>
 {% endblock %}

@@ -1,30 +1,35 @@
 <li class="header">
-    <a> فهرست محصولات </a>
+    <a> فهرست خدمات</a>
+</li>
+
+<li {% if active_menu == 6 %}class="active"{% endif %}>
+    <a {% if active_menu != 6 %}href="{% url mng-newemp %}"{% endif %}>استخدام کارمند جدید نیک باد<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 7 %}class="active"{% endif %}>
+    <a {% if active_menu != 7 %}href="{% url mng-cont %}"{% endif %}>  ثبت قرارداد ویکی ها<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 9 %}class="active"{% endif %}>
+    <a {% if active_menu != 9 %}href="{% url mng-newuser %}"{% endif %}>ایجاد کاربر جدید در نیک باد<i class="icon-chevron-left"></i></a>
+</li>
+
+<li class="header">
+    <a> فهرست گزارشات  </a>
 </li>
 <li {% if active_menu == 1 %}class="active"{% endif %}>
     <a {% if active_menu != 1 %}href="{% url mng-fnc %}"{% endif %}>گزارش مالي<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 2 %}class="active"{% endif %}>
-    <a {% if active_menu != 2 %}href="{% url mng-wrh %}"{% endif %}>گزارش انبارداري<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 2 %}href="{% url mng-wrh %}"{% endif %}>گزارش کالاهای موجود در انبار<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 3 %}class="active"{% endif %}>
-    <a {% if active_menu != 3 %}href="{% url mng-wiki-select %}"{% endif %}>گزارش ويکي<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 3 %}href="{% url mng-wiki-select %}"{% endif %}>صورت ویکی های طرف قرارداد<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 4 %}class="active"{% endif %}>
-    <a {% if active_menu != 4 %}href="{% url mng-sales %}"{% endif %}> گزارش فروش<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 4 %}href="{% url mng-sales %}"{% endif %}>گزارش فروش نیک باد<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 5 %}class="active"{% endif %}>
-    <a {% if active_menu != 5 %}href="{% url mng-emp %}"{% endif %}> گزارش کارمندان <i class="icon-chevron-left"></i></a>
-</li>
-<li {% if active_menu == 6 %}class="active"{% endif %}>
-    <a {% if active_menu != 6 %}href="{% url mng-newemp %}"{% endif %}> ثبت نام کارمند جدید <i class="icon-chevron-left"></i></a>
-</li>
-<li {% if active_menu == 7 %}class="active"{% endif %}>
-    <a {% if active_menu != 7 %}href="{% url mng-cont %}"{% endif %}> ثبت قرارداد <i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 5 %}href="{% url mng-emp %}"{% endif %}>صورت کارمندان نیک باد<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 8 %}class="active"{% endif %}>
-    <a {% if active_menu != 8 %}href="{% url mng-return %}"{% endif %}> گزارش مرجوعی به انبار <i class="icon-chevron-left"></i></a>
-</li>
-<li {% if active_menu == 9 %}class="active"{% endif %}>
-    <a {% if active_menu != 9 %}href="{% url mng-newuser %}"{% endif %}> ایجاد کاربر جدید<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 8 %}href="{% url mng-return %}"{% endif %}>گزارش کالاهای مرجوعی به انبار<i class="icon-chevron-left"></i></a>
 </li>

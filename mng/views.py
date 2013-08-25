@@ -79,7 +79,11 @@ def newUser(request) :
         if (f.is_valid()):
             print("tu iffff")
             f.instance.set_password(f.cleaned_data['password'])
+            f.instance.first_name = f.instance.first_name+" "+f.instance.last_name
+            f.instance.last_name = f.cleaned_data['ssn']
+            print f.instance.last_name
             f.save()
+
             if (f.cleaned_data['is_delivery']) :
                 f.instance.user_permissions.add(is_delivery)
             if (f.cleaned_data['is_wrh']) :
