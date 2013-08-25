@@ -1,10 +1,12 @@
 {% extends "mng/base.html" %}
 {% block title %}
-    گزارش مرجوعی های انبار
+    گزارش کالاهای مرجوعی به انبار
 {% endblock %}
 {% block content %}
     <div class="panel" xmlns="http://www.w3.org/1999/html">
-        <h2 class="WRH-heading2"> گزارش مرجوعی های انبار</h2>
+        <h2 class="WRH-heading2">
+    گزارش کالاهای مرجوعی به انبار
+        </h2>
 
         <div class="WRH-panel2">
             <br />
@@ -30,7 +32,7 @@
                             <td class="WRH-td2"> {{ stock.product.wiki.companyName }}</td>
                             <td class="WRH-td2"> {{ stock.product.goodsID }}</td>
                             <td class="WRH-td2"> {{ stock.product.name }}</td>
-                            <td class="WRH-td2"> {{ stock.quantity_returned }}</td>
+                            <td class="WRH-td2"> {{ stock.quantity_returned }} {{ stock.product.unit }}</td>
                         </tr>
                     {% endfor %}
 

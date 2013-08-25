@@ -15,8 +15,8 @@
                     <table class="WRH-table2 table-hover table-striped">
                         <thead>
                         <td class="WRH-th-td"></td>
-                        <td class="WRH-th-td">نام کالا</td>
                         <td class="WRH-th-td"> کد کالا</td>
+                        <td class="WRH-th-td">نام کالا</td>
                         <td class="WRH-th-td"> قیمت</td>
                         <td class="WRH-th-td"> تعداد</td>
                         <td class="WRH-th-td"> وضعیت</td>
@@ -28,15 +28,16 @@
 
                                 <td class="WRH-td2"><img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/></td>
                                 <td class="WRH-td2">
-                                    {{ pro.product.name }}
-                                </td>
-                                <td class="WRH-td2">
                                     {{ pro.product.goodsID }}
                                 </td>
+                            <td class="WRH-td2">
+                                    {{ pro.product.name }}
+                                </td>
+
                                 <td class="WRH-td2">
                                     {{ pro.product.price }}
                                 </td>
-                                <td class="WRH-td2"> {{ pro.number }}</td>
+                                <td class="WRH-td2"> {{ pro.number }} {{ pro.product.unit }}</td>
                                 <td class="WRH-td2">
                                     {% if Bill.deliveryStatus == 1 %}
                                         در راه
