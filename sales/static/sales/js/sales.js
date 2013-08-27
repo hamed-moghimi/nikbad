@@ -84,8 +84,11 @@ $(document).ready(function () {
     vitrinIcon = $('.vitrin-icon')
     $('.vitrin-thumbnail').click(function () {
         var icon = $(this).children('img');
-        vitrinIcon.attr('src', icon.attr('src'));
-        vitrinIcon.attr('title', icon.attr('title'));
+        vitrinIcon.fadeOut('fast', function () {
+            vitrinIcon.attr('src', icon.attr('src'));
+            vitrinIcon.attr('title', icon.attr('title'));
+            vitrinIcon.fadeIn('fast');
+        });
         return false;
     });
 

@@ -195,25 +195,8 @@ class AdImage(models.Model):
     def __unicode__(self):
         return u'{0} - {1}'.format(self.ad.__unicode__(), self.title)
 
+    def thumbnail(self):
+        return '<img src={0} style="width: 30px; height: 30px" />'.format(self.image.url)
 
-# class Category(models.Model):
-#     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
-#
-#     class Meta:
-#         verbose_name = u'دسته بندی کالا'
-#         verbose_name_plural = u'دسته بندی های کالا'
-#
-#     def __unicode__(self):
-#         return self.name
-#
-# class SubCat(models.Model):
-#     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
-#     # Some other properties here, hazineye anbardari and ... :D
-#     category = models.ForeignKey('Category', verbose_name = u'دسته', related_name = 'subCats')
-#
-#     class Meta:
-#         verbose_name = u'نوع کالا'
-#         verbose_name_plural = u'انواع کالا'
-#
-#     def __unicode__(self):
-#         return u'{0} ({1})'.format(self.name, self.category.name)
+    thumbnail.allow_tags = True
+    thumbnail.short_description = u'تصویر'

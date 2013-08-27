@@ -5,6 +5,7 @@ div.calendar {
 }
 
 .calendar, .calendar table {
+    border-collapse: separate;
     border: 1px solid #556;
     font-size: 11px;
     color: #000;

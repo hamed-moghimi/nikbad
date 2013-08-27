@@ -1,5 +1,6 @@
 from django.forms.fields import DateField, DateTimeField
 from contrib.jalali_widget import DateTimeWidget
+from django.forms.widgets import TextInput
 
 
 class jDateField(DateField):
@@ -8,9 +9,6 @@ class jDateField(DateField):
 
 class jDateTimeField(DateTimeField):
     widget = DateTimeWidget()
-
-
-from django.forms.widgets import TextInput
 
 
 class NumberInput(TextInput):

@@ -26,6 +26,7 @@ class MBFrom(ModelForm):
         if self.cleaned_data['product'].stock_set.all()[0].enough_stock(self.cleaned_data['number']):
             return self.cleaned_data['number']
 
+        self.fields['number'].widget.attrs.update({'class': 'span1 error'})
         raise ValidationError(u'موجودی محصول کافی نیست.')
 
 

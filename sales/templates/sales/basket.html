@@ -34,9 +34,11 @@
                                         {{ form.product }}
                                         {{ form.basket }}
                                     </div>
-                                    {{ form.number }}
-                                    {{ item.product.unit }}
-                                    {{ form.number.errors }}
+                                    <span class="control-group {% if form.errors %}error{% endif %}">
+                                        {{ form.number }}
+                                        {{ item.product.unit }}
+                                        <p class="text-error">{{ form.number.errors.0 }}</p>
+                                    </span>
                                 </td>
                                 <td><b>{{ item.totalPrice|toman }}</b></td>
                             </tr>
