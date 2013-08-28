@@ -90,4 +90,5 @@ pip-log.txt
 .DS_Store
 
 # emails folder
-email/*
+emails/*
+emails
