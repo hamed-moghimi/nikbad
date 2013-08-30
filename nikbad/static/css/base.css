@@ -44,7 +44,7 @@ body {
 
 #content {
     width: 780px;
-    min-height: 1500px;
+    min-height: 1000px;
     background-color: #FFFFFF;
     padding: 0 10px;
     float: left;
@@ -56,6 +56,7 @@ body {
 
 #footer {
     clear: both;
+    padding-top: 20px;
 }
 
 .panel {
@@ -112,7 +113,7 @@ body {
 
 .nav-menu > li > a {
     display: block;
-    width: 190px   \9;
+    width: 190px    \9;
     margin: 0 0 -1px;
     padding: 8px 14px;
     border: 1px solid #e5e5e5;

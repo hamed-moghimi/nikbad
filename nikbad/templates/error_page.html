@@ -1,0 +1,54 @@
+{% extends 'sales/base.html' %}
+
+{% block menus %}
+    <li class="header"><a>
+        تماس با پشتیبانی
+    </a></li>
+
+    <li><a>
+        تلفن تماس :
+        66162345 - 021
+    </a></li>
+
+    <li><a>
+        رایانامه :
+        nikbaad.ir@gmail.com
+    </a></li>
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li class="active">
+        خطا در دسترسی
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <strong>
+            کاربر گرامی!
+        </strong>
+
+        <br/>
+
+        امکان دسترسی به صفحه موردنظر شما موجود نمی باشد. این اتفاق ممکن است ناشی از دلایل زیر باشد.
+
+        <br/><br/>
+
+        <ol class="rtl">
+            <li>
+                آدرسی که شما وارد کردید معتبر نیست.
+            </li>
+            <li>
+                شما اجازه دسترسی به این صفحه را ندارید.
+            </li>
+            <li>
+                خطایی در سرور رخ داده است.
+            </li>
+        </ol>
+
+        <br/>
+
+        در صورت لزوم با واحد پشتیبانی نیک باد تماس حاصل فرمایید.
+    </div>
+{% endblock %}

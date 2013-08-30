@@ -111,27 +111,35 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="description">
                     <p class="text-justify">
-                        {{ item.description }}
+                        {{ item.description|default:item.product.name }}
                     </p>
                 </div>
 
                 <div class="tab-pane" id="technical">
-                    <table class="table table-striped table-bordered table-condensed">
-                        <colgroup>
-                            <col width="35%"/>
-                            <col width="65%"/>
-                        </colgroup>
-                        {% for spec in item.specs.all %}
-                            <tr>
-                                <td>
-                                    {{ spec.title }}
-                                </td>
-                                <td>
-                                    {{ spec.value }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+                    {% with item.specs.all as specs %}
+                        {% if specs %}
+                            <table class="table table-striped table-bordered table-condensed">
+                                <colgroup>
+                                    <col width="35%"/>
+                                    <col width="65%"/>
+                                </colgroup>
+                                {% for spec in specs %}
+                                    <tr>
+                                        <td>
+                                            {{ spec.title }}
+                                        </td>
+                                        <td>
+                                            {{ spec.value }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p>
+                                مشخصاتی برای این محصول ثبت نشده است.
+                            </p>
+                        {% endif %}
+                    {% endwith %}
                 </div>
 
                 <div class="tab-pane" id="polls">
@@ -139,17 +147,23 @@
                         <h3 class="panel-header">
                             نظرات مشتریان
                         </h3>
-                        <table id="feedback-table" class="table table-striped table-condensed">
-                            <tbody>
-                            {% for poll in polls %}
-                                <tr>
-                                    <td>
-                                        {{ poll.content }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                        {% if polls %}
+                            <table id="feedback-table" class="table table-striped table-condensed">
+                                <tbody>
+                                {% for poll in polls %}
+                                    <tr>
+                                        <td>
+                                            {{ poll.content }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>
+                                هنوز نظری برای این محصول ثبت نشده است.
+                            </p>
+                        {% endif %}
 
                         {% if perms.crm.is_customer %}
                             <div class="panel">

@@ -1,4 +1,5 @@
 ﻿# -*- encoding: utf-8 -*-
+from re import match
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4, portrait
 from reportlab.pdfgen import canvas
@@ -16,10 +17,11 @@ import os.path
 
 # initialize fonts
 pdfmetrics.registerFont(TTFont('Nazanin', file(os.path.join(settings.ROOT_DIR, 'static/fonts/BNazanin.ttf'), 'rb')))
-# pdfmetrics.registerFont(TTFont('Arial', file(os.path.join(settings.ROOT_DIR, 'static/fonts/arial.ttf'), 'rb')))
+pdfmetrics.registerFont(
+    TTFont('BNazanin', file(os.path.join(settings.ROOT_DIR, 'static/fonts/BNazaninBold.ttf'), 'rb')))
 
 
-def drawText(canvas, x, y, text, en = False):
+def drawText(canvas, x, y, text, en = False, bold = False):
     wrkText = text
     isArabic = False
     isBidi = False
@@ -34,13 +36,15 @@ def drawText(canvas, x, y, text, en = False):
     if isArabic:
         wrkText = a_forms.fuse(wrkText)
         wrkText = a_process.shape(wrkText)
+
     if isBidi:
         wrkText = get_display(wrkText)
-    if en:
-        # canvas.setFont('Arial', 10)
-        pass
+
+    if bold:
+        canvas.setFont('BNazanin', 12)
     else:
         canvas.setFont('Nazanin', 12)
+
     canvas.drawRightString(x, canvas._pagesize[1] - y, wrkText)
 
 
@@ -52,14 +56,25 @@ class BulletMark():
         drawText(canvas, self.x, self.y, self.text)
 
 
+ord0 = ord(u'0')
+ord9 = ord(u'9')
+
+
 class StringMark():
-    def __init__(self, x, y, text, en = False):
-        self.x, self.y, self.text, self.en = x, y, unicode(text), en
+    def __init__(self, x, y, text, en = False, bold = False, auto_number = True):
+        self.x, self.y, self.text, self.en, self.bold = x, y, unicode(text), en, bold
         if self.text.lower() == 'none':
             self.text = ''
 
+        # replace digits with farsi digits
+        if auto_number:
+            newText = ''
+            for c in self.text:
+                newText += ord0 <= ord(c) <= ord9 and unichr(ord(c) + 1728) or c
+            self.text = newText
+
     def draw(self, canvas):
-        drawText(canvas, self.x, self.y, self.text, self.en)
+        drawText(canvas, self.x, self.y, self.text, self.en, self.bold)
 
 
 class PDFWriter():

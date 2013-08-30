@@ -7,7 +7,7 @@ from pdf import PDFWriter, StringMark
 def test(request):
     a = [
         [
-            StringMark(300, 400, u'سلام Salam'),
+            StringMark(145, 46, u'سلام Salam'),
             StringMark(300, 200, u'Salam'),
         ],
 
@@ -16,5 +16,4 @@ def test(request):
             StringMark(430, 260, u'مقیمی'),
         ],
     ]
-    return getPDF_Response(a, r'C:\Users\Hamed\Desktop\a.pdf', pageSize = letter,
-                           orientation = landscape) #r'C:\Users\Hamed\Desktop\a.pdf'
+    return getPDF_Response(a, r'C:\Users\Hamed\Desktop\form layout.pdf')

@@ -5,38 +5,37 @@
 {% endblock %}
 
 {% block content %}
-    <div class="panel">
-        <h2 class="panel-header">محصولات پرفروش</h2>
+    {% if populars or new_products %}
+        <div class="panel">
+            <h2 class="panel-header">محصولات پرفروش</h2>
 
-        <div class="row-fluid">
-            {% for item in populars %}
-                {% include "sales/_vitrin_item.html" with item=item %}
-            {% endfor %}
+            <div class="row-fluid">
+                {% for item in populars %}
+                    {% include "sales/_vitrin_item.html" with item=item %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
-    <div class="panel">
-        <h2 class="panel-header"> تازه ترین محصولات </h2>
+        <div class="panel">
+            <h2 class="panel-header"> تازه ترین محصولات </h2>
 
-        <div class="row-fluid">
-            {% for item in new_products %}
-                {% include "sales/_vitrin_item.html" with item=item %}
-            {% endfor %}
+            <div class="row-fluid">
+                {% for item in new_products %}
+                    {% include "sales/_vitrin_item.html" with item=item %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
-
-    {% if message %}
-        <div class="alert alert-success">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>تبریک!</strong>
-            {{ message }}
+    {% else %}
+        <div class="panel">
+            <p class="text-error">
+                در حال حاضر محصولی در این دسته وجود ندارد.
+            </p>
         </div>
     {% endif %}
-    {% if error %}
-        <div class="alert alert-error">
+    {% if message %}
+        <div class="alert alert-{{ message_state }}">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>هشدار!</strong>
-            {{ error }}
+            {{ message }}
         </div>
     {% endif %}
 {% endblock %}

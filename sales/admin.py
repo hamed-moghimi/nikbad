@@ -25,6 +25,7 @@ class ImageInline(StackedInline):
 
 
 class AdModelAdmin(ModelAdmin):
+    list_display = ['__unicode__', 'popularity']
     inlines = [SpecInline, ImageInline]
 
 

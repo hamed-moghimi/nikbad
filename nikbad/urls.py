@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, include, url, handler500, handler404, handler403
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -35,6 +35,9 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)  # for serving media files
 
+# urls for handling errors
+handler500 = handler404 = handler403 = 'contrib.views.error_handler'
+
 
 # urls for managing passwords
 urlpatterns += patterns('django.contrib.auth.views',
@@ -42,11 +45,12 @@ urlpatterns += patterns('django.contrib.auth.views',
                             {
                                 'post_reset_redirect': reverse_lazy('forget_password_done'),
                                 'template_name': 'contrib/simple.html',
-                                # 'email_template_name': 'contrib/password_reset_email.html',
+                                'email_template_name': 'contrib/password_reset_email.html',
+                                'subject_template_name': 'contrib/password_reset_subject.txt',
                                 'extra_context':
                                     {
-                                        'header': u'فراموشی رمز عبور',
-                                        'prompt': u'رمز عبور خود را فراموش کرده اید؟ ایمیل خود را وارد کنید تا دستورالعمل لازم برای شما ارسال گردد.',
+                                        'header': u'فراموشی گذرواژه',
+                                        'prompt': u'گذرواژه خود را فراموش کرده اید؟ ایمیل خود را وارد کنید تا دستورالعمل لازم برای شما ارسال گردد.',
                                         'form_submit_text': u'ارسال درخواست',
                                     }
                             },
@@ -57,8 +61,8 @@ urlpatterns += patterns('django.contrib.auth.views',
                                 'template_name': 'contrib/simple.html',
                                 'extra_context':
                                     {
-                                        'header': u'فراموشی رمز عبور',
-                                        'message_success': u'ایمیل حاوی دستورالعمل لازم برای تغییر رمز عبور برای شما ارسال شد.',
+                                        'header': u'فراموشی گذرواژه',
+                                        'message_success': u'ایمیل حاوی دستورالعمل لازم برای تغییر گذرواژه برای شما ارسال شد.',
                                     }
                             },
                             name = 'forget_password_done'),
@@ -69,10 +73,10 @@ urlpatterns += patterns('django.contrib.auth.views',
                                 'post_reset_redirect': reverse_lazy('reset_password_done'),
                                 'extra_context':
                                     {
-                                        'header': u'تغییر رمز عبور',
-                                        'prompt': u'رمز عبور خود را تغییر دهید.',
+                                        'header': u'تغییر گذرواژه',
+                                        'prompt': u'کاربر گرامی، در این صفحه می توانید گذرواژه خود را تغییر دهید.',
                                         'error_message': u'کد وارد شده نادرست است یا قبلا استفاده شده است.',
-                                        'form_submit_text': u'تغییر رمز عبور'
+                                        'form_submit_text': u'تغییر گذرواژه'
                                     }
                             },
                             name = 'reset_password'),
@@ -82,8 +86,8 @@ urlpatterns += patterns('django.contrib.auth.views',
                                 'template_name': 'contrib/simple.html',
                                 'extra_context':
                                     {
-                                        'header': u'تغییر رمز عبور',
-                                        'message_success': u'رمز عبور شما با موفقیت تغییر کرد. لطفا دوباره وارد شوید.',
+                                        'header': u'تغییر گذرواژه',
+                                        'message_success': u'گذرواژه شما با موفقیت تغییر کرد. لطفا دوباره وارد شوید.',
                                     }
                             },
                             name = 'reset_password_done'),

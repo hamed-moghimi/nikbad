@@ -46,10 +46,21 @@
                                 خروج از حالت ابرکاربر
                             </a>
                         {% else %}
-                            <a class="btn btn-info" href="{% url logout %}">
-                                <i class="icon-user"></i>
-                                {{ user.get_full_name }}
-                            </a>
+                            <div class="btn-group pull-right">
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{% url logout %}">
+                                            <i class="icon-off"></i>
+                                            خروج
+                                        </a>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <i class="icon-large icon-user"></i>
+                                    {{ user.get_full_name|default:user }}
+                                </button>
+                            </div>
                         {% endif %}
                     {% endif %}
                 {% endblock %}
@@ -63,7 +74,10 @@
     <div id="content">
         <ul class="breadcrumb">
             {% block crumbs %}
-                <li><a href="{% url index %}">بازار نیک باد</a> <span class="divider">/</span></li>
+                <li><a href="{% url index %}">
+                    <i class="icon-home icon-large"></i>
+                    نیک باد
+                </a> <span class="divider">/</span></li>
             {% endblock %}
         </ul>
 
@@ -83,11 +97,21 @@
             {% endblock %}
         </ul>
     </div>
-</div>
-<div id="footer">
-    <p class="text-muted text-center">
-        Designed by Negah-e-No co. &copy; 2013.
-    </p>
+
+    <div id="footer">
+        <p class="text-center muted">
+            کلیه حقوق این اثر مربوط به شرکت بازار از دور
+            <strong>
+                سراب
+            </strong>
+            می باشد. هرگونه تکثیر پیگرد قانونی دارد.
+            <br/>
+            تهیه و طراحی توسط شرکت فنی مهندسی
+            <strong>
+                نگاه نو
+            </strong>
+        </p>
+    </div>
 </div>
 </body>
 </html>
