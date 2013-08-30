@@ -11,7 +11,7 @@
                 });
         function load_page(tmp) {
             $(".WRH-panel2").fadeOut("slow");
-            setTimeout(function() {
+            setTimeout(function () {
                 $(".WRH-panel2").load(tmp);
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
@@ -19,13 +19,19 @@
         function rreturn() {
             $(".WRH-panel2").fadeOut("slow");
             tmp = '{{ type }}';
-            setTimeout(function() {
-                if ( tmp == "0" )
-                {
+            setTimeout(function () {
+                if (tmp == "0") {
                     $(".WRH-panel2").load('*OrdersPanel');
-                }else{
+                } else {
                     $(".WRH-panel2").load('*OrdersReadyPanel');
                 }
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+        function greturn() {
+            $(".WRH-panel2").fadeOut("slow");
+            setTimeout(function () {
+                $(".WRH-panel2").load('*WRHgardani-Panel');
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
