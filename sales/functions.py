@@ -8,7 +8,7 @@ def get_customer(request):
     except:
         return None
 
-class CustomerMiddleware(object):
 
+class NikbaadMiddleware(object):
     def process_request(self, request):
         request.customer = SimpleLazyObject(lambda: get_customer(request))

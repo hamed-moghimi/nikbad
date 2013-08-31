@@ -56,3 +56,7 @@ def bank(request):
     basket = MarketBasket.objects.get(pk = session)
     context = {'amount': basket.totalPrice}
     return render(request, 'contrib/bank.htm', context)
+
+
+def error_handler(request):
+    return render(request, 'error_page.html', {})

@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
+from django.db.models.expressions import F
 from wiki.models import Product
 from crm.models import Customer
 
@@ -37,6 +38,9 @@ class SaleBill(models.Model):
 
         products = [SaleBill_Product(bill = sb, product = i.product, number = i.number) for i in basket.items.all()]
         sb.products.bulk_create(products)
+
+        # updating popularity
+        q = Ad.objects.filter(product__in = basket.items.values('product')).update(popularity = F('popularity') + 1)
 
         return sb
 
@@ -132,6 +136,7 @@ class Ad(models.Model):
     product = models.OneToOneField(Product)
     description = models.TextField(verbose_name = u'توضیحات', blank = True)
     registerDate = models.DateField(auto_now_add = True, verbose_name = u'تاریخ ثبت')
+    popularity = models.IntegerField(default = 0, verbose_name = u'محبوبیت')
 
     def _get_self_id(self):
         return self.id

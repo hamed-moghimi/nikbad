@@ -65,6 +65,7 @@
 }
 
 .offer {
+    z-index: 501;
     position: absolute;
     top: 0px;
     left: 0px;

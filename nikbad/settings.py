@@ -1,6 +1,7 @@
 # Django settings for nikbad project.
 
 # Root Directory Path
+from apscheduler import scheduler
 import os.path
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -116,7 +117,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'sales.functions.CustomerMiddleware',
+    'sales.functions.NikbaadMiddleware',
 )
 
 ROOT_URLCONF = 'nikbad.urls'
@@ -186,9 +187,19 @@ LOGIN_URL = ''
 
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'username'
-# EMAIL_HOST_PASSWORD = 'password'
+# EMAIL_HOST_USER = 'nikbad.ir'
+# EMAIL_HOST_PASSWORD = 'weregonnarock23671'
 # EMAIL_PORT = 587
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(ROOT_DIR, '../emails')
+
+# codes for scheduling
+# SCHEDULER = scheduler.Scheduler()
+# SCHEDULER.start()
+#
+# @SCHEDULER.interval_schedule(seconds = 5, start_date='2013-08-29 20:34')
+# def job_function():
+#     import datetime
+#     print "Hello World %s" % datetime.datetime.now()
+#     print len(SCHEDULER.get_jobs())

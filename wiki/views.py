@@ -82,8 +82,9 @@ def no_contract(request):
 def maxExceeded(request):
     return render(request, 'wiki/maxExceeded.html')
 
-def delete_error(request):
-    return render(request, 'wiki/deleteError.html')
+def delete_error(request, str):
+    context = {'str' : str}
+    return render(request, 'wiki/deleteError.html', context)
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def addproduct(request):
@@ -101,14 +102,13 @@ def addproduct(request):
             gid = form.cleaned_data['goodsID']
             wiki = Wiki.objects.filter(username = user.username)[0]
             brand = form.cleaned_data['brand']
-            unit = form.cleaned_data['unit']
             name = form.cleaned_data['name']
             cat = form.cleaned_data['sub_category']
             pr = form.cleaned_data['price']
             off = form.cleaned_data['off']
             p = Product(goodsID = gid, wiki = wiki, brand = brand,
                         name = name, sub_category = cat,
-                        price = pr, off = off, unit = unit)
+                        price = pr, off = off)
             Ad.objects.get_or_create(product = p)
             p.save()
             return product_success(request, p)
@@ -131,7 +131,8 @@ def deleteproduct(request):
             pid = form.cleaned_data['pro']
             p = Product.objects.filter(goodsID = pid)
             if p.__len__() == 0:
-                return delete_error(request)
+                str = "no product"
+                return delete_error(request, str)
             else:
                 p = Product.objects.filter(goodsID = pid)[0]
                 stock = Stock.objects.filter(product = p)
@@ -139,9 +140,11 @@ def deleteproduct(request):
                     if stock[0].quantity == 0 and stock[0].quantity_returned == 0:
                         p.delete()
                     else:
-                        return delete_error(request)
+                        str = "in wrh"
+                        return delete_error(request, str)
                 else:
-                    return delete_error(request)
+                    str = "in wrh"
+                    return delete_error(request, str)
             if p.wiki.username == name:
                 p.delete()
                 return success(request)
@@ -199,9 +202,9 @@ def salesreport(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            pro_list = SaleBill_Product.objects.filter(bill__saleDate__range = (startDate, endDate))
+            list = SaleBill_Product.objects.filter(bill__saleDate__range = (startDate, endDate))
             user = request.user
-
+            pro_list = list.filter(product__wiki__username = user.username)
             list2 = pro_list.values('product').annotate(sum = Sum('number'))
             products = []
             sums = []
@@ -242,3 +245,6 @@ def editProduct(request, gId):
     f = ProductForm(instance = p)
     context = {'ProductForm' :f , 'p':p , 'product' : gId}
     return render(request, 'wiki/productEdit.html', context)
+
+def contract():
+    pass

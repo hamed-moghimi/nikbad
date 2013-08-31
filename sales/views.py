@@ -1,12 +1,16 @@
 # -*- encoding: utf-8 -*-
 from datetime import datetime
-from django.contrib.auth.decorators import permission_required
+import os
+from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models.query_utils import Q
 from django.forms.models import inlineformset_factory
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from contrib.pdf import StringMark, getPDF_Response
+from contrib.templatetags.nikbad_tags import toman
+from nikbad import settings
 from sales.forms import AdForm, AdImageForm, SearchForm, MBFrom
 from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product, Specification
 from wiki.models import Product, Wiki, Category
@@ -18,19 +22,24 @@ def baseContext(request):
     return {'customer': request.customer} #'wikis': Wiki.objects.all()[:20]
 
 
+external_messages = {
+    'BuySuccessful': ('success', u'.خرید شما با موفقیت انجام شد'),
+    'BuyError': ('error', u'خرید انجام نشد. سبد خرید شما همچنان در دسترس است.'),
+}
+
+
 def index(request):
     # get new products
-    new_products = Ad.objects.all()[:10]
+    new_products = Ad.objects.all()[:10]  #TODO: order_by date
 
     # get popular products
-    populars = Ad.objects.all()[:10] #order_by('-popularity')[:10]
+    populars = Ad.objects.order_by('-popularity')[:10]
     context = baseContext(request)
     context.update({'new_products': new_products, 'populars': populars})
 
     if 'message' in request.GET:
-        context.update({'message': request.GET['message']})
-    elif 'error' in request.GET:
-        context.update({'error': request.GET['error']})
+        state, message = external_messages[request.GET['message']]
+        context.update({'message_state': state, 'message': message})
 
     return render(request, 'sales/index.html', context)
 
@@ -38,10 +47,10 @@ def index(request):
 def category(request, catID):
     catID = int(catID)
     # get new products
-    new_products = Ad.objects.all().filter(product__sub_category__category__id = catID)[:10]
+    new_products = Ad.objects.filter(product__sub_category__category__id = catID)[:10]  #TODO: order_by date
 
     # get popular products
-    populars = Ad.objects.filter(product__sub_category__category__id = catID)[:10] #order_by('-popularity')[:10]
+    populars = Ad.objects.filter(product__sub_category__category__id = catID).order_by('-popularity')[:10]
     context = baseContext(request)
     context.update({'new_products': new_products, 'populars': populars, 'category': catID,
                     'category_name': Category.objects.get(pk = catID)})
@@ -139,18 +148,16 @@ def adEdit(request, itemCode):
 
 @permission_required('crm.is_customer', raise_exception = True)
 def newBuy(request):
-    get = ''
-    if request.GET['status'] == 'OK':
+    if request.GET['message'] == 'BuySuccessful':
         mb = request.customer.marketBasket
         sb = SaleBill.createFromMarketBasket(mb)
         from fnc.functions import make_cb_sb
 
         make_cb_sb(sb)
         mb.clear()
-        get = u'?message=خرید شما با موفقیت انجام شد'
-    else:
-        get = u'?error=خرید انجام نشد'
-    return HttpResponseRedirect(reverse('sales-index') + get)
+
+    params = '?message=' + request.GET['message']
+    return HttpResponseRedirect(reverse('sales-index') + params)
 
 
 def search(request):
@@ -183,3 +190,30 @@ def search(request):
     link = u'?category={0}&query={1}'.format(cat.pk if cat is not None else '', query)
     return render(request, 'sales/search.html',
                   {'paginator': paginatior, 'page': page, 'search_form': form, 'link': link})
+
+
+@permission_required('warehouse.is_warehouse', raise_exception = True)
+def saleBillPDF(request, sbID):
+    sb = SaleBill.objects.get(pk = sbID)
+    items = sb.products.all()
+    pdfList = []
+    y = 200
+    counter = 1
+    for item in list(items) * 5:
+        product = item.product
+        pdfList += \
+            (
+                StringMark(543, y, unicode(counter)),
+                StringMark(509, y, product.goodsID),
+                StringMark(465, y, product.name, auto_number = False),
+                StringMark(365, y, product.wiki, auto_number = False),
+                StringMark(270, y, toman(product.price)),
+                StringMark(200, y, u'{0} {1}'.format(item.number, item.product.unit)),
+                StringMark(118, y, toman(product.price * item.number)),
+            )
+        y += 20
+        counter += 1
+
+    pdfList += (StringMark(155, y, u'جمع', bold = True), StringMark(118, y, toman(sb.totalPrice), bold = True))
+
+    return getPDF_Response([pdfList], os.path.join(settings.MEDIA_ROOT, 'PDFs/SaleBill.pdf'))
