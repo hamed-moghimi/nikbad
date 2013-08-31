@@ -43,6 +43,14 @@
                         <td class="WRH-td3">{{ product.wiki.companyName }}</td>
                     </tr>
                     <tr>
+                        <td class="WRH-td-th3">نقطه سفارش قبلی:</td>
+                        {% if product.orderPoint == 0 %}
+                            <td class="WRH-td3">هنوز تعیین نشده</td>
+                        {% else %}
+                            <td class="WRH-td3">{{ product.orderPoint }} {{ product.unit }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
                         <td class="WRH-td-th3">نقطه سفارش:</td>
                         <td class="WRH-td3"><input id="qnt" type="number" class="span2" min="0" value="0"
                                                    style=" margin-top:10px; height:23px; text-align: center; width: 70px;"/>

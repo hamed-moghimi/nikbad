@@ -17,7 +17,7 @@
     </li>
     <li {% if active_menu == 3 %}class="active"{% endif %}parent="wrh-in-out">
         <a {% if active_menu != 3 %}href="*CustomerReturn"{% endif %}>
-            ثبت کالاهای معیوب
+            ثبت کالاهای مرجوعی
             <i class="icon-chevron-left"></i></a>
     </li>
     <li {% if active_menu == 15 %}class="active"{% endif %}parent="wrh-in-out">
@@ -32,8 +32,14 @@
 {% if perms.warehouse.is_mng_warehouse %}
     <li class="header hover" section="wrh-report">
         <a>
-            گزارشات انبارگردانی
+            فهرست گزارشات
         </a>
+    </li>
+
+    <li id="login-menu" {% if active_menu == 16 %}class="active"{% endif %}parent="wrh-report">
+        <a {% if active_menu != 16 %}href="*Report/16"{% endif %}>
+            انبارگردانی
+            <i class="icon-chevron-left"></i></a>
     </li>
 
     <li id="login-menu" {% if active_menu == 4 %}class="active"{% endif %}parent="wrh-report">

@@ -42,6 +42,29 @@
                 {% endfor %}
             </tbody>
         </table>
+        {# Template tags for pagination section, bootstrap compatible #}
+        {% if paginator.num_pages > 1 %}
+            <div class="pagination pagination-centered">
+                <ul>
+                    {% if contacts.has_previous %}
+                        <li><a onclick="load_page('{{ lnk|add:"?page=" }}{{ contacts.previous_page_number }}')"
+                               href="#">&raquo;</a></li>
+                    {% endif %}
+
+                    {% for num in contacts.paginator.page_range %}
+                        <li {% if num == contacts.number %}class="active"{% endif %}><a
+                                onclick="load_page('{{ lnk|add:"?page=" }}{{ num }}')"
+                                href="#"> {{ num }}</a></li>
+                    {% endfor %}
+
+
+                    {% if contacts.has_next %}
+                        <li><a onclick="load_page('{{ lnk|add:"?page=" }}{{ contacts.next_page_number }}')"
+                               href="#">&laquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
     </form>
     <br/>
     <br/>

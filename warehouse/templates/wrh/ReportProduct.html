@@ -1,0 +1,103 @@
+{% extends "wrh/base.html" %}
+{% block title %}
+    {% if active_menu == 4 %}
+    گزارش موجودی انبار
+    {% elif active_menu == 5 %}
+        گزارش مرجوعی های انبار
+    {% elif active_menu == 6%}
+        گزارش  سفارشات انبار
+    {% else %}
+        گزارش  تحویل های انبار
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="panel" xmlns="http://www.w3.org/1999/html">
+    <h2 class="WRH-heading2">
+        {% if active_menu == 4 %}
+            گزارش موجودی انبار
+        {% elif active_menu == 5 %}
+            گزارش مرجوعی های انبار
+        {% elif active_menu == 6%}
+            گزارش  سفارشات انبار
+        {% else %}
+            گزارش  تحویل های انبار
+        {% endif %}
+    </h2>
+
+    <div class="WRH-panel2">
+        <br />
+        {% if stocks %}
+        <p>
+            {% if active_menu == 4 %}
+                کالاهای موجود در انبار
+            {% elif active_menu == 5 %}
+                کالاهای معیوب موجود در انبار
+            {% elif active_menu == 6%}
+                سفارشات انبار
+            {% else %}
+                تحویل های انبار
+            {% endif %}
+            به شرح زیر می باشند:
+        </p>
+        <br />
+        <table class="WRH-table2 table-hover table-striped">
+            <thead>
+            <td class="WRH-th-td2"></td>
+            <td class="WRH-th-td2">کد ویکی </td>
+            <td class="WRH-th-td2">نام ویکی </td>
+            <td class="WRH-th-td2" >کد کالا  </td>
+            <td class="WRH-th-td2"> نام کالا </td>
+            <td class="WRH-th-td2"> تعداد </td>
+            {% if active_menu == 6%}
+                <td class="WRH-th-td2"> وضعیت</td>
+                <td class="WRH-th-td2"> تاریخ</td>
+            {% elif active_menu == 7 %}
+                <td class="WRH-th-td2"> تاریخ</td>
+            {% endif %}
+
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <td class="WRH-td2"> <img class="WRH-myimage2" src="{{ stock.product.wiki.image.url }}"/></td>
+                <td class="WRH-td2"> {{ stock.product.wiki.pk }} </td>
+                <td class="WRH-td2"> {{ stock.product.wiki.companyName }}</td>
+                <td class="WRH-td2"> {{ stock.product.goodsID }}</td>
+                <td class="WRH-td2"> {{ stock.product.name }}</td>
+                <td class="WRH-td2"> {{ stock.quantity }} {{ stock.product.unit }}</td>
+                {% if active_menu == 6%}
+                    <td class="WRH-td2">
+                    {% if stock.deliveryStatus == 0 %}
+                        صادر شده
+                    {% else %}
+                        دریافت شده
+                    {% endif %}
+                    </td>
+                    <td class="WRH-td2"> {{ stock.date }}</td>
+                {% elif active_menu == 7 %}
+                    <td class="WRH-td2"> {{ stock.date }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <br />
+
+    {% else %}
+            {% if active_menu == 4 %}
+انبار خالی است.
+            {% elif active_menu == 5 %}
+                انبار کالای معیوب ندارد.
+            {% elif active_menu == 6%}
+                هیچ سفارشی برای ویکی ها از طرف انبار به ثبت نرسیده است.
+            {% else %}
+                هیچ تحویل کالایی برای انبار به ثبت نرسیده است.
+            {% endif %}
+            </br>
+        </br>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

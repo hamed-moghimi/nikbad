@@ -4,7 +4,7 @@ from wiki.models import *
 from sales.models import SaleBill
 
 warehouse_capacity = 300000000 # cm^3
-order_point = 20 # noghte sefaresh
+# order_point = 20 # noghte sefaresh
 
 # noe havaaleye anbaar
 clear_type = (
@@ -23,7 +23,8 @@ ready = {
 # va3 in gozashtam ke va3 ye havaleyi ke anbar xodesh saader karde chand baar rush mayubi gozaresh nashe
 defect = {
     ('d', 'defective'),
-    ('n', 'not_defective')
+    ('n', 'not_defective'),
+        ('r', 'returned')
 }
 
 #delivery status

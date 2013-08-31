@@ -1,0 +1,77 @@
+{% block WRH-panel2 %}
+    <br/>
+    {% if products %}
+        <p>
+            لیست مغایرت ها به شرح زیر می باشد:
+        </p>
+        <br/>
+
+        <table class="WRH-table2 table-hover table-striped">
+            <thead>
+            <td class="WRH-th-td2" style="width: 50px"></td>
+            <td class="WRH-th-td2"> کد کالا</td>
+            <td class="WRH-th-td2">نام کالا</td>
+            <td class="WRH-th-td2"> کد ویکی</td>
+            <td class="WRH-th-td2"> نام ویکی</td>
+            <td class="WRH-th-td2"> تعداد شمارش شده</td>
+            <td class="WRH-th-td2"> تعداد محاسبه شده</td>
+            <td class="WRH-th-td2"> واحد</td>
+            <td class="WRH-th-td2"> اختلاف</td>
+            </thead>
+            <tbody>
+            {% for product, pk, cnt, cal,dif, type in products %}
+                <tr>
+                    <td class="WRH-td2"><img class="WRH-myimage2" style="width: 50px" src="{{ product.ad.icon.image.url }}"/></td>
+                    <td class="WRH-td2"> {{ product.goodsID }}</td>
+                    <td class="WRH-td2"> {{ product.name }}
+                        {% if type == 1 %}
+                            (معیوب)
+                        {% endif %}
+                    </td>
+                    <td class="WRH-td2"> {{ product.wiki.pk }}</td>
+                    <td class="WRH-td2"> {{ product.wiki.companyName }}</td>
+                    <td class="WRH-td2">{{ cnt }}</td>
+                    <td class="WRH-td2">{{ cal }}</td>
+                    <td class="WRH-td2">{{ product.unit }}</td>
+                    <td class="WRH-td2">
+                        {% if dif < 0 %}
+                            <b style="color: rgb(255, 0, 0)">
+                                {{ dif }}
+                            </b>
+                        {% else %}
+                            <b style="color: rgb(0, 0, 255)">
+                            {{ dif }}
+                            </b>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+        <br/>
+        <center>
+            <a target="_blank" class="btn btn-primary btn-small" href="*PrintDif">
+                چاپ
+            </a>
+            <button class="btn btn-primary btn-small" type="button" onclick="greturn()">
+                بازگشت
+            </button>
+        </center>
+    {% else %}
+        <center>
+            <p>
+                <b>
+                    هیچ مغایرتی بین تعداد شمارش شده و محاسبه شده یافت نشد.
+                </b>
+            </p>
+            <br>
+            <img class="WRH-image2" src="{{ STATIC_URL }}wrh/images/images (2).jpg"/>
+            <button class="btn btn-primary btn-small" type="button" onclick="greturn()">
+                بازگشت
+            </button>
+        </center>
+        <br/>
+    {% endif %}
+{% endblock %}

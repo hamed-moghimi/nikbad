@@ -1,0 +1,44 @@
+{% extends "wrh/base.html" %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(
+                function () {
+                    var menu = {{ active_menu }};
+                    var panel = "";
+                    if (menu == 14)
+                    {
+                        panel = "ReportReceiptDelivery_Panel";
+                    }else{
+                       var str = "../../ReportReceipt_Panel/";
+                       panel = str.concat({{ active_menu }})
+                    }
+                    alert(panel);
+                    $(".WRH-panel2").load(panel);
+                    return false;
+                });
+        function load_page(tmp) {
+            alert("loade")
+            alert(tmp);
+            $(".WRH-panel2").fadeOut("slow");
+            setTimeout(function() {
+                $(".WRH-panel2").load(tmp);
+            }, 500);
+            $(".WRH-panel2").fadeIn("slow");
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="WRH-heading2">
+            {{ heading }}
+        </h2>
+
+        <div class="WRH-panel2">
+
+        </div>
+    </div>
+{% endblock %}

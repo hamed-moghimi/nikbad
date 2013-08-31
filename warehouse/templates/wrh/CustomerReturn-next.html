@@ -13,7 +13,7 @@
         </button>
     </center>
 {% else %}
-    کالای زیر به عنوان کالای معیوب انتخاب گردیده، لطفا تعداد مرجوعی را وارد کنید:
+    کالای زیر به عنوان کالای مرجوعی انتخاب گردیده، لطفا تعداد و نوع ارجاع را مشخص کنید:
     <br/>
     <br/>
     <table class="WRH-table4">
@@ -100,6 +100,12 @@
                                                    style=" margin-top:10px; height:23px; text-align: center; width: 70px;"/>
                         </td>
                         <td class="WRH-td3">{{ product.unit }}</td>
+                    </tr>
+                    <tr>
+                        <td class="WRH-td-th3">معیوب :</td>
+                        <td class="WRH-td3">
+                            <input id="damaged" type="checkbox" class="checkbox" style="width: 70px; margin-top: 2px; margin-right: -25px; background-color: rgb(255,255,255)" value=""/>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

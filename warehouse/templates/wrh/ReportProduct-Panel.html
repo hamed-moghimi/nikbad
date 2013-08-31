@@ -29,7 +29,15 @@
                 <td class="WRH-td2"> {{ stock.product.wiki.companyName }}</td>
                 <td class="WRH-td2"> {{ stock.product.goodsID }}</td>
                 <td class="WRH-td2"> {{ stock.product.name }}</td>
-                <td class="WRH-td2"> {{ stock.quantity }} {{ stock.product.unit }}</td>
+                <td class="WRH-td2">
+                    {% if active_menu == 5 %}
+                    {{ stock.quantity_returned }}
+                    {% else %}
+                        {{ stock.quantity }}
+                    {% endif %}
+                    {{ stock.product.unit }}
+                </td>
+
                 {% if active_menu == 6 %}
                     <td class="WRH-td2">
                         {% if stock.deliveryStatus == 0 %}

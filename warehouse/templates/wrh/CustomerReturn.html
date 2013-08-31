@@ -32,6 +32,8 @@
 
         function confirm_return(pid, kid) {
             var qnt = document.getElementById('qnt');
+            var tp = document.getElementById('damaged');
+            var b = tp.checked;
             var a = qnt.value;
             $(".WRH-panel2").fadeOut("slow");
             var str = "*ConfirmReturn/";
@@ -40,8 +42,10 @@
             var st4 = st3.concat(kid);
             var st5 = st4.concat("/");
             var st6 = st5.concat(a);
+            var st7 = st6.concat("/");
+            var st8 = st7.concat(b)
             setTimeout(function() {
-                $(".WRH-panel2").load(st6);
+                $(".WRH-panel2").load(st8);
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
