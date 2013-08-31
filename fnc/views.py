@@ -114,9 +114,6 @@ def add_sanad(request):
         form = AddForm(request.POST)
         if (form.is_valid()):
             form.save()
-            amount=form.instance.amount
-            form.instance.account_bedeh.deposit(amount)
-            form.instance.account_bestan.withdraw(amount)
             context={"sanadId":form.instance.pk}
             return render(request, 'fnc/add_sanad_2.html', context)
             #return HttpResponseRedirect(reverse('fnc-gozaresh-mali'))

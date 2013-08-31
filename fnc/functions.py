@@ -11,13 +11,11 @@ def payment_wiki():
     budget = GeneralAccount.getBudget()
 
     for w in wikis:
-        total = 0
+        payment = 0
         sb_ps = SaleBill_Product.objects.filter(bill__saleDate__gt=budget.last_pay_wiki).filter(product__wiki=w)
         for x in sb_ps:
-            total += x.product.price * x.number
-        payment = total * (100 - w.contract.percent) / 100
-        benefit=total-payment
-        make_benefit(benefit, w)
+            payment += x.product.price * x.number
+        payment = payment * (100 - w.contract.percent) / 100
         w.payment, w.reminder = divmod(payment + w.reminder, 100)
         w.payment *= 100
         w.save()
@@ -174,21 +172,3 @@ def tarazname():
         row.account=acc
         row.taraz=taraz
         row.save()
-
-def make_benefit(benefit, wiki):
-    daramad=Account.objects.get(name=u"درآمد")
-    darayi=Account.objects.get(name=u"دارایی")
-    cb = CostBenefit()
-
-    cb.account_bedeh = darayi
-    cb.amount = benefit
-    darayi.deposit(benefit)
-    darayi.save()
-
-    cb.account_bestan = daramad
-    cb.amount=benefit
-    daramad.withdraw(benefit)
-    daramad.save()
-
-    cb.description = u'{0} {1}'.format(u'سهم سراب از فروش محصولات', wiki.companyName)
-    cb.save()
