@@ -24,7 +24,7 @@
             لطفا مشخصات هر یک از کالاهای تحویلی را تعیین کنید:
         </p>
         <br/>
-        <form id="myFormId" action="*WRHDeliveryConfirmation" method="post">
+        <form id="myFormId" action="{% url WRH_Delivery_Confirm %}" method="post">
         {% csrf_token %}
 
         <table class="WRH-table2 table-hover table-striped">

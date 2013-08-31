@@ -22,7 +22,7 @@
     <br/>
     <br/>
 
-    <form id="receipt_delivery" action="*ReceiptDetail" method="post">
+    <form id="receipt_delivery" action="{% url WRH_Receipt_Detail %}" method="post">
         {% csrf_token %}
         <table class="WRH-table7 table-hover">
             <tbody>

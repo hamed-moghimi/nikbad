@@ -7,33 +7,36 @@
     <table class="WRH-table2 table-hover table-striped">
         <thead>
         <td class="WRH-th-td2">
-            {% if active_menu == 9 %}
+            ردیف
+        </td>
+        <td class="WRH-th-td2">
+            {% if active_menu == 99 %}
                 کد  فاکتور سفارش
-            {% elif active_menu == 10 %}
+            {% elif active_menu == 1010 %}
                 کد فاکتور درخواست
             {% else %}
                 کد حواله
             {% endif %}
         </td>
         <td class="WRH-th-td2">
-            {% if active_menu == 9 %}
+            {% if active_menu == 99 %}
                 کد مشتری
-            {% elif active_menu == 10 %}
+            {% elif active_menu == 1010 %}
                 کد ویکی
             {% else %}
                 کد تحویل گیرنده
             {% endif %}
         </td>
         <td class="WRH-th-td2">
-            {% if active_menu == 9 %}
+            {% if active_menu == 99 %}
                 نام و نام خانوادگی مشتری
-            {% elif active_menu == 10 %}
+            {% elif active_menu == 1010 %}
                 نام ویکی
             {% else %}
                 نام تحویل گیرنده
             {% endif %}
         </td>
-        {% if active_menu == 11 %}
+        {% if active_menu == 1111 %}
             <td class="WRH-th-td2"> وضعیت</td>
         {% endif %}
         <td class="WRH-th-td2"> تاریخ</td>
@@ -41,9 +44,11 @@
         </thead>
         <tbody>
         {% for dl, tmp in dls %}
+            {% with forloop.counter as index %}
             <tr>
+                <td class="WRH-td2"> {{ index }}</td>
                 <td class="WRH-td2">
-                    {% if active_menu == 11 %}
+                    {% if active_menu == 1111 %}
                         {% if dl.type == 'sale' %}
                             فروش_{{ dl.pk }}
                         {% else %}
@@ -53,7 +58,7 @@
                                 ویکی_{{ dl.pk }}
                             {% endif %}
                         {% endif %}
-                    {% elif active_menu == 8 %}
+                    {% elif active_menu == 88 %}
                         {% if dl.clearance.type == 'sale' %}
                             فروش_{{ dl.clearance.pk }}
                         {% else %}
@@ -76,7 +81,7 @@
                     {% endif %}
                 </td>
                 <td class="WRH-td2">
-                    {% if active_menu == 11 %}
+                    {% if active_menu == 1111 %}
                         {% if dl.type == 'sale' %}
                             {{ dl.bill.customer.pk }}
                         {% else %}
@@ -99,7 +104,7 @@
                     {% endif %}
                 </td>
                 <td class="WRH-td2">
-                    {% if active_menu == 11 %}
+                    {% if active_menu == 1111 %}
                         {% if dl.type == 'sale' %}
                             {{ dl.bill.customer.first_name }}
                             {{ dl.bill.customer.last_name }}
@@ -125,7 +130,7 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                {% if active_menu == 11 %}
+                {% if active_menu == 1111 %}
                     <td class="WRH-td2">
                         {% if dl.ready == 'n' %}
                             صادر شده
@@ -146,10 +151,19 @@
                     </a>
                 </td>
             </tr>
+            {% endwith %}
         {% endfor %}
 
         </tbody>
     </table>
+    <br/>
+    <center>
+    {% if active_menu != 8 %}
+        <a target="_blank" class="btn btn-primary btn-small" href="{{ print }}">
+            چاپ
+        </a>
+    {% endif %}
+    </center>
     <br/>
     {# Template tags for pagination section, bootstrap compatible #}
     {% if paginator.num_pages > 1 %}
