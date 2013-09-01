@@ -11,14 +11,15 @@
             <tbody>
             <tr>
                 {% for wiki in wikis %}
-                    {% with wiki.pk|stringformat:"s" as pk %}
-                        {% with "WRHDelivery-next/"|add:pk as tmp %}
+                    {% with wiki.pk as pk %}
+{#                    {% with wiki.pk|stringformat:"s" as pk %}#}
+{#                        {% with "WRHDelivery-next/"|add:pk as tmp %}#}
                             {% if forloop.counter|divisibleby:4 %}
                                 <tr>
                             {% endif %}
                         <td class="WRH-td">
-                            <div class="WRH-div2" onclick="load_select_page('{{ tmp }}')">
-                                <a class="thumbnail">
+                            <div class="WRH-div2" >
+                                <a class="thumbnail" onclick="load_select_page('{% url WRH_Delivery_Next pid=pk %}')">
                                     <img class="myimage" src="{{ wiki.image.url }}"/>
                                     <table>
                                         <tbody>
@@ -37,7 +38,7 @@
                         {% if forloop.counter|divisibleby:3 %}
                             </tr>
                         {% endif %}
-                        {% endwith %}
+{#                        {% endwith %}#}
                     {% endwith %}
                 {% endfor %}
             </tbody>

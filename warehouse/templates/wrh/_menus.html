@@ -3,7 +3,7 @@
         <a> ورود وخروج کالا از انبار</a>
     </li>
     <li {% if active_menu == 1 %}class="active"{% endif %} parent="wrh-in-out">
-        <a {% if active_menu != 1 %}href="*WRHDelivery"{% endif %}>
+        <a {% if active_menu != 1 %}href="{% url WRH_Delivery %}"{% endif %}>
             ثبت ورود کالا به انبار
             <i class="icon-chevron-left">
 
@@ -11,17 +11,17 @@
         </a>
     </li>
     <li {% if active_menu == 2 %}class="active"{% endif %} parent="wrh-in-out">
-        <a {% if active_menu != 2 %}href="*NewOrder"{% endif %}>
+        <a {% if active_menu != 2 %}href="{% url WRH_New_Orders %}"{% endif %}>
             حواله های جدید انبار
             <i class="icon-chevron-left"></i></a>
     </li>
     <li {% if active_menu == 3 %}class="active"{% endif %}parent="wrh-in-out">
-        <a {% if active_menu != 3 %}href="*CustomerReturn"{% endif %}>
+        <a {% if active_menu != 3 %}href="{% url WRH_Customer_Return %}"{% endif %}>
             ثبت کالاهای مرجوعی
             <i class="icon-chevron-left"></i></a>
     </li>
     <li {% if active_menu == 15 %}class="active"{% endif %}parent="wrh-in-out">
-        <a {% if active_menu != 15 %}href="*OrderPoint"{% endif %}>
+        <a {% if active_menu != 15 %}href="{% url WRH_Order_Point %}"{% endif %}>
 تغییر نقطه سفارش کالاها
             <i class="icon-chevron-left"></i></a>
     </li>
@@ -37,48 +37,48 @@
     </li>
 
     <li id="login-menu" {% if active_menu == 16 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 16 %}href="*Report/16"{% endif %}>
+        <a {% if active_menu != 16 %}href="{% url WRH_Report menu_id=16 %}"{% endif %}>
             انبارگردانی
             <i class="icon-chevron-left"></i></a>
     </li>
 
     <li id="login-menu" {% if active_menu == 4 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 4 %}href="*Report/4"{% endif %}>
+        <a {% if active_menu != 4 %}href="{% url WRH_Report menu_id=4 %}"{% endif %}>
             موجودی انبار
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 5 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 5 %}href="*Report/5"{% endif %}>
+        <a {% if active_menu != 5 %}href="{% url WRH_Report menu_id=5 %}"{% endif %}>
             کالاهای معیوب
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 6 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 6 %}href="*Report/6"{% endif %}>
+        <a {% if active_menu != 6 %}href="{% url WRH_Report menu_id=6 %}"{% endif %}>
             سفارشات انبار
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 7 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 7 %}href="*Report/7"{% endif %}>
+        <a {% if active_menu != 7 %}href="{% url WRH_Report menu_id=7 %}"{% endif %}>
             تحویل های انبار
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 8 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 8 %}href="*Report/8"{% endif %}>
+        <a {% if active_menu != 8 %}href="{% url WRH_Report menu_id=8 %}"{% endif %}>
             ترخیص های انبار
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 9 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 9 %}href="*Report/9"{% endif %}>
+        <a {% if active_menu != 9 %}href="{% url WRH_Report menu_id=9 %}"{% endif %}>
             رسیدهای کالا به مشتریان
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 10 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 10 %}href="*Report/10"{% endif %}>
+        <a {% if active_menu != 10 %}href="{% url WRH_Report menu_id=10 %}"{% endif %}>
             رسیدهای کالا به ویکی ها
             <i class="icon-chevron-left"></i></a>
     </li>
     <li id="login-menu" {% if active_menu == 11 %}class="active"{% endif %}parent="wrh-report">
-        <a {% if active_menu != 11 %}href="*Report/11"{% endif %}>
+        <a {% if active_menu != 11 %}href="{% url WRH_Report menu_id=11 %}"{% endif %}>
             کل حواله های انبار
             <i class="icon-chevron-left"></i></a>
     </li>
@@ -94,17 +94,17 @@
     </li>
 
     <li {% if active_menu == 12 %}class="active"{% endif %} parent="wrh-delivery">
-        <a {% if active_menu != 12 %}href="*ReadyOrder"{% endif %}>
+        <a {% if active_menu != 12 %}href="{% url WRH_Ready_Orders %}"{% endif %}>
             حواله های آماده ترخیص
             <i class="icon-chevron-left"></i></a>
     </li>
     <li {% if active_menu == 13 %}class="active"{% endif %} parent="wrh-delivery">
-        <a {% if active_menu != 13 %}href="*Cust-wiki-ReceiptDelivery"{% endif %}>
+        <a {% if active_menu != 13 %}href="{% url WRH_Cust_Wiki_Receipt_Delivery %}"{% endif %}>
             ثبت رسید تحویل کالا
             <i class="icon-chevron-left"></i></a>
     </li>
     <li {% if active_menu == 14 %}class="active"{% endif %} parent="wrh-delivery">
-        <a {% if active_menu != 14 %}href="*ReportReceiptDelivery"{% endif %}>
+        <a {% if active_menu != 14 %}href="{% url WRH_Report_Receipt_Delivery %}"{% endif %}>
             رسیدهای به ثبت رسیده
             <i class="icon-chevron-left"></i></a>
     </li>

@@ -189,42 +189,58 @@
         <center>
             {% if src == 7 %}
                 <button class="btn btn-primary btn-small" type="button"
-                        onclick="load_page('*ReportReceiptDelivery_Panel')">
+                        onclick="load_page('{% url WRH_Report_Receipt_Delivery_Panel %}')">
                     بازگشت
                 </button>
             {% elif src == 8 %}
                 <button class="btn btn-primary btn-small" type="button"
-                        onclick="load_page('{{ "*ConfirmReadyOrder/" }}{{ clrs.pk }}')">
+                        onclick="load_page('{% url WRH_Confirm_Ready_Order pid=clrs.pk %}')">
                     تایید خروج از انبار
                 </button>
-                <button class="btn btn-primary btn-small" type="button" onclick="load_page('*OrdersReadyPanel')">
+{##}
+                {% if clrs.type == 'sale'%}
+                    <a target="_blank" class="btn btn-primary btn-small" href="{% url WRH_Print_Customer_Receipt clr_id=clrs.pk %}">
+                    دربافت فرم رسید مشتری
+                    </a>
+                    <a target="_blank" class="btn btn-primary btn-small" href="*Print">
+                        دریافت فاکتور فروش
+                    </a>
+                {% elif clrs.type == 'wiki' %}
+                    <a target="_blank" class="btn btn-primary btn-small" href="{% url WRH_Print_Wiki_Receipt clr_id=clrs.pk%}">
+                        دربافت فرم رسید ویکی
+                    </a>
+                    <a target="_blank" class="btn btn-primary btn-small" href="{% url WRH_Wiki_Return clr_id=clrs.pk %}">
+                        دریافت فاکتور سفارش
+                    </a>
+                {% endif %}
+                <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_Ready_Orders_Panel %}')">
                     بازگشت
                 </button>
             {% elif src == 9 %}
                 <button class="btn btn-primary btn-small" type="button"
-                        onclick="load_page('{{ "*ConfirmOrder/" }}{{ clrs.pk }}')">
+                        onclick="load_page('{% url WRH_Confirm_New_Orders pid=clrs.pk %}')">
                     آماده تحویل
                 </button>
-                <button class="btn btn-primary btn-small" type="button" onclick="load_page('*OrdersPanel')">
+                <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_New_Orders_Panel %}')">
                     بازگشت
                 </button>
             {% elif src == 10 %}
                 <button class="btn btn-primary btn-small" type="button"
-                        onclick="load_page('{{ "*ConfirmReceipt/" }}{{ clrs.pk }}')">
+                        onclick="load_page('{% url WRH_Confirm_Receipt pid=clrs.pk %}')">
                     ثبت
                 </button>
-                <button class="btn btn-primary btn-small" type="button" onclick="load_page('*Cust-wiki-ReceiptDelivery-Panel')">
+                <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_Cust_Wiki_Receipt_Delivery_Panel %}')">
                     بازگشت
                 </button>
             {% else %}
                 {% with src|add:7 as num %}
-                    {% with num|stringformat:"s" as numm %}
-                        {% with "../*ReportReceipt_Panel/"|add:numm as tmp %}
-                            <button class="btn btn-primary btn-small" type="button" onclick="load_page('{{ tmp }}')">
+{#                    {% with num|stringformat:"s" as numm %}#}
+{#                        {% with "../*ReportReceipt_Panel/"|add:numm as tmp %}#}
+                            <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_Report_Receipt_Panel menu_id=num %}')">
                                 بازگشت
                             </button>
-                        {% endwith %}
-                    {% endwith %}
+{#                        {% endwith %}#}
+{#                    {% endwith %}#}
                 {% endwith %}
             {% endif %}
         </center>

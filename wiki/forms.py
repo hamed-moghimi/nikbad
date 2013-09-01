@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 # from build.lib.django.forms.forms import Form
-from django.db.models.fields import CharField
+from cProfile import label
+from django.db.models.fields import CharField, PositiveSmallIntegerField, PositiveIntegerField
 from django.forms.models import ModelForm
 from contrib.forms import jDateField
 from models import Wiki
@@ -15,7 +16,12 @@ class WikiForm(ModelForm):
 
     class Meta:
         model = Wiki
-        fields = ['companyName', 'description', 'image', 'phone', 'address', 'username', 'password', 'repassword','email']
+        fields = ['companyName', 'image', 'phone', 'address', 'username', 'password', 'repassword','email']
+
+        def clean_phone(self):
+            phone = self.cleaned_data.get('phone')
+            if phone.__len__ < 8 or phone.__len__ > 11:
+                raise forms.ValidationError(u'شماره تلفن داده شده معتبر نیست')
 
 
     def clean_repassword(self):
@@ -29,7 +35,7 @@ class WikiForm(ModelForm):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['goodsID','brand','name','unit','volume','sub_category','price','off']
+        fields = ['goodsID','brand','name','sub_category','price','off']
 
 
 class DeleteProductForm(Form):
@@ -56,7 +62,16 @@ class DateForm(Form):
 
 class RequestForm(Form):
     proID = IntegerField(label=u'کد کالا')
-    ret_only = BooleanField(label=u'فقط کالاهای بازگشتی را بازگردان')
+    ret_only = NullBooleanField(label=u'فقط کالاهای بازگشتی را بازگردان')
+
+class ConRequestForm(Form):
+    abonne = IntegerField(label=u'مبلغ آبونمان پیشنهادی برای هر ماه(ریال)')
+    benefit = IntegerField(label=u'درصد کارمزد پیشنهادی سراب به ازای هر کالا')
+
+class ConCancelForm(ModelForm):
+    class Meta:
+        model = ConCancel
+        fields = []
 
 
 

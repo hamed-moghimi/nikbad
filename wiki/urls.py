@@ -12,4 +12,5 @@ urlpatterns = patterns('',
      url(r'^salesreport$', 'wiki.views.salesreport', name='sales-report'),
      url(r'^wrhproducts$', 'wiki.views.wrhproducts', name='wrh-product'),
      url(r'^productEdit/(?P<gId>\d+)$', 'wiki.views.editProduct', name='product-edit'),
+     url(r'^contract$', 'wiki.views.contract', name='contract-functions'),
 )

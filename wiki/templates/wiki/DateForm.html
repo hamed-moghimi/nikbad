@@ -1,8 +1,22 @@
-{% extends "wiki/wiki.html" %}
+{% extends "wiki/base.html" %}
+
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li>تکمیل فرم تاریخ</li>
+{% endblock %}
+
 {% block content %}
 
 
     <div class="panel">
+    <h2 class="panel-header">انتخاب بازه تاریخ</h2>
         لطفا بازه زمانی مورد نظر را وارد نمایید.
 
         <form action="" class="form-horizontal" method="POST">

@@ -1,10 +1,26 @@
-{% extends "wiki/wiki.html" %}
-{% block content %}
+{% extends "wiki/base.html" %}
 
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li><a href="{% url add-product %}">
+        تعریف کالای جدید
+    </a> </li>
+{% endblock %}
+
+
+{% block content %}
 
     <div class="panel">
         <h4>
-            شما در حال حاضر قراردادی نبسته اید و اجازه ی ثبت کالا ندارید.
+            شما در حال حاضر قراردادی نبسته اید و اجازه ی ثبت کالا ندارید. برای درخواست برای ثبت
+            قرارداد روی گزینه ی امور مربوط به قرارداد کلیک کنید
         </h4>
         <center><img src="../../static/images/error.png" width="128" height="128" alt=""></center>
     </div>

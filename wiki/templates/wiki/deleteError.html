@@ -1,10 +1,31 @@
 {% extends "wiki/wiki.html" %}
+
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li><a href="{% url delete-product %}">
+        حذف کالا
+    </a> </li>
+{% endblock %}
+
+
 {% block content %}
 
 
     <div class="panel">
         <h4>
-کالای موردنظر موجود نیست یا اجازه ی حذف آن را ندارید.
+        {% if str == "in wrh" %}
+            کالای موردنظر در انبار دارای موجودی می باشد و شما اجازه ی حذف آن را ندارید.
+         {% endif %}
+        {% if str == "no product" %}
+        کالای انتخاب شده موجود نیست.
+        {% endif %}
         </h4>
         <center><img src="../../static/images/error.png" width="128" height="128" alt=""></center>
     </div>
