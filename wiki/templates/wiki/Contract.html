@@ -1,0 +1,52 @@
+{% extends "wiki/base.html" %}
+{% block content %}
+
+
+    <div class="panel">
+        <h2 class="panel-header">
+            {% if str == "has" %}
+
+                عملیات فسخ قرارداد
+            {% endif %}
+            {% if str == "not" %}
+                درخواست ایجاد قرارداد برای ویکی
+            {% endif %}
+        </h2>
+    <h4 class="panel-header">
+        {% if str == "hasCR" %}
+            شما قبلا برای ثبت قرارداد درخواست داده اید.
+        {% endif %}
+    </h4>
+        <h4 class="panel-header">
+            {% if str == "hasCC" %}
+شما قبلا برای لغو قرارداد درخواست داده اید.
+            {% endif %}
+        </h4>
+        <p>
+            {% if str == "has" %}
+        با کلیک بردکمه ی زیر یک درخواست لغو قرارداد از سوی شما ایجاد می گردد. سپس تمام کالاهایی که در
+            انبار دارید به شما بازگردانده می شود. کلیه کارهای تسویه حساب و ... به صورت حضوری در سراب انجام خواهد شد و
+        در اولین فرصت به اطلاعتان خواهد رسید.
+            {% endif %}
+            {% if str == "not" %}
+                لطفا مبلغی را که برای آبونمان ماهانه پیشنهاد دارید در فیلد زیر بنویسید.
+                در فیلد کارمزد سراب نیز درصد پیشنهادی کارمزد سراب را به ازای هر کالا وارد نمایید.
+                پس از تکمیل فرم زیر درخواست شما مورد بررسی قرارگرفته و در اولین فرصت به منظور تکمیل قرارداد با شما تماس
+                گرفته می شود.
+            {% endif %}
+        </p>
+    {% if str != "hasCC" and str != "hasCR" %}
+        <form action="" class="form-horizontal" method="post">
+
+            {% include '_hform.html' %}
+            {#    <input type="submit" class="btn btn-primary" value="درج کالا"/>#}
+        </form>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block menus %}
+    {% include "wiki/_menus.html" with active_menu=1%}
+{% endblock %}
+
+
