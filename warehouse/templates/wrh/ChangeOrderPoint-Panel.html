@@ -22,7 +22,7 @@
     <br/>
     <br/>
 
-    <form id="order_point" action="*OrderPoint-next" method="post">
+    <form id="order_point" action="{% url WRH_Order_Point_Next %}" method="post">
         {% csrf_token %}
         <table class="WRH-table3 table-hover">
             <tbody>

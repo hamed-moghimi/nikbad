@@ -7,25 +7,25 @@
         $(document).ready(
                 function () {
 
-                    $(".WRH-panel2").load("*CustomerReturn-Panel");
+                    $(".WRH-panel2").load('{% url WRH_Customer_Return_Panel %}');
                     return false;
                 });
         function rreturn() {
             $(".WRH-panel2").fadeOut("slow");
             setTimeout(function() {
-                $(".WRH-panel2").load('*CustomerReturn-Panel');
+                $(".WRH-panel2").load('{% url WRH_Customer_Return_Panel %}');
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
 
         function confirm_product_return2(pid, kid) {
             $(".WRH-panel2").fadeOut("slow");
-            var str = "*CustomerReturn-next/";
+            var str = "CustomerReturn-next/";
             var st2 = str.concat(pid);
             var st3 = st2.concat("/")
             var st4 = st3.concat(kid);
             setTimeout(function() {
-                $(".WRH-panel2").load(st4.toString());
+                $(".WRH-panel2").load(st4);
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
@@ -36,7 +36,7 @@
             var b = tp.checked;
             var a = qnt.value;
             $(".WRH-panel2").fadeOut("slow");
-            var str = "*ConfirmReturn/";
+            var str = "ConfirmReturn/";
             var st2 = str.concat(pid);
             var st3 = st2.concat("/")
             var st4 = st3.concat(kid);

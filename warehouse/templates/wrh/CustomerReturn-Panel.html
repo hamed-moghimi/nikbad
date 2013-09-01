@@ -22,7 +22,7 @@
     <br/>
     <br/>
 
-    <form id="customer_return" action="*CustomerReturn-next" method="post">
+    <form id="customer_return" action="{% url WRH_Customer_Return_Next %}" method="post">
         {% csrf_token %}
         <table class="WRH-table3 table-hover">
             <tbody>

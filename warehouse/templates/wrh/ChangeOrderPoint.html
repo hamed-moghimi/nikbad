@@ -7,20 +7,20 @@
         $(document).ready(
                 function () {
 
-                    $(".WRH-panel2").load("*OrderPoint-Panel");
+                    $(".WRH-panel2").load("{% url WRH_Order_Point_Panel %}");
                     return false;
                 });
         function rreturn() {
             $(".WRH-panel2").fadeOut("slow");
             setTimeout(function() {
-                $(".WRH-panel2").load('*OrderPoint-Panel');
+                $(".WRH-panel2").load('{% url WRH_Order_Point_Panel %}');
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }
 
         function confirm_product_return2( kid) {
             $(".WRH-panel2").fadeOut("slow");
-            var str = "*OrderPoint-next/";
+            var str = "OrderPoint-next/";
             var st4 = str.concat(kid);
             setTimeout(function() {
                 $(".WRH-panel2").load(st4.toString());
@@ -32,7 +32,7 @@
             var qnt = document.getElementById('qnt');
             var a = qnt.value;
             $(".WRH-panel2").fadeOut("slow");
-            var str = "*ConfirmOrderPoint/";
+            var str = "ConfirmOrderPoint/";
             var st4 = str.concat(kid);
             var st5 = st4.concat("/");
             var st6 = st5.concat(a);

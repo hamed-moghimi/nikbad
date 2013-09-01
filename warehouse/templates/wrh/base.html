@@ -49,3 +49,11 @@
     </div>
 {% endblock %}
 
+{% block crumbs %}
+{#    {% if category %}#}
+        {{ block.super }}
+        <li class="active">
+            انبار
+        </li>
+{#    {% endif %}#}
+{% endblock %}
