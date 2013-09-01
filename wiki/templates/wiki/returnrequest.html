@@ -1,9 +1,24 @@
-{% extends "wiki/wiki.html" %}
+{% extends "wiki/base.html" %}
+
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li><a href="{% url return-req %}">
+        بازگشت کالا از انبار
+    </a> </li>
+{% endblock %}
+
 {% block content %}
 
 
     <div class="panel">
-        <h2 class="panel-header">فرم بازگشت کالا</h2>
+        <h2 class="panel-header">فرم بازگشت کالا از انبار</h2>
         <form action="" class="form-horizontal" method="post">
 
 

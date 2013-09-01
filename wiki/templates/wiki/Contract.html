@@ -1,4 +1,20 @@
 {% extends "wiki/base.html" %}
+
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li><a href="{% url contract-functions %}">
+        قرارداد
+    </a> </li>
+{% endblock %}
+
+
 {% block content %}
 
 
