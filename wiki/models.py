@@ -86,9 +86,17 @@ class ReturnRequest(models.Model):
 class ConRequest(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name = u'نام ویکی')
     pub_date = models.DateField("تاریخ ثبت درخواست ایجاد قرارداد")
-    benefit = models.PositiveSmallIntegerField("کارمزد پیشنهادی سراب")
+    benefit = models.PositiveSmallIntegerField("کارمزد پیشنهادی برای سراب")
     abonne = models.PositiveIntegerField("آبونمان پیشنهادی برای هر ماه")
+
+    class Meta:
+        verbose_name = u'درخواست ثبت قرارداد با ویکی'
+        verbose_name_plural = u'درخواست های ثبت قرارداد با ویکی'
 
 class ConCancel(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name = u'نام ویکی')
-    pub_date = models.DateField("تاریخ ثب ت درخواست لغو قرارداد")
+    pub_date = models.DateField("تاریخ ثبت درخواست لغو قرارداد")
+
+    class Meta:
+        verbose_name = u'درخواست لغو قرارداد با ویکی'
+        verbose_name_plural = u'درخواست های لغو قرارداد با ویکی'
