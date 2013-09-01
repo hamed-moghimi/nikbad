@@ -32,6 +32,17 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+class ConRequest(models.Model):
+    wiki = models.ForeignKey(Wiki,verbose_name=u"نام ویکی")
+    pub_date=models.DateField(verbose_name=u"تاریخ ثبت درخواست ایجاد قرارداد")
+    abone=models.IntegerField(verbose_name=u"آبونمان پیشنهادی سالانه")
+    benefit=models.IntegerField(verbose_name=u"درصد بهره پیشنهادی سراب")
+
+class ConCancel(models.Model):
+    wiki = models.ForeignKey(Wiki,verbose_name=u"نام ویکی")
+    pub_date=models.DateField(verbose_name=u"تاریخ ثبت درخواست لغو قرارداد")
+
+
 
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')

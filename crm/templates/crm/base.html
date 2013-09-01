@@ -15,15 +15,24 @@
             </form>
             <div class="control-group">
                 <div class="controls">
-                    <a class="btn btn-primary"  href="{% url crm-edit %}">{{ submit_text|default:"و?را?ش" }}</a></button>
+                    <a class="btn btn-primary"  href="{% url crm-edit %}">{{ submit_text|default:"ویرایش " }}</a></button>
                 </div>
             </div>
 
 {#            {% if Product %}#}
             {% if Product %}
                 <h2  class="panel-header">
-                        وضع?ت کالا? خر?دار? شده
+                وضعیت کالای خریداری شده
                         </h2>
+                  <div class="panel">
+            <h2 class="panel-header"> انتخاب تاریخ </h2>
+
+            <form class="form-horizontal" action="" method="post">
+                {% include "_hForm.html" with form=form submit_text="نمایش" %}
+            </form>
+
+        </div>
+
     <div class="WRH-panel2">
         {% block WRH-panel2 %}
             <form>

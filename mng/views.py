@@ -1,9 +1,11 @@
+# -*- encoding:utf-8 -*-
 #from Demos.win32ts_logoff_disconnected import *
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse
+from contrib.email import render_and_email
 from crm.forms import CustomerForm,EditForm
 from wiki.models import *
 from fnc.functions import *
@@ -20,6 +22,19 @@ def sales(request):
     context = {'salebill': sb}
     return render(request, 'mng/mng-sales.html', context)
 
+@permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
+def conReq(request):
+    data=ConRequest.objects.all().order_by('-pub_date')
+    context = {'data': data}
+    return render(request, 'mng/mng-con-req.html', context)
+
+# @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
+# def conReq(request):
+#     data=ConRequest.objects.all().order_by('-pub_date')
+#     context = {'data': data}
+#     return render(request, 'mng/mng-con-req.html', context)
+
+@permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def saleDetail(request ,wId):
     sb = SaleBill.objects.get(id=wId)
     p = sb.products.all()
@@ -27,20 +42,35 @@ def saleDetail(request ,wId):
     return render(request,'mng/sale-detail.html' , context)
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
-def contract_success(request):
-    return render(request, 'mng/contract_success.html',{})
+def contract_success(request , wId):
+    a=[]
+    a= ConRequest.objects.filter(wiki__id=wId)
+    print a.count
+    if( a.count()!=0):
+        print "maaaaaaaaaaaaaaan"
+        ConRequest.objects.get(wiki__id=wId).delete()
+        return render(request, 'mng/contract_success.html',{})
+    else:
+        print "elseeeeeeeeee"
+        return render(request, 'mng/contract_success.html',{})
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
-def newContract(request):
+def newContract(request ,wId):
+    w = Wiki.objects.get(pk=wId)
+    print w.id
     if request.method == 'POST':
         form = ContractForm(request.POST)
         if form.is_valid():
+            form.instance.wiki = w
+            form.instance.companyName =w.companyName
+            form.instance.fee=ConRequest.objects.get(wiki=w).abone
+            form.instance.percent= ConRequest.objects.get(wiki=w).benefit
             form.save()
-            make_cb_contract(form.instance)
-            return contract_success(request)
+            # make_cb_contract(form.instance)
+            return contract_success(request ,wId)
+    else:
+        form = ContractForm(initial={'wiki': w,'companyName':w.companyName ,'fee':ConRequest.objects.get(wiki=Wiki.objects.get(pk=wId)).abone ,'percent':ConRequest.objects.get(wiki=w).benefit})
 
-    # else:
-    form = ContractForm()
     return render(request, 'mng/contract.html', {'form': form})
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
@@ -82,6 +112,8 @@ def newUser(request) :
             f.instance.first_name = f.instance.first_name+" "+f.instance.last_name
             f.instance.last_name = f.cleaned_data['ssn']
             print f.instance.last_name
+            context={'first_name':f.cleaned_data['first_name'] , 'last_name':f.cleaned_data['last_name']}
+            render_and_email([f.cleaned_data['email']], u'ثبت کاربر جدید', u"عضو شدید", 'crm/signUp_email.html',context)
             f.save()
 
             if (f.cleaned_data['is_delivery']) :
@@ -108,22 +140,24 @@ def returned (request) :
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def contractDetail(request ,wId):
     c = Contract.objects.get(wiki__id=wId)
+    name=Wiki.objects.get(id=wId)
     print c.id
     print wId
-    f = ContractForm( instance=c )
+    f = ContractEdit( instance=c )
 
-    context = {'ContractForm' :f ,'c':c , 'wiki' : wId}
+    context = {'ContractEdit' :f ,'c':c , 'wiki' : wId ,'name':name}
     return render(request, 'mng/contract-detail.html', context)
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def contractEdit(request ,wId):
     c = Contract.objects.get(wiki__id=wId)
+    name=Wiki.objects.get(id=wId)
     if(request.POST):
-        f = ContractForm(  request.POST  , instance=c)
+        f = ContractEdit(  request.POST  , instance=c)
         if (f.is_valid()):
             f.save()
-            return contract_success(request)
-    f = ContractForm( instance=c )
-    context = {'ContractForm' :f ,'c':c , 'wiki' : wId}
+            return contract_success(request,wId)
+    f = ContractEdit( instance=c )
+    context = {'ContractEdit' :f ,'c':c , 'wiki' : wId , 'name':name}
     return render(request, 'mng/contract-edit.html', context)
 

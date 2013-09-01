@@ -6,12 +6,12 @@
 
 {% block content %}
     <div class="panel">
-        <h2 class="panel-header"> قرارداد</h2>
+        <h2 class="panel-header">تغییر قرارداد {{ name }}</h2>
 
         <div class="row-fluid">
 
             <form class="form-horizontal" method="post">
-                {% include "_hForm.html" with form=ContractForm read_only=1%}
+                {% include "_hForm.html" with form=ContractEdit read_only=1%}
             </form>
             <div class="control-group">
                 <div class="controls">
