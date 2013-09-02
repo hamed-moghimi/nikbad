@@ -17,6 +17,10 @@ class Wiki(User):
     image = models.ImageField("تصویر نشان تجاری", blank = True, upload_to = 'images/wikis')
     reminder = models.IntegerField(verbose_name = "باقی مانده حقوق", default = 0)
 
+    class Meta:
+        verbose_name = u'ویکی'
+        verbose_name_plural = u'ویکی ها'
+
     def __unicode__(self):
         return self.companyName
 
@@ -52,9 +56,12 @@ class Product(models.Model):
     brand = models.CharField("نام تجاری", max_length = 255)
     name = models.CharField("نام کالا", max_length = 255)
     sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته")
-    price = models.IntegerField("قیمت")
-    off = models.PositiveSmallIntegerField("تخفیف", blank = True, null = True)
+    unit = models.CharField("واحد شمارش", default="عدد")
+    price = models.IntegerField("قیمت", help_text="قیمت را به ریال وارد نمایید")
+    off = models.PositiveSmallIntegerField("تخفیف", blank = True, null = True, help_text= "تخفیف یک عدد مثبت دو رقمی است")
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
+    orderPoint = models.PositiveIntegerField(default=0, verbose_name=u'نقطه سفارش')
+
 
 
     def __unicode__(self):
@@ -87,7 +94,8 @@ class ConRequest(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name = u'نام ویکی')
     pub_date = models.DateField("تاریخ ثبت درخواست ایجاد قرارداد")
     benefit = models.PositiveSmallIntegerField("کارمزد پیشنهادی برای سراب")
-    abonne = models.PositiveIntegerField("آبونمان پیشنهادی برای هر ماه")
+    abonne = models.PositiveIntegerField("آبونمان پیشنهادی برای هر ماه",
+                                         help_text="آبونمان پیشنهادی تان را به ریال وارد نمایید.")
 
     class Meta:
         verbose_name = u'درخواست ثبت قرارداد با ویکی'

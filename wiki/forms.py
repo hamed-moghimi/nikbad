@@ -35,7 +35,7 @@ class WikiForm(ModelForm):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['goodsID','brand','name','sub_category','price','off']
+        fields = ['goodsID','brand','name','sub_category','unit','price','off']
 
 
 class DeleteProductForm(Form):
@@ -73,7 +73,8 @@ class ConCancelForm(ModelForm):
         model = ConCancel
         fields = []
 
-
+class AdminCancelForm(Form):
+    wiki = ModelChoiceField(queryset=Wiki.objects.all(), empty_label=None, label="ویکی را که می خواهید قرارداد آن را فسخ کنید انتخاب کنید")
 
 
 
