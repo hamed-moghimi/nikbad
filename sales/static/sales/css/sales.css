@@ -74,6 +74,10 @@
     /*background: url("../images/Offer.png") no-repeat;*/
 }
 
+.offer-big > img {
+    width: 50px;
+}
+
 .option.pull-right {
     right: 3px;
 }

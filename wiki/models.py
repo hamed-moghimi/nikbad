@@ -53,7 +53,7 @@ class Product(models.Model):
     name = models.CharField("نام کالا", max_length = 255)
     sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته")
     price = models.IntegerField("قیمت")
-    off = models.PositiveSmallIntegerField("تخفیف", blank = True, null = True)
+    off = models.PositiveSmallIntegerField("تخفیف", default = 0, blank = True, null = True)
     volume = models.PositiveIntegerField("حجم", default = 0)
     unit = models.CharField(default = u'عدد', verbose_name = u'واحد شمارش', max_length = 100)
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
@@ -62,11 +62,11 @@ class Product(models.Model):
     def __unicode__(self):
         return self.name
 
-    def finalPrice(self):
-        return self.price * (100 - self.off) // 100
-
     def isInSale(self):
-        return self.off != 0
+        return self.off > 0
+
+    def raw_price(self):
+        return self.price / (1 - self.off / 100.0)
 
 
 class Contract(models.Model):
