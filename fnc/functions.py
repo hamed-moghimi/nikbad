@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.utils import timezone
-from fnc.models import Employee, RollCall, SalaryFactor, GeneralAccount, CostBenefit, WikiFactor
+from fnc.models import *
 from datetime import timedelta, datetime
 from sales.models import SaleBill_Product
 from wiki.models import *
@@ -11,15 +11,17 @@ def payment_wiki():
     budget = GeneralAccount.getBudget()
 
     for w in wikis:
-        payment = 0
-        sb_ps = SaleBill_Product.objects.filter(bill__saleDate__gt = budget.last_pay_wiki).filter(product__wiki = w)
+        total = 0
+        sb_ps = SaleBill_Product.objects.filter(bill__saleDate__gt=budget.last_pay_wiki).filter(product__wiki=w)
         for x in sb_ps:
-            payment += x.product.price * x.number
-        payment = payment * (100 - w.contract.percent) / 100
+            total += x.product.price * x.number
+        payment = total * (100 - w.contract.percent) / 100
+        benefit=total-payment
+        make_benefit(benefit, w)
         w.payment, w.reminder = divmod(payment + w.reminder, 100)
         w.payment *= 100
         w.save()
-        wf = WikiFactor.objects.create(amount = w.payment, wiki = w)
+        wf = WikiFactor.objects.create(amount=w.payment, wiki=w)
         wf.save()
         make_cb_wf(wf)
         budget.withdraw(payment)
@@ -46,9 +48,11 @@ def payment_emp():
         print "reminder ", ep.reminderSalary
         ep.save()
         totalPay += ep.payAmount
-        sf = SalaryFactor.objects.create(amount = ep.payAmount, employee = ep)
-        make_cb_sf(sf)
+        sf = SalaryFactor.objects.create(amount=ep.payAmount, employee=ep)
+        #make_cb_sf(sf)
+        sf.save()
 
+    make_cb_emp(totalPay)
     budget = GeneralAccount.getBudget()
     budget.withdraw(totalPay)
     budget.last_pay_emp = timezone.now()
@@ -56,40 +60,135 @@ def payment_emp():
 
 
 def make_cb_sb(sb):
+    daramad=Account.objects.get(name=u"درآمد")
+    darayi=Account.objects.get(name=u"دارایی")
     cb = CostBenefit()
-    cb.bedeh = 0
-    cb.bestan = sb.totalPrice
+
+    cb.account_bedeh=darayi
+    cb.amount = sb.totalPrice
+    darayi.deposit(sb.totalPrice)
+    darayi.save()
+
+    cb.account_bestan=daramad
+    cb.amount = sb.totalPrice
+    daramad.withdraw(sb.totalPrice)
+    daramad.save()
+
     cb.description = u'{0} {1}'.format(u'خرید توسط ', sb.customer.get_full_name())
-    cb.save()
     cb.date = sb.saleDate
     cb.save()
-    GeneralAccount.getBudget().deposit(cb.bestan)
+   # GeneralAccount.getBudget().deposit(cb.bestan)
     print "sale bill done"
 
 
 def make_cb_contract(ct):
+    daramad=Account.objects.get(name=u"درآمد")
+    darayi=Account.objects.get(name=u"دارایی")
     cb = CostBenefit()
-    cb.bedeh = 0
-    cb.bestan = ct.fee
+
+    cb.account_bedeh = darayi
+    cb.amount = ct.fee
+    darayi.deposit(ct.fee)
+    darayi.save()
+
+    cb.account_bestan = daramad
+    cb.amount= ct.fee
+    daramad.withdraw(ct.fee)
+    daramad.save()
+
     cb.description = u'{0} {1}'.format(u'  آبونمان ویکی ', ct.wiki.companyName)
     cb.save()
-    GeneralAccount.getBudget().deposit(cb.bestan)
+   # GeneralAccount.getBudget().deposit(cb.bestan)
     print "got wiki abonman"
 
 
-def make_cb_sf(sf):
-    cb = CostBenefit()
-    cb.bedeh = sf.amount
-    cb.bestan = 0
-    cb.description = u'{0} {1}'.format(u'  پرداخت حقوق ', sf.employee)
-    cb.save()
-    print "employee payment done"
+#def make_cb_sf(sf):
+# cb = CostBenefit()
+# cb.bedeh = sf.amount
+# cb.bestan = 0
+# cb.description = u'{0} {1}'.format(u'  پرداخت حقوق ', sf.employee)
+# cb.save()
+#print "employee payment done"
 
 
 def make_cb_wf(wf):
+    hazine=Account.objects.get(name=u"هزینه")
+    darayi= Account.objects.get(name=u"دارایی")
     cb = CostBenefit()
-    cb.bedeh = wf.amount
-    cb.bestan = 0
+
+    cb.account_bedeh = hazine
+    cb.amount = wf.amount
+    hazine.deposit(wf.amount)
+    hazine.save()
+
+    cb.account_bestan= darayi
+    cb.bestan = wf.amount
+    darayi.withdraw(wf.amount)
+    darayi.save()
+
     cb.description = u'{0} {1}'.format(u' پرداخت سهم ویکی ', wf.wiki)
     cb.save()
     print "wiki payment done"
+
+
+def make_cb_emp(totalPay):
+    hazine=Account.objects.get(name=u"هزینه")
+    darayi= Account.objects.get(name=u"دارایی")
+    cb = CostBenefit()
+
+    cb.account_bedeh= hazine
+    cb.amount = totalPay
+    hazine.deposit(totalPay)
+    hazine.save()
+
+    cb.account_bestan = darayi
+    cb.amount = totalPay
+    darayi.withdraw(totalPay)
+    darayi.save()
+
+    cb.description = u"پرداخت حقوق کارمندان"
+    cb.save()
+
+
+def tarazname():
+    taraz = Taraz()
+    taraz.save()
+    accounts= Account.objects.all()
+    for acc in accounts:
+        row = Row()
+        cb_bedeh = CostBenefit.objects.filter(account_bedeh=acc)
+        for cb in cb_bedeh:
+            row.gardesh_bedeh += cb.amount
+        cb_bestan = CostBenefit.objects.filter(account_bestan=acc)
+        for cb in cb_bestan:
+            row.gardesh_bestan += cb.amount
+        mande = row.gardesh_bedeh - row.gardesh_bestan
+
+        if (mande > 0):
+            row.mande_bedeh = mande
+            row.mande_bestan = 0
+        else:
+            row.mande_bedeh = 0
+            row.mande_bestan = -mande
+
+        row.account=acc
+        row.taraz=taraz
+        row.save()
+
+def make_benefit(benefit, wiki):
+    daramad=Account.objects.get(name=u"درآمد")
+    darayi=Account.objects.get(name=u"دارایی")
+    cb = CostBenefit()
+
+    cb.account_bedeh = darayi
+    cb.amount = benefit
+    darayi.deposit(benefit)
+    darayi.save()
+
+    cb.account_bestan = daramad
+    cb.amount=benefit
+    daramad.withdraw(benefit)
+    daramad.save()
+
+    cb.description = u'{0} {1}'.format(u'سهم سراب از فروش محصولات', wiki.companyName)
+    cb.save()

@@ -5,11 +5,19 @@
 <li {% if active_menu == 6 %}class="active"{% endif %}>
     <a {% if active_menu != 6 %}href="{% url mng-newemp %}"{% endif %}>استخدام کارمند جدید نیک باد<i class="icon-chevron-left"></i></a>
 </li>
-<li {% if active_menu == 7 %}class="active"{% endif %}>
-    <a {% if active_menu != 7 %}href="{% url mng-cont %}"{% endif %}>  ثبت قرارداد ویکی ها<i class="icon-chevron-left"></i></a>
-</li>
+{#<li {% if active_menu == 7 %}class="active"{% endif %}>#}
+{#    <a {% if active_menu != 7 %}href="{% url mng-cont %}"{% endif %}>  ثبت قرارداد ویکی ها<i class="icon-chevron-left"></i></a>#}
+{#</li>#}
 <li {% if active_menu == 9 %}class="active"{% endif %}>
     <a {% if active_menu != 9 %}href="{% url mng-newuser %}"{% endif %}>ایجاد کاربر جدید در نیک باد<i class="icon-chevron-left"></i></a>
+</li>
+
+<li {% if active_menu == 10 %}class="active"{% endif %}>
+    <a {% if active_menu != 10 %}href="{% url mng-newuser %}"{% endif %}>درخواست لغو قرارداد ویکی ها<i class="icon-chevron-left"></i></a>
+</li>
+
+<li {% if active_menu == 11 %}class="active"{% endif %}>
+    <a {% if active_menu != 11 %}href="{% url contract-request %}"{% endif %}>درخواست ایجاد قرارداد ویکی<i class="icon-chevron-left"></i></a>
 </li>
 
 <li class="header">

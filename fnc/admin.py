@@ -6,4 +6,7 @@ admin.site.register(Employee)
 admin.site.register(RollCall)
 admin.site.register(SalaryFactor)
 admin.site.register(GeneralAccount)
-
+admin.site.register(Taraz)
+admin.site.register(WikiFactor)
+admin.site.register(Account)
+admin.site.register(Row)

@@ -5,9 +5,12 @@
 {% endblock %}
 
 {% block menus %}
+    {% include "fnc/_menus.html" %}
+    {% comment %}
     {% if perms.fnc.is_manager  %}
          {% include "mng/_menus.html" %}
     {% else %}
         {% include "fnc/_menus.html" %}
     {% endif %}
+    {% endcomment %}
 {% endblock %}
