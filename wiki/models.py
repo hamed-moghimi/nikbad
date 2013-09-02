@@ -67,7 +67,7 @@ class Product(models.Model):
     brand = models.CharField("نام تجاری", max_length = 255)
     name = models.CharField("نام کالا", max_length = 255)
     sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته")
-    unit = models.CharField("واحد شمارش", default="عدد")
+    unit = models.CharField("واحد شمارش", default="عدد", max_length=30)
     price = models.IntegerField("قیمت", help_text="قیمت را به ریال وارد نمایید")
     off = models.PositiveSmallIntegerField("تخفیف", blank = True, null = True, help_text= "تخفیف یک عدد مثبت دو رقمی است")
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')

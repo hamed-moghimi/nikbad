@@ -145,9 +145,6 @@ def deleteproduct(request):
                     else:
                         str = "in wrh"
                         return delete_error(request, str)
-                else:
-                    str = "in wrh"
-                    return delete_error(request, str)
             if p.wiki.username == name:
                 p.delete()
                 return success(request)
