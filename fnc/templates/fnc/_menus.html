@@ -1,18 +1,31 @@
 <li class="header">
-    <a> فهرست محصولات </a>
+    <a> فهرست خدمات </a>
 </li>
-
 <li {% if active_menu == 1 %}class="active"{% endif %}>
-    <a {% if active_menu != 1 %}href="{% url fnc-gozaresh-mali %}"{% endif %}>گزارش مالی<i
+    <a {% if active_menu != 1 %}href="{% url fnc-add-sanad %}"{% endif %}>افزودن سند مالی<i
             class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 2 %}class="active"{% endif %}>
-    <a {% if active_menu != 2 %}href="{% url fnc-karmandan %}"{% endif %}>اطلاعات کارمندان<i
+    <a {% if active_menu != 2 %}href="{% url fnc-gozaresh-mali %}"{% endif %}>دفتر روزنامه<i
+            class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 8 %}class="active"{% endif %}>
+    <a {% if active_menu != 8 %}href="{% url fnc-daftar-kol %}"{% endif %}>دفتر کل<i
+            class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 5 %}class="active"{% endif %}>
+    <a {% if active_menu != 5 %}href="{% url fnc-karmandan %}"{% endif %}>اطلاعات کارمندان<i
+            class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 7 %}class="active"{% endif %}>
+    <a {% if active_menu != 7 %}href="{% url fnc-taraz-azmayeshi %}"{% endif %}>لیست ترازهای آزمایشی<i
+            class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 9 %}class="active"{% endif %}>
+    <a {% if active_menu != 9 %}href="{% url fnc-add-hesab %}"{% endif %}>ایجاد حساب مالی جدید<i
             class="icon-chevron-left"></i></a>
 </li>
  {% if perms.fnc.is_fnc  %}
-<li {% if active_menu == 3 %}class="active"{% endif %}>
-    <a {% if active_menu != 3 %}href="{% url fnc-add-sanad %}"{% endif %}>افزودن سند مالی<i
-            class="icon-chevron-left"></i></a>
-</li>
+
 {% endif %}
+
