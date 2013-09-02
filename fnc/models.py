@@ -18,7 +18,7 @@ class RollCall(models.Model):
 class CostBenefit(models.Model):
     date = models.DateField(auto_now_add=True, verbose_name=u"تاریخ")
     description = models.TextField(verbose_name=u"شرح سند")
-    amount = models.IntegerField(verbose_name=u"مقدار", null=True, blank=True)
+    amount = models.IntegerField(verbose_name=u"مقدار(ریال)")
     account_bedeh = models.ForeignKey("Account", related_name= 'rows_bedeh', verbose_name=u"حساب بدهکار")
     account_bestan = models.ForeignKey("Account", related_name= 'rows_bestan', verbose_name=u"حساب بستانکار")
 

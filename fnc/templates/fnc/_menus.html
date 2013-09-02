@@ -25,6 +25,10 @@
     <a {% if active_menu != 9 %}href="{% url fnc-add-hesab %}"{% endif %}>ایجاد حساب مالی جدید<i
             class="icon-chevron-left"></i></a>
 </li>
+<li {% if active_menu == 10 %}class="active"{% endif %}>
+    <a {% if active_menu != 10 %}href="{% url fnc-resid-emp %}"{% endif %}>رسید حقوق کارمندان<i
+            class="icon-chevron-left"></i></a>
+</li>
  {% if perms.fnc.is_fnc  %}
 
 {% endif %}

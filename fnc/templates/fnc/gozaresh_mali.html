@@ -91,10 +91,8 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% if perms.fnc.is_manager %}
-        {% include "mng/_menus.html" with active_menu=1 %}
-    {% endif %}
+
     {% if perms.fnc.is_fnc%}
-        {% include "fnc/_menus.html" with active_menu=1 %}
+        {% include "fnc/_menus.html" with active_menu=2 %}
     {% endif %}
 {% endblock %}

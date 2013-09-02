@@ -114,7 +114,10 @@ def add_sanad(request):
         form = AddForm(request.POST)
         if (form.is_valid()):
             form.save()
-            context={"sanadId":form.instance.pk}
+            amount = form.instance.amount
+            form.instance.account_bedeh.deposit(amount)
+            form.instance.account_bestan.withdraw(amount)
+            context = {"sanadId": form.instance.pk}
             return render(request, 'fnc/add_sanad_2.html', context)
             #return HttpResponseRedirect(reverse('fnc-gozaresh-mali'))
     else:
@@ -137,52 +140,93 @@ def karmand_detail_2(request, epId):
         if (f.is_valid()):
             f.save()
             return HttpResponseRedirect(reverse('fnc-karmandan'))
-        # else :
+            # else :
     return render(request, 'fnc/karmand_edit.html', {'EditForm': f})
 
 
 def daftar_kol(request):
-    context={}
-    ac_ob=Account.objects.all()
-    print "salam" , ac_ob.count()
-    context.update({'accounts':ac_ob})
+    context = {}
+    ac_ob = Account.objects.all()
+    print "salam", ac_ob.count()
+    context.update({'accounts': ac_ob})
     return render(request, 'fnc/daftar_kol.html', context)
 
 
 def daftar_kol_2(request, daftarId):
     context = {}
     account = Account.objects.get(id=daftarId)
-    q1 = Q(account_bedeh = account)
-    q2 = Q(account_bestan = account)
+    q1 = Q(account_bedeh=account)
+    q2 = Q(account_bestan=account)
     rows = CostBenefit.objects.filter(q1 | q2).order_by("-date")
-    context.update({"account":account})
+    context.update({"account": account})
     context.update({'name': account.name})
     context.update({'costBenefits': rows})
+
+    sum_bedeh = 0
+    sum_bestan = 0
+
+    cb_bedeh = CostBenefit.objects.filter(account_bedeh=account)
+    for cb in cb_bedeh:
+        sum_bedeh += cb.amount
+    context.update({"sum_bedeh": sum_bedeh})
+
+    cb_bestan = CostBenefit.objects.filter(account_bestan=account)
+    for cb in cb_bestan:
+        sum_bestan += cb.amount
+    context.update({"sum_bestan": sum_bestan})
+
     return render(request, 'fnc/daftar_kol_2.html', context)
 
 
 def taraz_azmayeshi(request):
-    context={}
-    tarazes=Taraz.objects.all()
+    context = {}
+    tarazes = Taraz.objects.all()
     context.update({"tarazes": tarazes})
     return render(request, 'fnc/taraz_azmayeshi.html', context)
 
+
 def taraz_azmayeshi_2(request, tarazId):
-    context={}
-    tz_ob=Taraz.objects.get(id=tarazId)
-    context.update({"tarazes" : tz_ob})
+    context = {}
+    tz_ob = Taraz.objects.get(id=tarazId)
+    sum_g_bedeh=0
+    sum_g_bestan=0
+    sum_m_bedeh=0
+    sum_m_bestan=0
+
+    context.update({"tarazes": tz_ob})
+
+
+    for x in tz_ob.rows_taraz.all():
+        sum_g_bedeh+=x.gardesh_bedeh
+        sum_g_bestan+=x.gardesh_bestan
+        sum_m_bedeh+=x.mande_bedeh
+        sum_m_bestan+=x.mande_bestan
+    context.update({'s1': sum_g_bedeh, 's2': sum_g_bestan, 's3': sum_m_bedeh, 's4': sum_m_bestan})
     return render(request, 'fnc/taraz_azmayeshi_2.html', context)
+
 
 def add_hesab(request):
     if (request.POST):
         form = AddHesab(request.POST)
         if (form.is_valid()):
             form.save()
-            return render(request, 'fnc/add_sanad_2.html')
-                #return HttpResponseRedirect(reverse('fnc-gozaresh-mali'))
+            print "nameeeee", form.instance.name
+            print "salam", form.instance.amount
+            context=({'name': form.instance.name}, {'amount': form.instance.amount})
+            print context, "hhhhhhhhh"
+            return render(request, 'fnc/add_hesab_2.html', context)
+            #return HttpResponseRedirect(reverse('fnc-gozaresh-mali'))
     else:
         form = AddHesab()
         print "form", form
     context = {}
     context.update({'hazine_form': form})
+
+
     return render(request, 'fnc/add_hesab.html', context)
+
+def resid_emp(request):
+    context={}
+    sf_ob= SalaryFactor.objects.all()
+    context.update({"salaryFac": sf_ob})
+    return render(request, 'fnc/resid_emp.html', context)

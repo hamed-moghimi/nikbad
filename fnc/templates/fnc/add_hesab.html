@@ -11,9 +11,7 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% if perms.fnc.is_manager %}
-        {% include "mng/_menus.html" with active_menu=6 %}
-    {% else %}
-        {% include "fnc/_menus.html" with active_menu=3 %}
-    {% endif %}
+
+        {% include "fnc/_menus.html" with active_menu=9 %}
+
 {% endblock %}

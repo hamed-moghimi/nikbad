@@ -33,6 +33,13 @@
                 <td class="FNC-td2">{{ row.mande_bestan }}</td>
             </tr>
         {% endfor %}
+        <tr>
+            <td class="FNC-td2"> جمع</td>
+            <td class="FNC-td2"> {{ s1 }} </td>
+            <td class="FNC-td2"> {{ s2 }} </td>
+            <td class="FNC-td2"> {{ s3 }} </td>
+            <td class="FNC-td2">{{ s4 }}</td>
+        </tr>
         </tbody>
     </table>
 
@@ -44,9 +51,10 @@
 {% block menus %}
     {% comment %}
     {% if perms.fnc.is_manager %}
-        {% include "mng/_menus.html" with active_menu=1 %}
+        {% include "mng/_menus.html" with active_menu=5 %}
     {% else %}
-        {% include "fnc/_menus.html" with active_menu=1 %}
+        {% include "fnc/_menus.html" with active_menu=2 %}
     {% endif %}
     {% endcomment %}
+    {% include "fnc/_menus.html" with active_menu=7 %}
 {% endblock %}

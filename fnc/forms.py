@@ -43,6 +43,15 @@ class AddForm(ModelForm):
             return cleaned_data
 
 class AddHesab(ModelForm):
-	class Meta:
-		model = Account
-		fields = ['name','amount']
+    class Meta:
+        model = Account
+        fields = ['name','amount']
+    def clean(self):
+        cleaned_data = super(AddHesab, self).clean()
+        n = cleaned_data.get("name")
+        count=Account.objects.filter(name=n).count()
+        if count>0:
+            print "ssssssssssssssssssss"
+            raise ValidationError(u"این حساب موجود است")
+        else:
+            return cleaned_data
