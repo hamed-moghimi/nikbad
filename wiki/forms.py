@@ -49,7 +49,7 @@ class DateForm(Form):
 
     def clean_date(self):
         start = self.cleaned_data.get('startDate')
-        end = self.cleaned_data.get('repassword')
+        end = self.cleaned_data.get('endDate')
         if start > end:
             raise forms.ValidationError(u"تاریخ وارد شده معتبر نیست. تاریخ شروع نباید از تاریخ پایان بزرگتر باشد.")
         return self.cleaned_data.get('startDate')
