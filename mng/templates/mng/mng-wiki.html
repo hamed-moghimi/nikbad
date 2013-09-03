@@ -1,10 +1,13 @@
 {% extends "mng/base.html" %}
+
+
+
 {% block content %}
 
 
     <div class="panel">
 
-        <h2 class="panel-header">فهرست کالاهای ویترین  {{wiki.companyName }}</h2>
+        <h2 class="panel-header">فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
 
         <table class="table-striped" style="width: 100%">
             <thead>
@@ -17,14 +20,14 @@
 
                 <th style="width: 25%">نام</th>
 
-                <th style="width: 20%">قیمت</th>
+                <th style="width: 20%">قیمت (تومان)</th>
 
-                <th style="width: 10%">تخفیف</th>
+                <th style="width: 10%"></th>
             </tr>
             </thead>
 
             <tbody>
-            {% for product in product_list %}
+            {% for product in products%}
                 {% with forloop.counter as num %}
 
                     <tr>
@@ -36,15 +39,37 @@
 
                         <td style="text-align: center">{{ product.name }}</td>
 
-                        <td style="text-align: center">{{ product.price }}  تومان </td>
+                        <td style="text-align: center">{{ product.price|toman }} </td>
 
-                        <td style="text-align: center">{{ product.off }}</td>
+                        <td style="text-align: center">
+                            <a class="btn btn-primary" href="{% url sales-adEdit itemCode=product.pk %}">
+                                <i class="icon-pencil icon-large"></i>
+                            </a>
+                        </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-primary"  href="{% url product-edit gId=product.goodsID %}"> {{ submit_text|default:"ویرایش " }} </a> </button>
+                        </td>
+
                     </tr>
                 {% endwith %}
             {% endfor %}
             </tbody>
         </table>
     </div>
+
+
+<div class="pagination-centered">
+    {% if products.has_previous %}
+        <a href="?page={{ products.previous_page_number }}">قبل</a>
+    {% endif %}
+
+    صفحه{{ products.number }} از {{ products.paginator.num_pages }}.
+
+    {% if products.has_next %}
+        <a href="?page={{ products.next_page_number }}">بعد</a>
+    {% endif %}
+</div>
+
 {% endblock %}
 
 {% block menus %}
