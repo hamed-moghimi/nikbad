@@ -167,12 +167,15 @@ def deleteproduct(request):
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhorders(request):
+    user = request.user
+    uname = user.username
+    wiki = Wiki.objects.filter(username = uname)[0]
     if request.method == 'POST':
         form = DateForm(request.POST)
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            ord = Wiki_Order.objects.filter(date__range = (startDate, endDate))
+            ord = Wiki_Order.objects.filter(date__range = (startDate, endDate), wiki = wiki)
             context = {'order_list': ord}
             return render(request, 'wiki/wrhorder.html', context)
     else:
