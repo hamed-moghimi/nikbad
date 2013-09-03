@@ -38,9 +38,9 @@ admin.site.register(Specification)
 
 class AdImageAdmin(ModelAdmin):
     list_filter = ['checked']
-    list_display = ['title', 'thumbnail', 'checked']
+    list_display = ['title', 'thumbnail']
     exclude = ['image']
-    readonly_fields = ['ad', 'title', 'thumbnail', 'checked']
+    readonly_fields = ['ad', 'title', 'thumbnail']
 
     def approve(self, request, queryset):
         queryset.update(checked = True)

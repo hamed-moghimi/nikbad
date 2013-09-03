@@ -1,8 +1,11 @@
 # -*- encoding: utf-8 -*-
 from django.db import models
 from django.db.models.expressions import F
+from contrib.models import StringWrapper
 from wiki.models import Product
 from crm.models import Customer
+
+app_name = StringWrapper('app_label', u'زیرسامانه مدیریت فروش و ویترین ها')
 
 deliveryChoices = (
     (0, u'صادر شده'),
@@ -148,9 +151,20 @@ class Ad(models.Model):
         verbose_name = u'ویترین'
         verbose_name_plural = u'ویترین ها'
         ordering = ['-registerDate']
+        app_label = app_name
+        db_table = 'sales_ad'
 
     def __unicode__(self):
         return self.product.__unicode__()
+
+    def __init__(self, *args, **kwargs):
+        super(Ad, self).__init__(*args, **kwargs)
+        if self.icon == None:
+            try:
+                self.icon = self.images.all()[0]
+                self.save()
+            except:
+                pass
 
     @staticmethod
     def defaultIcon():
@@ -178,7 +192,8 @@ class Specification(models.Model):
         verbose_name = u'ویژگی'
         verbose_name_plural = u'ویژگی ها'
         ordering = ['ad', '-title']
-        app_label = 'sas'
+        app_label = app_name
+        db_table = 'sales_specification'
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.title, self.value)
@@ -199,9 +214,11 @@ class AdImage(models.Model):
     checked = models.BooleanField(default = False, verbose_name = u'وضعیت تایید', choices = CHECKED_CHOICES)
 
     class Meta:
-        verbose_name = u'تصویر'
-        verbose_name_plural = u'تصاویر'
+        verbose_name = u'تصویر ویترین'
+        verbose_name_plural = u'تصاویر ویترین'
         ordering = ['ad', 'title']
+        app_label = app_name
+        db_table = 'sales_adimage'
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.ad.__unicode__(), self.title)

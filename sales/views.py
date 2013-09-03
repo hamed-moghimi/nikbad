@@ -181,7 +181,7 @@ def search(request):
 
     # retrieving matched items
     Qpname = Q(product__name__icontains = query)
-    Qbname = Q(product__brand__icontains = query)
+    Qbname = Q(product__brand__name__icontains = query)
     Qwname = Q(product__wiki__companyName__icontains = query)
     itemList = Ad.objects.filter(Qbname | Qpname | Qwname)
     if cat is not None:
@@ -205,31 +205,29 @@ def search(request):
 def saleBillPDF(request, sbID):
     sb = SaleBill.objects.get(pk = sbID)
     items = sb.products.all()
-    now = datetime.now()
     pdfList = \
         [
             # header
-            StringMark(482, 97, jalali(now.date())),
-            StringMark(358, 97, now.strftime('%H : %M')),
-            StringMark(182, 97, request.user.get_full_name())
+            StringMark(147, 142, jalali(sb.saleDate)),
+            StringMark(413, 142, sb.customer.get_full_name())
         ]
-    y = 200
+    y = 215
     counter = 1
     for item in items:
         product = item.product
         pdfList += \
             (
-                StringMark(543, y, unicode(counter)),
-                StringMark(509, y, product.goodsID),
-                StringMark(465, y, product.name, auto_number = False),
-                StringMark(365, y, product.wiki, auto_number = False),
-                StringMark(270, y, toman(product.price)),
-                StringMark(200, y, u'{0} {1}'.format(item.number, item.product.unit)),
-                StringMark(118, y, toman(product.price * item.number)),
+                StringMark(536, y, unicode(counter)),
+                StringMark(506, y, product.goodsID),
+                StringMark(462, y, product.name, auto_number = False),
+                StringMark(362, y, product.wiki, auto_number = False),
+                StringMark(267, y, toman(product.price)),
+                StringMark(197, y, u'{0} {1}'.format(item.number, item.product.unit)),
+                StringMark(115, y, toman(product.price * item.number)),
             )
         y += 20
         counter += 1
 
-    pdfList += (StringMark(155, y, u'جمع', bold = True), StringMark(118, y, toman(sb.totalPrice), bold = True))
+    pdfList += (StringMark(152, y, u'جمع', bold = True), StringMark(115, y, toman(sb.totalPrice), bold = True))
 
     return getPDF_Response([pdfList], os.path.join(settings.MEDIA_ROOT, 'PDFs/SaleBill.pdf'))

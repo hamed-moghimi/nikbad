@@ -27,7 +27,7 @@ def index(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            sb = c.saleBills.objects.filter(saleDate__range = (startDate, endDate))
+            sb = c.saleBills.filter(saleDate__range = (startDate, endDate))
     else:
         form = DateForm()
 
@@ -107,7 +107,7 @@ def status(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            sb = c.saleBills.objects.filter(saleDate__range = (startDate, endDate))
+            sb = c.saleBills.filter(saleDate__range = (startDate, endDate))
     else:
         form = DateForm()
 

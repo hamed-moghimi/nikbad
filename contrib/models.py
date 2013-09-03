@@ -1,3 +1,8 @@
-from django.db import models
+class StringWrapper(str):
+    def __new__(cls, value, title):
+        instance = str.__new__(cls, value)
+        instance._title = title
+        return instance
 
-# Create your models here.
+    def title(self):
+        return self._title

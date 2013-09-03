@@ -496,7 +496,7 @@ input[type=text], input[type=password], textarea, select, .vTextField {
     font-size: 12px;
     text-align: left;
     font-weight: bold;
-    background: #7CA0C7 url(../img/default-bg.gif) top left repeat-x;
+    background: #7CA0C7;
     color: white;
 }
 
