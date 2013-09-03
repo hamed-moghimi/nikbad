@@ -111,7 +111,7 @@ def status(request):
         context = {'Product': p, 'Bill': sb}
     except:
         context = {}
-        # context = {'Product': p, 'Bill': sb}
+    # context = {'Product': p, 'Bill': sb}
     return render(request, 'crm/status.html', context)
 
 
