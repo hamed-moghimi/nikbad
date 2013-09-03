@@ -10,7 +10,7 @@
 
 {% block user_panel %}
     {% if user.is_authenticated %}
-        {% if customer %}
+        {% if not user.is_superuser and perms.crm.is_customer %}
             <div class="btn-group pull-right">
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu">

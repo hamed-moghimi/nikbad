@@ -1,21 +1,22 @@
 {% extends "sales/base.html" %}
 
 {% block crumbs %}
-{{ block.super }}
+    {{ block.super }}
     <li class="active">ثبت نام</li>
 {% endblock %}
 
 {% block content %}
 
 
-<div class="panel">
-  <h2 class="panel-header">ثبت نام</h2>
-    <form action="" class="form-horizontal" method="post">
+    <div class="panel">
+        <h2 class="panel-header">ثبت نام</h2>
+
+        <form action="" class="form-horizontal" method="post" enctype="multipart/form-data">
 
 
-    {% include '_hform.html' with show_star=1 submit_text='تایید و ثبت نام' %}
-{#    <input type="submit" class="btn btn-primary" value="ثبت نام"/>#}
-    </form>
-</div>
+            {% include '_hform.html' with show_star=1 submit_text='تایید و ثبت نام' %}
+            {#    <input type="submit" class="btn btn-primary" value="ثبت نام"/>#}
+        </form>
+    </div>
 {% endblock %}
 

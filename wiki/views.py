@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse_lazy
@@ -42,7 +42,7 @@ def goodsList(request):
             products = paginator.page(1)
         except EmptyPage:
             products = paginator.page(paginator.num_pages)
-        context = {'product_list': p, 'products':products}
+        context = {'product_list': p, 'products': products}
         return render(request, 'wiki/goodslist.html', context)
 
 
@@ -76,6 +76,7 @@ def register(request):
         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
+
 def no_contract(request, str):
     return render(request, 'wiki/noContract.html', {'str': str})
 
@@ -83,9 +84,11 @@ def no_contract(request, str):
 def maxExceeded(request):
     return render(request, 'wiki/maxExceeded.html')
 
+
 def delete_error(request, str):
-    context = {'str' : str}
+    context = {'str': str}
     return render(request, 'wiki/deleteError.html', context)
+
 
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def addproduct(request):
@@ -109,8 +112,8 @@ def addproduct(request):
             pr = form.cleaned_data.get('price')
             off = form.cleaned_data.get('off')
             pri = pr - (off / 100.0) * pr
-            p = form.instance
-
+            p = form.save(commit = False)
+            p.price = int(pri)
             p.wiki = wiki
             p.price = pri
             p.save()
@@ -226,6 +229,7 @@ def salesreport(request):
         form = DateForm()
     return render(request, 'wiki/DateForm.html', {'form': form})
 
+
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhproducts(request):
     myName = request.user.username
@@ -238,29 +242,32 @@ def wrhproducts(request):
         stocks = paginator.page(1)
     except EmptyPage:
         stocks = paginator.page(paginator.num_pages)
-    context = {'stock_list': stock, 'stocks' : stocks}
+    context = {'stock_list': stock, 'stocks': stocks}
     return render(request, 'wiki/wrhproducts.html', context)
+
 
 def editProduct(request, gId):
     p = Product.objects.get(goodsID = gId)
-    if(request.POST):
+    if (request.POST):
         f = ProductForm(request.POST, instance = p)
         if (f.is_valid()):
             off = f.cleaned_data['off']
             pr = f.cleaned_data['price']
-            pr = pr - pr * off/100.0
+            pr = pr - pr * off / 100.0
             f.instance.price = pr
             f.save()
             return product_success(request, p)
     f = ProductForm(instance = p)
-    context = {'ProductForm' :f , 'p':p , 'product' : gId}
+    context = {'ProductForm': f, 'p': p, 'product': gId}
     return render(request, 'wiki/productEdit.html', context)
+
 
 def returnAllProducts(wiki):
     prod = Product.objects.filter(wiki = wiki)
     for p in prod:
         req = ReturnRequest(wiki = wiki, pub_date = datetime.datetime.now(), product = p, returned_only = False)
     return
+
 
 def contract(request):
     user = request.user
@@ -307,6 +314,7 @@ def contract(request):
         form = ConCancelForm()
     return render(request, 'wiki/contract.html', {'form': form, 'str': str})
 
+
 def cancelContract(request):
     if request.method == 'POST':
         form = AdminCancelForm(request.POST)
@@ -321,5 +329,5 @@ def cancelContract(request):
                 return render(request, 'mng/contract_success.html')
     else:
         form = AdminCancelForm()
-    return render(request, 'wiki/cancelContract.html', {'form':form})
+    return render(request, 'wiki/cancelContract.html', {'form': form})
 

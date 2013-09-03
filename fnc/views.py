@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -20,7 +19,7 @@ def index(request):
     return render(request, 'fnc/base.html', {})
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_common', login_url = reverse_lazy('fnc-index'))
 def gozaresh_mali(request):
 #request.get['username']
 #request.post
@@ -32,7 +31,7 @@ def gozaresh_mali(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            cb_objects = CostBenefit.objects.filter(date__range=(startDate, endDate))
+            cb_objects = CostBenefit.objects.filter(date__range = (startDate, endDate))
 
     else:
         form = DateForm()
@@ -52,7 +51,7 @@ def gozaresh_mali(request):
     return render(request, 'fnc/gozaresh_mali.html', context)
 
 
-@permission_required('fnc.is_manager', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_manager', login_url = reverse_lazy('fnc-index'))
 def sabtenam_karmand(request):
     if (request.POST):
         form = EmployeeForm(request.POST)
@@ -69,11 +68,11 @@ def sabtenam_karmand(request):
     return render(request, 'fnc/sabtenam_karmand.html', context)
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_common', login_url = reverse_lazy('fnc-index'))
 def karmandan(request):
     employees = Employee.objects.all()
     for ep in employees:
-        rollcalls = RollCall.objects.filter(employee=ep)
+        rollcalls = RollCall.objects.filter(employee = ep)
         ep.hours = timedelta()
         for rc in rollcalls:
             enter = datetime.combine(rc.date, rc.entrance_time)
@@ -84,10 +83,10 @@ def karmandan(request):
     return render(request, 'fnc/karmandan.html', context)
 
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_common', login_url = reverse_lazy('fnc-index'))
 def karmand_detail(request, epId):
-    employee = Employee.objects.get(id=epId)
-    rollcalls = RollCall.objects.filter(employee=epId)
+    employee = Employee.objects.get(id = epId)
+    rollcalls = RollCall.objects.filter(employee = epId)
     context = {}
     context.update({'rollcalls': rollcalls, 'employee': employee})
     return render(request, 'fnc/karmand_detail.html', context)
@@ -108,7 +107,7 @@ def alaki(request):
     return render(request, 'fnc/add_sanad.html', {'form': form})
 
 
-@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
 def add_sanad(request):
     if (request.POST):
         form = AddForm(request.POST)
@@ -127,12 +126,13 @@ def add_sanad(request):
     context.update({'add_form': form})
     return render(request, 'fnc/add_sanad.html', context)
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_common', login_url = reverse_lazy('fnc-index'))
 def karmand_detail_2(request, epId):
-    employee = Employee.objects.get(id=epId)
-    f = EmployeeForm(instance=employee)
+    employee = Employee.objects.get(id = epId)
+    f = EmployeeForm(instance = employee)
     if (request.POST):
-        f = EmployeeForm(request.POST, instance=employee)
+        f = EmployeeForm(request.POST, instance = employee)
         try:
             request.POST['gender'] = request.POST['gender'].encode('utf-8')
         except:
@@ -143,7 +143,8 @@ def karmand_detail_2(request, epId):
             # else :
     return render(request, 'fnc/karmand_edit.html', {'EditForm': f})
 
-@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
 def daftar_kol(request):
     context = {}
     ac_ob = Account.objects.all()
@@ -151,12 +152,13 @@ def daftar_kol(request):
     context.update({'accounts': ac_ob})
     return render(request, 'fnc/daftar_kol.html', context)
 
-@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
 def daftar_kol_2(request, daftarId):
     context = {}
-    account = Account.objects.get(id=daftarId)
-    q1 = Q(account_bedeh=account)
-    q2 = Q(account_bestan=account)
+    account = Account.objects.get(id = daftarId)
+    q1 = Q(account_bedeh = account)
+    q2 = Q(account_bestan = account)
     rows = CostBenefit.objects.filter(q1 | q2).order_by("-date")
     context.update({"account": account})
     context.update({'name': account.name})
@@ -165,46 +167,48 @@ def daftar_kol_2(request, daftarId):
     sum_bedeh = 0
     sum_bestan = 0
 
-    cb_bedeh = CostBenefit.objects.filter(account_bedeh=account)
+    cb_bedeh = CostBenefit.objects.filter(account_bedeh = account)
     for cb in cb_bedeh:
         sum_bedeh += cb.amount
     context.update({"sum_bedeh": sum_bedeh})
 
-    cb_bestan = CostBenefit.objects.filter(account_bestan=account)
+    cb_bestan = CostBenefit.objects.filter(account_bestan = account)
     for cb in cb_bestan:
         sum_bestan += cb.amount
     context.update({"sum_bestan": sum_bestan})
 
     return render(request, 'fnc/daftar_kol_2.html', context)
 
-@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
 def taraz_azmayeshi(request):
     context = {}
     tarazes = Taraz.objects.all()
     context.update({"tarazes": tarazes})
     return render(request, 'fnc/taraz_azmayeshi.html', context)
 
-@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
 def taraz_azmayeshi_2(request, tarazId):
     context = {}
-    tz_ob = Taraz.objects.get(id=tarazId)
-    sum_g_bedeh=0
-    sum_g_bestan=0
-    sum_m_bedeh=0
-    sum_m_bestan=0
+    tz_ob = Taraz.objects.get(id = tarazId)
+    sum_g_bedeh = 0
+    sum_g_bestan = 0
+    sum_m_bedeh = 0
+    sum_m_bestan = 0
 
     context.update({"tarazes": tz_ob})
 
-
     for x in tz_ob.rows_taraz.all():
-        sum_g_bedeh+=x.gardesh_bedeh
-        sum_g_bestan+=x.gardesh_bestan
-        sum_m_bedeh+=x.mande_bedeh
-        sum_m_bestan+=x.mande_bestan
+        sum_g_bedeh += x.gardesh_bedeh
+        sum_g_bestan += x.gardesh_bestan
+        sum_m_bedeh += x.mande_bedeh
+        sum_m_bestan += x.mande_bestan
     context.update({'s1': sum_g_bedeh, 's2': sum_g_bestan, 's3': sum_m_bedeh, 's4': sum_m_bestan})
     return render(request, 'fnc/taraz_azmayeshi_2.html', context)
 
-@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
 def add_hesab(request):
     if (request.POST):
         form = AddHesab(request.POST)
@@ -212,7 +216,7 @@ def add_hesab(request):
             form.save()
             print "nameeeee", form.instance.name
             print "salam", form.instance.amount
-            context=({'name': form.instance.name}, {'amount': form.instance.amount})
+            context = ({'name': form.instance.name}, {'amount': form.instance.amount})
             print context, "hhhhhhhhh"
             return render(request, 'fnc/add_hesab_2.html', context)
             #return HttpResponseRedirect(reverse('fnc-gozaresh-mali'))
@@ -222,12 +226,12 @@ def add_hesab(request):
     context = {}
     context.update({'hazine_form': form})
 
-
     return render(request, 'fnc/add_hesab.html', context)
 
-@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
+
+@permission_required('fnc.is_common', login_url = reverse_lazy('fnc-index'))
 def resid_emp(request):
-    context={}
-    sf_ob= SalaryFactor.objects.all()
+    context = {}
+    sf_ob = SalaryFactor.objects.all()
     context.update({"salaryFac": sf_ob})
     return render(request, 'fnc/resid_emp.html', context)

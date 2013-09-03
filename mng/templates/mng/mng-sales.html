@@ -9,6 +9,15 @@
 
         <div class="WRH-panel2">
             <br />
+                          <div class="panel">
+            <h2 class="panel-header"> انتخاب تاریخ </h2>
+
+            <form class="form-horizontal" action="" method="post">
+                {% include "_hForm.html" with form=form submit_text="نمایش" %}
+            </form>
+
+        </div>
+
             {% if salebill %}
                 <p>
  کالاهای فروخته شده

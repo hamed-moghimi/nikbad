@@ -1,13 +1,13 @@
 {% extends "mng/base.html" %}
 
-
+{% load nikbad_tags %}
 
 {% block content %}
 
 
     <div class="panel">
 
-        <h2 class="panel-header">فهرست کالاهای ویترین{{ wiki.companyName }}</h2>
+        <h2 class="panel-header">فهرست کالاهای ویترین {{ wiki.companyName }}</h2>
 
         <table class="table-striped" style="width: 100%">
             <thead>
@@ -27,7 +27,7 @@
             </thead>
 
             <tbody>
-            {% for product in products%}
+            {% for product in products %}
                 {% with forloop.counter as num %}
 
                     <tr>
@@ -47,7 +47,8 @@
                             </a>
                         </td>
                         <td style="text-align: center">
-                            <a class="btn btn-primary"  href="{% url product-edit gId=product.goodsID %}"> {{ submit_text|default:"ویرایش " }} </a> </button>
+                            <a class="btn btn-primary"
+                               href="{% url product-edit gId=product.goodsID %}"> {{ submit_text|default:"ویرایش " }} </a> </button>
                         </td>
 
                     </tr>
@@ -58,29 +59,29 @@
     </div>
 
 
-<div class="pagination-centered">
-    {% if products.has_previous %}
-        <a href="?page={{ products.previous_page_number }}">قبل</a>
-    {% endif %}
+    <div class="pagination-centered">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">قبل</a>
+        {% endif %}
 
-    صفحه{{ products.number }} از {{ products.paginator.num_pages }}.
+        صفحه{{ products.number }} از {{ products.paginator.num_pages }}.
 
-    {% if products.has_next %}
-        <a href="?page={{ products.next_page_number }}">بعد</a>
-    {% endif %}
-</div>
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">بعد</a>
+        {% endif %}
+    </div>
 
 {% endblock %}
 
 {% block menus %}
-    {% include "mng/_menus.html" with active_menu=3%}
+    {% include "mng/_menus.html" with active_menu=3 %}
 {% endblock %}
 
 
 {% block crumbs %}
     {{ block.super }}
-      <li><a href="{% url mng-wiki-select %}">صورت ویکی های طرف قرار داد</a> <span class="divider">/</span></li>
+    <li><a href="{% url mng-wiki-select %}">صورت ویکی های طرف قرار داد</a> <span class="divider">/</span></li>
     <li><a href="{% url mng-wiki wiki.id %}">صورت کالاهای ویکی</a> <span class="divider">/</span></li>
-{#    <li class="active">{{ item }}</li>#}
+    {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}
