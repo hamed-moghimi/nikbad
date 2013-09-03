@@ -17,7 +17,7 @@ class WikiForm(ModelForm):
     address=CharField(widget=Textarea(),label=u"نشانی شرکت", required = True)
     password = CharField(label= u"گذر واژه", required=True, widget=PasswordInput)
     repassword = CharField(label= u"تکرار گذرواژه" ,required=True, widget=PasswordInput)
-    email=EmailField(label=u"رایانامه" ,required=True ,help_text="مثال: nikbad@sarab.com"  )
+    email=EmailField(label=u"رایانامه" ,required=True ,help_text="مثال: nikbad@saraab.com"  )
     class Meta:
         model = Wiki
         fields = ['username', 'password', 'repassword','email','companyName', 'image', 'phone', 'address']
