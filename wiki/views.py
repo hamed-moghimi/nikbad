@@ -65,7 +65,7 @@ def product_success(request, prod):
 
 def register(request):
     if request.method == 'POST':
-        form = WikiForm(request.POST)
+        form = WikiForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.set_password(form.cleaned_data['password'])
             form.save()
@@ -110,13 +110,14 @@ def addproduct(request):
             off = form.cleaned_data.get('off')
             pri = pr - (off / 100.0) * pr
             p = form.instance
+
             p.wiki = wiki
             p.save()
-            p = Product(wiki = wiki, brand = brand,
-                        name = name, sub_category = cat, unit = unit,
-                        price = pri, off = off)
-            print p.price
-            p.save()
+            # p = Product(wiki = wiki, brand = brand,
+            #             name = name, sub_category = cat, unit = unit,
+            #             price = pri, off = off)
+            # print p.price
+            # p.save()
             Ad.objects.get_or_create(product = p)
 
             return product_success(request, p)
