@@ -36,17 +36,6 @@ class Category(models.Model):
         return self.name
 
 
-# class ConRequest(models.Model):
-#     wiki = models.ForeignKey(Wiki, verbose_name = u"نام ویکی")
-#     pub_date = models.DateField(verbose_name = u"تاریخ ثبت درخواست ایجاد قرارداد")
-#     abone = models.IntegerField(verbose_name = u"آبونمان پیشنهادی سالانه")
-#     benefit = models.IntegerField(verbose_name = u"درصد بهره پیشنهادی سراب")
-
-
-# class ConCancel(models.Model):
-#     wiki = models.ForeignKey(Wiki, verbose_name = u"نام ویکی")
-#     pub_date = models.DateField(verbose_name = u"تاریخ ثبت درخواست لغو قرارداد")
-
 
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
@@ -62,6 +51,10 @@ class SubCat(models.Model):
 
 class Brand(models.Model):
     name = models.CharField("نام تجاری", max_length=60)
+
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         verbose_name = u'نام تجاری'
@@ -86,7 +79,7 @@ class Product(models.Model):
 
     class Meta:
         verbose_name = u'کالا'
-        verbose_name = u'کالاها'
+        verbose_name_plural = u'کالاها'
 
     def raw_price(self):
         return self.price / (1 - self.off / 100.0)
@@ -102,6 +95,9 @@ class Contract(models.Model):
     max_goods = models.IntegerField("حداکثر تعداد کالاهای ویترین")
     percent = models.PositiveSmallIntegerField("درصد بهره ی سراب از فروش")
     fee = models.PositiveIntegerField("آبونمان")
+
+    def __unicode__(self):
+        return self.wiki
 
     class Meta:
         verbose_name = u'قرارداد'
