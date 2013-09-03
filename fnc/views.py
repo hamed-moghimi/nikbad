@@ -127,7 +127,7 @@ def add_sanad(request):
     context.update({'add_form': form})
     return render(request, 'fnc/add_sanad.html', context)
 
-
+@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
 def karmand_detail_2(request, epId):
     employee = Employee.objects.get(id=epId)
     f = EmployeeForm(instance=employee)
@@ -143,7 +143,7 @@ def karmand_detail_2(request, epId):
             # else :
     return render(request, 'fnc/karmand_edit.html', {'EditForm': f})
 
-
+@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
 def daftar_kol(request):
     context = {}
     ac_ob = Account.objects.all()
@@ -151,7 +151,7 @@ def daftar_kol(request):
     context.update({'accounts': ac_ob})
     return render(request, 'fnc/daftar_kol.html', context)
 
-
+@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
 def daftar_kol_2(request, daftarId):
     context = {}
     account = Account.objects.get(id=daftarId)
@@ -177,14 +177,14 @@ def daftar_kol_2(request, daftarId):
 
     return render(request, 'fnc/daftar_kol_2.html', context)
 
-
+@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
 def taraz_azmayeshi(request):
     context = {}
     tarazes = Taraz.objects.all()
     context.update({"tarazes": tarazes})
     return render(request, 'fnc/taraz_azmayeshi.html', context)
 
-
+@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
 def taraz_azmayeshi_2(request, tarazId):
     context = {}
     tz_ob = Taraz.objects.get(id=tarazId)
@@ -204,7 +204,7 @@ def taraz_azmayeshi_2(request, tarazId):
     context.update({'s1': sum_g_bedeh, 's2': sum_g_bestan, 's3': sum_m_bedeh, 's4': sum_m_bestan})
     return render(request, 'fnc/taraz_azmayeshi_2.html', context)
 
-
+@permission_required('fnc.is_fnc', login_url=reverse_lazy('fnc-index'))
 def add_hesab(request):
     if (request.POST):
         form = AddHesab(request.POST)
@@ -225,6 +225,7 @@ def add_hesab(request):
 
     return render(request, 'fnc/add_hesab.html', context)
 
+@permission_required('fnc.is_common', login_url=reverse_lazy('fnc-index'))
 def resid_emp(request):
     context={}
     sf_ob= SalaryFactor.objects.all()
