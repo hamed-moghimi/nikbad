@@ -239,7 +239,7 @@ def newContract(request, wId):
                                      'fee': ConRequest.objects.get(wiki=Wiki.objects.get(pk=wId)).abonne,
                                      'percent': ConRequest.objects.get(wiki=w).benefit})
 
-    return render(request, 'mng/contract.html', {'form': form})
+    return render(request, 'mng/contract.html', {'form': form , 'wiki': w})
 
 
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
