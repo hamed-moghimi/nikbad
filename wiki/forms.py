@@ -12,15 +12,15 @@ from django.forms import *
 class WikiForm(ModelForm):
 
     companyName = CharField(label = u'نام شرکت', required = True)
-    phone = RegexField(label=u"شماره تماس ",help_text="021-88888888 یا 0912-2222222",regex="\d{7,}" ,
+    phone = RegexField(label=u"شماره تماس ",help_text="از یکی از دونمونه مقابل پیروی کنید: 02188888888 یا 09122222222",regex="\d{7,}" ,
                      error_messages={'invalid' : u"تلفن 11 رقمی است"}, required=True)
     address=CharField(widget=Textarea(),label=u"نشانی شرکت", required = True)
     password = CharField(label= u"گذر واژه", required=True, widget=PasswordInput)
     repassword = CharField(label= u"تکرار گذرواژه" ,required=True, widget=PasswordInput)
-    email=EmailField(label=u"رایانامه" ,required=True ,help_text="a@b.com"  )
+    email=EmailField(label=u"رایانامه" ,required=True ,help_text="مثال: nikbad@saraab.com"  )
     class Meta:
         model = Wiki
-        fields = ['companyName', 'image', 'phone', 'address', 'username', 'password', 'repassword','email']
+        fields = ['username', 'password', 'repassword','email','companyName', 'image', 'phone', 'address']
 
 
     def clean_repassword(self):
