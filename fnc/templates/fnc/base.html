@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block css %}
-   <link href="{{ STATIC_URL }}fnc/css/fnc-style.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ STATIC_URL }}fnc/css/fnc-style.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block menus %}
-    {% if perms.fnc.is_manager  %}
-         {% include "mng/_menus.html" %}
-    {% else %}
+    {% include "fnc/_menus.html" %}
+    {% if perms.fnc.is_manager %}
+        {% include "mng/_menus.html" %}
+    {% endif %}
+    {% if perms.fnc.is_fnc %}
         {% include "fnc/_menus.html" %}
     {% endif %}
-{% endblock %}
+{% endblock %}s

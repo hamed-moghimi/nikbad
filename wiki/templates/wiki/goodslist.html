@@ -1,5 +1,21 @@
-{% extends "wiki/wiki.html" %}
+{% extends "wiki/base.html" %}
 {% load nikbad_tags %}
+
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li><a href="{% url goods-list %}">
+       فهرست کالاها
+    </a> </li>
+{% endblock %}
+
+
 {% block content %}
 
 
@@ -18,7 +34,7 @@
 
                 <th style="width: 25%">نام</th>
 
-                <th style="width: 20%">قیمت</th>
+                <th style="width: 20%">قیمت (تومان)</th>
 
                 <th style="width: 10%"></th>
             </tr>

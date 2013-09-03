@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 # from build.lib.django.forms.forms import Form
-from django.db.models.fields import CharField
+from cProfile import label
+from django.db.models.fields import CharField, PositiveSmallIntegerField, PositiveIntegerField
 from django.forms.models import ModelForm
 from contrib.forms import jDateField
 from models import Wiki
@@ -34,7 +35,7 @@ class WikiForm(ModelForm):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['goodsID','brand','name','sub_category','price','off']
+        fields = ['goodsID','brand','name','sub_category','unit','price','off']
 
 
 class DeleteProductForm(Form):
@@ -63,7 +64,17 @@ class RequestForm(Form):
     proID = IntegerField(label=u'کد کالا')
     ret_only = NullBooleanField(label=u'فقط کالاهای بازگشتی را بازگردان')
 
+class ConRequestForm(Form):
+    abonne = IntegerField(label=u'مبلغ آبونمان پیشنهادی برای هر ماه(ریال)')
+    benefit = IntegerField(label=u'درصد کارمزد پیشنهادی سراب به ازای هر کالا')
 
+class ConCancelForm(ModelForm):
+    class Meta:
+        model = ConCancel
+        fields = []
+
+class AdminCancelForm(Form):
+    wiki = ModelChoiceField(queryset=Wiki.objects.all(), empty_label=None, label="ویکی را که می خواهید قرارداد آن را فسخ کنید انتخاب کنید")
 
 
 

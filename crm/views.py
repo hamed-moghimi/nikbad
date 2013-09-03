@@ -1,3 +1,4 @@
+# -*- encoding:utf-8 -*-
 #from Demos.win32ts_logoff_disconnected import *
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Permission
@@ -5,7 +6,8 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseForbidden
 from django.utils import encoding
-from crm.forms import CustomerForm, EditForm, checkCustomerForm
+from contrib.email import render_and_email
+from crm.forms import CustomerForm, EditForm, checkCustomerForm, DateForm
 from crm.models import *
 from sales.models import MarketBasket
 
@@ -19,8 +21,16 @@ def index(request):
     # if (f.is_valid()):
     # f.save()
     print "saveeeeeeeeeeeeeeeeed"
+    sb = []
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+        if form.is_valid():
+            startDate = form.cleaned_data['startDate']
+            endDate = form.cleaned_data['endDate']
+            sb = c.saleBills.objects.filter(date__range = (startDate, endDate))
+
     try:
-        sb = c.saleBills.all()[0]
+        # sb = c.saleBills.all()[0]
         p = sb.products.all()
         context = {'Product': p, 'Bill': sb, 'EditForm': f}
     except:
@@ -53,6 +63,11 @@ def signUp(request):
             f.instance.user_permissions.add(is_customer)
 
             MarketBasket.createForCustomer(f.instance)
+            # name = f.instance.Get['first_name']
+            # ren
+            context={'first_name':f.cleaned_data['first_name'] , 'last_name':f.cleaned_data['last_name']}
+
+            render_and_email([f.cleaned_data['email']], u'ثبت کاربر جدید', u"عضو شدید", 'crm/signUp_email.html',context)
             return success(request)
     else:
         f = CustomerForm()
@@ -69,7 +84,7 @@ def status(request):
     return render(request, 'crm/status.html', context)
 
 
-@permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
+# @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
 def success(request):
     f = checkCustomerForm(request.POST)
     return render(request, 'crm/signUp-successful.html', {'checkCustomerForm': f})

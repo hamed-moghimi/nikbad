@@ -1,19 +1,24 @@
 {% extends "mng/base.html" %}
+{% load nikbad_tags %}
 {% block css %}
     {{ block.super }}
     <link href="{{ STATIC_URL }}crm/css/WRH-style.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 {% block content %}
     <div class="panel">
-        <h2 class="panel-header"> تغییر قرارداد </h2>
+        <h2 class="panel-header">تغییر قرارداد {{ name }}</h2>
         <div class="row-fluid">
             {{ Editform.non_field_errors }}
             <form class="form-horizontal" method="post" action= "{% url contract-edit wId=wiki  %}">
-                {% include "_hForm.html" with form=ContractForm read_only=0 %}
+                {% include "_hForm.html" with form=ContractEdit read_only=0 submit_text="ثبت تغییرات" %}
 
 
-            </form>
-
+{#            </form>#}
+{#   <div class="control-group">#}
+{#                <div class="controls">#}
+{#                    <a class="btn btn-primary"  href="{% url crm-edit %}">{{ submit_text|default:"ویرایش " }}</a></button>#}
+{#                </div>#}
+{#            </div>#}
 
         </div>
     </div>

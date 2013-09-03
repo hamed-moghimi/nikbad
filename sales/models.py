@@ -141,7 +141,8 @@ class Ad(models.Model):
     def _get_self_id(self):
         return self.id
 
-    icon = models.ForeignKey('AdImage', related_name = 'belongs', null = True, blank = True)
+    icon = models.ForeignKey('AdImage', related_name = 'belongs', null = True, blank = True,
+                             on_delete = models.SET_NULL)
 
     class Meta:
         verbose_name = u'ویترین'
@@ -187,10 +188,14 @@ def image_path(instance, filename):
     return 'images/vitrin/{0}/{1}'.format(instance.ad.id, filename)
 
 
+CHECKED_CHOICES = ((True, u'تایید شده'), (False, u'تایید نشده'))
+
+
 class AdImage(models.Model):
-    ad = models.ForeignKey(Ad, related_name = 'images', blank = True)
+    ad = models.ForeignKey(Ad, related_name = 'images', blank = True, verbose_name = u'ویترین')
     title = models.CharField(max_length = 30, verbose_name = u'عنوان')
     image = models.ImageField(upload_to = image_path, verbose_name = u'تصویر')
+    checked = models.BooleanField(default = False, verbose_name = u'وضعیت تایید', choices = CHECKED_CHOICES)
 
     class Meta:
         verbose_name = u'تصویر'
@@ -201,7 +206,7 @@ class AdImage(models.Model):
         return u'{0} - {1}'.format(self.ad.__unicode__(), self.title)
 
     def thumbnail(self):
-        return '<img src={0} style="width: 30px; height: 30px" />'.format(self.image.url)
+        return '<img src={0} style="width: 100px; height: 100px" />'.format(self.image.url)
 
     thumbnail.allow_tags = True
     thumbnail.short_description = u'تصویر'

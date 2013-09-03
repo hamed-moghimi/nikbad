@@ -17,6 +17,10 @@ class Wiki(User):
     image = models.ImageField("تصویر نشان تجاری", blank = True, upload_to = 'images/wikis')
     reminder = models.IntegerField(verbose_name = "باقی مانده حقوق", default = 0)
 
+    class Meta:
+        verbose_name = u'ویکی'
+        verbose_name_plural = u'ویکی ها'
+
     def __unicode__(self):
         return self.companyName
 
@@ -32,11 +36,23 @@ class Category(models.Model):
         return self.name
 
 
+class ConRequest(models.Model):
+    wiki = models.ForeignKey(Wiki, verbose_name = u"نام ویکی")
+    pub_date = models.DateField(verbose_name = u"تاریخ ثبت درخواست ایجاد قرارداد")
+    abone = models.IntegerField(verbose_name = u"آبونمان پیشنهادی سالانه")
+    benefit = models.IntegerField(verbose_name = u"درصد بهره پیشنهادی سراب")
+
+
+class ConCancel(models.Model):
+    wiki = models.ForeignKey(Wiki, verbose_name = u"نام ویکی")
+    pub_date = models.DateField(verbose_name = u"تاریخ ثبت درخواست لغو قرارداد")
+
+
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
     # Some other properties here, hazineye anbardari and ... :D
     category = models.ForeignKey('Category', verbose_name = u'دسته', related_name = 'subCats')
-    unit = models.CharField(verbose_name = u'واحد شمارش', default=u'عدد', max_length = 50)
+    unit = models.CharField(verbose_name = u'واحد شمارش', default = u'عدد', max_length = 50)
 
     class Meta:
         verbose_name = u'نوع کالا'
@@ -52,19 +68,22 @@ class Product(models.Model):
     brand = models.CharField("نام تجاری", max_length = 255)
     name = models.CharField("نام کالا", max_length = 255)
     sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته")
-    price = models.IntegerField("قیمت")
-    off = models.PositiveSmallIntegerField("تخفیف", blank = True, null = True)
+    unit = models.CharField("واحد شمارش", default = "عدد", max_length = 30)
+    price = models.IntegerField("قیمت", help_text = "قیمت را به ریال وارد نمایید")
+    off = models.PositiveSmallIntegerField("تخفیف", blank = True, null = True,
+                                           help_text = "تخفیف یک عدد مثبت دو رقمی است")
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
+    orderPoint = models.PositiveIntegerField(default = 0, verbose_name = u'نقطه سفارش')
 
 
     def __unicode__(self):
         return self.name
 
-    def finalPrice(self):
-        return self.price * (100 - self.off) // 100
+    def rawPrice(self):
+        return self.price / (1 - self.off / 100.0)
 
     def isInSale(self):
-        return self.off != 0
+        return self.off > 0
 
 
 class Contract(models.Model):
@@ -83,12 +102,23 @@ class ReturnRequest(models.Model):
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
     returned_only = models.NullBooleanField(verbose_name = u'فقط کالاهای مرجوعی را بازگردان.')
 
+
 class ConRequest(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name = u'نام ویکی')
     pub_date = models.DateField("تاریخ ثبت درخواست ایجاد قرارداد")
-    benefit = models.PositiveSmallIntegerField("کارمزد پیشنهادی سراب")
-    abonne = models.PositiveIntegerField("آبونمان پیشنهادی برای هر ماه")
+    benefit = models.PositiveSmallIntegerField("کارمزد پیشنهادی برای سراب")
+    abonne = models.PositiveIntegerField("آبونمان پیشنهادی برای هر ماه",
+                                         help_text = "آبونمان پیشنهادی تان را به ریال وارد نمایید.")
+
+    class Meta:
+        verbose_name = u'درخواست ثبت قرارداد با ویکی'
+        verbose_name_plural = u'درخواست های ثبت قرارداد با ویکی'
+
 
 class ConCancel(models.Model):
     wiki = models.ForeignKey(Wiki, verbose_name = u'نام ویکی')
-    pub_date = models.DateField("تاریخ ثب ت درخواست لغو قرارداد")
+    pub_date = models.DateField("تاریخ ثبت درخواست لغو قرارداد")
+
+    class Meta:
+        verbose_name = u'درخواست لغو قرارداد با ویکی'
+        verbose_name_plural = u'درخواست های لغو قرارداد با ویکی'

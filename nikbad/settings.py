@@ -1,7 +1,7 @@
 # Django settings for nikbad project.
 
 # Root Directory Path
-from apscheduler import scheduler
+# from apscheduler import scheduler
 import os.path
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))

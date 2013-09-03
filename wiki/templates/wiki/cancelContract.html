@@ -1,0 +1,22 @@
+{% extends "mng/base.html" %}
+
+
+{% block content %}
+
+
+
+    <div class="panel">
+        <h2 class="panel-header">فسخ قرارداد</h2>
+        <form action="" class="form-horizontal" method="post">
+
+            {% include '_hform.html' with submit_text='حذف قرارداد'%}
+            {#    <input type="submit" class="btn btn-primary" value="درج کالا"/>#}
+        </form>
+    </div>
+{% endblock %}
+
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=1%}
+{% endblock %}
+
+

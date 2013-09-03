@@ -21,7 +21,8 @@ def index(request):
     wiki = Wiki.objects.filter(username = user)
     print wiki
     con = Contract.objects.filter(wiki = wiki)
-    context = {'contract': con}
+    len = con.__len__()
+    context = {'contract': con, 'len': len}
     return render(request, 'wiki/index.html', context)
 
 
@@ -75,8 +76,8 @@ def register(request):
         form = WikiForm()
     return render(request, 'wiki/register.html', {'form': form})
 
-def no_contract(request):
-    return render(request, 'wiki/noContract.html')
+def no_contract(request, str):
+    return render(request, 'wiki/noContract.html', {'str': str})
 
 
 def maxExceeded(request):
@@ -91,7 +92,8 @@ def addproduct(request):
     user = request.user
     con = Contract.objects.filter(wiki__username = request.user.username)
     if con.__len__() == 0:
-        return no_contract(request)
+        str = 'addProduct'
+        return no_contract(request, str)
     proList = Product.objects.filter(wiki__username = request.user.username)
     if proList.__len__() == con[0].max_goods:
         return maxExceeded(request)
@@ -104,10 +106,11 @@ def addproduct(request):
             brand = form.cleaned_data['brand']
             name = form.cleaned_data['name']
             cat = form.cleaned_data['sub_category']
+            unit = form.cleaned_data['unit']
             pr = form.cleaned_data['price']
             off = form.cleaned_data['off']
             p = Product(goodsID = gid, wiki = wiki, brand = brand,
-                        name = name, sub_category = cat,
+                        name = name, sub_category = cat, unit = unit,
                         price = pr, off = off)
             Ad.objects.get_or_create(product = p)
             p.save()
@@ -142,9 +145,6 @@ def deleteproduct(request):
                     else:
                         str = "in wrh"
                         return delete_error(request, str)
-                else:
-                    str = "in wrh"
-                    return delete_error(request, str)
             if p.wiki.username == name:
                 p.delete()
                 return success(request)
@@ -219,7 +219,6 @@ def salesreport(request):
         form = DateForm()
     return render(request, 'wiki/DateForm.html', {'form': form})
 
-
 @permission_required('wiki.is_wiki', login_url = reverse_lazy('sales-index'))
 def wrhproducts(request):
     myName = request.user.username
@@ -240,11 +239,79 @@ def editProduct(request, gId):
     if(request.POST):
         f = ProductForm(request.POST, instance = p)
         if (f.is_valid()):
+            off = f.cleaned_data['off']
+            pr = f.cleaned_data['price']
+            pr = pr - pr * off/10
             f.save()
             return product_success(request, p)
     f = ProductForm(instance = p)
     context = {'ProductForm' :f , 'p':p , 'product' : gId}
     return render(request, 'wiki/productEdit.html', context)
 
-def contract():
-    pass
+def returnAllProducts(wiki):
+    prod = Product.objects.filter(wiki = wiki)
+    for p in prod:
+        req = ReturnRequest(wiki = wiki, pub_date = datetime.datetime.now(), product = p, returned_only = False)
+    return
+
+def contract(request):
+    user = request.user
+    print user.username
+    c = Contract.objects.filter(wiki__username = user.username)
+    if c.__len__() == 0:
+        has = False
+        str = 'not'
+    else:
+        has = True
+        str = 'has'
+    cr = ConRequest.objects.filter(wiki__username = user.username)
+    if cr.__len__() > 0:
+        str = 'hasCR'
+    cc = ConCancel.objects.filter(wiki__username = user.username)
+    print cc
+    if cc.__len__() > 0:
+        str = 'hasCC'
+    if request.method == 'POST' and has == False:
+        form = ConRequestForm(request.POST)
+        user = request.user
+        wiki = Wiki.objects.filter(username = user.username)[0]
+        if form.is_valid():
+            pub_date = datetime.datetime.now()
+            abonne = form.cleaned_data['abonne']
+            ben = form.cleaned_data['benefit']
+            req = ConRequest(wiki = wiki, pub_date = pub_date, abonne = abonne,
+                             benefit = ben)
+            req.save()
+            return success(request)
+
+    if request.method != 'POST' and has == False:
+        form = ConRequestForm()
+    if request.method == 'POST' and has == True:
+        form = ConCancelForm(request.POST)
+        user = request.user
+        wiki = Wiki.objects.filter(username = user.username)[0]
+        pub_date = datetime.datetime.now()
+        req = ConCancel(wiki = wiki, pub_date = pub_date)
+        req.save()
+        returnAllProducts(wiki)
+        return success(request)
+    if request.method != 'POST' and has == True:
+        form = ConCancelForm()
+    return render(request, 'wiki/contract.html', {'form': form, 'str': str})
+
+def cancelContract(request):
+    if request.method == 'POST':
+        form = AdminCancelForm(request.POST)
+        if form.is_valid():
+            wiki = form.cleaned_data['wiki']
+            list = Contract.objects.filter(wiki = wiki)
+            if list.__len__() == 0:
+                return no_contract(request, 'admin')
+            else:
+                con = list[0]
+                con.delete()
+                return render(request, 'mng/contract_success.html')
+    else:
+        form = AdminCancelForm()
+    return render(request, 'wiki/cancelContract.html', {'form':form})
+

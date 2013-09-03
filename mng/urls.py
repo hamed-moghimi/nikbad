@@ -12,9 +12,10 @@ urlpatterns = patterns('',
     url(r'^manager-sales$', 'mng.views.sales', name='mng-sales'),
     url(r'^manager-sales-detail/(?P<wId>\d+)$', 'mng.views.saleDetail', name='mng-sale-detail'),
     url(r'^manager-returned$', 'mng.views.returned', name='mng-return'),
-    url(r'^manager-cont$', 'mng.views.newContract', name='mng-cont'),
+    url(r'^manager-cont/(?P<wId>\d+)$', 'mng.views.newContract', name='mng-cont'),
     url(r'^manager-user$', 'mng.views.newUser', name='mng-newuser'),
     url(r'^contractDetail/(?P<wId>\d+)$', 'mng.views.contractDetail', name='contract-detail'),
     url(r'^contractEdit/(?P<wId>\d+)$', 'mng.views.contractEdit', name='contract-edit'),
+    url(r'^contractRequest$', 'mng.views.conReq', name='contract-request'),
 
 )

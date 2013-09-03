@@ -1,0 +1,17 @@
+{% extends "fnc/base.html" %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header"> ثبت حساب مالی جدید </h2>
+
+        <form class="form-horizontal" action="" method="post">
+            {% include "_hForm.html" with form=hazine_form %}
+        </form>
+
+    </div>
+{% endblock %}
+{% block menus %}
+
+        {% include "fnc/_menus.html" with active_menu=9 %}
+
+{% endblock %}

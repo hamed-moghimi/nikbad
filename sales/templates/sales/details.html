@@ -23,7 +23,7 @@
                         {#                        </button>#}
 
                         {% if item.product.isInSale %}
-                            <span class="offer"><img src="{{ STATIC_URL }}sales/images/offer.png"></span>
+                            <span class="offer offer-big"><img src="{{ STATIC_URL }}sales/images/offer.png"></span>
                         {% endif %}
 
                         <img class="vitrin-icon" src="{{ item.icon.image.url|default:item.defaultIcon }}"
@@ -73,7 +73,7 @@
                             {% if item.addMarketButton %}
                                 قیمت :
                                 {% if item.product.isInSale %}
-                                    <span class="text-strike">{{ item.product.price|toman:1 }}</span>
+                                    <span class="text-strike">{{ item.product.raw_price|toman:1 }}</span>
                                     <strong class="text-success">
                                         {{ item.product.price|toman:1 }}
                                     </strong>

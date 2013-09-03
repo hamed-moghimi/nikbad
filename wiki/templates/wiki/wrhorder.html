@@ -1,11 +1,29 @@
-{% extends "wiki/wiki.html" %}
+{% extends "wiki/base.html" %}
 {% load nikbad_tags %}
+
+{% block crumbs %}
+    <li><a href="{% url index %}">
+        <i class="icon-home icon-large"></i>
+        نیک باد
+    </a> <span class="divider">/</span></li>
+
+    <li><a href="{% url wiki-index %}">
+        ویکی
+    </a> <span class="divider">/</span></li>
+    <li><a href="{% url wrh-order %}">
+        سفارش های کالا از طرف انبار
+    </a> </li>
+{% endblock %}
+
 {% block content %}
 
 
     <div class="panel">
 
         <h2 class="panel-header">فهرست سفارش های انبار</h2>
+    <div class="text-error">
+        توجه کنید که تا زمانی که کالا در انبار موجودی داشته باشد فروش کالا ادامه خواهد داشت.
+    </div>
 
         <table class="table-striped" style="width: 100%">
             <thead>
