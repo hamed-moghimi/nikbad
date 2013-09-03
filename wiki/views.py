@@ -100,18 +100,20 @@ def addproduct(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
-            print 'hello'
             gid = form.cleaned_data['goodsID']
             wiki = Wiki.objects.filter(username = user.username)[0]
             brand = form.cleaned_data['brand']
             name = form.cleaned_data['name']
             cat = form.cleaned_data['sub_category']
             unit = form.cleaned_data['unit']
-            pr = form.cleaned_data['price']
-            off = form.cleaned_data['off']
+            pr = form.cleaned_data.get('price')
+            off = form.cleaned_data.get('off')
+            pri = pr - (off / 100.0) * pr
+            print pri
             p = Product(goodsID = gid, wiki = wiki, brand = brand,
                         name = name, sub_category = cat, unit = unit,
-                        price = pr, off = off)
+                        price = pri, off = off)
+            print p.price
             Ad.objects.get_or_create(product = p)
             p.save()
             return product_success(request, p)
@@ -241,7 +243,8 @@ def editProduct(request, gId):
         if (f.is_valid()):
             off = f.cleaned_data['off']
             pr = f.cleaned_data['price']
-            pr = pr - pr * off/10
+            pr = pr - pr * off/100.0
+            f.instance.price = pr
             f.save()
             return product_success(request, p)
     f = ProductForm(instance = p)
@@ -306,7 +309,7 @@ def cancelContract(request):
             wiki = form.cleaned_data['wiki']
             list = Contract.objects.filter(wiki = wiki)
             if list.__len__() == 0:
-                return no_contract(request, 'admin')
+                return render(request, 'mng/mng-no-contract.html')
             else:
                 con = list[0]
                 con.delete()

@@ -11,17 +11,16 @@ from django.forms import *
 
 class WikiForm(ModelForm):
 
-    password = CharField(label= u"گذر واژه" ,widget=PasswordInput)
-    repassword = CharField(label= u"تکرار گذرواژه" ,widget=PasswordInput)
-
+    companyName = CharField(label = u'نام شرکت', required = True)
+    phone = RegexField(label=u"شماره تماس ",help_text="021-88888888 یا 0912-2222222",regex="\d{7,}" ,
+                     error_messages={'invalid' : u"تلفن 11 رقمی است"}, required=True)
+    address=CharField(widget=Textarea(),label=u"نشانی شرکت", required = True)
+    password = CharField(label= u"گذر واژه", required=True, widget=PasswordInput)
+    repassword = CharField(label= u"تکرار گذرواژه" ,required=True, widget=PasswordInput)
+    email=EmailField(label=u"رایانامه" ,required=True ,help_text="a@b.com"  )
     class Meta:
         model = Wiki
         fields = ['companyName', 'image', 'phone', 'address', 'username', 'password', 'repassword','email']
-
-        def clean_phone(self):
-            phone = self.cleaned_data.get('phone')
-            if phone.__len__ < 8 or phone.__len__ > 11:
-                raise forms.ValidationError(u'شماره تلفن داده شده معتبر نیست')
 
 
     def clean_repassword(self):
@@ -31,6 +30,8 @@ class WikiForm(ModelForm):
         if password != password2:
             raise forms.ValidationError(u"گذر واژه و تکرار ان یکسان نیست")
 
+        return self.cleaned_data.get('password')
+
 
 class ProductForm(ModelForm):
     class Meta:
@@ -39,12 +40,19 @@ class ProductForm(ModelForm):
 
 
 class DeleteProductForm(Form):
-    pro = IntegerField(label=u'کدکالا')
+    pro = IntegerField(label=u'کدکالا', required=True)
 
 
 class DateForm(Form):
-    startDate = jDateField(label=u'از تاریخ ')
-    endDate = jDateField(label=u' تا تاریخ')
+    startDate = jDateField(label=u'از تاریخ ', required=True)
+    endDate = jDateField(label=u' تا تاریخ', required=True)
+
+    def clean_date(self):
+        start = self.cleaned_data.get('startDate')
+        end = self.cleaned_data.get('repassword')
+        if start > end:
+            raise forms.ValidationError(u"تاریخ وارد شده معتبر نیست. تاریخ شروع نباید از تاریخ پایان بزرگتر باشد.")
+        return self.cleaned_data.get('startDate')
 
 
 

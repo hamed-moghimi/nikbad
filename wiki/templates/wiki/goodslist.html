@@ -30,11 +30,14 @@
 
                 <th style="width: 20%">کد کالا</th>
 
-                <th style="width: 10%">برند</th>
+                <th style="width: 10%">نام تجاری</th>
 
-                <th style="width: 25%">نام</th>
+                <th style="width: 20%">نام</th>
 
-                <th style="width: 20%">قیمت (تومان)</th>
+                <th style="width: 5%">قیمت (تومان)</th>
+
+                <th style="width: 5%">تخفیف (درصد)</th>
+
 
                 <th style="width: 10%"></th>
             </tr>
@@ -54,6 +57,8 @@
                         <td style="text-align: center">{{ product.name }}</td>
 
                         <td style="text-align: center">{{ product.price|toman }} </td>
+
+                        <td style="text-align: center">{{ product.off }} </td>
 
                         <td style="text-align: center">
                             <a class="btn btn-primary" href="{% url sales-adEdit itemCode=product.pk %}">

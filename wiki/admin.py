@@ -4,7 +4,7 @@ from wiki.models import Wiki
 from wiki.models import Contract
 from wiki.models import ReturnRequest
 from wiki.models import ConRequest
-from wiki.models import ConCancel
+from wiki.models import ConCancel, SubCat, Category
 
 admin.site.register(Product)
 admin.site.register(Wiki)
@@ -14,4 +14,15 @@ admin.site.register(ConRequest)
 admin.site.register(ConCancel)
 
 
+class SubCatAdmin(admin.ModelAdmin):
+    list_filter = ['category']
+    list_display = ['name', 'category']
+    # exclude = ['image']
+    # readonly_fields = ['ad', 'title', 'thumbnail', 'checked']
 
+class CategoryAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ['name']
+
+admin.site.register(SubCat, SubCatAdmin)
+admin.site.register(Category, CategoryAdmin)

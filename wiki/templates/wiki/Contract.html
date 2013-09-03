@@ -54,7 +54,7 @@
     {% if str != "hasCC" and str != "hasCR" %}
         <form action="" class="form-horizontal" method="post">
 
-            {% include '_hform.html' %}
+            {% include '_hform.html' with show_star=1 submit_text='ثبت درخواست' %}
             {#    <input type="submit" class="btn btn-primary" value="درج کالا"/>#}
         </form>
     {% endif %}
@@ -62,7 +62,7 @@
 {% endblock %}
 
 {% block menus %}
-    {% include "wiki/_menus.html" with active_menu=1%}
+    {% include "wiki/_menus.html" with active_menu=8%}
 {% endblock %}
 
 

@@ -20,21 +20,24 @@
     <div class="panel">
         <h2 class="panel-header">وضعیت قرارداد</h2>
         {% for con in contract %}
+            نام شرکت:
+            {{ con.wiki }}
+            <br>
         تاریخ شروع:
     {{ con.startDate|jalali }}
         <br>
     تاریخ پایان:
     {{ con.expDate|jalali }}
         <br>
-                درصد تسهیم سود:
+       درصد بهره سراب از فروش کالاها:
     {{ con.percent }}
 
          <br>
-            حداکثر تعداد کالا:
+            حداکثر تعداد کالاهای ویترین:
             {{ con.max_goods }}
             <br>
-            آبونمان:
-            {{ con.fee }}
+            آبونمان ماهانه:
+            {{ con.fee|toman }}
 
     {% endfor %}
 
