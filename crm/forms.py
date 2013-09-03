@@ -6,7 +6,7 @@ from django.forms import *
 class checkCustomerForm(ModelForm):
     class Meta:
         model = Customer
-        fields = ['username' , 'first_name', 'last_name', 'gender' , 'phone'  , 'email'  , 'postal_code', 'city' , 'address' ]
+        fields = ['username' , 'first_name', 'last_name' , 'phone'  , 'email'  , 'postal_code', 'city' , 'address' ]
 
 
 class DateForm(Form):
