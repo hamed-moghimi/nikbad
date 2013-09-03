@@ -230,7 +230,7 @@ def salesreport(request):
 def wrhproducts(request):
     myName = request.user.username
     stock = Stock.objects.filter(product__wiki__username__iexact = myName)
-    paginator = Paginator(stock, 1)
+    paginator = Paginator(stock, 10)
     page = request.GET.get('page')
     try:
         stocks = paginator.page(page)
