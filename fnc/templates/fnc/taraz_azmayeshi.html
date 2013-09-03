@@ -10,7 +10,8 @@
             <tbody>
             {% for tz in tarazes %}
                 <tr>
-                    <td class="FNC-td2"><a href="{% url fnc-taraz-azmayeshi-2 tarazId=tz.id %}"> {{ tz.date|jalali}}</a></td>
+                    <td class="FNC-td2"><a
+                            href="{% url fnc-taraz-azmayeshi-2 tarazId=tz.id %}"> {{ tz.date|jalali }}</a></td>
                 </tr>
             {% endfor %}
 
@@ -27,5 +28,12 @@
         {% include "fnc/_menus.html" with active_menu=2 %}
     {% endif %}
     {% endcomment %}
-    {% include "fnc/_menus.html" with active_menu=7 %}
+    {% if perms.fnc.is_fnc %}
+        {% include "fnc/_menus.html" with active_menu=7 %}
+    {% endif %}
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-taraz-azmayeshi %}">تراز آزمایشی</a> <span class="divider">/</span></li>
 {% endblock %}
