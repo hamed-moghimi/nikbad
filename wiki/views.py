@@ -116,6 +116,7 @@ def addproduct(request):
                         name = name, sub_category = cat, unit = unit,
                         price = pri, off = off)
             print p.price
+            p.save()
             Ad.objects.get_or_create(product = p)
 
             return product_success(request, p)
