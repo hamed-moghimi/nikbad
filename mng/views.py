@@ -228,14 +228,15 @@ def newContract(request, wId):
         if form.is_valid():
             form.instance.wiki = w
             form.instance.companyName = w.companyName
-            form.instance.fee = ConRequest.objects.get(wiki=w).abone
+            form.instance.fee = ConRequest.objects.get(wiki=w).abonne
+            # form.instance.fee = ConRequest.objects.get(wiki=w).
             form.instance.percent = ConRequest.objects.get(wiki=w).benefit
             form.save()
             # make_cb_contract(form.instance)
             return contract_success(request, wId)
     else:
         form = ContractForm(initial={'wiki': w, 'companyName': w.companyName,
-                                     'fee': ConRequest.objects.get(wiki=Wiki.objects.get(pk=wId)).abone,
+                                     'fee': ConRequest.objects.get(wiki=Wiki.objects.get(pk=wId)).abonne,
                                      'percent': ConRequest.objects.get(wiki=w).benefit})
 
     return render(request, 'mng/contract.html', {'form': form})
