@@ -100,7 +100,7 @@ def addproduct(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
-            gid = form.cleaned_data['goodsID']
+            # gid = form.cleaned_data['goodsID']
             wiki = Wiki.objects.filter(username = user.username)[0]
             brand = form.cleaned_data['brand']
             name = form.cleaned_data['name']
@@ -109,8 +109,7 @@ def addproduct(request):
             pr = form.cleaned_data.get('price')
             off = form.cleaned_data.get('off')
             pri = pr - (off / 100.0) * pr
-            print pri
-            p = Product(goodsID = gid, wiki = wiki, brand = brand,
+            p = Product(wiki = wiki, brand = brand,
                         name = name, sub_category = cat, unit = unit,
                         price = pri, off = off)
             print p.price
