@@ -31,9 +31,10 @@ class CustomerForm(ModelForm):
     first_name=CharField(required=True ,label=u"نام" )
     last_name=CharField(required=True ,label=u"نام خانوادگی" )
     postal_code=RegexField(label=u"کدپستی",help_text=u"کدپستی ده رقمی است",required=True,regex="\d{10}" , error_messages={'invalid' : u"کدپستی شامل 10 رقم است"})
-    email=EmailField(label=u"رایانامه" ,required=True ,help_text="a@b.com"  )
-    phone=RegexField(label=u"شماره تماس ثابت",help_text="021-88888888",regex="\d{7,}" , error_messages={'invalid' : u"تلفن ثابت 11 رقمی است"})
+    email=EmailField(label=u"رایانامه" ,required=True ,help_text="یک رایانامه معتبر مثل: nikbad@sarab.com")
+    phone=RegexField(label=u"شماره تماس ثابت",help_text="تلفن به همراه کد شهرستان 11 رقمی می باشد مثل:0218826299",regex="\d{7,}" , error_messages={'invalid' : u"تلفن ثابت 11 رقمی است"})
     address=CharField(widget=Textarea(),label=u"نشانی محل سکونت")
+    # username=RegexField(label=u"نام کاربری" , help_text=u"حداکثر 30 حرف شامل ارقام و حروف الفبا")
     class Meta:
         model = Customer
         fields = ['username','password','repassword' , 'first_name', 'last_name', 'gender' , 'phone'  , 'email'  , 'postal_code', 'city' , 'address' ]
