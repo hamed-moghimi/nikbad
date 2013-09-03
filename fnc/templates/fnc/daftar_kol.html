@@ -6,15 +6,15 @@
 
 {% block content %}
     <div class="panel">
-       <h2 class="panel-header">لیست حساب ها</h2>
-            <table class="FNC-table2 table-hover table-striped">
+        <h2 class="panel-header">لیست حساب ها</h2>
+        <table class="FNC-table2 table-hover table-striped">
             <thead>
 
             </thead>
             <tbody>
             {% for ac in accounts %}
                 <tr>
-                       <td class="FNC-td2"><a href="{% url fnc-daftar-kol-2 daftarId=ac.id%}">{{ ac.name }}</a></td>
+                    <td class="FNC-td2"><a href="{% url fnc-daftar-kol-2 daftarId=ac.id %}">{{ ac.name }}</a></td>
                 </tr>
 
             {% endfor %}
@@ -24,5 +24,12 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "fnc/_menus.html" with active_menu=8 %}
+    {% if perms.fnc.is_fnc %}
+        {% include "fnc/_menus.html" with active_menu=8 %}
+    {% endif %}
 {% endblock %}
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-daftar-kol %}">دفتر کل</a> <span class="divider">/</span></li>
+{% endblock %}
+

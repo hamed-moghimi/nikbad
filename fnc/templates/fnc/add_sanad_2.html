@@ -3,10 +3,17 @@
 {% block content %}
     <div class="panel">
         <p class="text-center">
-            سند با شماره ی {{sanadId}} ایجاد شد
+            سند با شماره ی {{ sanadId }} ایجاد شد
         </p>
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "fnc/_menus.html" with active_menu=1 %}
+    {% if perms.fnc.is_fnc %}
+        {% include "fnc/_menus.html" with active_menu=1 %}
+    {% endif %}
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-add-sanad %}">ایجاد سند مالی جدید</a> <span class="divider">/</span></li>
 {% endblock %}

@@ -37,7 +37,7 @@ class CustomerForm(ModelForm):
     # username=RegexField(label=u"نام کاربری" , help_text=u"حداکثر 30 حرف شامل ارقام و حروف الفبا")
     class Meta:
         model = Customer
-        fields = ['username','password','repassword' , 'first_name', 'last_name', 'gender' , 'phone'  , 'email'  , 'postal_code', 'city' , 'address' ]
+        fields = ['username','password','repassword' , 'first_name', 'last_name' , 'phone'  , 'email'  , 'postal_code', 'city' , 'address' ]
 
 
     def clean_repassword(self):
