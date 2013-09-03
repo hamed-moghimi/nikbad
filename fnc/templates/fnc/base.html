@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block menus %}
-    {% include "fnc/_menus.html" %}
-    {% if perms.fnc.is_manager %}
-        {% include "mng/_menus.html" %}
-    {% endif %}
     {% if perms.fnc.is_fnc %}
         {% include "fnc/_menus.html" %}
     {% endif %}
-{% endblock %}s
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-index %}">امور مالی نیک باد</a> <span class="divider">/</span></li>
+{% endblock %}
