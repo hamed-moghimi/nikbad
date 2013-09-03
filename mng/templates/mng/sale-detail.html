@@ -6,7 +6,7 @@
     <div class="panel" xmlns="http://www.w3.org/1999/html">
         <h2 class="WRH-heading2"> لیست خرید </h2>
 
-                      <div class="panel">
+        <div class="panel">
             <h2 class="panel-header"> انتخاب تاریخ </h2>
 
             <form class="form-horizontal" action="" method="post">
@@ -16,29 +16,30 @@
         </div>
 
         <div class="WRH-panel2">
-            <br />
+            <br/>
             {% if product %}
                 <p>
-                                    </p>
-                <br />
+                </p>
+                <br/>
                 <table class="WRH-table2 table-hover table-striped">
                     <thead>
                     <td class="WRH-th-td2"></td>
-{#                    <td class="WRH-th-td2"> شماره فاکتور</td>#}
-{#                    <td class="WRH-th-td2"> نام مشتری</td>#}
-{#                    <td class="WRH-th-td2">نام ویکی </td>#}
-                    <td class="WRH-th-td2"> نام کالا </td>
-                    <td class="WRH-th-td2" >کد کالا  </td>
-                    <td class="WRH-th-td2"> تعداد </td>
+                    {#                    <td class="WRH-th-td2"> شماره فاکتور</td>#}
+                    {#                    <td class="WRH-th-td2"> نام مشتری</td>#}
+                    {#                    <td class="WRH-th-td2">نام ویکی </td>#}
+                    <td class="WRH-th-td2"> نام کالا</td>
+                    <td class="WRH-th-td2">کد کالا</td>
+                    <td class="WRH-th-td2"> تعداد</td>
 
                     <td class="WRH-th-td2"> قیمت هر واحد</td>
-                    <td class="WRH-th-td2"> وضعیت </td>
+                    <td class="WRH-th-td2"> وضعیت</td>
                     </thead>
                     <tbody>
                     {% for pro in  product %}
                         <tr>
 
-                            <td class="WRH-td2"><img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/></td>
+                            <td class="WRH-td2"><img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/>
+                            </td>
                             <td class="WRH-td2">
                                 {{ pro.product.name }}
                             </td>
@@ -63,22 +64,22 @@
 
                     </tbody>
                 </table>
-                <br />
+                <br/>
 
             {% endif %}
         </div>
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "mng/_menus.html" with active_menu=4%}
+    {% include "mng/_menus.html" with active_menu=4 %}
 {% endblock %}
 
 
 {% block crumbs %}
     {{ block.super }}
-      <li><a href="{% url mng-sales  %}">گزارش فروش نیک باد</a> <span class="divider">/</span></li>
-    <li><a href="{% url mng-sale-detail %}">صورت خرید مشتری</a> <span class="divider">/</span></li>
+    <li><a href="{% url mng-sales %}">گزارش فروش نیک باد</a> <span class="divider">/</span></li>
+    <li><a href="{% url mng-sale-detail wId=saleBill.pk %}">صورت خرید مشتری</a> <span class="divider">/</span></li>
 
-{#    <li class="active">{{ item }}</li>#}
+    {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}

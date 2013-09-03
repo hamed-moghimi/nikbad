@@ -27,14 +27,18 @@ def index(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            sb = c.saleBills.objects.filter(date__range = (startDate, endDate))
+            sb = c.saleBills.objects.filter(saleDate__range = (startDate, endDate))
+    else:
+        form = DateForm()
+
+    context = {'form': form}
 
     try:
         # sb = c.saleBills.all()[0]
         p = sb.products.all()
-        context = {'Product': p, 'Bill': sb, 'EditForm': f}
+        context.update({'Product': p, 'Bill': sb, 'EditForm': f})
     except:
-        context = {'EditForm': f}
+        context.update({'EditForm': f})
     return render(request, 'crm/base.html', context)
 
 
@@ -103,15 +107,19 @@ def status(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            sb = c.saleBills.objects.filter(date__range = (startDate, endDate))
+            sb = c.saleBills.objects.filter(saleDate__range = (startDate, endDate))
+    else:
+        form = DateForm()
+
+    context = {'form': form}
 
     try:
         # sb = c.saleBills.all()[0]
         p = sb.products.all()
-        context = {'Product': p, 'Bill': sb}
+        context.update({'Product': p, 'Bill': sb})
     except:
-        context = {}
-    # context = {'Product': p, 'Bill': sb}
+        pass
+        # context = {'Product': p, 'Bill': sb}
     return render(request, 'crm/status.html', context)
 
 

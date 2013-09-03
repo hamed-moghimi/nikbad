@@ -178,6 +178,7 @@ class Specification(models.Model):
         verbose_name = u'ویژگی'
         verbose_name_plural = u'ویژگی ها'
         ordering = ['ad', '-title']
+        app_label = 'sas'
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.title, self.value)

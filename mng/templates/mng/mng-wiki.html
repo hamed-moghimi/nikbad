@@ -41,15 +41,15 @@
 
                         <td style="text-align: center">{{ product.price|toman }} </td>
 
-                        <td style="text-align: center">
-                            <a class="btn btn-primary" href="{% url sales-adEdit itemCode=product.pk %}">
-                                <i class="icon-pencil icon-large"></i>
-                            </a>
-                        </td>
-                        <td style="text-align: center">
-                            <a class="btn btn-primary"
-                               href="{% url product-edit gId=product.goodsID %}"> {{ submit_text|default:"ویرایش " }} </a> </button>
-                        </td>
+                        {#                        <td style="text-align: center">#}
+                        {#                            <a class="btn btn-primary" href="{% url sales-adEdit itemCode=product.pk %}">#}
+                        {#                                <i class="icon-pencil icon-large"></i>#}
+                        {#                            </a>#}
+                        {#                        </td>#}
+                        {#                        <td style="text-align: center">#}
+                        {#                            <a class="btn btn-primary"#}
+                        {#                               href="{% url product-edit gId=product.goodsID %}"> {{ submit_text|default:"ویرایش " }} </a> </button>#}
+                        {#                        </td>#}
 
                     </tr>
                 {% endwith %}

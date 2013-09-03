@@ -8,7 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from pyPdf import PdfFileWriter, PdfFileReader
 from StringIO import StringIO
 import unicodedata
-# from bidi.algorithm import get_display
+from bidi.algorithm import get_display
 from reportlab.pdfgen.canvas import Canvas
 from arabic_rtlize import process as a_process
 from arabic_rtlize import forms as a_forms
@@ -38,8 +38,7 @@ def drawText(canvas, x, y, text, en = False, bold = False, size = 12):
         wrkText = a_process.shape(wrkText)
 
     if isBidi:
-        pass
-        # wrkText = get_display(wrkText)
+        wrkText = get_display(wrkText)
 
     if bold:
         canvas.setFont('BNazanin', size)

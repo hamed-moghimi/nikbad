@@ -38,7 +38,6 @@
                     <col width="70px">
                     <col width="70px">
                     <col width="70px">
-                    <col>
                     <col width="50px">
                 </colgroup>
                 <thead>
@@ -57,14 +56,14 @@
                             <label for="code" class="nohand col-lg-2 control-label">{{ cb.id }}</label>
                         </td>
                         <td class="FNC-td2"> {{ cb.date|jalali }} </td>
-                        <td class="FNC-td2">
-{{ cb.account_bedeh.name }} <br/>
-<span style="margin-right:20px">{{ cb.account_bestan.name }}</span> <br/>
-{{ cb.description }}
+                        <td class="FNC-td2 text-right" style="padding-right: 30px">
+                            <strong>{{ cb.account_bedeh.name }}</strong><br/>
+                            <span style="margin-right:40px"><strong>{{ cb.account_bestan.name }}</strong></span><br/>
+                            {{ cb.description }}
 
                         </td>
-                        <td class="FNC-td2"> {{ cb.amount|rial }} </td>
-                        <td class="FNC-td2"><br>{{ cb.amount|rial }} </td>
+                        <td class="FNC-td2" style="vertical-align: top !important;"> {{ cb.amount|rial }} </td>
+                        <td class="FNC-td2" style="vertical-align: top !important;"><br>{{ cb.amount|rial }} </td>
 
                     </tr>
                 {% endfor %}
@@ -92,7 +91,7 @@
 {% endblock %}
 {% block menus %}
 
-    {% if perms.fnc.is_fnc%}
+    {% if perms.fnc.is_fnc %}
         {% include "fnc/_menus.html" with active_menu=2 %}
     {% endif %}
 {% endblock %}

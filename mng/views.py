@@ -210,7 +210,7 @@ def sales(request):
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
-            sb = SaleBill.objects.all().filter(date__range = (startDate, endDate))
+            sb = SaleBill.objects.all().filter(saleDate__range = (startDate, endDate))
     else:
         form = DateForm()
     context = {}
@@ -288,7 +288,7 @@ def wiki_select(request):
 def wiki(request, wId):
     p = Product.objects.all().filter(wiki__id = wId)
     w = Wiki.objects.get(id = wId)
-    context = {'product_list': p, 'wiki': w}
+    context = {'products': p, 'wiki': w}
     return render(request, 'mng/mng-wiki.html', context)
 
 

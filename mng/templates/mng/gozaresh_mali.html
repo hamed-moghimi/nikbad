@@ -34,16 +34,15 @@
         {% if costBenefits %}
             <table class="table table-hover table-striped">
                 <colgroup>
-                    <col width="30px">
-                    <col width="70px">
-                    <col width="70px">
-                    <col width="70px">
-                    <col>
-                    <col width="50px">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="20%">
+                    <col width="20%">
                 </colgroup>
                 <thead>
 
-                <td class="FNC-th-td">شماره سند حسابداری</td>
+                <td class="FNC-th-td">شماره سند</td>
                 <td class="FNC-th-td"> تاریخ</td>
                 <td class="FNC-th-td"> شرح سند</td>
                 <td class="FNC-th-td"> بدهکاری(ریال)</td>
@@ -57,14 +56,14 @@
                             <label for="code" class="nohand col-lg-2 control-label">{{ cb.id }}</label>
                         </td>
                         <td class="FNC-td2"> {{ cb.date|jalali }} </td>
-                        <td class="FNC-td2">
-{{ cb.account_bedeh.name }} <br/>
-<span style="margin-right:20px">{{ cb.account_bestan.name }}</span> <br/>
-{{ cb.description }}
+                        <td class="FNC-td2  text-right" style="padding-right: 30px">
+                            <strong>{{ cb.account_bedeh.name }}</strong><br/>
+                            <span style="margin-right:40px"><strong>{{ cb.account_bestan.name }}</strong></span><br/>
+                            {{ cb.description }}
 
                         </td>
-                        <td class="FNC-td2"> {{ cb.amount|rial }} </td>
-                        <td class="FNC-td2"><br>{{ cb.amount|rial }} </td>
+                        <td class="FNC-td2" style="vertical-align: top !important;"> {{ cb.amount|rial }} </td>
+                        <td class="FNC-td2" style="vertical-align: top !important"><br>{{ cb.amount|rial }} </td>
 
                     </tr>
                 {% endfor %}
@@ -74,30 +73,30 @@
         {% endif %}
 
         {% if costBenefits %}
-            <div class="pagination-centered">
-                <span class="step-links">
+            <div class="pagination-centered"
+            <span class="step-links">
                 {% if contacts.has_previous %}
                     <a href="?page={{ costBenefits.previous_page_number }}">قبلي</a>
                 {% endif %}
-                    <span class="current">
+                <span class="current">
                          صفحه{{ costBenefits.number }} از {{ costBenefits.paginator.num_pages }}.
                 </span>
-                    {% if contacts.has_next %}
-                        <a href="?page={{ costBenefits.next_page_number }}">بعدي</a>
-                    {% endif %}
+                {% if contacts.has_next %}
+                    <a href="?page={{ costBenefits.next_page_number }}">بعدي</a>
+                {% endif %}
                 </span>
             </div>
         {% endif %}
     </div>
 {% endblock %}
 {% block menus %}
-        {% include "mng/_menus.html" with active_menu=1 %}
+    {% include "mng/_menus.html" with active_menu=1 %}
 {% endblock %}
 
 
 {% block crumbs %}
     {{ block.super }}
     <li><a href="{% url mng-fnc %}">گزارش مالی نیک باد </a> <span class="divider">/</span></li>
-{#    <li class="active">{{ item }}</li>#}
+    {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}
