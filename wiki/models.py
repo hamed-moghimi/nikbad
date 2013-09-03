@@ -12,7 +12,7 @@ deliveryChoices = (
 # Create your models here.
 class Wiki(User):
     companyName = models.CharField("نام شرکت", max_length = 255)
-    phone = models.CharField("شماره تلفن", max_length = 11)
+    phone = models.CharField("شماره تلفن", max_length = 12)
     address = models.CharField("نشانی", max_length = 1000)
     image = models.ImageField("تصویر نشان تجاری", blank = True, upload_to = 'images/wikis')
     reminder = models.IntegerField(verbose_name = "باقی مانده حقوق", default = 0)
