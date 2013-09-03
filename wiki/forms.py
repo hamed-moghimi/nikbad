@@ -15,7 +15,7 @@ class WikiForm(ModelForm):
     phone = RegexField(label=u"شماره تماس ",help_text="از یکی از دونمونه مقابل پیروی کنید: 02188888888 یا 09122222222",regex="\d{7,}" ,
                      error_messages={'invalid' : u"تلفن 11 رقمی است"}, required=True)
     address=CharField(widget=Textarea(),label=u"نشانی شرکت", required = True)
-    password = CharField(label= u"گذر واژه", required=True, help_text=u"گذرواژه حداقل شامل 6 حرف ",
+    password = RegexField(label= u"گذر واژه", required=True, help_text=u"گذرواژه حداقل شامل 6 حرف ",
                          widget=PasswordInput, regex="\w{6,}" , error_messages={'invalid' : u"گذرواژه باید شامل حداقل 6 حرف باشد"})
     repassword = CharField(label= u"تکرار گذرواژه" ,required=True, widget=PasswordInput)
     email=EmailField(label=u"رایانامه" ,required=True ,help_text="مثال: nikbad@saraab.com"  )
