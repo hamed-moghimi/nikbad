@@ -112,6 +112,7 @@ def addproduct(request):
             p = form.instance
 
             p.wiki = wiki
+            p.price = pri
             p.save()
             # p = Product(wiki = wiki, brand = brand,
             #             name = name, sub_category = cat, unit = unit,
