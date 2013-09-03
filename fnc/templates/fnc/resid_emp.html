@@ -1,5 +1,5 @@
 {% extends "fnc/base.html" %}
-
+{% load nikbad_tags %}
 {% block content %}
     <div class="panel">
         <h2 class="panel-header">رسید حقوق کارمندان</h2>
@@ -8,7 +8,7 @@
                 <thead>
 
                 <td class="FNC-th-td"> نام</td>
-                <td class="FNC-th-td"> حقوق دریافتی</td>
+                <td class="FNC-th-td"> حقوق دریافتی(ریال)</td>
                 <td class="FNC-th-td"> تاریخ</td>
 
                 </thead>
@@ -16,8 +16,8 @@
                 {% for sf in salaryFac %}
                     <tr>
                         <td class="FNC-td2"> {{ sf.employee }} </td>
-                        <td class="FNC-td2"> {{ sf.amount }} </td>
-                        <td class="FNC-td2"> {{ sf.date }} </td>
+                        <td class="FNC-td2"> {{ sf.amount|rial }} </td>
+                        <td class="FNC-td2"> {{ sf.date|jalali }} </td>
                         </td>
                     </tr>
                 {% endfor %}
