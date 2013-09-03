@@ -18,6 +18,13 @@
                 کد حواله
             {% endif %}
         </td>
+        {% if active_menu == 99 %}
+        {% elif active_menu == 1010 %}
+        {% else %}
+            <td class="WRH-th-td2">
+            صادر کننده
+            </td>
+        {% endif %}
         <td class="WRH-th-td2">
             {% if active_menu == 99 %}
                 کد مشتری
@@ -36,10 +43,24 @@
                 نام تحویل گیرنده
             {% endif %}
         </td>
-        {% if active_menu == 1111 %}
+        {% if active_menu == 1111%}
             <td class="WRH-th-td2"> وضعیت</td>
         {% endif %}
-        <td class="WRH-th-td2"> تاریخ</td>
+        <td class="WRH-th-td2">
+            {% if active_menu == 88 %}
+              تاریخ ترخیص
+                {% elif active_menu == 99 %}
+                تاریخ ثبت رسید
+                {% elif active_menu == 1010 %}
+                تاریخ ثبت رسید
+                {% elif active_menu == 1111 %}
+                تاریخ صدور حواله
+            {% elif active_menu == 8 %}
+                تاریخ ثبت رسید
+                {% elif active_menu == 15%}
+                تاریخ صدور حواله
+                {% endif %}
+        </td>
         <td class="WRH-th-td2"></td>
         </thead>
         <tbody>
@@ -48,26 +69,26 @@
             <tr>
                 <td class="WRH-td2"> {{ index }}</td>
                 <td class="WRH-td2">
-                    {% if active_menu == 1111 %}
-                        {% if dl.type == 'sale' %}
-                            فروش_{{ dl.pk }}
-                        {% else %}
-                            {% if dl.type == 'warehouse' %}
-                                انبار_{{ dl.pk }}
-                            {% else %}
-                                ویکی_{{ dl.pk }}
-                            {% endif %}
-                        {% endif %}
+                    {% if active_menu == 1111 or active_menu == 15%}
+{#                        {% if dl.type == 'sale' %}#}
+                            {{ dl.pk }}
+{#                        {% else %}#}
+{#                            {% if dl.type == 'warehouse' %}#}
+{#                                انبار_{{ dl.pk }}#}
+{#                            {% else %}#}
+{#                                ویکی_{{ dl.pk }}#}
+{#                            {% endif %}#}
+{#                        {% endif %}#}
                     {% elif active_menu == 88 %}
-                        {% if dl.clearance.type == 'sale' %}
-                            فروش_{{ dl.clearance.pk }}
-                        {% else %}
-                            {% if dl.clearance.type == 'warehouse' %}
-                                انبار_{{ dl.clearance.pk }}
-                            {% else %}
-                                ویکی_{{ dl.clearance.pk }}
-                            {% endif %}
-                        {% endif %}
+{#                        {% if dl.clearance.type == 'sale' %}#}
+{{ dl.clearance.pk }}
+{#                        {% else %}#}
+{#                            {% if dl.clearance.type == 'warehouse' %}#}
+{#                                انبار_{{ dl.clearance.pk }}#}
+{#                            {% else %}#}
+{#                                ویکی_{{ dl.clearance.pk }}#}
+{#                            {% endif %}#}
+{#                        {% endif %}#}
                     {% else %}
                         {% if dl.clearance.type == 'sale' %}
                             {{ dl.clearance.bill.pk }}
@@ -80,8 +101,34 @@
                         {% endif %}
                     {% endif %}
                 </td>
+                {% if active_menu == 99 %}
+                {% elif active_menu == 1010 %}
+                {% elif active_menu == 1111 or active_menu == 15%}
+                    <td class="WRH-td2">
+                                            {% if dl.type == 'sale' %}
+                    بخش فروش
+                                            {% elif dl.type == 'warehouse' %}
+                                                    انبار
+                                                {% else %}
+                                                    امور ویکی ها
+                                                {% endif %}
+{#                                            {% endif %}#}
+                    </td>
+                {% else %}
+                    <td class="WRH-td2">
+                        {% if dl.clearance.type == 'sale' %}
+                            بخش فروش
+                                                    {% else %}
+                                                        {% if dl.clearance.type == 'warehouse' %}
+                                                            انبار
+                                                        {% else %}
+                                                            امور ویکی ها
+                                                        {% endif %}
+                                                    {% endif %}
+                    </td>
+                {% endif %}
                 <td class="WRH-td2">
-                    {% if active_menu == 1111 %}
+                    {% if active_menu == 1111 or active_menu == 15 %}
                         {% if dl.type == 'sale' %}
                             {{ dl.bill.customer.pk }}
                         {% else %}
@@ -104,7 +151,7 @@
                     {% endif %}
                 </td>
                 <td class="WRH-td2">
-                    {% if active_menu == 1111 %}
+                    {% if active_menu == 1111 or active_menu == 15 %}
                         {% if dl.type == 'sale' %}
                             {{ dl.bill.customer.first_name }}
                             {{ dl.bill.customer.last_name }}
@@ -130,7 +177,7 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                {% if active_menu == 1111 %}
+                {% if active_menu == 1111%}
                     <td class="WRH-td2">
                         {% if dl.ready == 'n' %}
                             صادر شده
@@ -158,7 +205,7 @@
     </table>
     <br/>
     <center>
-    {% if active_menu != 8 %}
+    {% if active_menu != 8 and active_menu != 15%}
         <a target="_blank" class="btn btn-primary btn-small" href="{{ print }}">
             چاپ
         </a>

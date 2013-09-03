@@ -49,3 +49,42 @@
         </div>
     </div>
 {% endblock %}
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url warehouse-index %}">
+        {% if active_menu == 12 or active_menu == 14 or active_menu == 15 %}
+            بخش حمل و نقل
+        {% else %}
+            انبار
+        {% endif %}
+    </a> <span class="divider">/</span></li>
+    <li class="active">
+    {% if active_menu == 2 %}
+حواله های جدید
+    {% elif active_menu == 16 %}
+انبارگردانی
+    {% elif active_menu == 4 %}
+        موجودی انبار
+    {% elif active_menu == 5 %}
+       کالاهای معیوب
+    {% elif active_menu == 6 %}
+        سفارشات انبار
+    {% elif active_menu == 7 %}
+        تحویل های انبار
+    {% elif active_menu == 8 %}
+        ترخیص های انبار
+    {% elif active_menu == 9 %}
+        رسیدهای کالا به مشتریان
+    {% elif active_menu == 10 %}
+        رسیدهای کالا به ویکی ها
+    {% elif active_menu == 11 %}
+        حواله های انبار
+    {% elif active_menu == 14 %}
+        رسیدهای به ثبت رسیده
+    {% elif active_menu == 15 %}
+        رسیدهای ثبت نشده
+    {% elif active_menu == 12 %}
+        حواله های آماده ترخیص
+    {% endif %}
+    </li>
+{% endblock %}
