@@ -2,7 +2,7 @@ from django.contrib import admin
 from wiki.models import Product
 from wiki.models import Wiki
 from wiki.models import Contract
-from wiki.models import ReturnRequest
+from wiki.models import ReturnRequest, Brand
 from wiki.models import ConRequest
 from wiki.models import ConCancel, SubCat, Category
 
@@ -12,6 +12,7 @@ admin.site.register(Contract)
 admin.site.register(ReturnRequest)
 admin.site.register(ConRequest)
 admin.site.register(ConCancel)
+admin.site.register(Brand)
 
 
 class SubCatAdmin(admin.ModelAdmin):
