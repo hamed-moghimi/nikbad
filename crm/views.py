@@ -90,11 +90,11 @@ def status(request):
             endDate = form.cleaned_data['endDate']
             sb = c.saleBills.objects.filter(date__range = (startDate, endDate))
 
-    p = sb.products.all()
-    # try:
-    #     context = {'Product': p, 'Bill': sb}
-    # except:
-    #     context = {}
+    try:
+        p = sb.products.all()
+        context = {'Product': p, 'Bill': sb}
+    except:
+        context = {}
 
     context = {'Product': p, 'Bill': sb}
     return render(request, 'crm/status.html', context)

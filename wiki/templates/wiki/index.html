@@ -6,38 +6,62 @@
 {% load nikbad_tags %}
 
 {% block crumbs %}
-    <li><a href="{% url index %}">
+    <li xmlns="http://www.w3.org/1999/html"><a href="{% url index %}">
         <i class="icon-home icon-large"></i>
         نیک باد
     </a> <span class="divider">/</span></li>
 
-    <li><a href="{% url wiki-index %}">
+    <li class="active">
     ویکی
-    </a> <span class="divider">/</span></li>
+    </li>
 {% endblock %}
 
 {% block content %}
     <div class="panel">
         <h2 class="panel-header">وضعیت قرارداد</h2>
-        {% for con in contract %}
-            نام شرکت:
-            {{ con.wiki }}
-            <br>
-        تاریخ شروع:
-    {{ con.startDate|jalali }}
-        <br>
-    تاریخ پایان:
-    {{ con.expDate|jalali }}
-        <br>
-       درصد بهره سراب از فروش کالاها:
-    {{ con.percent }}
 
-         <br>
-            حداکثر تعداد کالاهای ویترین:
-            {{ con.max_goods }}
-            <br>
-            آبونمان ماهانه:
-            {{ con.fee|toman }}
+
+
+        {% for con in contract %}
+        <table class="WRH-table2">
+            <tbody >
+            <tr>
+                <td style="width: 200px; text-align: center">نام شرکت:</td>
+                <td style="width: 300px; text-align: center">{{ con.wiki }}</td>
+            </tr>
+
+            <tr>
+                <td style="width: 200px; text-align: center">        تاریخ شروع:</td>
+                <td style="width: 300px; text-align: center">{{ con.startDate|jalali }}</td>
+            </tr>
+
+            <tr>
+                <td style="width: 200px; text-align: center">    تاریخ پایان:</td>
+                <td style="width: 300px; text-align: center">{{ con.expDate|jalali }}</td>
+            </tr>
+
+            <tr>
+                <td style="width: 200px; text-align: center">درصد بهره سراب از فروش کالاها:</td>
+                <td style="width: 300px; text-align: center">{{ con.percent }}</td>
+            </tr>
+
+            <tr>
+                <td style="width: 200px; text-align: center">حداکثر تعداد کالاهای ویترین:</td>
+                <td style="width: 300px; text-align: center">{{ con.max_goods }}</td>
+            </tr>
+
+            <tr>
+                <td style="width: 200px; text-align: center">آبونمان ماهانه:</td>
+                <td style="width: 300px; text-align: center">{{ con.fee|toman }}</td>
+            </tr>
+
+
+
+        </tbody>
+        </table>
+
+
+
 
     {% endfor %}
 
