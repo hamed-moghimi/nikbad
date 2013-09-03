@@ -6,6 +6,15 @@
     <div class="panel" xmlns="http://www.w3.org/1999/html">
         <h2 class="WRH-heading2"> لیست خرید </h2>
 
+                      <div class="panel">
+            <h2 class="panel-header"> انتخاب تاریخ </h2>
+
+            <form class="form-horizontal" action="" method="post">
+                {% include "_hForm.html" with form=form submit_text="نمایش" %}
+            </form>
+
+        </div>
+
         <div class="WRH-panel2">
             <br />
             {% if product %}
