@@ -1,4 +1,4 @@
-{% extends "fnc/base.html" %}
+{% extends "mng/base.html" %}
 
 {% block head %}
     <title> لیست حساب ها </title>
@@ -24,5 +24,14 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "fnc/_menus.html" with active_menu=8 %}
+    {% include "mng/_menus.html" with active_menu=14 %}
+{% endblock %}
+
+
+{% block crumbs %}
+    {{ block.super }}
+    {#    <li><a href="{% url mng-newemp %}">ثبت نام کارمند </a> <span class="divider">/</span></li>#}
+    <li><a href={% url fnc-daftar-kol %}>دفتر کل</a> <span class="divider">/</span></li>
+    {#    <li class="active">{{ item }}</li>#}
+
 {% endblock %}

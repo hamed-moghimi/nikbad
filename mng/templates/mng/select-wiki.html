@@ -2,7 +2,7 @@
 {% load nikbad_tags %}
 {% block head %}
     <title>
-    ویکی های طرف قرارداد
+        ویکی های طرف قرارداد
     </title>
 {% endblock %}
 
@@ -12,34 +12,35 @@
 {% block content %}
     <div class="panel">
         <h2 class="panel-header"> ویکی های طرف قرارداد</h2>
-    {% if conts %}
-        <table class="FNC-table2 table-hover table-striped">
-            <thead>
+        {% if conts %}
+            <table class="FNC-table2 table-hover table-striped">
+                <thead>
 
-            <td class="FNC-th-td"></td>
-            <td class="FNC-th-td"> نام ویکی</td>
-            <td class="FNC-th-td"> شماره ویکی</td>
-            <td class="FNC-th-td"> تاریخ شروع قرار داد</td>
-            <td class="FNC-th-td"> تاریخ پایان قرار داد</td>
+                <td class="FNC-th-td"></td>
+                <td class="FNC-th-td"> نام ویکی</td>
+                <td class="FNC-th-td"> شماره ویکی</td>
+                <td class="FNC-th-td"> تاریخ شروع قرار داد</td>
+                <td class="FNC-th-td"> تاریخ پایان قرار داد</td>
 
-            </thead>
-            <tbody>
-            {% for w in conts %}
-                <tr>
-                    <td class="WRH-td"><img class="myimage" src="{{ w.wiki.image.url }}"/></td>
-                    <td class="FNC-td2"><a href="{% url mng-wiki wId=w.wiki.id %}"> {{ w.companyName }}</a></td>
-                    <td class="FNC-td2">  {{ w.wiki.id }}</td>
-                    <td class="FNC-td2"> {{ w.startDate|jalali }}</td>
-                    <td class="FNC-td2"> {{ w.expDate|jalali }}</td>
-                    <td class="FNC-td2"><a href="{% url contract-detail wId=w.wiki.id %}"> ویرایش قرارداد</a></td>
-                </tr>
-            {% endfor %}
+                </thead>
+                <tbody>
+                {% for w in conts %}
+                    <tr>
+                        <td class="WRH-td"><img class="myimage" src="{{ w.wiki.image.url }}"/></td>
+                        <td class="FNC-td2"><a href="{% url mng-wiki wId=w.wiki.id %}"> {{ w.wiki.companyName }}</a>
+                        </td>
+                        <td class="FNC-td2">  {{ w.wiki.id }}</td>
+                        <td class="FNC-td2"> {{ w.startDate|jalali }}</td>
+                        <td class="FNC-td2"> {{ w.expDate|jalali }}</td>
+                        <td class="FNC-td2"><a href="{% url contract-detail wId=w.wiki.id %}"> ویرایش قرارداد</a></td>
+                    </tr>
+                {% endfor %}
 
-            </tbody>
-        </table>
-    {% else %}
-    قراردادی با ویکی ها بوجود نیامده
-    {% endif %}
+                </tbody>
+            </table>
+        {% else %}
+            قراردادی با ویکی ها بوجود نیامده
+        {% endif %}
     </div>
 {% endblock %}
 {% block menus %}
@@ -49,6 +50,6 @@
 {% block crumbs %}
     {{ block.super }}
     <li><a href="{% url mng-wiki-select %}">صورت ویکی های طرف قرار داد</a> <span class="divider">/</span></li>
-{#    <li class="active">{{ item }}</li>#}
+    {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}

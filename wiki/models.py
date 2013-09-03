@@ -36,7 +36,6 @@ class Category(models.Model):
         return self.name
 
 
-
 class SubCat(models.Model):
     name = models.CharField(max_length = 50, verbose_name = u'عنوان')
     # Some other properties here, hazineye anbardari and ... :D
@@ -49,8 +48,9 @@ class SubCat(models.Model):
     def __unicode__(self):
         return u'{0} ({1})'.format(self.name, self.category.name)
 
+
 class Brand(models.Model):
-    name = models.CharField("نام تجاری", max_length=60)
+    name = models.CharField("نام تجاری", max_length = 60)
 
 
     def __unicode__(self):
@@ -60,15 +60,16 @@ class Brand(models.Model):
         verbose_name = u'نام تجاری'
         verbose_name_plural = u'نام های تجاری'
 
+
 class Product(models.Model):
-    goodsID = models.IntegerField("کد کالا", primary_key = True)
+    goodsID = models.AutoField("کد کالا", primary_key = True)
     wiki = models.ForeignKey(Wiki, verbose_name = "نام ویکی")
-    brand = models.ForeignKey(Brand, verbose_name="نام تجاری")
+    brand = models.ForeignKey(Brand, verbose_name = "نام تجاری")
     name = models.CharField("نام کالا", max_length = 255)
-    sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته", on_delete=models.PROTECT)
+    sub_category = models.ForeignKey(SubCat, verbose_name = "زیر دسته", on_delete = models.PROTECT)
     unit = models.CharField("واحد شمارش", default = "عدد", max_length = 30)
     price = models.IntegerField("قیمت", help_text = "قیمت را به ریال وارد نمایید")
-    off = models.PositiveSmallIntegerField("تخفیف", default=0,
+    off = models.PositiveSmallIntegerField("تخفیف", default = 0,
                                            help_text = "تخفیف یک عدد مثبت کوچکتر از 100 است")
     deliveryStatus = models.IntegerField(default = 0, choices = deliveryChoices, verbose_name = u'وضعیت تحویل')
     orderPoint = models.PositiveIntegerField(default = 0, verbose_name = u'نقطه سفارش')
@@ -114,7 +115,6 @@ class ReturnRequest(models.Model):
     class Meta:
         verbose_name = u'درخواست بازگشت کالا از انبار'
         verbose_name_plural = u'درخواست های بازگشت کالا از انبار'
-
 
 
 class ConRequest(models.Model):

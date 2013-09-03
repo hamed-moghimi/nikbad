@@ -56,5 +56,14 @@
         {% include "fnc/_menus.html" with active_menu=2 %}
     {% endif %}
     {% endcomment %}
-    {% include "fnc/_menus.html" with active_menu=7 %}
+    {% include "mng/_menus.html" with active_menu=13 %}
+{% endblock %}
+
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-taraz-azmayeshi %}">لیست تراز آزمایشی</a> <span class="divider">/</span></li>
+
+    {#    <li class="active">{{ item }}</li>#}
+
 {% endblock %}

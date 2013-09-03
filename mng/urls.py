@@ -27,6 +27,7 @@ urlpatterns = patterns('',
                            name = 'fnc-taraz-azmayeshi-2'),
                        url(r'^addHesab$', 'mng.views.add_hesab', name = 'fnc-add-hesab'),
                        url(r'^residEmp$', 'mng.views.resid_emp', name = 'fnc-resid-emp'),
+                       url(r'^conCancel$', 'mng.views.conCancel', name = 'con-can'),
 
 
 )

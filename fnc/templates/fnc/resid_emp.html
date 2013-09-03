@@ -1,4 +1,4 @@
-{% extends "fnc/base.html" %}
+{% extends "mng/base.html" %}
 {% load nikbad_tags %}
 {% block content %}
     <div class="panel">
@@ -33,12 +33,5 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% if perms.fnc.is_fnc %}
-        {% include "fnc/_menus.html" with active_menu=10 %}
-    {% endif %}
-{% endblock %}
-
-{% block crumbs %}
-    {{ block.super }}
-     <li><a href="{% url fnc-resid-emp %}">رسید حقوق کارمندان</a> <span class="divider">/</span></li>
+    {% include "mng/_menus.html" with active_menu=10 %}
 {% endblock %}

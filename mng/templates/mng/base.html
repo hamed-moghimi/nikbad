@@ -2,14 +2,43 @@
 
 {% block css %}
     <link href="{{ STATIC_URL }}mng/css/WRH-style.css" rel="stylesheet" type="text/css"/>
-     <link href="{{ STATIC_URL }}fnc/css/fnc-style.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ STATIC_URL }}fnc/css/fnc-style.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
+{% block header %}
+    {#    {% if perms.warehouse.is_deliveryman and perms.warehouse.is_warehouseman %}#}
+    <img style=" width: 100%; height: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;"
+         src="{{ STATIC_URL }}mng/images/header.jpg"/>
+    {#    {% elif perms.warehouse.is_deliveryman %}#}
+    {#        <img style=" width: 100%; height: 90%;border-top-left-radius: 10px; border-top-right-radius: 10px;" src="{{ STATIC_URL }}wrh/images/3.2_header_trucks3.jpg"/>#}
+    {#    {% else %}#}
+    {#        <img style=" width: 100%; height: 100%; border-top-left-radius: 10px; border-top-right-radius: 10px;" src="{{ STATIC_URL }}wrh/images/Sacma.jpg"/>#}
+    {#    {% endif %}#}
+{% endblock %}
+{#{% block content %}#}
+{#     <div class="panel">#}
+{#        <h2 class="panel-header">به سامانه مدیریت نیک باد </h2>#}
+{#        <h2 class="panel-header">خوش امدید</h2>#}
+{#</div>#}
 
 {% block content %}
-     <div class="panel">
-        <h2 class="panel-header">به سامانه مدیریت نیک باد </h2>
-        <h2 class="panel-header">خوش امدید</h2>
-</div>
+    <div class="panel">
+        <div class="WRH-panel2">
+            {% block WRH-panel2 %}
+                <br/><br/><br/><br/> {# :-"""""" #}
+                <center>
+                    <p style="font-family: tahoma; font-size: 20px; font-weight: 700;color: rgb(0,89,132);">
+                        {% if perms.warehouse.is_deliveryman %}
+                            به سامانه مدیریت نیک باد خوش امدید
+                        {% else %}
+                            به سامانه مدیریت نیک باد خوش امدید
+                        {% endif %}
+                    </p>
+                </center>
+                <br/><br/><br/><br/><br/><br/>
+            {% endblock %}
+        </div>
+    </div>
+    {#    {% endblock %}#}
 
 {% endblock %}
 
@@ -21,6 +50,6 @@
 {% block crumbs %}
     {{ block.super }}
     <li><a href="{% url manager %}">سامانه مدیریت نیک باد</a> <span class="divider">/</span></li>
-{#    <li class="active">{{ item }}</li>#}
+    {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}

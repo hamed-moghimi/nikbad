@@ -31,7 +31,7 @@ class MBFrom(ModelForm):
 
 
 class AdForm(ModelForm):
-    description = forms.CharField(widget = Textarea(attrs = {'class': 'input-block-level'}))
+    description = forms.CharField(widget = Textarea(attrs = {'class': 'input-block-level'}), required = False)
 
     class Meta:
         model = Ad

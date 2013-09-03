@@ -10,6 +10,7 @@ from django.shortcuts import render
 from reportlab.lib.pagesizes import letter, landscape
 from contrib.email import render_and_email
 from contrib.pdf import StringMark, getPDF_Response
+from wiki.forms import AdminCancelForm
 from wiki.models import *
 from warehouse.models import *
 from mng.forms import *
@@ -21,6 +22,35 @@ from datetime import *
 @permission_required('fnc.is_manager', login_url = reverse_lazy('index'))
 def index(request):
     return render(request, 'mng/base.html', {})
+
+
+@permission_required('fnc.is_fnc', login_url = reverse_lazy('fnc-index'))
+def add_hesab(request):
+    if (request.POST):
+        form = AddHesab(request.POST)
+        if (form.is_valid()):
+            form.save()
+            print "nameeeee", form.instance.name
+            print "salam", form.instance.amount
+            context = ({'name': form.instance.name}, {'amount': form.instance.amount})
+            print context, "hhhhhhhhh"
+            return render(request, 'mng/add_hesab_2.html', context)
+            #return HttpResponseRedirect(reverse('fnc-gozaresh-mali'))
+    else:
+        form = AddHesab()
+        print "form", form
+    context = {}
+    context.update({'hazine_form': form})
+
+    return render(request, 'mng/add_hesab.html', context)
+
+
+@permission_required('fnc.is_common', login_url = reverse_lazy('fnc-index'))
+def resid_emp(request):
+    context = {}
+    sf_ob = SalaryFactor.objects.all()
+    context.update({"salaryFac": sf_ob})
+    return render(request, 'mng/resid_emp.html', context)
 
 
 @permission_required('fnc.is_manager', login_url = reverse_lazy('index'))
@@ -361,3 +391,24 @@ def taraz_azmayeshi_2(request, tarazId):
         sum_m_bestan += x.mande_bestan
     context.update({'s1': sum_g_bedeh, 's2': sum_g_bestan, 's3': sum_m_bedeh, 's4': sum_m_bestan})
     return render(request, 'mng/taraz_azmayeshi_2.html', context)
+
+
+def conCancel(request):
+    cons = ConCancel.objects.all().order_by('-pub_date')
+    context = {'cons': cons}
+    return render(request, 'wiki/cancelContract.html', context)
+    # if request.method == 'POST':
+    #     form = AdminCancelForm(request.POST)
+    #     if form.is_valid():
+    #         wiki = form.cleaned_data['wiki']
+    #         list = Contract.objects.filter(wiki = wiki)
+    #         if list.__len__() == 0:
+    #             return render(request, 'mng/mng-no-contract.html')
+    #         else:
+    #             con = list[0]
+    #             con.delete()
+    #             return render(request, 'mng/contract_success.html')
+    # else:
+    #     form = AdminCancelForm()
+    # return render(request, 'wiki/cancelContract.html', {'form':form})
+
