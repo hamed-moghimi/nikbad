@@ -10,9 +10,9 @@
     <li><a href="{% url wiki-index %}">
         ویکی
     </a> <span class="divider">/</span></li>
-    <li><a href="{% url product-edit %}">
+    <li class="active">
         ویرایش کالا
-    </a> </li>
+    </li>
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
         <div class="row-fluid">
             {{ Editform.non_field_errors }}
             <form class="form-horizontal" method="post" action= "{% url product-edit gId=product  %}">
-                {% include "_hForm.html" with form=ProductForm read_only=0 %}
+                {% include "_hForm.html" with form=ProductForm read_only=0 show_star=1%}
 
 
             </form>

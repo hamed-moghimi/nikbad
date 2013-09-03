@@ -55,3 +55,12 @@
     </div>
 
 {% endblock %}
+{% block crumbs %}
+    {#    {% if category %}#}
+    {{ block.super }}
+    <li><a href="{% url warehouse-index %}">انبار</a> <span class="divider">/</span></li>
+    <li class="active">
+        تغییر نقطه سفارش کالاها
+    </li>
+    {#    {% endif %}#}
+{% endblock %}

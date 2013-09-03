@@ -1,43 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-	    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
-		<title>
-			{% block title %}
-			بازار اینترنتی نیک باد
-			{% endblock %}
-		</title>
-		
-		<link href="{{STATIC_URL}}css/main.css" rel="stylesheet" type="text/css" />
-		{% block css %}
-		{% endblock %}
-		
-		<script src="{{STATIC_URL}}js/jquery-1.7.2.min.js" type="text/javascript"></script>
-		<script src="{{STATIC_URL}}js/main.js" type="text/javascript"></script>
-        {% block js %}
-		{% endblock %}
-	</head>
-	<body>
-		<div id="body">
-			<div id="header">
-			{% block header %}
-			{{ name }}
-			{% endblock %}
-			</div>
-			
-			<div id="content">
-			{% block content %}
-			content
-			{% endblock %}
-			</div>
-			
-			<div id="menu">
-			{% block menus %}
-				<div class="panel">
-					
-				</div>			
-			{% endblock %}
-			</div>
-		</div>
-	</body>	
-</html>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#	<head>#}
+{#	    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />#}
+{#		<title>#}
+{#			{% block title %}#}
+{#			بازار اینترنتی نیک باد#}
+{#			{% endblock %}#}
+{#		</title>#}
+{#		#}
+{#		<link href="{{STATIC_URL}}css/main.css" rel="stylesheet" type="text/css" />#}
+{#		{% block css %}#}
+{#		{% endblock %}#}
+{#		#}
+{#		<script src="{{STATIC_URL}}js/jquery-1.7.2.min.js" type="text/javascript"></script>#}
+{#		<script src="{{STATIC_URL}}js/main.js" type="text/javascript"></script>#}
+{#        {% block js %}#}
+{#		{% endblock %}#}
+{#	</head>#}
+{#	<body>#}
+{#		<div id="body">#}
+{#			<div id="header">#}
+{#			{% block header %}#}
+{#			{{ name }}#}
+{#			{% endblock %}#}
+{#			</div>#}
+{#			#}
+{#			<div id="content">#}
+{#			{% block content %}#}
+{#			content#}
+{#			{% endblock %}#}
+{#			</div>#}
+{#			#}
+{#			<div id="menu">#}
+{#			{% block menus %}#}
+{#				<div class="panel">#}
+{#					#}
+{#				</div>			#}
+{#			{% endblock %}#}
+{#			</div>#}
+{#		</div>#}
+{#	</body>	#}
+{#</html>#}
+{% extends "wrh/base.html" %}
+{% block content %}
+    <div class="panel">
+        <div class="WRH-panel2">
+            {% block WRH-panel2 %}
+                <br/><br/><br/><br/> {# :-"""""" #}
+                <center>
+                <p style="font-family: tahoma; font-size: 20px; font-weight: 700;color: rgb(0,89,132);">
+                    {% if perms.warehouse.is_deliveryman %}
+                    به بخش حمل و نقل خوش آمدید.
+                    {% else%}
+ به بخش انبارداری خوش آمدید.
+                            {% endif %}
+                </p>
+                </center>
+                <br/><br/><br/><br/><br/><br/>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li class="active">
+        {% if perms.warehouse.is_deliveryman %}
+بخش حمل و نقل
+    {% else %}
+            انبار
+    {% endif %}
+
+    </li>
+{% endblock %}

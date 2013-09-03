@@ -21,13 +21,16 @@
     <a {% if active_menu != 5 %}href="DateForm"{% endif %}>مشاهده سفارش انبار<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 6 %}class="active"{% endif %}>
-    <a {% if active_menu != 6 %}href="{% url return-req %}"{% endif %}>درخواست بازگشت کالا<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 6 %}href="{% url return-req %}"{% endif %}>درخواست بازگشت کالا از انبار<i class="icon-chevron-left"></i></a>
 </li>
 <li class="header">
     <a>فروش</a>
 </li>
 <li {% if active_menu == 7 %}class="active"{% endif %}>
     <a {% if active_menu != 7 %}href="{% url sales-report %}"{% endif %}>مشاهده گزارش تجمیعی فروش<i class="icon-chevron-left"></i></a>
+</li>
+<li class="header">
+    <a>قرارداد</a>
 </li>
 <li {% if active_menu == 8 %}class="active"{% endif %}>
     <a {% if active_menu != 8 %}href="{% url contract-functions %}"{% endif %}>امور مربوط به قرارداد<i class="icon-chevron-left"></i></a>

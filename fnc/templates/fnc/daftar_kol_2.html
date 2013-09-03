@@ -10,30 +10,6 @@
     <div class="panel">
         <h2 class="panel-header"> نام حساب : {{ name }}</h2>
 
-        {% comment %}
-            {% if  not costBenefits %}
-                <div class="panel">
-                    <p class="text-center">
-
-                        <b>
-                            در بازه ی زمانی انتخاب شده، گزارشی وجود ندارد.
-                        </b>
-                    </p>
-                </div>
-            {% endif %}
-            <div class="panel">
-                <p>
-                    <b>
-                        انتخاب بازه ی زمانی گزارش
-                    </b>
-                </p>
-
-                <form class="form-horizontal" action="" method="post">
-                    {% include "_hForm.html" with form=form submit_text="نمایش" %}
-                </form>
-
-            </div>
-    {% endcomment %}
 
 
         {% if costBenefits %}
@@ -68,16 +44,32 @@
 
                     </tr>
                 {% endfor %}
+                <tr>
+                    <td class="FNC-td2">
+                        <label for="code" class="nohand col-lg-2 control-label"> جمع </label>
+                    </td>
+                    <td class="FNC-td2"></td>
+                    <td class="FNC-td2"></td>
+                    <td class="FNC-td2">{{ sum_bedeh|rial }}</td>
+                    <td class="FNC-td2"> {{ sum_bestan|rial }}  </td>
+
+                </tr>
 
                 </tbody>
             </table>
+
+        {% else %}
+            <div class="panel">
+                <p class="text-center">
+                    تراکنشی برای این حساب به ثیت نرسیده است.
+                </p>
+            </div>
         {% endif %}
+
     </div>
 {% endblock %}
 {% block menus %}
-    {% if perms.fnc.is_manager %}
-        {% include "mng/_menus.html" with active_menu=1 %}
-    {% else %}
-        {% include "fnc/_menus.html" with active_menu=1 %}
+    {% if perms.fnc.is_fnc %}
+        {% include "fnc/_menus.html" with active_menu=8 %}
     {% endif %}
 {% endblock %}

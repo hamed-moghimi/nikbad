@@ -9,7 +9,7 @@ from django.forms.models import inlineformset_factory
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from contrib.pdf import StringMark, getPDF_Response
-from contrib.templatetags.nikbad_tags import toman
+from contrib.templatetags.nikbad_tags import toman, jalali
 from nikbad import settings
 from sales.forms import AdForm, AdImageForm, SearchForm, MBFrom
 from sales.models import SaleBill, Ad, AdImage, MarketBasket, MarketBasket_Product, Specification
@@ -23,19 +23,23 @@ def baseContext(request):
 
 
 external_messages = {
-    'BuySuccessful': ('success', u'.خرید شما با موفقیت انجام شد'),
+    'BuySuccessful': ('success', u'خرید شما با موفقیت انجام شد.'),
     'BuyError': ('error', u'خرید انجام نشد. سبد خرید شما همچنان در دسترس است.'),
 }
 
 
 def index(request):
     # get new products
-    new_products = Ad.objects.all()[:10]  #TODO: order_by date
+    new_products = Ad.objects.all().order_by('-registerDate')[:10]
 
     # get popular products
     populars = Ad.objects.order_by('-popularity')[:10]
+
+    # get offs
+    offs = Ad.objects.filter(product__off__gt = 0).order_by('-popularity')[:10]
+
     context = baseContext(request)
-    context.update({'new_products': new_products, 'populars': populars})
+    context.update({'new_products': new_products, 'populars': populars, 'offs': offs})
 
     if 'message' in request.GET:
         state, message = external_messages[request.GET['message']]
@@ -47,12 +51,17 @@ def index(request):
 def category(request, catID):
     catID = int(catID)
     # get new products
-    new_products = Ad.objects.filter(product__sub_category__category__id = catID)[:10]  #TODO: order_by date
+    new_products = Ad.objects.filter(product__sub_category__category__id = catID).order_by('-registerDate')[:10]
 
     # get popular products
     populars = Ad.objects.filter(product__sub_category__category__id = catID).order_by('-popularity')[:10]
+
+    # get offs
+    offs = Ad.objects.filter(product__sub_category__category__id = catID, product__off__gt = 0).order_by('-popularity')[
+           :10]
+
     context = baseContext(request)
-    context.update({'new_products': new_products, 'populars': populars, 'category': catID,
+    context.update({'new_products': new_products, 'populars': populars, 'offs': offs, 'category': catID,
                     'category_name': Category.objects.get(pk = catID)})
     return render(request, 'sales/index.html', context)
 
@@ -196,10 +205,17 @@ def search(request):
 def saleBillPDF(request, sbID):
     sb = SaleBill.objects.get(pk = sbID)
     items = sb.products.all()
-    pdfList = []
+    now = datetime.now()
+    pdfList = \
+        [
+            # header
+            StringMark(482, 97, jalali(now.date())),
+            StringMark(358, 97, now.strftime('%H : %M')),
+            StringMark(182, 97, request.user.get_full_name())
+        ]
     y = 200
     counter = 1
-    for item in list(items) * 5:
+    for item in items:
         product = item.product
         pdfList += \
             (

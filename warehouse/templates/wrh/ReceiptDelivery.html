@@ -40,3 +40,12 @@
     </div>
 
 {% endblock %}
+{% block crumbs %}
+    {#    {% if category %}#}
+    {{ block.super }}
+    <li><a href="{% url warehouse-index %}">بخش حمل و نقل</a> <span class="divider">/</span></li>
+    <li class="active">
+        ثبت رسید تحویل کالا
+    </li>
+    {#    {% endif %}#}
+{% endblock %}

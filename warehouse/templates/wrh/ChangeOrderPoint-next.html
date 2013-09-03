@@ -21,7 +21,7 @@
         <tbody>
         <tr>
             <td class="WRH-td4">
-                <img class="WRH-myimage4" src="{{ product.ad.icon.image.url }}"/>
+                <img class="WRH-myimage4" src="{{ product.ad.icon.image.url|default:product.ad.defaultIcon }}"/>
             </td>
             <td>
                 <table class="WRH-table3 table-hover">

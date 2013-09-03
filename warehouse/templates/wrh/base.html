@@ -17,19 +17,19 @@
     {% endif %}
 {% endblock %}
 {% block user_panel %}
-    <p style="font-family: entezar; font-size: 20px; font-weight: 700; margin-top: 7px; margin-right: -10px; color: rgb(0,89,132);">
-        {% if perms.warehouse.is_deliveryman and perms.warehouse.is_warehouseman%}
-            {{ user }} به بخش انبارداری و تحویل داری خوش آمدید.
-        {% elif perms.warehouse.is_deliveryman %}
-            {{ user }} به بخش تحویل داری خوش آمدید.
-        {% else %}
-            {{ user }} به بخش انبارداری خوش آمدید.
-        {% endif %}
-    </p>
+{#    <p style="font-family: yekan; font-size: 20px; font-weight: 700; margin-top: 7px; margin-right: -10px; color: rgb(0,89,132);">#}
+{#        {% if perms.warehouse.is_deliveryman and perms.warehouse.is_warehouseman%}#}
+{#            {{ user }} به بخش انبارداری و تحویل داری خوش آمدید.#}
+{#        {% elif perms.warehouse.is_deliveryman %}#}
+{#            {{ user }} به بخش تحویل داری خوش آمدید.#}
+{#        {% else %}#}
+{#            {{ user }} به بخش انبارداری خوش آمدید.#}
+{#        {% endif %}#}
+{#    </p>#}
 {% endblock %}
 
 {% block navbar %}
-    <a class="btn btn-primary pull-left" style="margin-top: -32px; font-family: tahoma;" href="{% url logout %}">
+    <a class="btn btn-primary pull-left" style=" font-family: tahoma;" href="{% url logout %}">
         خروج
         </a>
     </p>
@@ -38,22 +38,12 @@
     {% include "wrh/_menus.html" %}
 {% endblock %}
 
-{% block content %}
-    <div class="panel">
-        <div class="WRH-panel2">
-        {% block WRH-panel2 %}
-            <br/><br/><br/><br/><br/><br/>  {# :-"""""" #}
-            <br/><br/><br/><br/><br/><br/>
-        {% endblock %}
-        </div>
-    </div>
-{% endblock %}
 
-{% block crumbs %}
+{#{% block crumbs %}#}
 {#    {% if category %}#}
-        {{ block.super }}
-        <li class="active">
-            انبار
-        </li>
+{#        {{ block.super }}#}
+{#        <li class="active">#}
+{#            انبار#}
+{#        </li>#}
 {#    {% endif %}#}
-{% endblock %}
+{#{% endblock %}#}

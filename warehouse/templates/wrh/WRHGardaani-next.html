@@ -13,8 +13,8 @@
             <td class="WRH-th-td2">نام کالا</td>
             <td class="WRH-th-td2"> کد ویکی</td>
             <td class="WRH-th-td2"> نام ویکی</td>
-            <td class="WRH-th-td2"> تعداد شمارش شده</td>
-            <td class="WRH-th-td2"> تعداد محاسبه شده</td>
+            <td class="WRH-th-td2">مقدار واقعی</td>
+            <td class="WRH-th-td2">مقدار مورد انتظار</td>
             <td class="WRH-th-td2"> واحد</td>
             <td class="WRH-th-td2"> اختلاف</td>
             </thead>
@@ -37,13 +37,15 @@
                     <td class="WRH-td2">{{ product.unit }}</td>
                     <td class="WRH-td2">
                         {% if dif < 0 %}
-                            <b style="color: rgb(255, 0, 0)">
-                                {{ dif }}
+                            <b >
+                                {{ dif|stringformat:"+d"|slice:"1:" }}
                             </b>
+                            <li class="icon-arrow-down" title="مفدار موجود در انبار {{ dif|stringformat:"+d"|slice:"1:"}} {{ product.unit }} کمتر از مقدار محاسبه شده است."></li>
                         {% else %}
-                            <b style="color: rgb(0, 0, 255)">
+                            <b >
                             {{ dif }}
                             </b>
+                            <li class="icon-arrow-up" title="مفدار موجود در انبار {{ dif }} {{ product.unit }} بیشتر از مقدار محاسبه شده است."></li>
                         {% endif %}
                     </td>
                 </tr>
@@ -66,7 +68,7 @@
         <center>
             <p>
                 <b>
-                    هیچ مغایرتی بین تعداد شمارش شده و محاسبه شده یافت نشد.
+                    هیج مغایرتی بین مقدار شمارش شده و محاسبه شده یافت نشد.
                 </b>
             </p>
             <br>

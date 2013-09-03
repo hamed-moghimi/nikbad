@@ -81,12 +81,21 @@ urlpatterns = patterns('',
                            name='WRH_Report_Product_Panel'),
                        url(r'^ReportProduct_Panel/(?P<menu_id>\d+)?page=(?P<num>\d+)$', 'warehouse.views.report_product_panel',
                            name='WRH_Report_Product_Panel'),
+
                        url(r'^ReportReceiptDelivery$', 'warehouse.views.report_receipt_delivery',
                            name='WRH_Report_Receipt_Delivery'),
                        url(r'^ReportReceiptDelivery_Panel$', 'warehouse.views.report_receipt_delivery2',
                            name='WRH_Report_Receipt_Delivery_Panel'),
                        url(r'^ReportReceiptDelivery_Panel?page=(?P<num>\d+)$$', 'warehouse.views.report_receipt_delivery2',
                            name='warehouse-index-test'),
+
+                       url(r'^ReportReceiptNotDelivery$', 'warehouse.views.report_receipt_delivery_not',
+                           name='WRH_Report_Receipt_Delivery_Not'),
+                       url(r'^ReportReceiptNotDelivery_Panel$', 'warehouse.views.report_receipt_delivery_not2',
+                           name='WRH_Report_Receipt_Delivery_Panel_Not'),
+                       url(r'^ReportReceiptDelivery_Panel?page=(?P<num>\d+)$$', 'warehouse.views.report_receipt_delivery_not2',
+                           name='warehouse-index-test'),
+
                        url(r'^ReportDetail/(?P<pid>\d+)/(?P<kid>\d+)$', 'warehouse.views.report_detail',
                            name='WRH_Report_Detail'),
 

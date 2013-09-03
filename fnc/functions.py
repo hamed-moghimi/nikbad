@@ -5,7 +5,7 @@ from datetime import timedelta, datetime
 from sales.models import SaleBill_Product
 from wiki.models import *
 
-
+#pay wiki / should be invoked monthly
 def payment_wiki():
     wikis = Wiki.objects.all()
     budget = GeneralAccount.getBudget()
@@ -29,7 +29,7 @@ def payment_wiki():
     budget.last_pay_wiki = timezone.now()
     budget.save()
 
-
+#pay employees / should be invoked monthly
 def payment_emp():
     employees = Employee.objects.all()
     totalPay = 0
@@ -149,7 +149,7 @@ def make_cb_emp(totalPay):
     cb.description = u"پرداخت حقوق کارمندان"
     cb.save()
 
-
+# this function makes taraz, should be invoked each month
 def tarazname():
     taraz = Taraz()
     taraz.save()
@@ -192,3 +192,20 @@ def make_benefit(benefit, wiki):
 
     cb.description = u'{0} {1}'.format(u'سهم سراب از فروش محصولات', wiki.companyName)
     cb.save()
+
+# this function is invoked each year
+def final_fnc():
+    daramad=Account.objects.get(name=u"درآمد")
+    hazine=Account.objects.get(name=u"هزینه")
+
+    darayi=Account.objects.get(name=u"دارایی")
+
+    sood= daramad.amount- hazine.amount
+    darayi.amount+=sood
+    darayi.save()
+    daramad.amount=0
+    daramad.save()
+    hazine.amount=0
+    hazine.save()
+
+

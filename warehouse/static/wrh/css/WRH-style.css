@@ -1,6 +1,6 @@
 .WRH-heading2 {
     margin: 0 0 10px 0;
-    font-family: "entezar";
+    font-family: "yekan";
 	color: rgb(0,89,132);
 	/*	text-align: center !important; */
 }
@@ -32,13 +32,13 @@
 }
 
 .WRH-table2 {
-	width: 600px !important;
+	width: 640px !important;
 	alignment-baseline: central !important;
 	margin: auto !important;
 }
 
 .WRH-table5 {
-    width: 300px !important;
+    width: 330px !important;
     alignment-baseline: central !important;
     margin: auto !important;
 }
@@ -86,7 +86,7 @@
 }
 
 .WRH-th-td2 {
-	width: 70px !important;
+	width: 80px !important;
 	height: 70px !important;
 	font-size: 14 !important;
 	font-weight: 700 !important;
@@ -94,7 +94,7 @@
 }
 
 .WRH-th-td5 {
-    width: 70px !important;
+    width: 80px !important;
     height: 70px !important;
     font-size: 14 !important;
     font-weight: 700 !important;
@@ -133,14 +133,14 @@
 }
 
 .WRH-td2 {
-	width: 70px !important;
+	width: 80px !important;
 	height: 40px !important;
 	text-align: center !important;
 	font-size: 14 !important;
 }
 
 .WRH-td5 {
-    width: 70px !important;
+    width: 80px !important;
     height: 40px !important;
     text-align: center !important;
     font-size: 14 !important;

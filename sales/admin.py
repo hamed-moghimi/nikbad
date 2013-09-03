@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from django.contrib.admin.filters import SimpleListFilter
+
 from django.contrib.admin.options import ModelAdmin, TabularInline, StackedInline
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -34,9 +37,21 @@ admin.site.register(Specification)
 
 
 class AdImageAdmin(ModelAdmin):
-    list_display = ['title', 'thumbnail']
+    list_filter = ['checked']
+    list_display = ['title', 'thumbnail', 'checked']
+    exclude = ['image']
+    readonly_fields = ['ad', 'title', 'thumbnail', 'checked']
+
+    def approve(self, request, queryset):
+        queryset.update(checked = True)
+
+    approve.short_description = u'تایید تصاویر'
+
+    actions = [approve]
 
 
+# This line is very important! :D
+admin.site.get_action('delete_selected').short_description = u'حذف %(verbose_name_plural)s'
 admin.site.register(AdImage, AdImageAdmin)
 
 # class UserAdmin (admin.ModelAdmin):

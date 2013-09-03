@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "fnc/base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <div class="panel">
+        <p class="text-center">
+            سند با شماره ی {{sanadId}} ایجاد شد
+        </p>
+    </div>
+{% endblock %}
+{% block menus %}
+    {% include "fnc/_menus.html" with active_menu=1 %}
+{% endblock %}

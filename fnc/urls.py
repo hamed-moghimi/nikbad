@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^tarazAzmayeshi$', 'fnc.views.taraz_azmayeshi', name='fnc-taraz-azmayeshi'),
     url(r'^tarazAzmayeshi2/(?P<tarazId>\d+)$', 'fnc.views.taraz_azmayeshi_2', name='fnc-taraz-azmayeshi-2'),
     url(r'^addHesab$', 'fnc.views.add_hesab', name='fnc-add-hesab'),
+    url(r'^residEmp$', 'fnc.views.resid_emp', name='fnc-resid-emp'),
 )
