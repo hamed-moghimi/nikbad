@@ -43,6 +43,10 @@ def edit(request):
     c = Customer.objects.get(username = request.user.username)
     if (request.POST):
         f = EditForm(request.POST, instance = c)
+        try:
+            request.POST['gender'] = request.POST['gender'].encode('utf-8')
+        except:
+            pass
         if (f.is_valid()):
             f.save()
             print " khhhhhhhhhhhhhhhhhhhhhhhhh"
@@ -65,9 +69,10 @@ def signUp(request):
             MarketBasket.createForCustomer(f.instance)
             # name = f.instance.Get['first_name']
             # ren
-            context={'first_name':f.cleaned_data['first_name'] , 'last_name':f.cleaned_data['last_name']}
+            context = {'first_name': f.cleaned_data['first_name'], 'last_name': f.cleaned_data['last_name']}
 
-            render_and_email([f.cleaned_data['email']], u'ثبت کاربر جدید', u"عضو شدید", 'crm/signUp_email.html',context)
+            render_and_email([f.cleaned_data['email']], u'ثبت کاربر جدید', u"عضو شدید", 'crm/signUp_email.html',
+                             context)
             return success(request)
     else:
         f = CustomerForm()
@@ -86,8 +91,8 @@ def status(request):
             sb = c.saleBills.objects.filter(date__range = (startDate, endDate))
 
     p = sb.products.all()
-            # try:
-        #     context = {'Product': p, 'Bill': sb}
+    # try:
+    #     context = {'Product': p, 'Bill': sb}
     # except:
     #     context = {}
 

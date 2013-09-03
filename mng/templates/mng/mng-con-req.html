@@ -12,35 +12,35 @@
 {% block content %}
     <div class="panel">
         <h2 class="panel-header">فهرست آخرین درخواست های قرارداد</h2>
-    {% if data %}
-        <table class="WRH-table2 table-hover table-striped">
-            <thead>
+        {% if data %}
+            <table class="WRH-table2 table-hover table-striped">
+                <thead>
 
-            <td class="WRH-th-td" >نام ویکی</td>
-            <td class="WRH-th-td"> تاریخ درخواست</td>
-            <td class="WRH-th-td"> آبونمان پیشنهادی</td>
-            <td class="WRH-th-td">پیشنهاد درصد بهره سراب</td>
-            <td class="WRH-th-td">  </td>
-            </thead>
-            <tbody>
-            {% for d in data %}
-                <tr>
+                <td class="WRH-th-td">نام ویکی</td>
+                <td class="WRH-th-td"> تاریخ درخواست</td>
+                <td class="WRH-th-td"> آبونمان پیشنهادی</td>
+                <td class="WRH-th-td">پیشنهاد درصد بهره سراب</td>
+                <td class="WRH-th-td"></td>
+                </thead>
+                <tbody>
+                {% for d in data %}
+                    <tr>
 
-                    <td class="WRH-td2">
-                       {{ d.wiki.companyName }}
-                    </td>
-                    <td class="WRH-td2"> {{ d.pub_date|jalali }} </td>
-                    <td class="WRH-td2">  {{ d.abone }}</td>
-                    <td class="WRH-td2"> {{ d.benefit }}</td>
-              <td class="FNC-td2"><a href="{% url mng-cont wId=d.wiki.id %}">ثبت قرارداد </a></td>
-                </tr>
-            {% endfor %}
+                        <td class="WRH-td2">
+                            {{ d.wiki.companyName }}
+                        </td>
+                        <td class="WRH-td2"> {{ d.pub_date|jalali }} </td>
+                        <td class="WRH-td2">  {{ d.abonne }}</td>
+                        <td class="WRH-td2"> {{ d.benefit }}</td>
+                        <td class="FNC-td2"><a href="{% url mng-cont wId=d.wiki.id %}">ثبت قرارداد </a></td>
+                    </tr>
+                {% endfor %}
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         {% else %}
-        درخواستی موجود نیست.
-    {% endif %}
+            درخواستی موجود نیست.
+        {% endif %}
     </div>
 {% endblock %}
 {% block menus %}
@@ -50,6 +50,6 @@
 {% block crumbs %}
     {{ block.super }}
     <li><a href="{% url contract-request %}">درخواست عضویت ویکی ها</a> <span class="divider">/</span></li>
-{#    <li class="active">{{ item }}</li>#}
+    {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}
