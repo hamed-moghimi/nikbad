@@ -1462,7 +1462,7 @@ def report_receipt_delivery_not2(request, org="", num = 0):
     x = []
     for clr in clrs:
         x.append(clr.clearance.pk)
-    st = Clearance.objects.filter(ready='o').exclude(pk__in = x).order_by('-date')
+    st = Clearance.objects.filter(ready='o').exclude(type='warehouse').exclude(pk__in = x).order_by('-date')
     zipped = []
     for s in st:
         a = reverse('WRH_Report_Detail', kwargs={'pid':s.pk, 'kid':20})
