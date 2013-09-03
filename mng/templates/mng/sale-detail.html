@@ -64,3 +64,12 @@
     {% include "mng/_menus.html" with active_menu=4%}
 {% endblock %}
 
+
+{% block crumbs %}
+    {{ block.super }}
+      <li><a href="{% url mng-sales  %}">گزارش فروش نیک باد</a> <span class="divider">/</span></li>
+    <li><a href="{% url mng-sale-detail %}">صورت خرید مشتری</a> <span class="divider">/</span></li>
+
+{#    <li class="active">{{ item }}</li>#}
+
+{% endblock %}

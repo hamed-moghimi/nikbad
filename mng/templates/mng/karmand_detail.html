@@ -1,4 +1,4 @@
-{% extends "fnc/base.html" %}
+{% extends "mng/base.html" %}
 {% load nikbad_tags %}
 {% block head %}
     <title>گزارش مالی</title>
@@ -6,13 +6,13 @@
 
 {% block content %}
     <div class="panel">
-        <h2 class="panel-header">  جزئیات ورود و خروج {{employee}}</h2>
+        <h2 class="panel-header"> جزئیات ورود و خروج {{ employee }}</h2>
         <table class="FNC-table2 table-hover table-striped">
             <thead>
 
             <td class="FNC-th-td">ساعت ورود</td>
-            <td class="FNC-th-td"> ساعت خروج </td>
-            <td class="FNC-th-td"> روز </td>
+            <td class="FNC-th-td"> ساعت خروج</td>
+            <td class="FNC-th-td"> روز</td>
 
             </thead>
             <tbody>
@@ -21,7 +21,7 @@
                     <td class="FNC-td2"> {{ rc.entrance_time }} </td>
                     <td class="FNC-td2"> {{ rc.exit_time }} </td>
                     <td class="FNC-td2"> {{ rc.date|jalali }} </td>
-                    <td class="FNC-td2"> <a href="#"> {{ ep.hours }}</a> </td>
+                    <td class="FNC-td2"><a href="#"> {{ ep.hours }}</a></td>
                 </tr>
             {% endfor %}
 
@@ -30,5 +30,15 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "fnc/_menus.html" with active_menu=5 %}
+        {% include "mng/_menus.html" with active_menu=5 %}
+{% endblock %}
+
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-karmandan %}">فهرست کارمندان</a> <span class="divider">/</span></li>
+    <li><a href="{% url fnc-karmand-detail employee.id %}">جزئیات ورود و خروج</a> <span class="divider">/</span></li>
+
+{#    <li class="active">{{ item }}</li>#}
+
 {% endblock %}

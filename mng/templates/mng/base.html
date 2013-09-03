@@ -2,10 +2,25 @@
 
 {% block css %}
     <link href="{{ STATIC_URL }}mng/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+     <link href="{{ STATIC_URL }}fnc/css/fnc-style.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
+{% block content %}
+     <div class="panel">
+        <h2 class="panel-header">به سامانه مدیریت نیک باد </h2>
+        <h2 class="panel-header">خوش امدید</h2>
+</div>
 
+{% endblock %}
 
 {% block menus %}
     {% include "mng/_menus.html" %}
+{% endblock %}
+
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url manager %}">سامانه مدیریت نیک باد</a> <span class="divider">/</span></li>
+{#    <li class="active">{{ item }}</li>#}
+
 {% endblock %}

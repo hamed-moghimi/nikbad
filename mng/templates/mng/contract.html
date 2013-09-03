@@ -19,3 +19,11 @@
     {% include "mng/_menus.html" with active_menu=7%}
 {% endblock %}
 
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url contract-request %}">درخواست عضویت ویکی ها</a> <span class="divider">/</span></li>
+    <li><a href="{% url mng-cont %}">ثبت قرارداد ویکی</a> <span class="divider">/</span></li>
+{#    <li class="active">{{ item }}</li>#}
+
+{% endblock %}

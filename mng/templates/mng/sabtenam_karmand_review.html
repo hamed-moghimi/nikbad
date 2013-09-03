@@ -1,0 +1,27 @@
+{% extends "mng/base.html" %}
+
+{% block head %}
+    <title>ثبت نام کارمند جدید</title>
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header"> کارمند با مشخصات زیر اضافه شد</h2>
+
+        <form class="form-horizontal" action="" method="post">
+            {% include "_hForm.html" with form=emp_form  read_only=1 %}
+        </form>
+
+    </div>
+{% endblock %}
+{% block menus %}
+        {% include "mng/_menus.html" with active_menu=6 %}
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url mng-newemp %}">ثبت نام کارمند </a> <span class="divider">/</span></li>
+    <li><a href="#">موفقیت </a> <span class="divider">/</span></li>
+{#    <li class="active">{{ item }}</li>#}
+
+{% endblock %}

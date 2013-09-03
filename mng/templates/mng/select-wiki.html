@@ -30,7 +30,7 @@
                     <td class="FNC-td2">  {{ w.id }}</td>
                     <td class="FNC-td2"> {{ w.contract.startDate|jalali }}</td>
                     <td class="FNC-td2"> {{ w.contract.expDate|jalali }}</td>
-                    <td class="FNC-td2"><a href="{% url contract-detail wId=w.id %}"> اطلاعات </a></td>
+                    <td class="FNC-td2"><a href="{% url contract-detail wId=w.id %}"> ویرایش قرارداد</a></td>
                 </tr>
             {% endfor %}
 
@@ -40,4 +40,11 @@
 {% endblock %}
 {% block menus %}
     {% include "mng/_menus.html" with active_menu=3 %}
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url mng-wiki-select %}">صورت ویکی های طرف قرار داد</a> <span class="divider">/</span></li>
+{#    <li class="active">{{ item }}</li>#}
+
 {% endblock %}

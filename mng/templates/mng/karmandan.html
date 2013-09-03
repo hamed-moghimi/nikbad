@@ -1,0 +1,42 @@
+{% extends "mng/base.html" %}
+
+{% block head %}
+    <title>گزارش مالی</title>
+{% endblock %}
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header"> فهرست کامندان</h2>
+        <table class="FNC-table2 table-hover table-striped">
+            <thead>
+
+            <td class="FNC-th-td"> نام</td>
+            <td class="FNC-th-td"> نام خانوادگی</td>
+            <td class="FNC-th-td"> جمع ساعات حضور</td>
+
+            </thead>
+            <tbody>
+            {% for ep in employees %}
+                <tr>
+                    <td class="FNC-td2"> {{ ep.name }} </td>
+                    <td class="FNC-td2"> {{ ep.family_name }} </td>
+                    <td class="FNC-td2"><a href="{% url fnc-karmand-detail epId=ep.id %}"> {{ ep.hours }}</a></td>
+                    <td class="FNC-td2"><a href="{% url fnc-karmand-detail-2 epId=ep.id %}"> ویرایش اطلاعات </a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block menus %}
+        {% include "mng/_menus.html" with active_menu=5 %}
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url fnc-karmandan %}">فهرست کارمندان</a> <span class="divider">/</span></li>
+{#    <li class="active">{{ item }}</li>#}
+
+{% endblock %}
