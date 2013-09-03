@@ -1,3 +1,4 @@
+{% load nikbad_tags %}
 {% csrf_token %}
 {% for field in form.visible_fields %}
     <div class="control-group {% if field.errors %}error{% endif %}">
@@ -8,7 +9,7 @@
         {% endif %}
         <div class="controls">
             {% if read_only %}
-                <p class="text-right">{{ field.value }}</p>
+                <p class="text-right">{% if field.value|jalali %}{{ field.value|jalali }}{% else %}{{ field.value }}{% endif %}</p>
             {% else %}
                 {{ field }}
                 {{ field.errors }}

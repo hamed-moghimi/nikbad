@@ -21,9 +21,9 @@
             tmp = '{{ type }}';
             setTimeout(function () {
                 if (tmp == "0") {
-                    $(".WRH-panel2").load('*OrdersPanel');
+                    $(".WRH-panel2").load('{% url WRH_New_Orders_Panel %}');
                 } else {
-                    $(".WRH-panel2").load('*OrdersReadyPanel');
+                    $(".WRH-panel2").load('{% url WRH_Ready_Orders_Panel %}');
                 }
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
@@ -31,7 +31,7 @@
         function greturn() {
             $(".WRH-panel2").fadeOut("slow");
             setTimeout(function () {
-                $(".WRH-panel2").load('*WRHgardani-Panel');
+                $(".WRH-panel2").load('{% url WRH_Gardaani_Panel %}');
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }

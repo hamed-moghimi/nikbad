@@ -6,7 +6,7 @@
     <script type="text/javascript">
         $(document).ready(
                 function () {
-                    $(".WRH-panel2").load("WRHDelivery-Panel");
+                    $(".WRH-panel2").load('{% url WRH_Delivery_Panel %}');
                     return false;
                 });
         function load_page(tmp) {
@@ -19,7 +19,7 @@
         function rreturn() {
             $(".WRH-panel2").fadeOut("slow");
             setTimeout(function () {
-                $(".WRH-panel2").load("WRHDelivery-Panel");
+                $(".WRH-panel2").load('{% url WRH_Delivery_Panel %}');
             }, 500);
             $(".WRH-panel2").fadeIn("slow");
         }

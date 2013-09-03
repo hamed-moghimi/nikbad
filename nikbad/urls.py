@@ -18,7 +18,7 @@ urlpatterns = patterns('',
                        url(r'^logout', 'contrib.views.logout', name = 'logout'),
                        url(r'^bank$', 'contrib.views.bank', name = 'contrib-bank'),
 
-                       url(r'^pdf$', 'contrib.tests.test'),
+                       # url(r'^pdf$', 'contrib.tests.test'),
 
                        # subsystem urls
                        url(r'^sales/', include('sales.urls')),

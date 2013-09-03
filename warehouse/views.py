@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from django.core.urlresolvers import reverse
 from reportlab.lib.pagesizes import landscape, letter
 from contrib.pdf import getPDF_Response, drawText
 from contrib.pdf import PDFWriter, StringMark
@@ -27,12 +28,12 @@ anbaargardaani_dif = []
 @permission_required('warehouse.is_warehouseman', login_url='index')
 def new_order(request, org=""):
     title = "لیست حواله های انبار"
-    panel = "*OrdersPanel"
+    panel = reverse('WRH_New_Orders_Panel')
     context = {'active_menu': 2, 'title':title, 'panel':panel, 'type':0}
     return render(request, 'wrh/Reports_Orders.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def order_panel(request, org = ""):
+def order_panel(request):
     first_msg = "حواله های جدید انبار به شرح زیر می باشند:"
     bill = SaleBill.objects.filter(deliveryStatus = 0)
     transference = Transference.objects.exclude(defective = 'r')
@@ -59,13 +60,14 @@ def order_panel(request, org = ""):
 
     zipped = []
     for s in clrs:
-        a = "*ReportDetail/"
-        a += str(s.pk)
-        a += "/9"
+        try:
+            a = reverse('WRH_Report_Detail', kwargs = {'pid':s.pk, 'kid':9})
+        except Exception as E:
+            pass
         zipped.append((s, a))
 
     # PAGINATION
-    paginator = Paginator(zipped, 2)
+    paginator = Paginator(zipped, 10)
     page = request.GET.get('page')
     print(page)
     try:
@@ -75,19 +77,19 @@ def order_panel(request, org = ""):
         print(str(s))
         contacts = paginator.page(1)
 
-    add = "*OrdersPanel"
+    add = reverse('WRH_New_Orders_Panel')
     context = {'clrs': contacts, 'active_menu': 2, 'first_msg':first_msg, 'paginator':paginator, 'contacts':contacts, 'lnk':add}
     return render(request, 'wrh/Orders-Panel.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def ready_order(request, org = ""):
+def ready_order(request):
     title = "لیست حواله های آماده خروج از انبار"
-    panel = "*OrdersReadyPanel"
+    panel = reverse('WRH_Ready_Orders_Panel')
     context = {'active_menu': 12, 'title':title, 'panel':panel}
     return render(request, 'wrh/Reports_Orders.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def ready_order_panel(request, org = ""):
+def ready_order_panel(request):
     first_msg = "حواله های آماده ترخیص به شرح زیر می باشند:"
     clrs = Clearance.objects.filter(ready='r').order_by('date')
     if not clrs:
@@ -95,13 +97,11 @@ def ready_order_panel(request, org = ""):
 
     zipped = []
     for s in clrs:
-        a = "*ReportDetail/"
-        a += str(s.pk)
-        a += "/8"
+        a = reverse('WRH_Report_Detail', kwargs = {'pid':s.pk, 'kid':8})
         zipped.append((s, a))
 
     # PAGINATION
-    paginator = Paginator(zipped, 2)
+    paginator = Paginator(zipped, 1)
     page = request.GET.get('page')
     print(page)
     try:
@@ -111,12 +111,12 @@ def ready_order_panel(request, org = ""):
         print(str(s))
         contacts = paginator.page(1)
 
-    add = "*OrdersReadyPanel"
+    add = reverse('WRH_Ready_Orders_Panel')
     context = {'clrs': contacts, 'active_menu': 12, 'first_msg':first_msg, 'paginator':paginator, 'contacts':contacts, 'lnk':add}
     return render(request, 'wrh/Orders-Panel.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def confirm_order(request, pid, org = ""):
+def confirm_order(request, pid):
     context = {}
     p = int(pid)
     clr = Clearance.objects.get(pk=p)
@@ -150,7 +150,7 @@ def confirm_order(request, pid, org = ""):
     return render(request, 'wrh/Confirm.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def confirm_ready_order(request, pid, org = ""):
+def confirm_ready_order(request, pid):
     context = {}
     p = int(pid)
     clr = Clearance.objects.get(pk=p)
@@ -209,15 +209,15 @@ def confirm_ready_order(request, pid, org = ""):
 #***********************************************************************************************************
 #***********************************BEGIN WAREHOUSE DELIVERY*******************************************************
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def delivery_wiki_select(request, org =""):
+def delivery_wiki_select(request):
     context = {'active_menu': 1}
     return render(request,'wrh/WRHDelivery.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def delivery_wiki_select2(request, org = ""):
-    a = Wiki.objects.all()
+def delivery_wiki_select_panel(request):
+    a = Wiki.objects.all().order_by('companyName')
     # PAGINATION
-    paginator = Paginator(a, 12)
+    paginator = Paginator(a, 9)
     page = request.GET.get('page')
     print(page)
     try:
@@ -231,9 +231,9 @@ def delivery_wiki_select2(request, org = ""):
     return render(request, 'wrh/WRHDelivery-Panel.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def delivery_product_select(request, pid, org = ""):
-    wik = Wiki.objects.filter(pk=pid)
-    a = Product.objects.filter(wiki=wik)
+def delivery_product_select(request, pid):
+    wik = Wiki.objects.filter(pk=int(pid))
+    a = Product.objects.filter(wiki=wik).order_by('goodsID')
     zipped = []
     for pr in a:
         index = -1
@@ -241,11 +241,12 @@ def delivery_product_select(request, pid, org = ""):
             zipped.append((pr, -1))
         else:
             zipped.append((pr, pr.orderPoint))
+
     context = {'products': zipped}
     return render(request,'wrh/WRHDelivery-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def confirm_wrh_delivery(request, org = ""):
+def confirm_wrh_delivery(request):
 
     context = {}
     if request.method == 'POST':
@@ -343,27 +344,27 @@ def confirm_wrh_delivery(request, org = ""):
 #***********************************************************************************************************
 #***********************************BEGIN CUSTOMER RETURN*******************************************************
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def customer_return(request, org=""):
+def customer_return(request):
     context = {'active_menu': 3}
     return render(request, 'wrh/CustomerReturn.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def point_order(request, org=""):
+def point_order(request):
     context = {'active_menu': 15}
     return render(request, 'wrh/ChangeOrderPoint.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def customer_return_panel(request, org =""):
+def customer_return_panel(request):
     context = { 'active_menu': 3}
     return render(request, 'wrh/CustomerReturn-Panel.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def point_orders_panel(request, org =""):
+def point_orders_panel(request):
     context = { 'active_menu': 15}
     return render(request, 'wrh/ChangeOrderPoint-Panel.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def customer_return_next(request,org = ""):
+def customer_return_next(request):
     context = {}
     if request.method == 'POST':
         try:
@@ -425,7 +426,7 @@ def customer_return_next(request,org = ""):
     return render(request, 'wrh/CustomerReturn-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def point_order_next(request,org = ""):
+def point_order_next(request):
     context = {}
     if request.method == 'POST':
         try:
@@ -452,7 +453,7 @@ def point_order_next(request,org = ""):
     return render(request, 'wrh/ChangeOrderPoint-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def point_order_next2(request,kid, org = ""):
+def point_order_next2(request,kid):
     context = {}
     k2 = int(kid)
     try:
@@ -466,7 +467,7 @@ def point_order_next2(request,kid, org = ""):
 
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def customer_return_next2(request,pid, kid, org = ""):
+def customer_return_next2(request,pid, kid):
     context = {}
     error = ""
     try:
@@ -523,7 +524,7 @@ def customer_return_next2(request,pid, kid, org = ""):
     return render(request, 'wrh/CustomerReturn-next.html', context)
 
 @permission_required('warehouse.is_warehouseman', login_url='index')
-def confirm_return(request, pid, kid, cid,type, org = ""):
+def confirm_return(request, pid, kid, cid,type):
     context = {}
     clr_id = int(pid)
     pro_id = int(kid)
@@ -563,7 +564,7 @@ def confirm_return(request, pid, kid, cid,type, org = ""):
                         tr = Transference(bill=(clr.transfer.bill), product=p2, quantity=qnt)
                         tr.save()
                 check_order_point(p2.pk)
-                context = {'msg': "کالاهای مرجوعی به موجودی انبار اضافه شده و تحویل آن ها در سیستم ثبت گردید.", 'button':"ثبت مرجوعی جدید"}
+                context = {'msg': "کالاهای معیوب با موفقیت در لیست کالاهای مرجوعی ثبت شده و حواله جدید برای ارسال مجدد کالا صادر گردید.", 'button':"ثبت مرجوعی جدید"}
             else:
                 stck.quantity += qnt
                 receipt_del = Receipt_Delivery(wiki=(p2.wiki), product=p2, quantity=qnt)
@@ -576,8 +577,7 @@ def confirm_return(request, pid, kid, cid,type, org = ""):
                     if clr.type == 'warehouse':
                         tr = Transference(bill=(clr.transfer.bill), product=p2, quantity=qnt, defective = 'r')
                         tr.save()
-
-                context = {'msg': "کالاهای معیوب با موفقیت در لیست کالاهای مرجوعی ثبت شده و حواله جدید برای ارسال مجدد کالا صادر گردید.", 'button':"ثبت مرجوعی جدید"}
+                context = {'msg': "کالاهای مرجوعی به موجودی انبار اضافه شده و تحویل آن ها در سیستم ثبت گردید.", 'button':"ثبت مرجوعی جدید"}
             stck.save()
         except Exception as e:
             print(str(e))
@@ -603,18 +603,18 @@ def confirm_order_point(request, kid, cid, org = ""):
 #***********************************************************************************************************
 #***********************************BEGIN CUSTOMER WIKI RECEIPT*******************************************************
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def ReceiptDelivery(request, org= ""):
+def ReceiptDelivery(request):
     context = {}
     return render(request,'wrh/ReceiptDelivery.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def ReceiptDelivery_Panel(request, org = ""):
+def ReceiptDelivery_Panel(request):
     first_msg = "لطفا شماره حواله تحویل داده شده را وارد کنید:"
     context = {'first_msg':first_msg}
     return render(request, 'wrh/ReceiptDelivery-Panel.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def receipt_detail(request,org = ""):
+def receipt_detail(request):
     context = {}
     if request.method == 'POST':
         try:
@@ -652,7 +652,7 @@ def receipt_detail(request,org = ""):
     return render(request, 'wrh/ReportDetail.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
-def confirm_receipt(request, pid, org = ""):
+def confirm_receipt(request, pid):
     context = {}
     p2 = int(pid)
     try:
@@ -678,31 +678,31 @@ def confirm_receipt(request, pid, org = ""):
 #***********************************************************************************************************
 #***********************************BEGIN REPORTS***********************************************************
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def reports(request, menu_id, org=""):
+def reports(request, menu_id):
     tmp = int(menu_id)
     title = titles[tmp]
     panel = ""
     if (tmp >= 4) and (tmp <= 7):
-        panel = "ReportProduct_Panel/"
+        panel = reverse('WRH_Report_Product_Panel', kwargs={'menu_id':tmp})
         panel += str(tmp)
     elif (tmp >= 8) and (tmp <= 11):
-        panel = "ReportReceipt_Panel/"
+        panel = reverse('WRH_Report_Receipt_Panel', kwargs= {'menu_id':tmp})
         panel += str(tmp)
     elif tmp == 14:
-        panel = "ReportReceiptDelivery_Panel"
+        panel = reverse('WRH_Report_Receipt_Delivery_Panel')
     elif tmp == 16:
-        panel = "WRHgardani-Panel"
+        panel = reverse('WRH_Gardaani_Panel')
     context = {'active_menu' : tmp, 'title': title , 'panel':panel}
     return render(request, 'wrh/Reports_Orders.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def wrh_gardaani(request, org=""):
+def wrh_gardaani(request):
     prs = Product.objects.all()
     context = {'products': prs}
     return render(request, 'wrh/WRHgardani-Panel.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def printt(request, org=""):
+def printt(request):
     prs = Product.objects.all()
     a = [
             [
@@ -710,52 +710,422 @@ def printt(request, org=""):
         ]
     i = 0
     j = 0
-
+    index = 0
+    w = 0
     for pr in prs:
-        a[j].append(StringMark(497 + len(str(pr.goodsID))*3, -40 + i, pr.goodsID))
-        a[j].append(StringMark(425 + len(u''.join(pr.name))*3, -40 + i, u''.join(pr.name)))
-        a[j].append(StringMark(370 + len(str(pr.wiki.pk))*3, -40 + i, pr.wiki.pk))
-        a[j].append(StringMark(297 + len(u''.join(pr.wiki.companyName))*3, -40 + i, u''.join(pr.wiki.companyName)))
-        a[j].append(StringMark(100 + len(u''.join(pr.unit))*2, -40 + i, u''.join(pr.unit)))
-        i += 20
-        if i == 20*28:
+        index += 1
+        w += 1
+        a[j].append(StringMark(487 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(443 + len(str(pr.goodsID))*2.5, -51 + i, pr.goodsID))
+        a[j].append(StringMark(372 + len(u''.join(pr.name))*2.5, -51 + i, u''.join(pr.name)))
+        a[j].append(StringMark(297 + len(u''.join(pr.wiki.companyName))*3, -51 + i, u''.join(pr.wiki.companyName)))
+        a[j].append(StringMark(120 + len(u''.join(pr.unit))*1.5, -51 + i, u''.join(pr.unit)))
+        i += 20.2
+        if w == 26:
+            w = 0
             j +=1
             a.append([])
             i = 0
     return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/anbaargardani.pdf'), pageSize = letter,   orientation = landscape)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def print_dif(request, org=""):
+def print_dif(request):
     a = [
         [
         ],
     ]
+
     i = 0
     j = 0
-
+    index = 0
+    w = 0
     for pr, pk, cnt, cal,dif, type in anbaargardaani_dif:
-        a[j].append(StringMark(517 + len(str(pr.goodsID))*3, -7 + i, pr.goodsID))
-        a[j].append(StringMark(460 + len(u''.join(pr.name))*2.5, -7 + i, u''.join(pr.name)))
-        a[j].append(StringMark(406 + len(str(pr.wiki.pk))*3, -7 + i, pr.wiki.pk))
-        a[j].append(StringMark(350 + len(u''.join(pr.wiki.companyName))*3, -7 + i, u''.join(pr.wiki.companyName)))
-        a[j].append(StringMark(295 + len(str(cnt))*3, -7 + i, cnt))
-        a[j].append(StringMark(245 + len(str(cal))*3, -7 + i, cal))
-        a[j].append(StringMark(200 + len(u''.join(pr.unit))*1.5, -7 + i, u''.join(pr.unit)))
-        a[j].append(StringMark(143 + len(str(dif))*3, -7 + i, dif))
+        index += 1
+        w += 1
+        a[j].append(StringMark(536 + len(str(index))*3, -33 + i,index))
+        a[j].append(StringMark(487 + len(str(pr.goodsID))*3, -33 + i, pr.goodsID))
+        a[j].append(StringMark(420 + len(u''.join(pr.name))*2.5, -33 + i, u''.join(pr.name)))
+        # a[j].append(StringMark(406 + len(str(pr.wiki.pk))*3, -7 + i, pr.wiki.pk))
+        a[j].append(StringMark(345 + len(u''.join(pr.wiki.companyName))*3, -33 + i, u''.join(pr.wiki.companyName)))
+        a[j].append(StringMark(282 + len(str(cnt))*3, -33 + i, cnt))
+        a[j].append(StringMark(219 + len(str(cal))*3, -33 + i, cal))
+        a[j].append(StringMark(167 + len(u''.join(pr.unit))*1.5, -33 + i, u''.join(pr.unit)))
+        a[j].append(StringMark(112 + len(str(dif))*3, -33 + i, dif))
         if type==1:
-            a[j].append(StringMark(94 + len(u'معیوب')*1.5, -7 + i, u'معیوب'))
+            a[j].append(StringMark(70 + len(u'معیوب')*1.5, -33 + i, u'معیوب'))
         else:
-            a[j].append(StringMark(94 + len(u'سالم')*1.5, -7 + i, u'سالم'))
-        i += 20
-        if i == 20*28:
+            a[j].append(StringMark(70 + len(u'سالم')*1.5, -33 + i, u'سالم'))
+        i += 20.2
+        if w == 26:
+            w = 0
             j +=1
             a.append([])
             i = 0
     return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/anbaargardaani-dif.pdf'), pageSize = letter,   orientation = landscape)
 
+@permission_required('warehouse.is_deliveryman', login_url='index')
+def print_customer_receipt(request, clr_id):
+    a = [
+        [
+        ],
+    ]
+    clr = Clearance.objects.get(pk = int(clr_id))
+    a[0].append(StringMark(410 , -50 , u''.join(clr.bill.customer.first_name)))
+    a[0].append(StringMark(410 , -10 , u''.join(clr.bill.customer.last_name)))
+    a[0].append(StringMark(410 , 30 , clr.bill.pk))
+    a[0].append(StringMark(410 , 70 , u''.join(clr.bill.customer.phone)))
+    a[0].append(StringMark(410 , 142 , u''.join(clr.bill.customer.address)))
+
+
+
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/reCdeMoshtari.pdf'), pageSize = letter,   orientation = landscape)
+
+def print_wiki_receipt(request, clr_id):
+    a = [
+        [
+        ],
+    ]
+    clr = Clearance.objects.get(pk = int(clr_id))
+    a[0].append(StringMark(410 , -49 , u''.join(clr.wiki.wiki.companyName)))
+    a[0].append(StringMark(410 , -8 , clr.wiki.pk))
+    a[0].append(StringMark(410 , 30 , u''.join(clr.wiki.wiki.phone)))
+    a[0].append(StringMark(410 , 100 , u''.join(clr.wiki.wiki.address)))
+
+
+
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/reCdeWiki.pdf'), pageSize = letter,   orientation = landscape)
+
+def print_wiki(request, clr_id):
+    a = [
+        [
+        ],
+    ]
+
+    clr = Clearance.objects.get(pk = int(clr_id))
+    a[0].append(StringMark(420 , -50 , u''.join(clr.wiki.wiki.companyName)))
+    a[0].append(StringMark(420 , -15 , clr.wiki.product.pk))
+    a[0].append(StringMark(420 , 22 , u''.join(clr.wiki.product.name)))
+    st = Stock.objects.get(product = (clr.wiki.product))
+    if clr.wiki.returned_only:
+        a[0].append(StringMark(420 , 60 , u'تمام معیوب های این نوع'))
+        a[0].append(StringMark(420 , 97 , (str(st.quantity_returned) +"  "+u''.join(clr.wiki.product.unit))))
+    else:
+        a[0].append(StringMark(420 , 60 , u'تمام کالاهای این نوع'))
+        a[0].append(StringMark(420 , 97 , (str(st.quantity_returned + st.quantity)+"  "+u''.join(clr.wiki.product.unit))))
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/WikiReturn.pdf'), pageSize = letter,   orientation = landscape)
+
+def print_stock(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Stock.objects.filter(quantity__gt=0).order_by('product__goodsID')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(487 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(443 + len(str(s.product.goodsID))*2.5, -51 + i, s.product.goodsID))
+        a[j].append(StringMark(372 + len(u''.join(s.product.name))*2.5, -51 + i, u''.join(s.product.name)))
+        a[j].append(StringMark(305 + len(str(s.product.wiki.pk))*3, -51 + i, s.product.wiki.pk))
+        a[j].append(StringMark(240 + len(u''.join(s.product.wiki.companyName))*3, -51 + i, u''.join(s.product.wiki.companyName)))
+        a[j].append(StringMark(173 + len(str(s.quantity))*3, -51 + i, s.quantity))
+        a[j].append(StringMark(120 + len(u''.join(s.product.unit))*1.5, -51 + i, u''.join(s.product.unit)))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-stock.pdf'), pageSize = letter,   orientation = landscape)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def wrh_gardaani_confirm(request, org=""):
+def print_damaged(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Stock.objects.filter(quantity_returned__gt=0).order_by('product__goodsID')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(487 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(443 + len(str(s.product.goodsID))*2.5, -51 + i, s.product.goodsID))
+        a[j].append(StringMark(372 + len(u''.join(s.product.name))*2.5, -51 + i, u''.join(s.product.name)))
+        a[j].append(StringMark(305 + len(str(s.product.wiki.pk))*3, -51 + i, s.product.wiki.pk))
+        a[j].append(StringMark(240 + len(u''.join(s.product.wiki.companyName))*3, -51 + i, u''.join(s.product.wiki.companyName)))
+        a[j].append(StringMark(173 + len(str(s.quantity_returned))*3, -51 + i, s.quantity_returned))
+        a[j].append(StringMark(120 + len(u''.join(s.product.unit))*1.5, -51 + i, u''.join(s.product.unit)))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-damaged.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def print_wiki_order(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Wiki_Order.objects.all().order_by('-date')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(513 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(472 + len(str(s.product.goodsID))*2.5, -51 + i, s.product.goodsID))
+        a[j].append(StringMark(408 + len(u''.join(s.product.name))*2.5, -51 + i, u''.join(s.product.name)))
+        a[j].append(StringMark(350 + len(str(s.wiki.pk))*3, -51 + i, s.product.wiki.pk))
+        a[j].append(StringMark(287 + len(u''.join(s.wiki.companyName))*3, -51 + i, u''.join(s.product.wiki.companyName)))
+        a[j].append(StringMark(231 + len(str(s.quantity))*3, -51 + i, s.quantity))
+        a[j].append(StringMark(187 + len(u''.join(s.product.unit))*1.5, -51 + i, u''.join(s.product.unit)))
+        if s.deliveryStatus == 0:
+            a[j].append(StringMark(144 + len(u'صادر شده')*1.5, -51 + i, u'صادر شده'))
+        else:
+            a[j].append(StringMark(144 + len(u'دریافت شده')*1.5, -51 + i, u'دریافت شده'))
+        a[j].append(StringMark(99 + len(str(s.date))*1.5, -51 + i, s.date))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-wiki-order.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def print_wrh_delivery(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Receipt_Delivery.objects.all().order_by('-date')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(497 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(456 + len(str(s.product.goodsID))*2.5, -51 + i, s.product.goodsID))
+        a[j].append(StringMark(393 + len(u''.join(s.product.name))*2.5, -51 + i, u''.join(s.product.name)))
+        a[j].append(StringMark(332 + len(str(s.wiki.pk))*3, -51 + i, s.product.wiki.pk))
+        a[j].append(StringMark(273 + len(u''.join(s.wiki.companyName))*3, -51 + i, u''.join(s.product.wiki.companyName)))
+        a[j].append(StringMark(215 + len(str(s.quantity))*3, -51 + i, s.quantity))
+        a[j].append(StringMark(170 + len(u''.join(s.product.unit))*1.5, -51 + i, u''.join(s.product.unit)))
+        a[j].append(StringMark(123 + len(str(s.date))*1.5, -51 + i, s.date))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-wrh-delivery.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def print_wrh_clear(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Receipt_Clearance.objects.all().order_by('-date')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(459 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(412 + len(str(s.clearance.pk))*2.5, -51 + i, s.clearance.pk))
+        if s.clearance.type == 'sale':
+            name = u''.join(s.clearance.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.clearance.bill.customer.last_name)
+            a[j].append(StringMark(340 + len(str(s.clearance.bill.customer.pk))*2.5, -51 + i, s.clearance.bill.customer.pk))
+        elif s.clearance.type == 'warehouse':
+            name = u''.join(s.clearance.transfer.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.clearance.transfer.bill.customer.last_name)
+            a[j].append(StringMark(340 + len(str(s.clearance.transfer.bill.customer.pk))*2.5, -51 + i, s.clearance.transfer.bill.customer.pk))
+        else:
+            name = u''.join(s.clearance.wiki.wiki.companyName)
+            a[j].append(StringMark(340 + len(str(s.clearance.wiki.wiki.pk))*2.5, -51 + i, s.clearance.wiki.wiki.pk))
+        a[j].append(StringMark(239 + len(name)*2.5, -51 + i, name))
+        a[j].append(StringMark(164 + len(str(s.date))*1.5, -51 + i, s.date))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-wrh-clearance.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def print_custrcpt(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('-date')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(468 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(408 + len(str(s.clearance.bill.pk))*2.5, -51 + i, s.clearance.bill.pk))
+        if s.clearance.type == 'sale':
+            name = u''.join(s.clearance.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.clearance.bill.customer.last_name)
+            a[j].append(StringMark(332 + len(str(s.clearance.bill.customer.pk))*2.5, -51 + i, s.clearance.bill.customer.pk))
+        elif s.clearance.type == 'warehouse':
+            name = u''.join(s.clearance.transfer.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.clearance.transfer.bill.customer.last_name)
+            a[j].append(StringMark(332 + len(str(s.clearance.transfer.bill.customer.pk))*2.5, -51 + i, s.clearance.transfer.bill.customer.pk))
+        else:
+            name = u''.join(s.clearance.wiki.wiki.companyName)
+            a[j].append(StringMark(332 + len(str(s.clearance.wiki.wiki.pk))*2.5, -51 + i, s.clearance.wiki.wiki.pk))
+        a[j].append(StringMark(234 + len(name)*2.5, -51 + i, name))
+        a[j].append(StringMark(154 + len(str(s.date))*1.5, -51 + i, s.date))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-receipt-customer.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def print_WikiRcp(request):
+    a = [
+        [
+        ],
+    ]
+
+    st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('-date')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(468 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(400 + len(str(s.clearance.wiki.pk))*2.5, -51 + i, s.clearance.wiki.pk))
+        if s.clearance.type == 'sale':
+            name = u''.join(s.clearance.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.clearance.bill.customer.last_name)
+            a[j].append(StringMark(318 + len(str(s.clearance.bill.customer.pk))*2.5, -51 + i, s.clearance.bill.customer.pk))
+        elif s.clearance.type == 'warehouse':
+            name = u''.join(s.clearance.transfer.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.clearance.transfer.bill.customer.last_name)
+            a[j].append(StringMark(318 + len(str(s.clearance.transfer.bill.customer.pk))*2.5, -51 + i, s.clearance.transfer.bill.customer.pk))
+        else:
+            name = u''.join(s.clearance.wiki.wiki.companyName)
+            a[j].append(StringMark(318 + len(str(s.clearance.wiki.wiki.pk))*2.5, -51 + i, s.clearance.wiki.wiki.pk))
+        a[j].append(StringMark(231 + len(name)*2.5, -51 + i, name))
+        a[j].append(StringMark(152 + len(str(s.date))*1.5, -51 + i, s.date))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-receipt-wiki.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def print_Hvl(request):
+    a = [
+        [
+        ],
+    ]
+
+    bill = SaleBill.objects.filter(deliveryStatus = 0)
+    transference = Transference.objects.exclude(defective = 'r')
+    wiki_return = ReturnRequest.objects.filter(deliveryStatus = 0)
+    for b in bill:
+        clear = Clearance.objects.filter(bill=b)
+        if not clear:
+            cl = Clearance(type='sale', date=b.saleDate, bill=b)
+            cl.save()
+    for tr in transference:
+        clear = Clearance.objects.filter(transfer=tr)
+        if not clear:
+            cl = Clearance(type='warehouse', date=tr.date, transfer=tr)
+            cl.save()
+    for w in wiki_return:
+        clear = Clearance.objects.filter(wiki=w)
+        if not clear:
+            cl = Clearance(type='wiki', date=w.pub_date, wiki=w)
+            cl.save()
+
+    st=Clearance.objects.all().order_by('-date')
+    i = 0
+    j = 0
+    index = 0
+    w = 0
+    for s in st:
+        index += 1
+        w += 1
+        a[j].append(StringMark(490 + len(str(index))*3, -51 + i, index))
+        a[j].append(StringMark(440 + len(str(s.pk))*2.5, -51 + i, s.pk))
+        if s.type == 'sale':
+            name = u''.join(s.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.bill.customer.last_name)
+            a[j].append(StringMark(371 + len(str(s.bill.customer.pk))*2.5, -51 + i, s.bill.customer.pk))
+        elif s.type == 'warehouse':
+            name = u''.join(s.transfer.bill.customer.first_name)
+            name += " "
+            name += u''.join(s.transfer.bill.customer.last_name)
+            a[j].append(StringMark(371 + len(str(s.transfer.bill.customer.pk))*2.5, -51 + i, s.transfer.bill.customer.pk))
+        else:
+            name = u''.join(s.wiki.wiki.companyName)
+            a[j].append(StringMark(371 + len(str(s.wiki.wiki.pk))*2.5, -51 + i, s.wiki.wiki.pk))
+        a[j].append(StringMark(269 + len(name)*2.5, -51 + i, name))
+        if s.ready=='n':
+            a[j].append(StringMark(187 + len(u'صادر شده')*2.5, -51 + i, u'صادر شده'))
+        elif s.ready =='r':
+            a[j].append(StringMark(187 + len(u'آماده ترخیص')*2.5, -51 + i, u'آماده ترخیص'))
+        else:
+            a[j].append(StringMark(187 + len(u'ترخیص شده')*2.5, -51 + i, u'ترخیص شده'))
+        a[j].append(StringMark(132 + len(str(s.date))*1.5, -51 + i, s.date))
+        i += 20.2
+        if w == 26:
+            w = 0
+            j +=1
+            a.append([])
+            i = 0
+    return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/report-receipt-havale.pdf'), pageSize = letter,   orientation = landscape)
+
+@permission_required('warehouse.is_mng_warehouse', login_url='index')
+def wrh_gardaani_confirm(request):
     context = {}
     del anbaargardaani_dif[0:len(anbaargardaani_dif)]
 
@@ -804,24 +1174,28 @@ def wrh_gardaani_confirm(request, org=""):
     return render(request, 'wrh/WRHGardaani-next.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def report_receipt_panel(request, menu_id, org="", num =0):
+def report_receipt_panel(request, menu_id, num =0):
     tmp = int(menu_id)
-    if tmp == 8:
+    if tmp == 88:
+        prt = reverse('WRH_Print_Clear')
         st = Receipt_Clearance.objects.all().order_by('-date')
         first_msg = "ترخیص های انبار به شرح زیر می باشند:"
         if not st:
             first_msg = "هنوز هیچ ترخیصی از انبار صورت نگرفته است."
-    elif tmp == 9:
+    elif tmp == 99:
+        prt = reverse('WRH_Print_CustRcpt')
         st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='sale')).order_by('-date')
         first_msg = "رسیدهای کالا به مشتریان به شرح زیر می باشند:"
         if not st:
             first_msg = "هنوز هیچ رسیدی برای تحویل کالا به مشتریان به ثبت نرسیده است."
-    elif tmp == 10:
+    elif tmp == 1010:
+        prt = reverse('WRH_Print_WikiRcpt')
         st = Receipt_Customer_Wiki.objects.filter(clearance__in=Clearance.objects.filter(type='wiki')).order_by('-date')
         first_msg = "رسیدهای کالا به ویکی ها به شرح زیر می باشند:"
         if not st:
             first_msg = "هنوز هیچ رسیدی برای تحویل کالا به ویکی ها به ثبت نرسیده است."
     else:
+        prt = reverse('WRH_Print_Hvl')
         first_msg = "حواله های انبار به شرح زیر می باشند:"
         bill = SaleBill.objects.filter(deliveryStatus = 0)
         transference = Transference.objects.exclude(defective = 'r')
@@ -846,23 +1220,25 @@ def report_receipt_panel(request, menu_id, org="", num =0):
         if not st:
             first_msg = "هنوز هیچ حواله ای برای انبار به ثبت نرسیده است."
     zipped = []
-    if tmp == 11:
+    if tmp == 1111:
         for s in st:
-            a = "*ReportDetail/"
-            a += str(s.pk)
-            a += "/"
-            a += str((tmp-7))
+            a = reverse('WRH_Report_Detail', kwargs={'pid':s.pk, 'kid':(tmp-7)})
+            # a = "*ReportDetail/"
+            # a += str(s.pk)
+            # a += "/"
+            # a += str((tmp-7))
             zipped.append((s, a))
     else:
         for s in st:
-            a = "*ReportDetail/"
-            a += str(s.clearance.pk)
-            a += "/"
-            a += str((tmp-7))
+            a = reverse('WRH_Report_Detail', kwargs={'pid':s.clearance.pk, 'kid':(tmp-7)})
+            # a = "*ReportDetail/"
+            # a += str(s.clearance.pk)
+            # a += "/"
+            # a += str((tmp-7))
             zipped.append((s, a))
 
     # PAGINATION
-    paginator = Paginator(zipped, 2)
+    paginator = Paginator(zipped, 10)
     page = request.GET.get('page')
     print(page)
     try:
@@ -872,38 +1248,44 @@ def report_receipt_panel(request, menu_id, org="", num =0):
         print(str(s))
         contacts = paginator.page(1)
 
-    add = "ReportReceipt_Panel/"
-    add += str(tmp)
-    context = {'dls': contacts, 'active_menu' : tmp, 'first_msg':first_msg, 'paginator':paginator, 'contacts':contacts, 'lnk':add}
+    add = reverse('WRH_Report_Receipt_Panel', kwargs={'menu_id':tmp})
+    # add = "ReportReceipt_Panel/"
+    # add += str(tmp)
+    context = {'dls': contacts, 'active_menu' : tmp, 'first_msg':first_msg, 'paginator':paginator, 'contacts':contacts, 'lnk':add, 'print':prt}
     return render(request, 'wrh/ReportReceipt-Panel.html', context)
 
 @permission_required('warehouse.is_mng_warehouse', login_url='index')
-def report_product_panel(request, menu_id, org="", num = 0):
+def report_product_panel(request, menu_id, num=0):
+
 
     tmp = int(menu_id)
-    if tmp == 4:
+    if tmp == 44:
         first_msg = "کالاهای موجود در انبار به شرح زیر می باشند:"
+        prt = reverse('WRH_Print_Stock')
         st = Stock.objects.filter(quantity__gt=0).order_by('product__goodsID')
         if not st:
             first_msg = "انبار خالی است."
-    elif tmp== 5:
+    elif tmp== 55:
+        prt = reverse('WRH_Print_Damaged')
         first_msg = "کالاهای معیوب موجود در انبار به شرح زیر می باشند:"
         st = Stock.objects.filter(quantity_returned__gt=0).order_by('product__goodsID')
         if not st:
             first_msg = "انبار کالای معیوب ندارد."
-    elif tmp == 6:
+    elif tmp == 66:
+        prt = reverse('WRH_Print_Wiki_Orders')
         first_msg = "سفارشات انبار به شرح زیر می باشند:"
         st = Wiki_Order.objects.all().order_by('-date')
         if not st:
             first_msg = "هیچ سفارشی برای ویکی ها از طرف انبار به ثبت نرسیده است."
     else:
         first_msg = "تحویل های انبار به شرح زیر می باشند:"
+        prt = reverse('WRH_Print_Delivery')
         st = Receipt_Delivery.objects.all().order_by('-date')
         if not st:
             first_msg = "هیچ تحویل کالایی برای انبار به ثبت نرسیده است."
 
     # PAGINATION
-    paginator = Paginator(st, 2)
+    paginator = Paginator(st, 10)
     page = request.GET.get('page')
     try:
         contacts = paginator.page(page)
@@ -912,13 +1294,13 @@ def report_product_panel(request, menu_id, org="", num = 0):
         print(str(s))
         contacts = paginator.page(1)
 
-    context = {'stocks': contacts, 'active_menu' : tmp,'first_msg':first_msg, 'paginator':paginator, 'contacts':contacts}
+    context = {'stocks': contacts, 'active_menu' : tmp,'first_msg':first_msg, 'paginator':paginator, 'contacts':contacts, 'print':prt}
     return render(request, 'wrh/ReportProduct-Panel.html', context)
 
 @permission_required('warehouse.is_deliveryman', login_url='index')
 def report_receipt_delivery(request, org =""):
     title = "گزارش  رسیدهای ثبت شده"
-    panel = "*ReportReceiptDelivery_Panel"
+    panel = reverse('WRH_Report_Receipt_Delivery_Panel')
     context = {'active_menu' : 14, 'title': title, 'panel':panel}
     return render(request, 'wrh/Reports_Orders.html', context)
 
@@ -927,13 +1309,14 @@ def report_receipt_delivery2(request, org="", num = 0):
     st = Receipt_Customer_Wiki.objects.all().order_by('-date')
     zipped = []
     for s in st:
-        a = "*ReportDetail/"
-        a += str(s.clearance.pk)
-        a += "/7"
+        a = reverse('WRH_Report_Detail', kwargs={'pid':s.clearance.pk, 'kid':7})
+        # a = "*ReportDetail/"
+        # a += str(s.clearance.pk)
+        # a += "/7"
         zipped.append((s, a))
 
     # PAGINATION
-    paginator = Paginator(zipped, 2)
+    paginator = Paginator(zipped, 10)
     page = request.GET.get('page')
     try:
         contacts = paginator.page(page)
@@ -942,14 +1325,14 @@ def report_receipt_delivery2(request, org="", num = 0):
         print(str(s))
         contacts = paginator.page(1)
 
-    add = "*ReportReceiptDelivery_Panel"
+    add = reverse('WRH_Report_Receipt_Delivery_Panel')
     first_msg = "                    رسیدهای ثبت شده به شرح زیر می باشند:"
     if not st:
         first_msg = "هنوز هیچ رسیدی به ثبت نرسیده است."
     context = {'dls': contacts, 'active_menu' : 8, 'first_msg':first_msg, 'lnk':add,'paginator':paginator, 'contacts':contacts}
     return render(request, 'wrh/ReportReceipt-Panel.html', context)
 
-def report_detail(request, pid, kid, org = ""):
+def report_detail(request, pid, kid):
     p2 = int(pid)
     k2 = int(kid)
     a = Clearance.objects.get(pk=p2)

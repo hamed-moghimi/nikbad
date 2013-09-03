@@ -1,0 +1,75 @@
+{% extends "fnc/base.html" %}
+{% load nikbad_tags %}
+{% block head %}
+    <title>حساب کل</title>
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="panel">
+        <h2 class="panel-header"> نام حساب : {{ name }}</h2>
+
+
+
+        {% if costBenefits %}
+            <table class="table table-hover table-striped">
+                <colgroup>
+                    <col width="30px">
+                    <col width="70px">
+                    <col width="70px">
+                    <col width="70px">
+                    <col>
+                    <col width="50px">
+                </colgroup>
+                <thead>
+
+                <td class="FNC-th-td">شماره سند حسابداری</td>
+                <td class="FNC-th-td"> تاریخ</td>
+                <td class="FNC-th-td"> شرح سند</td>
+                <td class="FNC-th-td"> بدهکاری(ریال)</td>
+                <td class="FNC-th-td"> بستانکاری(ریال)</td>
+                </thead>
+                <tbody>
+                {% for cb in costBenefits %}
+                    <tr>
+
+                        <td class="FNC-td2">
+                            <label for="code" class="nohand col-lg-2 control-label">{{ cb.id }}</label>
+                        </td>
+                        <td class="FNC-td2"> {{ cb.date|jalali }} </td>
+                        <td class="FNC-td2"> {{ cb.description }} </td>
+                        <td class="FNC-td2">{% if cb.account_bedeh == account %} {{ cb.amount|rial }} {% endif %}</td>
+                        <td class="FNC-td2">{% if cb.account_bestan == account %} {{ cb.amount|rial }} {% endif %} </td>
+
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="FNC-td2">
+                        <label for="code" class="nohand col-lg-2 control-label"> جمع </label>
+                    </td>
+                    <td class="FNC-td2"></td>
+                    <td class="FNC-td2"></td>
+                    <td class="FNC-td2">{{ sum_bedeh|rial }}</td>
+                    <td class="FNC-td2"> {{ sum_bestan|rial }}  </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        {% else %}
+            <div class="panel">
+                <p class="text-center">
+                    تراکنشی برای این حساب به ثیت نرسیده است.
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
+{% block menus %}
+    {% if perms.fnc.is_fnc %}
+        {% include "fnc/_menus.html" with active_menu=8 %}
+    {% endif %}
+{% endblock %}

@@ -2,30 +2,33 @@
 	<a>مدیریت کالاها </a>
 </li>
 <li {% if active_menu == 1 %}class="active"{% endif %}>
-	<a {% if active_menu != 1 %}href="addProduct"{% endif %} href="addProduct">درج کالا<i class="icon-chevron-left"></i></a>
+	<a {% if active_menu != 1 %}href="{% url add-product %}"{% endif %} href="addProduct"> تعریف کالای جدید<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 2 %}class="active"{% endif %}>
-    <a {% if active_menu != 2 %}href="deleteProduct"{% endif %}>حذف کالا<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 2 %}href="{% url delete-product %}"{% endif %}>حذف کالا<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 3 %}class="active"{% endif %}>
-    <a {% if active_menu != 3 %}href="goodslist"{% endif %}>مشاهده فهرست کالاها<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 3 %}href="{% url goods-list %}"{% endif %}>مشاهده فهرست کالاها<i class="icon-chevron-left"></i></a>
 </li>
 
 <li class="header">
     <a> انبار </a>
 </li>
 <li {% if active_menu == 4 %}class="active"{% endif %}>
-    <a {% if active_menu != 4 %}href="wrhproducts"{% endif %}>فهرست کالاهای موجود در انبار<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 4 %}href="{% url wrh-product %}"{% endif %}>فهرست کالاهای موجود در انبار<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 5 %}class="active"{% endif %}>
     <a {% if active_menu != 5 %}href="DateForm"{% endif %}>مشاهده سفارش انبار<i class="icon-chevron-left"></i></a>
 </li>
 <li {% if active_menu == 6 %}class="active"{% endif %}>
-    <a {% if active_menu != 6 %}href="returnrequest"{% endif %}>درخواست بازگشت کالا<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 6 %}href="{% url return-req %}"{% endif %}>درخواست بازگشت کالا از انبار<i class="icon-chevron-left"></i></a>
 </li>
 <li class="header">
     <a>فروش</a>
 </li>
 <li {% if active_menu == 7 %}class="active"{% endif %}>
-    <a {% if active_menu != 7 %}href="salesreport"{% endif %}>مشاهده گزارش فروش<i class="icon-chevron-left"></i></a>
+    <a {% if active_menu != 7 %}href="{% url sales-report %}"{% endif %}>مشاهده گزارش تجمیعی فروش<i class="icon-chevron-left"></i></a>
+</li>
+<li {% if active_menu == 8 %}class="active"{% endif %}>
+    <a {% if active_menu != 8 %}href="{% url contract-functions %}"{% endif %}>امور مربوط به قرارداد<i class="icon-chevron-left"></i></a>
 </li>
