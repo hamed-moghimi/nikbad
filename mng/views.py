@@ -244,6 +244,7 @@ def newContract(request, wId):
 @permission_required('fnc.is_manager', login_url=reverse_lazy('index'))
 def wiki_select(request):
     wikies = Wiki.objects.all()
+
     cont = Contract.objects.all()
     context = {'wikies': wikies, 'conts': cont}
     return render(request, 'mng/select-wiki.html', context)

@@ -13,8 +13,8 @@ class EmployeeForm(ModelForm):
                        error_messages={'invalid': u"تلفن ثابت 11 رقمی است"})
     address = CharField(widget=Textarea(), label=u"نشانی محل سکونت")
     mobile_num=RegexField(label=u"شماره همراه",
-                          required=True,help_text="09123333333",
-                          regex="\d{11}",error_messages={'invalid': u"شماره همراه 11 رقمی است"})
+                          required=True,help_text="0912-3333333",
+                          regex="\d{12}",error_messages={'invalid': u"شماره همراه 11 رقمی است"})
     class Meta:
         model = Employee
         fields = ['name', 'family_name', 'national_id', 'mobile_num', 'tel_num', 'email', 'address',

@@ -77,8 +77,19 @@ def signUp(request):
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
 def status(request):
     c = Customer.objects.get(username = request.user.username)
-    sb = c.saleBills.all()[0]
+    sb = []
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+        if form.is_valid():
+            startDate = form.cleaned_data['startDate']
+            endDate = form.cleaned_data['endDate']
+            sb = c.saleBills.objects.filter(date__range = (startDate, endDate))
+
     p = sb.products.all()
+            # try:
+        #     context = {'Product': p, 'Bill': sb}
+    # except:
+    #     context = {}
 
     context = {'Product': p, 'Bill': sb}
     return render(request, 'crm/status.html', context)

@@ -8,6 +8,17 @@
 
         <h2 class="panel-header"> وضعیت کالای خریداری شده
         </h2>
+               {% if Product %}
+
+                  <div class="panel">
+            <h2 class="panel-header"> انتخاب تاریخ </h2>
+
+            <form class="form-horizontal" action="" method="post">
+                {% include "_hForm.html" with form=form submit_text="نمایش" %}
+            </form>
+
+        </div>
+
 
         <div class="WRH-panel2">
             {% block WRH-panel2 %}
@@ -56,5 +67,8 @@
                 </form>
             {% endblock %}
         </div>
+    {% else %}
+    هنوز کالایی خریداری نشده
+    {% endif %}
     </div>
 {% endblock %}

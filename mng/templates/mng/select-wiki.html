@@ -12,6 +12,7 @@
 {% block content %}
     <div class="panel">
         <h2 class="panel-header"> ویکی های طرف قرارداد</h2>
+    {% if conts %}
         <table class="FNC-table2 table-hover table-striped">
             <thead>
 
@@ -23,19 +24,22 @@
 
             </thead>
             <tbody>
-            {% for w in wikies %}
+            {% for w in conts %}
                 <tr>
-                    <td class="WRH-td"><img class="myimage" src="{{ w.image.url }}"/></td>
-                    <td class="FNC-td2"><a href="{% url mng-wiki wId=w.id %}"> {{ w.companyName }}</a></td>
-                    <td class="FNC-td2">  {{ w.id }}</td>
-                    <td class="FNC-td2"> {{ w.contract.startDate|jalali }}</td>
-                    <td class="FNC-td2"> {{ w.contract.expDate|jalali }}</td>
-                    <td class="FNC-td2"><a href="{% url contract-detail wId=w.id %}"> ویرایش قرارداد</a></td>
+                    <td class="WRH-td"><img class="myimage" src="{{ w.wiki.image.url }}"/></td>
+                    <td class="FNC-td2"><a href="{% url mng-wiki wId=w.wiki.id %}"> {{ w.companyName }}</a></td>
+                    <td class="FNC-td2">  {{ w.wiki.id }}</td>
+                    <td class="FNC-td2"> {{ w.startDate|jalali }}</td>
+                    <td class="FNC-td2"> {{ w.expDate|jalali }}</td>
+                    <td class="FNC-td2"><a href="{% url contract-detail wId=w.wiki.id %}"> ویرایش قرارداد</a></td>
                 </tr>
             {% endfor %}
 
             </tbody>
         </table>
+    {% else %}
+    قراردادی با ویکی ها بوجود نیامده
+    {% endif %}
     </div>
 {% endblock %}
 {% block menus %}
