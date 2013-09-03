@@ -21,7 +21,7 @@ pdfmetrics.registerFont(
     TTFont('BNazanin', file(os.path.join(settings.ROOT_DIR, 'static/fonts/BNazaninBold.ttf'), 'rb')))
 
 
-def drawText(canvas, x, y, text, en = False, bold = False):
+def drawText(canvas, x, y, text, en = False, bold = False, size = 12):
     wrkText = text
     isArabic = False
     isBidi = False
@@ -41,9 +41,9 @@ def drawText(canvas, x, y, text, en = False, bold = False):
         wrkText = get_display(wrkText)
 
     if bold:
-        canvas.setFont('BNazanin', 12)
+        canvas.setFont('BNazanin', size)
     else:
-        canvas.setFont('Nazanin', 12)
+        canvas.setFont('Nazanin', size)
 
     canvas.drawRightString(x, canvas._pagesize[1] - y, wrkText)
 
@@ -61,8 +61,8 @@ ord9 = ord(u'9')
 
 
 class StringMark():
-    def __init__(self, x, y, text, en = False, bold = False, auto_number = True):
-        self.x, self.y, self.text, self.en, self.bold = x, y, unicode(text), en, bold
+    def __init__(self, x, y, text, en = False, bold = False, auto_number = True, size = 12):
+        self.x, self.y, self.text, self.en, self.bold, self.size = x, y, unicode(text), en, bold, size
         if self.text.lower() == 'none':
             self.text = ''
 
@@ -74,7 +74,7 @@ class StringMark():
             self.text = newText
 
     def draw(self, canvas):
-        drawText(canvas, self.x, self.y, self.text, self.en, self.bold)
+        drawText(canvas, self.x, self.y, self.text, self.en, self.bold, self.size)
 
 
 class PDFWriter():
@@ -95,7 +95,7 @@ class PDFWriter():
 
 
     def draw_page(self, items):
-        self.canvas.setFillColorRGB(0, 0, 1)
+        # self.canvas.setFillColorRGB(0, 0, 1)
         for item in items:
             item.draw(self.canvas)
         self.canvas.showPage()

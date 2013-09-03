@@ -6,7 +6,7 @@ admin.site.register(Customer)
 
 
 class FeedbackAdmin(ModelAdmin):
-    fields = ['content', 'product']
+    # fields = ['content', 'product']
     readonly_fields = ['content', 'product']
 
 

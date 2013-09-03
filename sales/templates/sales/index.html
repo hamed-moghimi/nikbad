@@ -25,6 +25,18 @@
                 {% endfor %}
             </div>
         </div>
+
+        {% if offs %}
+            <div class="panel">
+                <h2 class="panel-header">پیشنهادات ویژه</h2>
+
+                <div class="row-fluid">
+                    {% for item in offs %}
+                        {% include "sales/_vitrin_item.html" with item=item %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
     {% else %}
         <div class="panel">
             <p class="text-error">
