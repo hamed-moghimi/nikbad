@@ -55,11 +55,20 @@
 
 {% block content %}
     <div class="panel">
-        <h2 class="WRH-heading2"> ثبت کالا به عنوان کالای معیوب </h2>
+        <h2 class="WRH-heading2"> ثبت کالا به عنوان کالای مرجوعی</h2>
         <br/>
 
         <div class="WRH-panel2">
         </div>
     </div>
 
+{% endblock %}
+{% block crumbs %}
+{#    {% if category %}#}
+        {{ block.super }}
+    <li><a href="{% url warehouse-index %}">انبار</a> <span class="divider">/</span></li>
+        <li class="active">
+            ثبت کالاهای مرجوعی
+        </li>
+{#    {% endif %}#}
 {% endblock %}

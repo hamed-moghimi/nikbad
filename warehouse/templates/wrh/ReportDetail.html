@@ -30,7 +30,7 @@
                 <tbody>
                 <tr>
                     <td class="WRH-td4">
-                        <img class="WRH-myimage4" src="{{ clrs.transfer.product.ad.icon.image.url }}"/>
+                        <img class="WRH-myimage4" src="{{ clrs.transfer.product.ad.icon.image.url|default:clrs.transfer.product.ad.defaultIcon }}"/>
                     </td>
                     <td>
                         <table class="WRH-table3 table-hover">
@@ -44,7 +44,7 @@
                                 <td class="WRH-td3">{{ clrs.transfer.product.name }}</td>
                             </tr>
                             <tr>
-                                <td class="WRH-td-th3">تعداد :</td>
+                                <td class="WRH-td-th3">تمقدار :</td>
                                 <td class="WRH-td3">
                                     {{ clrs.transfer.quantity }} {{ clrs.transfer.product.unit }}</td>
                             </tr>
@@ -64,13 +64,13 @@
                         <td class="WRH-th-td">نام کالا</td>
                         <td class="WRH-th-td"> کد ویکی</td>
                         <td class="WRH-th-td"> نام ویکی</td>
-                        <td class="WRH-th-td"> تعداد</td>
+                        <td class="WRH-th-td"> مقدار</td>
                         </thead>
                         <tbody>
                         {% for pro in clrs.bill.products.all %}
                             <tr>
                                 <td class="WRH-td2">
-                                    <img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/>
+                                    <img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url|default:pro.product.ad.defaultIcon }}"/>
                                 </td>
                                 <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
                                 <td class="WRH-td2"> {{ pro.product.name }}</td>
@@ -90,7 +90,7 @@
                     <tbody>
                     <tr>
                         <td class="WRH-td4">
-                            <img class="WRH-myimage4" src="{{ clrs.wiki.product.ad.icon.image.url }}"/>
+                            <img class="WRH-myimage4" src="{{ clrs.wiki.product.ad.icon.image.url|default:clrs.wiki.product.ad.defaultIcon }}"/>
                         </td>
                         <td>
                             <table class="WRH-table3 table-hover">
@@ -124,15 +124,36 @@
         <div style="margin: 0 30px auto">
             <p>
                 <b style="color: rgb(0,89,132)">
+                    کد حواله:
+                </b>
+                {{ clrs.pk }}
+            </p>
+            <p>
+                <b style="color: rgb(0,89,132)">
                     کد سفارش:
                 </b>
                 {% if clrs.type == 'sale' %}
-                    فروش_{{ clrs.bill.pk }}
+{{ clrs.bill.pk }}
                 {% else %}
                     {% if clrs.type == 'warehouse' %}
-                        انبار_{{ clrs.transfer.bill.pk }}
+                        {{ clrs.transfer.bill.pk }}
                     {% else %}
-                        ویکی_{{ clrs.wiki.pk }}
+{{ clrs.wiki.pk }}
+                    {% endif %}
+                {% endif %}
+            </p>
+
+            <p>
+                <b style="color: rgb(0,89,132)">
+                    صادر کننده:
+                </b>
+                {% if clrs.type == 'sale' %}
+                    بخش فروش
+                {% else %}
+                    {% if clrs.type == 'warehouse' %}
+                        انبار
+                    {% else %}
+امور ویکی ها
                     {% endif %}
                 {% endif %}
             </p>
@@ -161,7 +182,17 @@
             </p>
 
             <p>
-                <b style="color: rgb(0,89,132)">آدرس:</b>
+                <b style="color: rgb(0,89,132)">
+                    {% if clrs.type == 'sale' %}
+                        آدرس مشتری:
+                    {% else %}
+                        {% if clrs.type == 'warehouse' %}
+                            آدرس مشتری:
+                        {% else %}
+                            آدرس شرکت ویکی:
+                        {% endif %}
+                    {% endif %}
+                </b>
                 {% if clrs.type == 'sale' %}
                     {{ clrs.bill.customer.address }}
                 {% else %}
@@ -174,7 +205,17 @@
             </p>
 
             <p>
-                <b style="color: rgb(0,89,132)">شماره تلفن:</b>
+                <b style="color: rgb(0,89,132)">
+                    {% if clrs.type == 'sale' %}
+                        شماره تماس مشتری:
+                    {% else %}
+                        {% if clrs.type == 'warehouse' %}
+                            شماره تماس مشتری:
+                        {% else %}
+                            شماره تماس ویکی:
+                        {% endif %}
+                    {% endif %}
+                </b>
                 {% if clrs.type == 'sale' %}
                     {{ clrs.bill.customer.phone }}
                 {% else %}
@@ -190,6 +231,11 @@
             {% if src == 7 %}
                 <button class="btn btn-primary btn-small" type="button"
                         onclick="load_page('{% url WRH_Report_Receipt_Delivery_Panel %}')">
+                    بازگشت
+                </button>
+            {% elif src == 20 %}
+                <button class="btn btn-primary btn-small" type="button"
+                        onclick="load_page('{% url WRH_Report_Receipt_Delivery_Panel_Not %}')">
                     بازگشت
                 </button>
             {% elif src == 8 %}

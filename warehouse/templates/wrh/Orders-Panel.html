@@ -7,23 +7,30 @@
     <table class="WRH-table5 table-hover table-striped">
         <thead>
         <td class="WRH-th-td5">کد حواله</td>
-        <td class="WRH-th-td5"> تاریخ حواله</td>
+        <td class="WRH-th-td5">صادر کننده</td>
+        <td class="WRH-th-td5">
+            تاریخ صدور حواله
+        </td>
         <td class="WRH-th-td5" style="width: 30px"></td>
         </thead>
         <tbody>
         {% for clr, tmp in clrs %}
             <tr>
                 <td class="WRH-td5">
+                    {{ clr.pk }}
+                </td>
+                <td class="WRH-td5">
                     {% if clr.type == 'sale' %}
-                        فروش_{{ clr.pk }}
+                  بخش فروش
                     {% else %}
                         {% if clr.type == 'warehouse' %}
-                            انبار_{{ clr.pk }}
+                            انبار
                         {% else %}
-                            ویکی_{{ clr.pk }}
+                         امور ویکی ها
                         {% endif %}
                     {% endif %}
                 </td>
+
                 <td class="WRH-td5">{{ clr.date|jalali }}</td>
                 <td class="WRH-td5" style="width: 30px">
                     <a class="btn btn-primary btn-mini" onclick="load_page('{{ tmp }}')">
