@@ -24,7 +24,7 @@ ready = {
 defect = {
     ('d', 'defective'),
     ('n', 'not_defective'),
-        ('r', 'returned')
+    ('r', 'returned')
 }
 
 #delivery status
@@ -46,7 +46,8 @@ class Stock(models.Model):
     rack_num = models.IntegerField(verbose_name = u"شماره قفسه")
 
     def enough_stock(self, number):
-        if (self.quantity - self.reserved_quantity) > number:
+        if (self.quantity - self.reserved_quantity) > number and not ReturnRequest.objects.filter(
+                product = self.product).exists():
             return True
         else:
             return False
