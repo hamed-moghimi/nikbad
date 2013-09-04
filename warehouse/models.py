@@ -47,7 +47,7 @@ class Stock(models.Model):
 
     def enough_stock(self, number):
         if (self.quantity - self.reserved_quantity) > number and not ReturnRequest.objects.filter(
-                product = self.product).exists():
+                product = self.product, returned_only = False).exists():
             return True
         else:
             return False
