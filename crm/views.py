@@ -9,7 +9,7 @@ from django.utils import encoding
 from contrib.email import render_and_email
 from crm.forms import CustomerForm, EditForm, checkCustomerForm, DateForm
 from crm.models import *
-from sales.models import MarketBasket
+from sales.models import MarketBasket, SaleBill
 
 
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
@@ -82,6 +82,12 @@ def signUp(request):
         f = CustomerForm()
     return render(request, 'crm/signUp.html', {'CustomerForm': f})
 
+def status_detail(request, wId):
+    sb = SaleBill.objects.get(id = wId)
+    p = sb.products.all()
+    context = {'product': p, 'saleBill': sb}
+    return render(request, 'mng/status-detail.html', context)
+
 
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
 def status(request):
@@ -121,6 +127,7 @@ def status(request):
         pass
         # context = {'Product': p, 'Bill': sb}
     return render(request, 'crm/status.html', context)
+
 
 
 # @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))

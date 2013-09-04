@@ -393,22 +393,26 @@ def taraz_azmayeshi_2(request, tarazId):
     return render(request, 'mng/taraz_azmayeshi_2.html', context)
 
 
-def conCancel(request):
-    cons = ConCancel.objects.all().order_by('-pub_date')
-    context = {'cons': cons}
-    return render(request, 'wiki/cancelContract.html', context)
+def conCancel(request,wId):
+    # cons = ConCancel.objects.all().order_by('-pub_date')
+    # context = {'cons': cons}
+    # return render(request, 'wiki/cancelContract.html', context)
     # if request.method == 'POST':
     #     form = AdminCancelForm(request.POST)
     #     if form.is_valid():
     #         wiki = form.cleaned_data['wiki']
-    #         list = Contract.objects.filter(wiki = wiki)
-    #         if list.__len__() == 0:
-    #             return render(request, 'mng/mng-no-contract.html')
-    #         else:
-    #             con = list[0]
-    #             con.delete()
-    #             return render(request, 'mng/contract_success.html')
-    # else:
+    list = Contract.objects.filter(wiki__id = wId)
+    if list.__len__() == 0:
+        return render(request, 'mng/mng-no-contract.html')
+    else:
+        con = list[0]
+        con.delete()
+        return render(request, 'mng/contract_success.html')
+        # else:
     #     form = AdminCancelForm()
     # return render(request, 'wiki/cancelContract.html', {'form':form})
 
+def cancel(request):
+    cons = ConCancel.objects.all().order_by('-pub_date')
+    context = {'cons': cons}
+    return render(request, 'mng/cancel.html', context)

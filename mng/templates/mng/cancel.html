@@ -1,0 +1,54 @@
+{% extends "mng/base.html" %}
+{% load nikbad_tags %}
+{% block css %}
+    <link href="{{ STATIC_URL }}mng/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block head %}
+    <title>درخواست قرارداد ویکی</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel">
+        <h2 class="panel-header">فهرست درخواست های لغو قرارداد</h2>
+    {% if data %}
+        <table class="WRH-table2 table-hover table-striped">
+            <thead>
+
+            <td class="WRH-th-td">  </td>
+            <td class="WRH-th-td" >نام ویکی</td>
+            <td class="WRH-th-td"> تاریخ درخواست</td>
+            <td class="WRH-th-td">  </td>
+            {#            <td class="WRH-th-td"> آبونمان پیشنهادی</td>#}
+            {#            <td class="WRH-th-td">پیشنهاد درصد بهره سراب</td>#}
+            </thead>
+            <tbody>
+            {% for c in cons %}
+                <tr>
+   <td class="WRH-td"><img class="myimage" src="{{ c.wiki.image.url }}"/></td>
+                    <td class="WRH-td2">
+                       {{ c.wiki.companyName }}
+                    </td>
+                    <td class="WRH-td2"> {{ c.pub_date|jalali }} </td>
+              <td class="FNC-td2"><a href="{% url con-can-final wId=c.wiki.id %}">فسخ قرارداد</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        {% else %}
+        درخواستی موجود نیست.
+    {% endif %}
+    </div>
+{% endblock %}
+{% block menus %}
+    {% include "mng/_menus.html" with active_menu=10 %}
+{% endblock %}
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url con-can %}">درخواست لغو قرارداد ویکی</a> <span class="divider">/</span></li>
+{#    <li class="active">{{ item }}</li>#}
+
+{% endblock %}

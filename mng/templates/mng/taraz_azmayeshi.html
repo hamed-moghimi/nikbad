@@ -11,7 +11,7 @@
             {% for tz in tarazes %}
                 <tr>
                     <td class="FNC-td2"><a
-                            href="{% url fnc-taraz-azmayeshi-2 tarazId=tz.id %}"> {{ tz.date|jalali }}</a></td>
+                            href="{% url mng-taraz-azmayeshi-2 tarazId=tz.id %}"> {{ tz.date|jalali }}</a></td>
                 </tr>
             {% endfor %}
 
@@ -34,7 +34,7 @@
 
 {% block crumbs %}
     {{ block.super }}
-    <li><a href="{% url fnc-taraz-azmayeshi %}">گزارش لیست تراز آزمایشی</a> <span class="divider">/</span></li>
+    <li><a href="{% url mng-taraz-azmayeshi %}">گزارش لیست تراز آزمایشی</a> <span class="divider">/</span></li>
 
     {#    <li class="active">{{ item }}</li>#}
 

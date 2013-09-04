@@ -1,0 +1,84 @@
+{% extends "sales/base.html" %}
+{% load nikbad_tags %}
+{% block title %}
+گزارش خرید
+
+{% endblock %}
+{% block content %}
+    <div class="panel" xmlns="http://www.w3.org/1999/html">
+        <h2 class="WRH-heading2"> صورت خرید</h2>
+
+        <div class="panel">
+            <h2 class="panel-header"> انتخاب تاریخ </h2>
+
+            <form class="form-horizontal" action="" method="post">
+                {% include "_hForm.html" with form=form submit_text="نمایش" %}
+            </form>
+
+        </div>
+
+        <div class="WRH-panel2">
+            <br/>
+            {% if product %}
+                <p>
+                </p>
+                <br/>
+                <table class="WRH-table2 table-hover table-striped">
+                    <thead>
+                    <td class="WRH-th-td2"></td>
+                    {#                    <td class="WRH-th-td2"> شماره فاکتور</td>#}
+                    {#                    <td class="WRH-th-td2"> نام مشتری</td>#}
+                    {#                    <td class="WRH-th-td2">نام ویکی </td>#}
+                    <td class="WRH-th-td2"> نام کالا</td>
+                    <td class="WRH-th-td2">کد کالا</td>
+                    <td class="WRH-th-td2"> تعداد</td>
+
+                    <td class="WRH-th-td2"> قیمت هر واحد</td>
+                    <td class="WRH-th-td2"> وضعیت</td>
+                    </thead>
+                    <tbody>
+                    {% for pro in  product %}
+                        <tr>
+
+                            <td class="WRH-td2"><img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url }}"/>
+                            </td>
+                            <td class="WRH-td2">
+                                {{ pro.product.name }}
+                            </td>
+                            <td class="WRH-td2">
+                                {{ pro.product.goodsID }}
+                            </td>
+                            <td class="WRH-td2"> {{ pro.number }}</td>
+                            <td class="WRH-td2">
+                                {{ pro.product.price }} {{ pro.product.unit }}
+                            </td>
+                            <td class="WRH-td2">
+                                {% if saleBill.deliveryStatus == 1 %}
+                                    در راه
+                                {% elif saleBill.deliveryStatus == 0 %}
+                                    صادر شده
+                                {% else %}
+                                    تحویل شده
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <br/>
+
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block crumbs %}
+    {{ block.super }}
+    <li><a href="{% url crm-status %}">وضعیت سفارشات</a></a> <span class="divider">/</span></li>
+    <li><a href="{% url crm-status-detail wId=saleBill.pk %}">صورت خرید مشتری</a> <span class="divider">/</span></li>
+
+    {#    <li class="active">{{ item }}</li>#}
+
+{% endblock %}

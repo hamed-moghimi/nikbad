@@ -14,7 +14,7 @@
             <tbody>
             {% for ac in accounts %}
                 <tr>
-                    <td class="FNC-td2"><a href="{% url fnc-daftar-kol-2 daftarId=ac.id %}">{{ ac.name }}</a></td>
+                    <td class="FNC-td2"><a href="{% url mng-daftar-kol-2 daftarId=ac.id %}">{{ ac.name }}</a></td>
                 </tr>
 
             {% endfor %}
@@ -31,7 +31,7 @@
 {% block crumbs %}
     {{ block.super }}
     {#    <li><a href="{% url mng-newemp %}">ثبت نام کارمند </a> <span class="divider">/</span></li>#}
-    <li><a href={% url fnc-daftar-kol %}>دفتر کل</a> <span class="divider">/</span></li>
+    <li><a href={% url mng-daftar-kol %}>دفتر کل</a> <span class="divider">/</span></li>
     {#    <li class="active">{{ item }}</li>#}
 
 {% endblock %}
