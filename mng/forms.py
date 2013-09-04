@@ -78,3 +78,4 @@ class userForm(ModelForm):
             raise forms.ValidationError(u"گذرواژه و تکرار ان یکسان نیست")
 
         return self.cleaned_data.get('password')
+

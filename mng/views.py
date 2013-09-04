@@ -225,6 +225,8 @@ def conReq(request):
     return render(request, 'mng/mng-con-req.html', context)
 
 
+
+
 @permission_required('fnc.is_manager', login_url = reverse_lazy('index'))
 def saleDetail(request, wId):
     sb = SaleBill.objects.get(id = wId)

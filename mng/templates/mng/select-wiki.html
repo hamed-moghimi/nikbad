@@ -26,7 +26,7 @@
                 <tbody>
                 {% for w in conts %}
                     <tr>
-                        <td class="WRH-td"><img class="myimage" src="{{ w.wiki.image.url }}"/></td>
+{#                        <td class="WRH-td"><img class="myimage" src="{{ w.wiki.image.url }}"/></td>#}
                         <td class="FNC-td2"><a href="{% url mng-wiki wId=w.wiki.id %}"> {{ w.wiki.companyName }}</a>
                         </td>
                         <td class="FNC-td2">  {{ w.wiki.id }}</td>
