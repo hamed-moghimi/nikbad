@@ -11,7 +11,7 @@ class ContractForm(ModelForm):
     expDate = jDateField(label = u"تاریخ پایان قرارداد")
     companyName = CharField(label = u"نام ویکی")
     fee = IntegerField(label = u"هزینه آبونمان (ریال)")
-    percent = IntegerField(label = u"کارمزد سراب(ریال)")
+    percent = IntegerField(label = u"کارمزد سراب(درصد)")
 
     class Meta:
         model = Contract
