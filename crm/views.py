@@ -12,6 +12,14 @@ from crm.models import *
 from sales.models import MarketBasket, SaleBill
 
 
+def status_detail(request, wId):
+    print "hereeeeeeeeeeeeee"
+    sb = SaleBill.objects.get(id = wId)
+    p = sb.products.all()
+    context = {'product': p, 'saleBill': sb}
+    return render(request, 'crm/status-detail.html', context)
+
+
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
 def index(request):
     print request.user.username
@@ -82,11 +90,11 @@ def signUp(request):
         f = CustomerForm()
     return render(request, 'crm/signUp.html', {'CustomerForm': f})
 
-def status_detail(request, wId):
-    sb = SaleBill.objects.get(id = wId)
-    p = sb.products.all()
-    context = {'product': p, 'saleBill': sb}
-    return render(request, 'mng/status-detail.html', context)
+# def status_detail(request, wId):
+#     sb = SaleBill.objects.get(id = wId)
+#     p = sb.products.all()
+#     context = {'product': p, 'saleBill': sb}
+#     return render(request, 'mng/status-detail.html', context)
 
 
 @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))
@@ -108,12 +116,14 @@ def status(request):
 
 
     sb = []
+    print "kaaaaaaaaaaaaaaaaaaaaaa"
     if request.method == 'POST':
         form = DateForm(request.POST)
         if form.is_valid():
             startDate = form.cleaned_data['startDate']
             endDate = form.cleaned_data['endDate']
             sb = c.saleBills.filter(saleDate__range = (startDate, endDate))
+            print "khkhkhkhkkjkjh"
     else:
         form = DateForm()
 
@@ -121,13 +131,17 @@ def status(request):
 
     try:
         # sb = c.saleBills.all()[0]
-        p = sb.products.all()
-        context.update({'Product': p, 'Bill': sb})
+        print " manamammamam"
+        # p = sb.products.all()
+        # print(p.count ,"product")
+        print (sb, "salebillll")
+        context.update({'Bill': sb})
     except:
         pass
-        # context = {'Product': p, 'Bill': sb}
-    return render(request, 'crm/status.html', context)
+    print sb
 
+    # context = {'Product': p, 'Bill': sb}
+    return render(request, 'crm/status.html', context)
 
 
 # @permission_required('crm.is_customer', login_url = reverse_lazy('sales-index'))

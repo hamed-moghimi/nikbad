@@ -225,8 +225,6 @@ def conReq(request):
     return render(request, 'mng/mng-con-req.html', context)
 
 
-
-
 @permission_required('fnc.is_manager', login_url = reverse_lazy('index'))
 def saleDetail(request, wId):
     sb = SaleBill.objects.get(id = wId)
@@ -395,7 +393,7 @@ def taraz_azmayeshi_2(request, tarazId):
     return render(request, 'mng/taraz_azmayeshi_2.html', context)
 
 
-def conCancel(request,wId):
+def conCancel(request, wId):
     # cons = ConCancel.objects.all().order_by('-pub_date')
     # context = {'cons': cons}
     # return render(request, 'wiki/cancelContract.html', context)
@@ -403,16 +401,20 @@ def conCancel(request,wId):
     #     form = AdminCancelForm(request.POST)
     #     if form.is_valid():
     #         wiki = form.cleaned_data['wiki']
+    print wId
     list = Contract.objects.filter(wiki__id = wId)
     if list.__len__() == 0:
         return render(request, 'mng/mng-no-contract.html')
     else:
+        print Contract.objects.filter(wiki__id = wId)
         con = list[0]
         con.delete()
+        ConCancel.objects.get(wiki__id = wId)
         return render(request, 'mng/contract_success.html')
         # else:
-    #     form = AdminCancelForm()
-    # return render(request, 'wiki/cancelContract.html', {'form':form})
+        #     form = AdminCancelForm()
+        # return render(request, 'wiki/cancelContract.html', {'form':form})
+
 
 def cancel(request):
     cons = ConCancel.objects.all().order_by('-pub_date')
