@@ -409,7 +409,7 @@ def conCancel(request, wId):
         print Contract.objects.filter(wiki__id = wId)
         con = list[0]
         con.delete()
-        ConCancel.objects.get(wiki__id = wId)
+        ConCancel.objects.get(wiki__id = wId).delete()
         return render(request, 'mng/contract_success.html')
         # else:
         #     form = AdminCancelForm()

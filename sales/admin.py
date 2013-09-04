@@ -10,7 +10,11 @@ from django.forms.models import ModelForm
 from sales.models import *
 
 
-admin.site.register(SaleBill)
+class SBAdmin(ModelAdmin):
+    list_display = ['id']
+
+
+admin.site.register(SaleBill, SBAdmin)
 admin.site.register(SaleBill_Product)
 
 admin.site.register(MarketBasket)

@@ -201,7 +201,7 @@ def search(request):
                   {'paginator': paginatior, 'page': page, 'search_form': form, 'link': link})
 
 
-@permission_required('warehouse.is_warehouse', raise_exception = True)
+@permission_required('warehouse.is_deliveryman', raise_exception = True)
 def saleBillPDF(request, sbID):
     sb = SaleBill.objects.get(pk = sbID)
     items = sb.products.all()

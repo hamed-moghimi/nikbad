@@ -33,7 +33,11 @@
     </div>
 {% endblock %}
 {% block menus %}
-    {% include "mng/_menus.html" with active_menu=13 %}
+    {% if perm.fnc.is_manager %}
+        {% include "mng/_menus.html" with active_menu=13 %}
+    {% else %}
+        {% include "fnc/_menus.html" with active_menu=10 %}
+    {% endif %}
 {% endblock %}
 
 
