@@ -190,12 +190,14 @@ def confirm_ready_order(request, pid):
         # az mowjudi va reservi haaye anbaar kam she
     if clr.type == 'sale':
         for pro in clr.bill.products.all():
+            print("injaaaaaaa")
             p2 = pro.product.pk
             pr = Product.objects.get(pk = p2)
             st = Stock.objects.get(product = pr)
             st.quantity -= pro.number
             st.reserved_quantity -= pro.number
             st.save()
+            print("cheteeeeee")
             check_order_point(p2)
     else:
         if clr.type == 'warehouse':
@@ -209,15 +211,18 @@ def confirm_ready_order(request, pid):
         else:
             p = clr.wiki.product.pk
             pr = Product.objects.get(pk = p)
-            st = Stock.objects.get(product = pr)
-            if clr.wiki.returned_only:
-                st.quantity_returned = 0
-                st.save()
-            else:
-                st.quantity = 0
-                st.quantity_returned = 0
-                st.reserved_quantity = 0
-                st.save()
+            try:
+                st = Stock.objects.get(product = pr)
+                if clr.wiki.returned_only:
+                    st.quantity_returned = 0
+                    st.save()
+                else:
+                    st.quantity -= st.reserved_quantity
+                    st.quantity_returned = 0
+                    st.reserved_quantity = 0
+                    st.save()
+            except:
+                print("tamum")
     print ("toroxodaa biaa")
     context = {'msg': "این حواله با موفقیت از انبار خارج شد و سند خروج از انبار ثبت گردید.",
                'button': "بازگشت به لیست حواله ها", 'type': 1}
@@ -346,8 +351,8 @@ def confirm_wrh_delivery(request):
 
                             receipt_del = Receipt_Delivery(wiki = wk, product = prd, quantity = vl)
                             receipt_del.save()
-                    # for dic_key in vlms.keys():
-                #     if vlms[dic_key]>0:
+                            # for dic_key in vlms.keys():
+                    #     if vlms[dic_key]>0:
                 #         prd = Product.objects.get(pk=int(dic_key))
                 #         prd.volume = vlms[dic_key]
                 #         prd.save()
@@ -434,14 +439,14 @@ def customer_return_next(request):
                                 tr = Transference.objects.filter(bill = (clr.bill), product = pr)
                                 if tr.all():
                                     context = {
-                                    'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
+                                        'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
                                 else:
                                     context = {'clr': clr, 'product': pro3}
                         else:
                             if clr.type == 'warehouse':
                                 if clr.transfer.bill.deliveryStatus == 2:
                                     context = {
-                                    'error': "رسید کالاهای مربوط به این حواله قبلا در سیستم به ثبت رسیده است."}
+                                        'error': "رسید کالاهای مربوط به این حواله قبلا در سیستم به ثبت رسیده است."}
                                 else:
                                     if clr.transfer.product.pk != pr.pk:
                                         context = {'error': "کالایی با شماره داده شده در این حواله یافت نشد."}
@@ -451,7 +456,7 @@ def customer_return_next(request):
                                                                      defective = 'd')
                                     if tr.all():
                                         context = {
-                                        'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
+                                            'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
                                     else:
                                         context = {'clr': clr, 'product': pro3}
                             else:
@@ -538,7 +543,7 @@ def customer_return_next2(request, pid, kid):
                             tr = Transference.objects.filter(bill = (clr.bill), product = pr)
                             if tr.all():
                                 context = {
-                                'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
+                                    'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
                             else:
                                 context = {'clr': clr, 'product': pro3}
                     else:
@@ -554,7 +559,7 @@ def customer_return_next2(request, pid, kid):
                                                                  defective = 'd')
                                 if tr.all():
                                     context = {
-                                    'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
+                                        'error': "تعداد کالای مرجوعی از این نوع برای حواله انتخاب شده قبلا در سیستم به ثبت رسیده است."}
                                 else:
                                     context = {'clr': clr, 'product': pro3}
                         else:
@@ -614,8 +619,8 @@ def confirm_return(request, pid, kid, cid, type):
                         tr.save()
                 check_order_point(p2.pk)
                 context = {
-                'msg': "کالاهای معیوب با موفقیت در لیست کالاهای مرجوعی ثبت شده و حواله جدید برای ارسال مجدد کالا صادر گردید.",
-                'button': "ثبت مرجوعی جدید"}
+                    'msg': "کالاهای معیوب با موفقیت در لیست کالاهای مرجوعی ثبت شده و حواله جدید برای ارسال مجدد کالا صادر گردید.",
+                    'button': "ثبت مرجوعی جدید"}
             else:
                 stck.quantity += qnt
                 receipt_del = Receipt_Delivery(wiki = (p2.wiki), product = p2, quantity = qnt)
@@ -911,14 +916,26 @@ def print_wiki(request, clr_id):
     a[0].append(StringMark(420, -50, u''.join(clr.wiki.wiki.companyName)))
     a[0].append(StringMark(420, -18, clr.wiki.product.pk))
     a[0].append(StringMark(420, 17, u''.join(clr.wiki.product.name)))
-    st = Stock.objects.get(product = (clr.wiki.product))
-    if clr.wiki.returned_only:
-        a[0].append(StringMark(420, 90, u'تمام معیوب های این نوع'))
-        a[0].append(StringMark(420, 56, (str(st.quantity_returned) + "  " + u''.join(clr.wiki.product.unit))))
+    print (clr.wiki.product)
+    em = clr.wiki.product
+    st = Stock.objects.filter(product = em)
+    if not st:
+        if clr.wiki.returned_only:
+            a[0].append(StringMark(420, 90, u'تمام معیوب های این نوع'))
+            a[0].append(StringMark(420, 56, (str(st[0].quantity_returned) + "  " + u''.join(clr.wiki.product.unit))))
+        else:
+            a[0].append(StringMark(420, 90, u'تمام کالاهای این نوع'))
+            a[0].append(
+                StringMark(420, 56, (
+                str(st[0].quantity_returned + (st[0].quantity - st[0].reserved_quantity)) + "  " + u''.join(
+                    clr.wiki.product.unit))))
     else:
-        a[0].append(StringMark(420, 90, u'تمام کالاهای این نوع'))
-        a[0].append(
-            StringMark(420, 56, (str(st.quantity_returned + st.quantity) + "  " + u''.join(clr.wiki.product.unit))))
+        if clr.wiki.returned_only:
+            a[0].append(StringMark(420, 90, u'تمام معیوب های این نوع'))
+            a[0].append(StringMark(420, 56, "0  " + u''.join(clr.wiki.product.unit)))
+        else:
+            a[0].append(StringMark(420, 90, u'تمام کالاهای این نوع'))
+            a[0].append(StringMark(420, 56, "0  " + u''.join(clr.wiki.product.unit)))
     a[0].append(StringMark(420, 128, jalali(clr.wiki.pub_date)))
     return getPDF_Response(a, os.path.join(settings.MEDIA_ROOT, 'PDFs/WikiReturn.pdf'), pageSize = letter,
                            orientation = landscape)
@@ -1644,6 +1661,7 @@ def check_order_point(pid):
         pr = Product.objects.get(pk = pid)
         wi = pr.wiki
         stc = Stock.objects.get(product = pr)
+        print("moshklete chie")
         if (stc.quantity - stc.reserved_quantity) < pr.orderPoint:
             # if check_capacity():
             tmp = pr.orderPoint - (stc.quantity - stc.reserved_quantity) + 10

@@ -11,7 +11,7 @@
 
             <div>
                 <button class="btn btn-primary" type="button" onclick="rreturn()">
-                   بازگشت
+                    بازگشت
                 </button>
             </div>
             <br/>
@@ -30,7 +30,8 @@
                 <tbody>
                 <tr>
                     <td class="WRH-td4">
-                        <img class="WRH-myimage4" src="{{ clrs.transfer.product.ad.icon.image.url|default:clrs.transfer.product.ad.defaultIcon }}"/>
+                        <img class="WRH-myimage4"
+                             src="{{ clrs.transfer.product.ad.icon.image.url|default:clrs.transfer.product.ad.defaultIcon }}"/>
                     </td>
                     <td>
                         <table class="WRH-table3 table-hover">
@@ -70,7 +71,8 @@
                         {% for pro in clrs.bill.products.all %}
                             <tr>
                                 <td class="WRH-td2">
-                                    <img class="WRH-myimage2" src="{{ pro.product.ad.icon.image.url|default:pro.product.ad.defaultIcon }}"/>
+                                    <img class="WRH-myimage2"
+                                         src="{{ pro.product.ad.icon.image.url|default:pro.product.ad.defaultIcon }}"/>
                                 </td>
                                 <td class="WRH-td2"> {{ pro.product.goodsID }}</td>
                                 <td class="WRH-td2"> {{ pro.product.name }}</td>
@@ -90,7 +92,8 @@
                     <tbody>
                     <tr>
                         <td class="WRH-td4">
-                            <img class="WRH-myimage4" src="{{ clrs.wiki.product.ad.icon.image.url|default:clrs.wiki.product.ad.defaultIcon }}"/>
+                            <img class="WRH-myimage4"
+                                 src="{{ clrs.wiki.product.ad.icon.image.url|default:clrs.wiki.product.ad.defaultIcon }}"/>
                         </td>
                         <td>
                             <table class="WRH-table3 table-hover">
@@ -128,17 +131,18 @@
                 </b>
                 {{ clrs.pk }}
             </p>
+
             <p>
                 <b style="color: rgb(0,89,132)">
                     کد سفارش:
                 </b>
                 {% if clrs.type == 'sale' %}
-{{ clrs.bill.pk }}
+                    {{ clrs.bill.pk }}
                 {% else %}
                     {% if clrs.type == 'warehouse' %}
                         {{ clrs.transfer.bill.pk }}
                     {% else %}
-{{ clrs.wiki.pk }}
+                        {{ clrs.wiki.pk }}
                     {% endif %}
                 {% endif %}
             </p>
@@ -153,7 +157,7 @@
                     {% if clrs.type == 'warehouse' %}
                         انبار
                     {% else %}
-امور ویکی ها
+                        امور ویکی ها
                     {% endif %}
                 {% endif %}
             </p>
@@ -243,23 +247,28 @@
                         onclick="load_page('{% url WRH_Confirm_Ready_Order pid=clrs.pk %}')">
                     تایید خروج از انبار
                 </button>
-{##}
-                {% if clrs.type == 'sale'%}
-                    <a target="_blank" class="btn btn-primary btn-small" href="{% url WRH_Print_Customer_Receipt clr_id=clrs.pk %}">
-                    دربافت فرم رسید مشتری
+                {##}
+                {% if clrs.type == 'sale' %}
+                    <a target="_blank" class="btn btn-primary btn-small"
+                       href="{% url WRH_Print_Customer_Receipt clr_id=clrs.pk %}">
+                        دربافت فرم رسید مشتری
                     </a>
-                    <a target="_blank" class="btn btn-primary btn-small" href="*Print">
+                    <a target="_blank" class="btn btn-primary btn-small"
+                       href="{% url sales-SaleBillPDF sbID=clrs.bill.pk %}">
                         دریافت فاکتور فروش
                     </a>
                 {% elif clrs.type == 'wiki' %}
-                    <a target="_blank" class="btn btn-primary btn-small" href="{% url WRH_Print_Wiki_Receipt clr_id=clrs.pk%}">
+                    <a target="_blank" class="btn btn-primary btn-small"
+                       href="{% url WRH_Print_Wiki_Receipt clr_id=clrs.pk %}">
                         دربافت فرم رسید ویکی
                     </a>
-                    <a target="_blank" class="btn btn-primary btn-small" href="{% url WRH_Wiki_Return clr_id=clrs.pk %}">
+                    <a target="_blank" class="btn btn-primary btn-small"
+                       href="{% url WRH_Wiki_Return clr_id=clrs.pk %}">
                         دریافت فاکتور سفارش
                     </a>
                 {% endif %}
-                <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_Ready_Orders_Panel %}')">
+                <button class="btn btn-primary btn-small" type="button"
+                        onclick="load_page('{% url WRH_Ready_Orders_Panel %}')">
                     بازگشت
                 </button>
             {% elif src == 9 %}
@@ -267,7 +276,8 @@
                         onclick="load_page('{% url WRH_Confirm_New_Orders pid=clrs.pk %}')">
                     آماده تحویل
                 </button>
-                <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_New_Orders_Panel %}')">
+                <button class="btn btn-primary btn-small" type="button"
+                        onclick="load_page('{% url WRH_New_Orders_Panel %}')">
                     بازگشت
                 </button>
             {% elif src == 10 %}
@@ -275,18 +285,20 @@
                         onclick="load_page('{% url WRH_Confirm_Receipt pid=clrs.pk %}')">
                     ثبت
                 </button>
-                <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_Cust_Wiki_Receipt_Delivery_Panel %}')">
+                <button class="btn btn-primary btn-small" type="button"
+                        onclick="load_page('{% url WRH_Cust_Wiki_Receipt_Delivery_Panel %}')">
                     بازگشت
                 </button>
             {% else %}
                 {% with src|add:7 as num %}
-{#                    {% with num|stringformat:"s" as numm %}#}
-{#                        {% with "../*ReportReceipt_Panel/"|add:numm as tmp %}#}
-                            <button class="btn btn-primary btn-small" type="button" onclick="load_page('{% url WRH_Report_Receipt_Panel menu_id=num %}')">
-                                بازگشت
-                            </button>
-{#                        {% endwith %}#}
-{#                    {% endwith %}#}
+                    {#                    {% with num|stringformat:"s" as numm %}#}
+                    {#                        {% with "../*ReportReceipt_Panel/"|add:numm as tmp %}#}
+                    <button class="btn btn-primary btn-small" type="button"
+                            onclick="load_page('{% url WRH_Report_Receipt_Panel menu_id=num %}')">
+                        بازگشت
+                    </button>
+                    {#                        {% endwith %}#}
+                    {#                    {% endwith %}#}
                 {% endwith %}
             {% endif %}
         </center>
