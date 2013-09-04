@@ -1,7 +1,7 @@
 # Django settings for nikbad project.
 
 # Root Directory Path
-# from apscheduler import scheduler
+from apscheduler import scheduler
 import os.path
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -194,12 +194,28 @@ LOGIN_URL = ''
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(ROOT_DIR, '../emails')
 
-# codes for scheduling
-# SCHEDULER = scheduler.Scheduler()
-# SCHEDULER.start()
-#
-# @SCHEDULER.interval_schedule(seconds = 5, start_date='2013-08-29 20:34')
-# def job_function():
-#     import datetime
-#     print "Hello World %s" % datetime.datetime.now()
-#     print len(SCHEDULER.get_jobs())
+# codes for scheduling tasks
+SCHEDULER = scheduler.Scheduler()
+SCHEDULER.start()
+
+
+@SCHEDULER.interval_schedule(days = 30, start_date = '2013-01-01 00:00')
+def job_function():
+    from fnc.functions import *
+
+    # employees' salary payment
+    payment_emp()
+
+    # wikis' benefit payment
+    payment_wiki()
+
+    # exporting monthly tarazname
+    tarazname()
+
+
+@SCHEDULER.interval_schedule(days = 365, start_date = '2013-01-01 00:00')
+def job_function():
+    from fnc.functions import *
+
+    #
+    final_fnc()

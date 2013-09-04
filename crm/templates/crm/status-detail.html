@@ -1,21 +1,18 @@
 {% extends "sales/base.html" %}
 {% load nikbad_tags %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}crm/css/WRH-style.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 {% block title %}
-گزارش خرید
+    گزارش خرید
 
 {% endblock %}
 {% block content %}
     <div class="panel" xmlns="http://www.w3.org/1999/html">
-        <h2 class="WRH-heading2"> صورت خرید</h2>
-
-        <div class="panel">
-            <h2 class="panel-header"> انتخاب تاریخ </h2>
-
-            <form class="form-horizontal" action="" method="post">
-                {% include "_hForm.html" with form=form submit_text="نمایش" %}
-            </form>
-
-        </div>
+        <h2 class="panel-header"> صورت خرید</h2>
 
         <div class="WRH-panel2">
             <br/>
@@ -77,7 +74,7 @@
 {% block crumbs %}
     {{ block.super }}
     <li><a href="{% url crm-status %}">وضعیت سفارشات</a></a> <span class="divider">/</span></li>
-    <li><a href="{% url crm-status-detail wId=saleBill.pk %}">صورت خرید مشتری</a> <span class="divider">/</span></li>
+    <li class="active">صورت خرید مشتری</li>
 
     {#    <li class="active">{{ item }}</li>#}
 
